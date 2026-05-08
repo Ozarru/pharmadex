@@ -1,0 +1,14 @@
+{% if request.user.is_staff %}
+<a
+  hx-target="#{{ value }}"
+  hx-post="{% url 'base:toggle-verification' obj.model_name obj.id %}"
+  class="px-4 py-3 flex items-center {% if not obj.is_verified %} hover:text-sky-600 hover:bg-sky-100 {% else %} hover:text-orange-700 hover:bg-orange-100 {% endif %} w-full text-center cursor-pointer"
+>
+  {% if not obj.is_verified %}
+  <i class="fa-solid fa-certificate mr-2"></i>{% trans "Verifiy" %}
+  <!--  -->
+  {% else %} <i class="fa-solid fa-circle-question mr-2"></i>
+  <!--  -->
+  {% trans "Cancel Verification" %} {% endif %}
+</a>
+{% endif %}

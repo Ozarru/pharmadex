@@ -1,0 +1,387 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  {% if user.role in 'admin,super_admin' %}
+  <!-- header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <div
+    class="tab_bar rounded-lg 2xl:w-full bg-lightest border border-b-0 shadow-lg grid grid-cols-2 lg:flex justify-evenly items-center text-sm divide-x overflow-hidden"
+  >
+    <!-- System Settings Subtab -->
+    <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'system_settings')"
+      id="defaultTab"
+    >
+      <i class="fa-solid fa-cogs"></i>
+      <span>{% trans "System Settings" %}</span>
+    </button>
+
+    <!-- Notifications & Alerts Subtab -->
+    <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'notifications_alerts')"
+    >
+      <i class="fa-solid fa-bell"></i>
+      <span>{% trans "Notifications & Alerts" %}</span>
+    </button>
+
+    <!-- Data Backup & Recovery Subtab -->
+    <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'backup_recovery')"
+    >
+      <i class="fa-solid fa-database"></i>
+      <span>{% trans "Data Backup & Recovery" %}</span>
+    </button>
+
+    <!-- Reports & Analytics Subtab -->
+    <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'reports_analytics')"
+    >
+      <i class="fa-solid fa-chart-bar"></i>
+      <span>{% trans "Reports & Analytics" %}</span>
+    </button>
+
+    <!-- Customizations Subtab -->
+    <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'customizations')"
+    >
+      <i class="fa-solid fa-paint-brush"></i>
+      <span>{% trans "Customizations" %}</span>
+    </button>
+  </div>
+
+  <!-- SYSTEM SETTINGS -->
+  <section id="system_settings" class="tabcontent hidden space-y-6">
+    <!-- System-Wide Settings -->
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "System-Wide Settings" %}
+      </h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Language" %}</label
+          >
+          <select class="form-field w-full">
+            <option value="en">{% trans "English" %}</option>
+            <option value="fr">{% trans "French" %}</option>
+            <option value="es">{% trans "Spanish" %}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Timezone" %}</label
+          >
+          <input type="text" class="form-input w-full" placeholder="UTC+0" />
+        </div>
+
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Currency" %}</label
+          >
+          <input type="text" class="form-input w-full" placeholder="USD" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Third-Party Integrations -->
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "Third-Party Integrations" %}
+      </h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Payment Gateway" %}</label
+          >
+          <input type="text" class="form-input w-full" placeholder="API Key" />
+        </div>
+
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "External API" %}</label
+          >
+          <input type="text" class="form-input w-full" placeholder="API URL" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTIFICATIONS & ALERTS -->
+  <section id="notifications_alerts" class="tabcontent hidden space-y-6">
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "Notification Preferences" %}
+      </h4>
+
+      <div class="space-y-4">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="form-checkbox" />
+          <span>{% trans "Enable Downtime Alerts" %}</span>
+        </label>
+
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="form-checkbox" />
+          <span>{% trans "Enable Platform Announcements" %}</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "Automated Alerts for Users" %}
+      </h4>
+
+      <div class="space-y-4">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="form-checkbox" />
+          <span>{% trans "Enable Low Balance Notifications" %}</span>
+        </label>
+
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="form-checkbox" />
+          <span>{% trans "Enable Negative Balance Alerts" %}</span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- BACKUP & RECOVERY -->
+  <section id="backup_recovery" class="tabcontent hidden space-y-6">
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "Backup Settings" %}
+      </h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Backup Frequency" %}</label
+          >
+          <select class="form-field w-full">
+            <option value="daily">{% trans "Daily" %}</option>
+            <option value="weekly">{% trans "Weekly" %}</option>
+            <option value="monthly">{% trans "Monthly" %}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Backup Type" %}</label
+          >
+          <select class="form-field w-full">
+            <option value="full">{% trans "Full" %}</option>
+            <option value="incremental">{% trans "Incremental" %}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "Recovery Settings" %}
+      </h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Repharmacy Points" %}</label
+          >
+          <input
+            type="text"
+            class="form-input w-full"
+            placeholder="Enter repharmacy point"
+          />
+        </div>
+
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Recovery Type" %}</label
+          >
+          <select class="form-field w-full">
+            <option value="full">{% trans "Full Recovery" %}</option>
+            <option value="partial">{% trans "Partial Recovery" %}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS & ANALYTICS -->
+  <section id="reports_analytics" class="tabcontent hidden space-y-6">
+    <div class="bg-white shadow-sm rounded-xl p-4 md:p-6 border space-y-6">
+      <h4 class="text-lg font-semibold text-gray-800">
+        {% trans "Manage Reports" %}
+      </h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Select Report Type" %}</label
+          >
+          <select class="form-field w-full">
+            <option value="attendance">{% trans "Attendance Report" %}</option>
+            <option value="grades">{% trans "Grades Report" %}</option>
+            <option value="performance">
+              {% trans "Performance Report" %}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium text-gray-700 mb-1"
+            >{% trans "Export Format" %}</label
+          >
+          <select class="form-field w-full">
+            <option value="csv">{% trans "CSV" %}</option>
+            <option value="pdf">{% trans "PDF" %}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMIZATIONS -->
+  <section id="customizations" class="tabcontent hidden space-y-6">
+    <div
+      class="bg-white/80 backdrop-blur shadow-sm hover:shadow-md transition rounded-2xl p-5 md:p-6 border border-gray-100 space-y-6"
+    >
+      <h4 class="text-lg font-semibold text-gray-900">
+        {% trans "Platform Branding" %}
+      </h4>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Logo Upload -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            {% trans "Logo" %}
+          </label>
+
+          <div
+            class="border border-dashed border-gray-300 rounded-xl p-4 hover:border-indigo-400 transition bg-gray-50"
+          >
+            <input type="file" class="w-full text-sm text-gray-600" />
+          </div>
+        </div>
+
+        <!-- Color Picker Group -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            {% trans "Primary Color" %}
+          </label>
+
+          <input id="colorInput" type="color" class="hidden" value="#6366f1" />
+
+          <div
+            class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50"
+          >
+            <!-- Palette -->
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                data-color="#6366f1"
+                class="color-swatch w-8 h-8 rounded-full bg-indigo-500 ring-offset-2"
+              ></button>
+
+              <button
+                type="button"
+                data-color="#ef4444"
+                class="color-swatch w-8 h-8 rounded-full bg-red-500"
+              ></button>
+
+              <button
+                type="button"
+                data-color="#10b981"
+                class="color-swatch w-8 h-8 rounded-full bg-emerald-500"
+              ></button>
+
+              <button
+                type="button"
+                data-color="#f59e0b"
+                class="color-swatch w-8 h-8 rounded-full bg-amber-500"
+              ></button>
+
+              <button
+                type="button"
+                data-color="#3b82f6"
+                class="color-swatch w-8 h-8 rounded-full bg-blue-500"
+              ></button>
+
+              <button
+                type="button"
+                data-color="#111827"
+                class="color-swatch w-8 h-8 rounded-full bg-gray-900"
+              ></button>
+            </div>
+
+            <!-- Custom Picker (aligned to palette) -->
+            <label
+              class="w-9 h-9 rounded-full border border-dashed border-gray-400 flex items-center justify-center cursor-pointer hover:border-gray-600 transition"
+            >
+              <input type="color" id="customColorPicker" class="hidden" />
+              <span class="text-xs text-gray-500">+</span>
+            </label>
+          </div>
+
+          <!-- Preview -->
+          <div class="mt-2 text-sm text-gray-500">
+            Selected:
+            <span id="colorPreview" class="font-medium text-gray-800"
+              >#6366f1</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const colorInput = document.getElementById("colorInput");
+    const customPicker = document.getElementById("customColorPicker");
+    const preview = document.getElementById("colorPreview");
+
+    // palette swatches
+    document.querySelectorAll(".color-swatch").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const color = btn.dataset.color;
+        colorInput.value = color;
+        preview.textContent = color;
+
+        // highlight selected
+        document.querySelectorAll(".color-swatch").forEach((b) => {
+          b.classList.remove("ring-2", "ring-offset-2");
+        });
+        btn.classList.add("ring-2", "ring-offset-2");
+      });
+    });
+
+    // custom color picker
+    customPicker.addEventListener("input", (e) => {
+      const color = e.target.value;
+      colorInput.value = color;
+      preview.textContent = color;
+    });
+  </script>
+</div>
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'main.html' %}
+{% load static i18n permission_tags  %}
+{% block content %}
+<div class="flex flex-col gap-4">
+  <!-- Header -->
+  <header
+    class="header-bar"
+  >
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span
+        class="header-icon"
+      >
+         <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{header_paragraph}}
+      </p>
+    </div>
+  </header>
+
+  <!-- Financial Stats Overview -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+    {% for item in data_groups %}
+    <a
+      href=""
+      class="p-5 bg-lightest rounded-xl border-l-4 border-{{ item.color}}-500 hover:border-{{ item.color}}-600 flex justify-between items-center shadow-md hover:shadow-lg transition-all duration-300 group"
+    >
+      <div>
+        <p class="font-semibold">{% trans item.label %}</p>
+        <div
+          class="mt-1.5 bg-{{item.color}}-100 px-3 py-1.5 rounded-lg inline-flex text-sm gap-2"
+        >
+          <span class="font-semibold">{{ item.aggregate }}</span>
+        </div>
+      </div>
+      <span class="bg-{{ item.color }}-100 p-3 px-4 rounded-xl">
+        <i class="fa-solid {{ item.icon }} text-{{ item.color}}-500 group-hover:text-{{ item.color }}-600 text-2xl"></i>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Financial Reports Section -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+    <!-- Profit & Loss -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-green-200 hover:bg-gradient-to-br hover:from-green-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-green-100 text-green-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-chart-line text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-green-700">{% trans "Profit & Loss Report" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-green-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "Summarizes revenue, expenses, and net income over a selected period." %}
+      </p>
+    </a>
+
+    <!-- Cash Flow -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-teal-200 hover:bg-gradient-to-br hover:from-teal-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-teal-100 text-teal-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-water text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-teal-700">{% trans "Cash Flow Report" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-teal-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "Tracks inflows and outflows to show cash availability and liquidity." %}
+      </p>
+    </a>
+
+    <!-- Income Streams Breakdown -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-blue-200 hover:bg-gradient-to-br hover:from-blue-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-blue-100 text-blue-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-chart-pie text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-blue-700">{% trans "Income Breakdown" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-blue-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "Shows revenue grouped by tuition, exams, donations, sales, and more." %}
+      </p>
+    </a>
+
+    <!-- Expense Breakdown -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-red-200 hover:bg-gradient-to-br hover:from-red-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-red-100 text-red-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-receipt text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-red-700">{% trans "Expense Breakdown" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-red-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "Breakdown of organization spending across salaries, utilities, supplies, maintenance, etc." %}
+      </p>
+    </a>
+
+    <!-- Account Balances -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-purple-200 hover:bg-gradient-to-br hover:from-purple-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-purple-100 text-purple-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-university text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-purple-700">{% trans "Bank & CashAccount Balances" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-purple-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "Shows the current computed balance of every financial account." %}
+      </p>
+    </a>
+
+    <!-- Payroll / Salary Report -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-orange-200 hover:bg-gradient-to-br hover:from-orange-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-orange-100 text-orange-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-user-tie text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-orange-700">{% trans "Salary & Payroll Report" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-orange-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "Full history of payroll payments, outstanding salaries, and cost trends." %}
+      </p>
+    </a>
+
+    <!-- Outstanding Invoices -->
+    <a
+      href="#"
+      class="group relative bg-lightest backdrop-blur-sm border rounded-xl p-5 flex flex-col gap-3 shadow-sm hover:shadow-xl hover:border-pink-200 hover:bg-gradient-to-br hover:from-pink-50 hover:to-light transition-all duration-300"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-pink-100 text-pink-600 p-3 px-4 rounded-xl">
+            <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading group-hover:text-pink-700">{% trans "Outstanding Bill & Invoices" %}</span>
+        </div>
+        <i class="fa-solid fa-chevron-right text-label group-hover:text-pink-500"></i>
+      </div>
+      <p class="text-sm text-label leading-snug">
+        {% trans "List of unpaid and overdue payments owed to the organization." %}
+      </p>
+    </a>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="container mx-auto">
+  <div class="bg-lightest border rounded-xl max-w-7xl mx-auto shadow-md">
+    <!-- header -->
+    <header class="header-bar rounded-b-none">
+      <div class="flex items-center gap-4 w-full max-w-7xl">
+        <span class="header-icon">
+          <i class="{{ model_icon }}"></i>
+        </span>
+        <p class="text-sm w-full max-w-7xl text-body">
+          {{ header_paragraph|default:"" }}
+        </p>
+      </div>
+    </header>
+
+    <hr />
+
+    <form
+      method="post"
+      id="modal-form"
+      class="space-y-4"
+      action="{{ request.path }}"
+      enctype="multipart/form-data"
+      name="generic_form"
+    >
+
+      {% csrf_token %}
+
+      <div
+        class="px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-4"
+        id="form-fields"
+      >
+        {% for field in form %}
+        <div
+          class="flex flex-col items-start field"
+          id="field_{{ field.id_for_label}}"
+        >
+          <label for="{{ field.id_for_label}}" class="mb-1"
+            >{{ field.label|default:"" }}</label
+          >
+          {{ field|default:"" }} {% if field.errors %}
+          <ul class="text-sm text-red-700 list-disc mb-4 ml-5">
+            {% for error in field.errors %}
+            <li>{{ error|default:"" }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Add hidden fields for model_name and object_id -->
+      <input
+        type="hidden"
+        name="model_name"
+        value="{{ form.initial.model_name}}"
+      />
+      <input
+        type="hidden"
+        name="object_id"
+        value="{{ form.initial.object_id}}"
+      />
+
+      <hr />
+
+      <div class="p-4 pt-0 flex justify-between gap-2 items-end text-sm">
+        <button type="button" onclick="history.back()" class="btn btn-danger">
+          {% trans "Cancel" %}
+        </button>
+        <button type="submit" class="btn btn-primary">
+          {% trans "Save" %}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

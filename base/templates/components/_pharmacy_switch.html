@@ -1,0 +1,53 @@
+{% load i18n %}
+
+<div
+  class="relative w-full max-w-sm flex flex-col gap-2"
+  id="pharmacy-switcher"
+>
+  {% if request.current_organization and request.available_pharmacies %}
+
+  <button
+    onclick="toggleMenu(this, 'pharmacyListMenu')"
+    type="button"
+    class="w-full flex items-center justify-between px-3 py-2 bg-lightest border border-dashed rounded-lg hover:bg-lighter transition"
+  >
+    {% if request.current_pharmacy %}
+    <div class="flex items-center gap-2 min-w-0">
+      <i class="fa-solid fa-staff-snake text-secondary text-lg"></i>
+      <span class="font-medium text-primary truncate">
+        {{ request.current_pharmacy.name|default:"" }}
+      </span>
+    </div>
+    {% else %}
+    <span class="text-label flex items-center gap-1">
+      <i class="fa-solid fa-circle-info"></i>
+      {% trans "Choose pharmacy" %}
+    </span>
+    {% endif %}
+
+    <i class="fa-solid fa-chevron-down text-label"></i>
+  </button>
+
+  <div
+    id="pharmacyListMenu"
+    class="hidden absolute mt-11 w-full bg-lightest border border-dashed rounded-lg shadow-md max-h-72 overflow-y-auto z-10"
+  >
+    {% for obj in request.available_pharmacies %}
+    <!--  -->
+    {% if obj != request.current_pharmacy %}
+    <a
+      href="{% url 'accounts:pharmacy-switch' obj.id %}"
+      class="flex items-center gap-3 px-3 py-2 hover:bg-lighter transition border-b last:border-b-0"
+    >
+      <i class="fa-solid fa-staff-snake text-label"></i>
+      <span class="truncate">{{ obj.name }}</span>
+    </a>
+    {% endif %} {% empty %}
+    <div class="p-3 text-label italic">
+      {% trans "No pharmacies available." %}
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endif %}
+</div>

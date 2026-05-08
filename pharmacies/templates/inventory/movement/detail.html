@@ -1,0 +1,97 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  <!-- header -->
+  <div class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm text-body leading-relaxed w-full">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Metadata -->
+  <div
+    class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 divide-x"
+  >
+    <!-- Type -->
+    <div
+      class="p-4 h-full w-full bg-lighter p-4 rounded-xl shadow-md text-label flex flex-col justify-center items-center gap-2 rounded-lg"
+    >
+      <span class="text-lg font-bold text-heading text-center">
+        {{ inventory_movement.get_movement_type_display|default:"" }}
+      </span>
+      <span class="text-sm text-label">{% trans "Type" %}</span>
+    </div>
+
+    <!-- Reason -->
+    <div
+      class="p-4 h-full w-full bg-lighter p-4 rounded-xl shadow-md text-label flex flex-col justify-center items-center gap-2 rounded-lg"
+    >
+      <span class="text-lg font-bold text-heading text-center">
+        {{ inventory_movement.reason|default:"" }}
+      </span>
+      <span class="text-sm text-label">{% trans "Reason" %}</span>
+    </div>
+
+    <!-- Date -->
+    <div
+      class="p-4 h-full w-full bg-lighter p-4 rounded-xl shadow-md text-label flex flex-col justify-center items-center gap-2 rounded-lg"
+    >
+      <span class="text-lg font-bold text-heading text-center">
+        {{ inventory_movement.created_at.date|date:"d/m/Y"|default:"" }}
+      </span>
+      <span class="text-sm text-label">{% trans "Date" %}</span>
+    </div>
+
+    <!-- Initiator -->
+    <div
+      class="p-4 h-full w-full bg-lighter p-4 rounded-xl shadow-md text-label flex flex-col justify-center items-center gap-2 rounded-lg"
+    >
+      <span class="text-lg font-bold text-heading text-center">
+        {{ inventory_movement.created_by.full_name|default:"" }}
+      </span>
+      <span class="text-sm text-label">{% trans "Initiator" %}</span>
+    </div>
+  </div>
+
+  <!-- inventory movement items List -->
+  <div class="h-full w-full flex flex-col gap-4">
+    <!-- Inventory Movement Items Table -->
+    <div class="bg-lightest border rounded-xl shadow-md p-4">
+      <h3 class="text-lg font-semibold text-heading mb-4">
+        {% trans "Items Moved" %}
+      </h3>
+
+      {% if inventory_movement.items.exists %}
+      <table class="w-full text-sm text-left text-label border-collapse">
+        <thead class="bg-light rounded-t-xl">
+          <tr>
+            <th class="p-3 border-b">{% trans "Product" %}</th>
+            <th class="p-3 border-b">{% trans "Quantity" %}</th>
+            <th class="p-3 border-b">{% trans "Comment" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in inventory_movement.items.all %}
+          <tr class="hover:bg-lightest">
+            <td class="p-3 border-b">{{ item.product_stock.product.name }}</td>
+            <td class="p-3 border-b">{{ item.quantity }}</td>
+            <td class="p-3 border-b">{{ item.comment|default:"—" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-center text-label py-4">
+        {% trans "No items in this movement." %}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

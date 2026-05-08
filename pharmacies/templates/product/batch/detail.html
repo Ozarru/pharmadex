@@ -1,0 +1,143 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="w-full flex flex-col gap-4">
+  <div class="w-full flex flex-col gap-4 md:gap-6">
+    <!-- Header -->
+    <div class="flex items-center gap-4 bg-accent p-4 rounded-xl shadow-md">
+      <i class="{{ category.model_icon }} text-3xl text-primary"></i>
+      <div class="flex flex-col">
+        <h2 class="text-xl font-semibold text-heading">{{ category.name }}</h2>
+        {% if category.description %}
+        <span class="text-sm text-label"> {{ category.description }} </span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Stats Box -->
+    <div class="bg-lighter p-4 rounded-xl shadow-md flex flex-col gap-3 text-sm">
+      <ul class="flex flex-col gap-2">
+        <li><b>{% trans "Total Subcategories" %} :</b> {{ category.product_subcategories.count }}</li>
+        <li><b>{% trans "Total Products" %} :</b> {{ total_products }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ================= Subcategories ================= -->
+  {% if category.product_subcategories.exists %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {% for sub in category.product_subcategories.all %}
+    <button
+      class="btn btn-outlined group bg-lightest p-4 rounded-xl border text-sm cursor-pointer
+        hover:border-primary hover:shadow-lg hover:-translate-y-1
+        transition-all duration-200 flex justify-between items-center"
+      onclick="filterBySubcategory('{{ sub.id }}')"
+    >
+      <div class="flex flex-col">
+        <span class="font-medium group-hover-text-primary transition">{{ sub.name }}</span>
+        <span class="text-xs text-label">{{ sub.products.count }} {% trans "Products" %}</span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary transition"></i>
+    </button>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center text-label py-4">{% trans "No subcategories found." %}</p>
+  {% endif %}
+
+  <!-- ================= Product Filters ================= -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+    <div class="w-full flex max-w-xl gap-2">
+      <!-- Search Input -->
+      <div class="relative w-full">
+        <i class="fa fa-search absolute left-4 top-4 text-gray-400"></i>
+        <input
+          id="product-search"
+          type="text"
+          placeholder="{% trans 'Type to search...' %}"
+          class="form-field w-full bg-lightest shadow-sm pl-12"
+          oninput="filterProducts()"
+        />
+      </div>
+
+        <!-- Active Filter -->
+        <select
+          id="is_active"
+          class="form-field"
+          onchange="filterProducts()"
+        >
+          <option value="">{% trans 'Activity' %}</option>
+          <option value="true">{% trans 'Active' %}</option>
+          <option value="false">{% trans 'Inactive' %}</option>
+        </select>
+    </div>
+
+    <!-- Reset Filters Button -->
+    <button
+      type="button"
+      class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition"
+      onclick="resetFilters()"
+    >
+      {% trans 'Reset' %}
+    </button>
+  </div>
+
+  <!-- ================= Products List ================= -->
+  <div
+    id="product-list"
+    class="product-list"
+    hx-get="{% url 'pharmacies:product-list' %}?origin=partial&category_id={{ category.id }}"
+    hx-trigger="load, server_response from:body"
+    hx-target="this"
+  >
+    <p class="h-[400px] w-full flex justify-center items-center text-secondary p-4">
+      <i class="m-auto fa-solid fa-circle-notch text-3xl animate-spin"></i>
+    </p>
+  </div>
+</div>
+
+<script>
+  let currentSubcategory = null;
+
+  function reload_obj_list(subcategory_id = null, search = null, is_active = null) {
+    currentSubcategory = subcategory_id || currentSubcategory;
+
+    let url = "{% url 'pharmacies:product-list' %}?origin=partial";
+
+    if (currentSubcategory) url += "&subcategory_id=" + currentSubcategory;
+    else url += "&category_id={{ category.id }}";
+
+    if (search) url += "&search=" + encodeURIComponent(search);
+    if (is_active) url += "&is_active=" + encodeURIComponent(is_active);
+
+    htmx.ajax("GET", url, "#product-list");
+  }
+
+  function filterBySubcategory(subId) {
+    currentSubcategory = subId;
+    const search = document.getElementById("product-search").value;
+    const is_active = document.getElementById("is_active").value;
+    reload_obj_list(subId, search, is_active);
+  }
+
+  function filterProducts() {
+    const search = document.getElementById("product-search").value;
+    const is_active = document.getElementById("is_active").value;
+    reload_obj_list(currentSubcategory, search, is_active);
+  }
+
+  function resetFilters() {
+    document.getElementById("product-search").value = "";
+    document.getElementById("is_active").value = "";
+    
+    // Pass null to reload all products in the category
+    currentSubcategory = null;
+    reload_obj_list(null, null, null);
+  }
+
+  document.body.addEventListener("htmx:afterRequest", function(event) {
+    const trigger = event.detail.xhr.getResponseHeader("HX-Trigger");
+    if (trigger === "server_response") reload_obj_list(currentSubcategory);
+  });
+</script>
+{% endblock %}

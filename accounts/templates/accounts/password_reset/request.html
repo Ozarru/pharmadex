@@ -1,0 +1,117 @@
+{% extends 'main_plain.html' %}
+<!--  -->
+{% load static i18n custom_tags %} {% block content %}
+<section
+  class="bg-lightest min-h-screen w-full grid grid-cols-1 md:grid-cols-5"
+>
+  <div class="relative flex flex-col justify-center gap-4 col-span-3">
+    <div class="absolute top-0 w-full">
+      {% include 'components/_theme_language.html' %}
+    </div>
+
+    <div class="mt-20 w-full max-w-md mx-auto" id="messages-container">
+      {% include 'components/_html_messages.html' %}
+    </div>
+
+    <!-- Password reset form card -->
+    <div
+      class="w-full max-w-lg mx-auto p-8 flex flex-col justify-center gap-4"
+    >
+      <!-- Logo + app name -->
+            <div class="flex justify-between items-center">
+          <img
+            id="app_logo"
+            class="h-12"
+            src="{% static 'imgs/brand/icon.png' %}"
+            alt="logo"
+          />
+
+          <div class="flex items-center gap-2">
+            <span class="text-primary text-2xl font-semibold">Pharma</span>
+            <span class="text-secondary text-2xl tracking-[0.15em] font-light"
+              >DEX</span
+            >
+          </div>
+      </div>
+      <small class="text-secondary text-sm">The Modern Pharmacy Operating System</small>
+
+      <div class="bg-lighter p-4 border rounded-xl">
+
+        <!-- Headings -->
+        <h1 class="text-heading text-xl font-bold mb-2">
+          {% trans "Did you forget your password?" %}
+        </h1>
+        <p class="text-label mb-4">
+          {% trans "Kindly enter your email below and we’ll send you a link to reset your password." %}
+        </p>
+  
+        <!-- Form -->
+        <form method="post" id="passwordResetForm">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 gap-4">
+            {% for field in form %}
+            <div
+              class="flex flex-col items-start field"
+              id="field_{{ field.id_for_label }}"
+            >
+              <label for="{{ field.id_for_label }}" class="mb-1 text-body font-medium"
+                >{{ field.label }}</label
+              >
+              {{ field|add_class:"form-field" }} 
+              <!--  -->
+              {% if field.errors %}
+              <ul class="text-sm text-red-700 list-disc mb-2 ml-5">
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+  
+          <div class="pt-4 flex justify-between gap-2 items-end text-sm">
+            <button type="button" onclick="history.back()" class="btn btn-danger">
+              {% trans "Cancel" %}
+            </button>
+            <button type="submit" class="btn btn-primary">
+              {% trans "Send Reset Link" %}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Signup link -->
+      <div class="flex justify-center items-center text-label">
+        <p>{% trans "Don’t have an account?" %}</p>
+        <a
+          href="{% url 'accounts:signup' %}"
+          class="text-secondary hover:underline ml-2"
+          >{% trans "Signup" %}</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Right panel / hero image -->
+  <img
+    class="hidden md:block md:min-h-screen h-full w-full object-cover col-span-2"
+    src="{% static 'imgs/auth-hero.png' %}"
+    alt="bg-hero"
+  />
+</section>
+
+<!-- JS to reload page on back navigation and optional loading spinner -->
+<script>
+  if (window.performance && window.performance.navigation.type === 2) {
+    window.location.reload();
+  }
+
+  const form = document.getElementById("passwordResetForm");
+  form?.addEventListener("submit", function () {
+    const submitButton = form.querySelector("button[type='submit']");
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-70", "cursor-not-allowed");
+  });
+</script>
+{% endblock %}

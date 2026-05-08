@@ -1,0 +1,106 @@
+{% extends 'main.html' %} {% load static i18n tz permission_tags %}
+<!--  -->
+{% block content %}
+<div class="h-full flex flex-col gap-4">
+  <!-- header -->
+  <header class="header-bar relative z-10">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+
+    <div class="w-full md:w-fit flex items-center gap-2 mb-2">
+      {% if user.is_staff %} {% include "components/_import_export.html" %}
+      <!--  -->
+      {% if model_stats_url %}
+      <a href="{% url model_stats_url %}" class="btn btn-lime-accent gap-2">
+        <i class="fa fa-chart-pie"></i>
+        <span class="hidden md:inline">{% trans "Dashboard" %}</span>
+      </a>
+      {% endif %} {% endif %}
+    </div>
+  </header>
+
+  <!-- Data Group Overview -->
+  {% if data_groups %}
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+    {% for label, group_data, icon, color in data_groups %}
+    <div
+      class="p-4 bg-lightest rounded-xl border-l-4 border-{{ color }}-500 hover:border-{{ color }}-600 flex justify-between gap-3 items-center shadow-md hover:shadow-lg transition-all duration-300 group"
+    >
+      <div>
+        <p class="font-semibold">{% trans label %}</p>
+
+        <div class="mt-1.5 grid grid-cols-1 gap-1">
+          {% if group_data.0.name %}
+          <!--  -->
+          {% for item in group_data %}
+          <div
+            class="bg-{{ color }}-100 px-3 py-1.5 rounded-lg inline-flex text-sm gap-2"
+          >
+            <span>{{ item.name|default:"" }}</span> :
+            <span class="font-semibold">{{ item.count }}</span>
+          </div>
+          {% endfor %}
+          <!--  -->
+          {% else %}
+          <div
+            class="bg-{{ color }}-100 px-3 py-1.5 rounded-lg inline-flex text-sm gap-2"
+          >
+            <span>{% trans "Count" %}</span> :
+            <span class="font-semibold break-all">{{ group_data }}</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <span class="bg-{{ color }}-100 p-3 px-4 rounded-xl">
+        <i
+          class="fa-solid {{ icon }} text-{{ color }}-500 group-hover:text-{{ color }}-600 text-2xl"
+        ></i>
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Object Search and Filters -->
+  <div class="w-full flex gap-2">
+    {% include "components/_search_and_filters.html" %}
+  </div>
+
+  <!-- Object List -->
+  <div id="{{ model_container }}" class="flex-grow pb-4">
+    {% include 'generic/_list.html' %}
+  </div>
+</div>
+
+<script>
+  function reload_obj_list() {
+    htmx.ajax(
+      "GET",
+      "{% url model_list_url %}?origin=partial",
+      "#{{ model_container }}",
+    );
+    // alert('server_response')
+  }
+
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    const trigger = event.detail.xhr.getResponseHeader("HX-Trigger");
+    if (trigger === "server_response") {
+      reload_obj_list();
+    }
+  });
+
+  function scrollToRechargeForm(event) {
+    event.preventDefault();
+    const form = document.getElementById("recharge-form");
+    if (form) {
+      form.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% load custom_tags %}
+
+<!-- Determine the container ID:
+- If called from a tab, use tab container_id
+- Otherwise, use container_id passed directly -->
+
+{% if tab %} {% set container_id = tab.model_container %}
+<!--  -->
+{% else %} {% set container_id = model_container %} {% endif %}
+
+<div class="flex justify-between items-center gap-3 w-full">
+  <!-- {{ container_id }} -->
+  <!-- Search Bar -->
+  <form id="{{ container_id }}_search_form" class="w-full max-w-sm flex gap-3">
+    <div class="relative w-full" style="z-index: 1">
+      <i class="fa fa-search absolute left-4 top-4 text-gray-400"></i>
+      <input
+        id="{{ container_id }}_search_input"
+        type="text"
+        name="search"
+        value="{{ request.GET.search }}"
+        placeholder="{% trans 'Type to search...' %}"
+        class="form-field w-full bg-lightest shadow-sm pl-12"
+        hx-get="{{ request.path }}?origin=partial"
+        hx-target="#{{ container_id }}"
+        hx-swap="innerHTML"
+        hx-trigger="keyup changed delay:300ms"
+      />
+    </div>
+    <!-- Clear Button -->
+    <button
+      type="button"
+      id="{{ container_id }}_clear_search_btn"
+      class="btn btn-outlined-danger hidden"
+    >
+      <i class="fa-solid fa-delete-left"></i>
+    </button>
+  </form>
+
+  <div class="flex gap-3">
+    <!-- Clear Button -->
+    <button
+      type="button"
+      id="{{ container_id }}_clear_filter_btn"
+      class="btn btn-outlined-danger hidden"
+    >
+      <i class="fa-solid fa-trash"></i>
+    </button>
+    <!-- Filters Modal Button -->
+    <button onclick="open_modal('filter')" class="btn btn-primary gap-2">
+      <i class="fa fa-filter"></i>
+      <span class="hidden md:inline">{% trans "Filters" %}</span>
+    </button>
+    {% if model_name == "Family" %}
+    <a
+      href="{% url 'organizations:synchronize-families' %}"
+      class="btn btn-secondary gap-2 loading-link"
+    >
+      <i class="fa fa-people-roof"></i>
+      <span class="hidden md:inline">{% trans "Synchronize Families" %}</span>
+    </a>
+    {% endif %} {% if model_name == "ParentProfile" %}
+    <a
+      href="{% url 'organizations:parent-accounts-create' %}"
+      class="btn btn-secondary gap-2 loading-link"
+    >
+      <i class="fa fa-user-shield"></i>
+      <span class="hidden md:inline">{% trans "Generate Credentials" %}</span>
+    </a>
+    <a
+      href="{% url 'organizations:parent-credentials-batch-export' %}"
+      class="btn btn-lime-accent gap-2 loading-link"
+    >
+      <i class="fa fa-file-export"></i>
+      <span class="hidden md:inline">{% trans "Export Credentials" %}</span>
+    </a>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const search_input = document.getElementById(
+      "{{ container_id }}_search_input",
+    );
+    const clearSearchBtn = document.getElementById(
+      "{{ container_id }}_clear_search_btn",
+    );
+    const clearFilterBtn = document.getElementById(
+      "{{ container_id }}_clear_filter_btn",
+    );
+    const filters_form = document.getElementById(
+      "{{ container_id }}_filters_form",
+    );
+
+    // Collect all filter fields (select inputs)
+    const filterFields = filters_form
+      ? filters_form.querySelectorAll("select")
+      : [];
+
+    /* ---------------------------
+       SHOW/HIDE BUTTONS
+    ---------------------------- */
+    function updateButtons() {
+      const searchHasValue = search_input.value.trim().length > 0;
+
+      let filtersHaveValue = false;
+      filterFields.forEach((f) => {
+        if (f.value && f.value.trim() !== "") {
+          filtersHaveValue = true;
+        }
+      });
+
+      // Show search clear button ONLY when search is active
+      if (searchHasValue) {
+        clearSearchBtn.classList.remove("hidden");
+      } else {
+        clearSearchBtn.classList.add("hidden");
+      }
+
+      // Show filter clear button ONLY when any filter is selected
+      if (filtersHaveValue) {
+        clearFilterBtn.classList.remove("hidden");
+      } else {
+        clearFilterBtn.classList.add("hidden");
+      }
+    }
+
+    /* ---------------------------
+       EVENT LISTENERS
+    ---------------------------- */
+    // Search typing
+    search_input.addEventListener("input", updateButtons);
+
+    // Filters change
+    filterFields.forEach((field) => {
+      field.addEventListener("change", updateButtons);
+    });
+
+    // Initial load
+    updateButtons();
+
+    /* ---------------------------
+       CLEAR SEARCH ONLY
+    ---------------------------- */
+    clearSearchBtn.addEventListener("click", function () {
+      search_input.value = "";
+      updateButtons();
+      htmx.trigger(search_input, "keyup"); // Reload only search
+    });
+
+    /* ---------------------------
+       CLEAR FILTERS ONLY
+    ---------------------------- */
+    clearFilterBtn.addEventListener("click", function () {
+      if (filters_form) {
+        filters_form.reset();
+        updateButtons();
+        htmx.trigger(filters_form, "submit"); // Reload only filters
+      }
+    });
+
+    /* ---------------------------
+   EVENT LISTENERS
+  ---------------------------- */
+
+    search_input.addEventListener("input", updateButtons);
+
+    filterFields.forEach((field) => {
+      field.addEventListener("change", updateButtons);
+    });
+
+    // Initial load
+    updateButtons();
+
+    /* ---------------------------
+   RE-RUN ON HTMX RELOAD
+---------------------------- */
+    document.body.addEventListener("htmx:afterSwap", function (event) {
+      if (event.detail.target.id === "{{ container_id }}") {
+        updateButtons();
+      }
+    });
+  });
+</script>

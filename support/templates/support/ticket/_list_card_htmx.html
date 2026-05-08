@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div
+  class="relative p-4 flex flex-col gap-2 border bg-lightest rounded-xl hover:shadow-lg transition duration-200 ease-in-out cursor-pointer group"
+  hx-get="{% url 'support:support-ticket-detail' obj.id %}"
+  hx-target=".ticket-detail-viewer"
+  hx-swap="innerHTML"
+>
+  <!-- Subject -->
+  <div class="flex justify-between items-center gap-2">
+    <h4 class="text-heading font-semibold">{{ obj.subject|default:"" }}</h4>
+    {% include 'badges/_object_badge.html' with value=obj.status %}
+  </div>
+
+  <!-- Truncated Description -->
+  <p class="text-sm text-body leading-snug line-clamp-4">
+    {{ obj.description|truncatechars:320|default:"" }}
+  </p>
+
+  <hr />
+  <!-- Meta Info -->
+  <div class="flex flex-col gap-1 justify-between text-xs text-label">
+    <span> @{{ obj.author.full_name|default:"" }} </span>
+    <span>{{ obj.created_at|date:"SHORT_DATE_FORMAT"|default:"" }}</span>
+  </div>
+
+  <!-- Bottom-Right: Status Badge -->
+  <div class="absolute bottom-4 right-4">
+    {% include 'badges/_object_badge.html' with value=obj.ticket_type %}
+  </div>
+</div>

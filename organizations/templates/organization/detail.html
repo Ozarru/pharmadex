@@ -1,0 +1,175 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+
+ <!-- {# Header bar - show to staff/admins (adjust as you like) #} -->
+  {% if request.user.is_superuser or request.user.is_staff %}
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="fa-solid fa-building"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:_("Use this page to view organization details, operational settings, and key activity analytics.") }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+ <!-- {# Organization Detail Card #} -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+   <!-- {# LEFT: Organization Identity #} -->
+    <div class="lg:col-span-1 bg-lightest border rounded-xl p-4 md:p-6 shadow-lg relative">
+
+      {% if request.user.is_superuser or request.user.is_staff %}
+      <div class="absolute top-4 right-4">
+        {% include 'badges/_activity_badge.html' with value=organization.is_active %}
+      </div>
+      {% endif %}
+
+      <div class="flex flex-col items-center text-center gap-3">
+
+       <!-- {# Icon badge - different icons per org type #} -->
+        <div class="w-28 h-28 rounded-full flex items-center justify-center bg-light text-4xl text-label shadow-sm border">
+          <i class="fa-solid fa-building"></i>
+        </div>
+
+        <div>
+          <h1 class="text-lg font-bold text-heading">
+            {{ organization.name|default:_("Unnamed Organization") }}
+          </h1>
+
+          <p class="text-sm italic text-label mt-1">{% trans "Organization" %}</p>
+        </div>
+      </div>
+
+      <hr class="my-5">
+
+     <!-- {# Contact Info #} -->
+      <ul class="space-y-2 text-sm text-body">
+        <li class="flex gap-2">
+          <i class="fa-solid fa-location-dot text-label mt-1"></i>
+          <span>{% trans "Address" %} : {{ organization.address|default:_("No address provided") }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-envelope text-label mt-1"></i>
+          <span>{% trans "Email" %} : {{ organization.email|default:"N/A" }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-phone text-label mt-1"></i>
+          <span>{% trans "Phone" %} : {{ organization.phone_number|default:"N/A" }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-user-tie text-label mt-1"></i>
+          <span>{% trans "Pharmacies" %} : {{ pharmacies_count }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-user text-label mt-1"></i>
+          <span>{% trans "Customers" %} : {{ customers_count }}</span>
+        </li>
+      </ul>
+
+     <!-- {# Operational settings highlight #} -->
+      <!-- <div class="mt-4 bg-accent border rounded-lg p-3">
+        <p class="text-xs text-label">{% trans "Min Balance Threshold" %}</p>
+        <p class="font-semibold text-heading">{{ organization.low_balance_threshold|default:0 }}</p>
+      </div> -->
+
+    </div>
+
+   <!-- {# RIGHT: Details & Actions #} -->
+    <div class="lg:col-span-2 flex flex-col gap-4">
+
+     <!-- {# Quick Stats #} -->
+      <div class="grid md:grid-cols-2 gap-4">
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Code" %}</p>
+          <p class="text-md font-bold text-heading">{{ organization.code|default:"—" }}</p>
+        </div>
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Slug" %}</p>
+          <p class="text-md font-bold text-heading">{{ organization.slug|default:"—" }}</p>
+        </div>
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Status" %}</p>
+          <p class="text-md font-bold text-heading">
+            {% if organization.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
+          </p>
+        </div>
+
+       <!-- {# Optional: show tenant-type badge cards #} -->
+       <!-- {# Optional: show pharmacy info if you've created Pharmacy (1 per org) #} -->
+        <div class="col-span-2 bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase mb-3">{% trans "Pharmacy" %}</p>
+
+          {% if organization.pharmacy_set %}
+            <div class="bg-lightest flex flex-col gap-1 p-4 border rounded-md shadow-md mx-auto w-fit">
+              <span class="text-sm font-semibold text-heading">
+                <i class="fa-solid fa-store mr-2"></i>{{ organization.pharmacy_set.first.name }}
+              </span>
+              <span class="text-xs text-label">{{ organization.pharmacy_set.first.address|default:_("No address provided") }}</span>
+            </div>
+          {% else %}
+            <p class="text-sm text-label italic">{% trans "No pharmacy linked yet." %}</p>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <!-- Description / Notes block (Organization has no description field, so keep it general) -->
+      <div class="h-full bg-lighter border rounded-xl p-4 md:p-6">
+        <h3 class="font-semibold text-heading text-lg mb-2">
+          {% trans "About this Organization" %}
+        </h3>
+        <p class="text-body leading-relaxed">
+          {% trans "This tenant contains the staff, customers, inventory, and sales data for a pharmacy organization." %}
+        </p>
+
+       <!-- {# Optional action buttons - use perms (adjust app label/codenames) #} -->
+        <div class="mt-4 flex flex-wrap gap-3">
+          {% if perms.organizations.change_organization %}
+          <a href="{% url 'organizations:organization-update' organization.id %}" class="btn btn-primary">
+            <i class="fa-solid fa-pen-to-square mr-2"></i> {% trans "Edit Organization" %}
+          </a>
+          {% endif %}
+
+          {% if organization.pharmacy and perms.organizations.change_pharmacy %}
+          <a href="{% url 'pharmacies:pharmacy-update' organization.pharmacy.id %}" class="btn btn-outlined">
+            <i class="fa-solid fa-store mr-2"></i> {% trans "Edit Pharmacy" %}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+ <!-- {# Data Groups Overview (same pattern you used) #} -->
+  {% if data_group %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    {% for title, count, icon, color in data_group %}
+    <div
+      class="p-5 bg-lightest rounded-xl border-l-4 border-{{ color }}-500 hover:border-{{ color }}-600 flex justify-between items-center shadow-md hover:shadow-lg transition-all duration-300 group"
+    >
+      <div>
+        <p class="font-semibold">{% trans title %}</p>
+        <div class="mt-1.5 bg-{{ color }}-100 px-3 py-1.5 rounded-md inline-flex text-sm gap-2">
+          <span class="font-semibold">{{ count }}</span>
+        </div>
+      </div>
+
+      <span class="bg-{{ color }}-100 p-3 px-4 rounded-xl">
+        <i class="fa-solid {{ icon }} text-{{ color }}-500 group-hover:text-{{ color }}-600 text-2xl"></i>
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

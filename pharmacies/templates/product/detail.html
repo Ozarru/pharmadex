@@ -1,0 +1,175 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+
+ <!-- {# Header bar (staff/admin) #} -->
+  {% if request.user.is_staff or request.user.is_superuser %}
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {% trans "Use this page to view product details, pricing, and activity related to this item." %}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+   <!-- {# LEFT: Product Identity #} -->
+    <div class="lg:col-span-1 bg-lightest border rounded-xl p-4 md:p-6 shadow-lg relative">
+
+      {% if request.user.is_staff or request.user.is_superuser %}
+      <div class="absolute top-4 right-4">
+        {% include 'badges/_activity_badge.html' with value=product.is_active %}
+      </div>
+      {% endif %}
+
+      <div class="flex flex-col items-center text-center gap-4">
+
+       <!-- {# Product Image #} -->
+        <div class="w-32 h-32 rounded-full overflow-hidden bg-accent border shadow-lg flex items-center justify-center">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full">
+          {% else %}
+            <i class="fa-solid fa-box text-4xl text-label"></i>
+          {% endif %}
+        </div>
+
+        <div>
+          <h1 class="font-bold text-primary">
+            {{ product.name }}
+          </h1>
+
+          {% if product.brand %}
+          <p class="text-sm text-body mt-1">
+            {% trans "Brand:" %} <span class="font-medium">{{ product.brand }}</span>
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+   <!-- {# RIGHT: Stats, Pricing, Actions #} -->
+    <div class="lg:col-span-2 flex flex-col gap-4">
+
+     <!-- {# Pricing & Status #} -->
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Price" %}</p>
+          <p class="text-md font-bold text-heading">
+            {{ product.price }}
+          </p>
+        </div>
+
+        <!-- <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Cost" %}</p>
+          <p class="text-md font-bold text-heading">
+            {{ product.cost }}
+          </p>
+        </div>
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Margin" %}</p>
+          <p class="text-md font-bold text-heading">
+            {{ product.get_margin|floatformat:2 }}
+          </p>
+        </div> -->
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Status" %}</p>
+          <p class="text-md font-bold text-heading">
+            {% if product.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
+          </p>
+        </div>
+
+      </div>
+ 
+     <!-- {# Meta info #} -->
+      <ul class="space-y-2 text-sm text-body">
+        <li class="flex gap-2">
+          <i class="fa-solid fa-tag text-label mt-1"></i>
+          {% trans "Category" %} :
+          <!--  -->
+          <span>{{ product.subcategory.category.name }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-tags text-label mt-1"></i>
+          {% trans "Subcategory" %} :
+          <!--  -->
+          <span>{{ product.subcategory.name }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-barcode text-label mt-1"></i>
+          {% trans "Code" %} :
+          <!--  -->
+          <span>{{ product.code_name|default:_("No code") }}</span>
+        </li>
+      </ul>
+
+     <!-- {# Description #} -->
+      <div class="h-full bg-lighter border rounded-xl p-4 md:p-6 flex flex-col justify-between">
+        <div class="space-y-2">
+          
+
+      
+          <h3 class="font-semibold text-heading text-lg mb-2">
+            {% trans "Product Description" %}
+          </h3>
+  
+          {% if product.description %}
+            <p class="text-body leading-relaxed">
+              {{ product.description }}
+            </p>
+          {% else %}
+            <p class="text-sm text-label italic">
+              {% trans "No description provided for this product." %}
+            </p>
+          {% endif %}
+        </div>
+
+       <!-- {# Actions #} -->
+        <div class="mt-4 flex flex-wrap gap-3">
+          {% if perms.products.change_productstock %}
+          <a href="{% url 'pharmacies:inventory-movement-create' %}" class="btn btn-lime-accent flex-grow">
+            <i class="fa-solid fa-cart-flatbed mr-2"></i> {% trans "Restock Product" %}
+          </a>
+          {% endif %}
+
+          {% if perms.products.delete_product %}
+          <a href="" class="btn btn-outlined-danger flex-grow">
+            <i class="fa-solid fa-trash mr-2"></i> {% trans "Delete" %}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- {# Optional: Activity Overview (Sales / Purchases) #} -->
+  {% if data_group %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    {% for title, count, icon, color in data_group %}
+    <div
+      class="p-5 bg-lightest rounded-xl border-l-4 border-{{ color }}-500 hover:border-{{ color }}-600 flex justify-between items-center shadow-md hover:shadow-lg transition-all duration-300 group"
+    >
+      <div>
+        <p class="font-semibold">{% trans title %}</p>
+        <div class="mt-1.5 bg-{{ color }}-100 px-3 py-1.5 rounded-md inline-flex text-sm gap-2">
+          <span class="font-semibold">{{ count }}</span>
+        </div>
+      </div>
+
+      <span class="bg-{{ color }}-100 p-3 px-4 rounded-xl">
+        <i class="fa-solid {{ icon }} text-{{ color }}-500 group-hover:text-{{ color }}-600 text-2xl"></i>
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

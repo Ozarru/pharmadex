@@ -1,0 +1,112 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  
+    
+  <!-- Data Group Overview -->
+  {% if data_groups %}
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+    {% for label, group_data, icon, color in data_groups %}
+    <a
+      href=""
+      class="p-4 bg-lightest rounded-xl border-l-4 border-{{ color }}-500 hover:border-{{ color }}-600 flex justify-between gap-3 items-center shadow-md hover:shadow-lg transition-all duration-300 group"
+    >
+      <div>
+        <p class="font-semibold">{% trans label %}</p>
+
+        <div class="mt-1.5 grid grid-cols-1 gap-1">
+        {% if group_data.0.name %}
+          <!--  -->
+          {% for item in group_data %}
+          <div
+            class="bg-{{ color }}-100 px-3 py-1.5 rounded-lg inline-flex text-sm gap-2"
+          >
+            <span>{{ item.name|default:"" }}</span> :
+            <span class="font-semibold">{{ item.count }}</span>
+          </div>
+          {% endfor %}
+          <!--  -->
+          {% else %}
+          <div
+            class="bg-{{ color }}-100 px-3 py-1.5 rounded-lg inline-flex text-sm gap-2"
+          >
+            <span>{% trans "Count" %}</span> :
+            <span class="font-semibold break-all">{{ group_data }}</span>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+      <span class="bg-{{ color }}-100 p-3 px-4 rounded-xl">
+        <i
+        class="fa-solid {{ icon }} text-{{ color }}-500 group-hover:text-{{ color }}-600 text-2xl"
+        ></i>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Tool bar -->
+  <div class="w-full flex flex-col md:flex-row gap-3 justify-between">
+    <!-- Object Search and Filters -->
+    {% include "components/_search_and_filters.html" %}
+
+    <!-- Object Creation Button -->
+    {% if request.user.get_current_user_type != 'organization_admin' %}
+    <button
+      hx-target="#modal_dialog"
+      hx-get="{% url 'support:support-ticket-create' %}"
+      class="modal_opener btn btn-primary md:w-48"
+    >
+      <span class="mr-2">{% trans "New Ticket" %}</span>
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    {% endif %}
+  </div>
+
+  <!-- List View -->
+  <section class="lg:h-[calc(100vh-170px)] w-full">
+    <div class="h-full flex gap-2">
+      <!-- Ticket List -->
+      <div
+        id="support-ticket-list"
+        class="h-full w-full lg:max-w-[380px] flex flex-col gap-3 lg:overflow-y-auto"
+      >
+        {% include 'support/ticket/_list.html' %}
+      </div>
+
+      <!-- Ticket Details -->
+      <div
+        class="ticket-detail-viewer bg-lightest shadow-sm hidden lg:flex flex-col h-full w-full border rounded-xl"
+      >
+        <div
+          class="py-60 m-auto h-full rounded-xl flex flex-col justify-center items-center gap-2"
+        >
+          <img src="{% static 'imgs/chat-hero.png' %}" alt="chat-hero" class="h-80">
+          <p>{% trans "Engage with the team on ticket issues" %}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  function reload_list() {
+    htmx.ajax(
+      "GET",
+      "{% url model_list_url %}?origin=partial",
+      "#{{ modle_container }}",
+    );
+  }
+
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    const trigger = event.detail.xhr.getResponseHeader("HX-Trigger");
+    if (trigger === "db_changed") {
+      reload_list();
+    }
+  });
+</script>
+
+
+{% endblock %}

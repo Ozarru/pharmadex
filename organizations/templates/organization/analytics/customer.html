@@ -1,0 +1,231 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="flex flex-col gap-6">
+  <!-- HEADER -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ subtitle }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== -->
+  <!-- CUSTOMER BREAKDOWN -->
+  <!-- ===================== -->
+  <section class="p-6 bg-lightest border rounded-2xl">
+    <h3 class="text-lg font-semibold mb-6">
+      {% trans "Customer Distribution" %}
+    </h3>
+
+    <div class="space-y-6">
+      <!-- Numbers -->
+      <div class="grid grid-cols-3 gap-4">
+        <div class="bg-blue-100 p-5 rounded-xl text-center shadow-md">
+          <p class="text-sm text-blue-600">Insurred</p>
+          <p class="text-2xl font-bold">{{ insurred_count }}</p>
+        </div>
+        <div class="bg-green-100 p-5 rounded-xl text-center shadow-md">
+          <p class="text-sm text-green-600">Uninssured</p>
+          <p class="text-2xl font-bold">{{ uninsurred_count }}</p>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <canvas id="clientBreakdownChart"></canvas>
+    </div>
+  </section>
+
+  <!-- ===================== -->
+  <!-- CUSTOMER GROWTH -->
+  <!-- ===================== -->
+  <section class="p-6 bg-lightest border rounded-2xl">
+    <h3 class="text-lg font-semibold mb-6">
+      {% trans "Customer Growth (Last 30 Days)" %}
+    </h3>
+    <canvas id="growthChart"></canvas>
+  </section>
+
+  <!-- ===================== -->
+  <!-- TOP CUSTOMERS -->
+  <!-- ===================== -->
+  <section class="p-6 bg-lightest border rounded-2xl shadow-sm">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-semibold text-heading">
+        {% trans "Top Customers by Balance" %}
+      </h3>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+      <!-- Average Badge -->
+      <div class="flex items-center gap-4 bg-lighter rounded-xl p-4 shadow-sm">
+        <div
+          class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary"
+        >
+          <i class="fa-solid fa-chart-line text-lg"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <span class="text-sm text-label">
+            {% trans "Average (Top 10)" %}
+          </span>
+          <span class="text-xl font-bold text-heading">
+            {{ top_clients_average }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Total Badge -->
+      <div class="flex items-center gap-4 bg-lighter rounded-xl p-4 shadow-sm">
+        <div
+          class="w-12 h-12 flex items-center justify-center rounded-full bg-success/10 text-success"
+        >
+          <i class="fa-solid fa-coins text-lg"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <span class="text-sm text-label"> {% trans "Total (Top 10)" %} </span>
+          <span class="text-xl font-bold text-heading">
+            {{ top_clients_total }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="bg-white rounded-xl p-4 shadow-inner">
+      <canvas id="topCustomersChart"></canvas>
+    </div>
+  </section>
+</div>
+
+<script>
+  // =====================
+  // CUSTOMER BREAKDOWN PIE
+  // =====================
+  new Chart(document.getElementById('clientBreakdownChart'), {
+      type: 'doughnut',
+      data: {
+          labels: ['Insurred', 'Uninssured'],
+          datasets: [{
+              data: [
+                  {{ insurred_count|default:0 }},
+                  {{ uninsurred_count|default:0 }},
+              ],
+              backgroundColor: [
+                  'rgba(59,130,246,0.2)',   // Insurred - light blue
+                  'rgba(34,197,94,0.2)',    // Uninssured - light green
+              ],
+              borderColor: [
+                  'rgba(59,130,246,0.9)',   // Insurred - strong blue
+                  'rgba(34,197,94,0.9)',    // Uninssured - strong green
+              ],
+              borderWidth: 2, // strong border
+              hoverOffset: 40, // nice separation on hover
+          }]
+      },
+      options: {
+          responsive: true,
+          plugins: {
+              legend: {
+                  position: 'bottom',
+                  labels: {
+                      usePointStyle: true,
+                      pointStyle: 'circle',
+                      padding: 15,
+                      boxWidth: 12,
+                  }
+              },
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          return context.label + ': ' + context.parsed;
+                      }
+                  }
+              }
+          },
+          cutout: '60%', // makes it donut-style with more center space
+      }
+  });
+
+  // =====================
+  // GROWTH LINE CHART
+  // =====================
+  new Chart(document.getElementById('growthChart'), {
+      type: 'line',
+      data: {
+          labels: [
+              {% for d in growth_dates %}"{{ d }}"{% if not forloop.last %},{% endif %}{% endfor %}
+          ],
+          datasets: [
+              {
+                  label: 'Insurred',
+                  data: [{% for v in insurredgrowth %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}],
+                  borderColor: '#3B82F6',
+                  backgroundColor: 'rgba(59,130,246,0.1)',
+                  fill: true,
+                  tension: 0.3,
+                  borderWidth: 2,
+                  pointRadius: 4,
+                  pointBackgroundColor: '#3B82F6'
+              },
+              {
+                  label: 'Uninssured',
+                  data: [{% for v in uninsurredgrowth %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}],
+                  borderColor: '#22C55E',
+                  backgroundColor: 'rgba(34,197,94,0.1)',
+                  fill: true,
+                  tension: 0.3,
+                  borderWidth: 2,
+                  pointRadius: 4,
+                  pointBackgroundColor: '#22C55E'
+              },
+          ]
+      },
+      options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } },
+          scales: {
+              x: { grid: { drawBorder: true, borderWidth: 2, borderColor: '#333' } },
+              y: { grid: { drawBorder: true, borderWidth: 2, borderColor: '#333' } }
+          }
+      }
+  });
+
+
+  // =====================
+  // TOP CUSTOMERS BAR
+  // =====================
+  new Chart(document.getElementById('topCustomersChart'), {
+      type: 'bar',
+      data: {
+          labels: [
+              {% for obj in top_clients %}"{{ obj.full_name }}"{% if not forloop.last %},{% endif %}{% endfor %}
+          ],
+          datasets: [{
+              label: 'Balance',
+              data: [{% for obj in top_clients %}{{ obj.balance }}{% if not forloop.last %},{% endif %}{% endfor %}],
+              backgroundColor: 'rgba(253,230,138,0.7)',
+              borderColor: '#FACC15',
+              borderWidth: 2,
+              borderRadius: { topLeft: 8, topRight: 8, bottomLeft: 0, bottomRight: 0 }
+          }]
+      },
+      options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+              x: { grid: { drawBorder: true, borderWidth: 2, borderColor: '#333' } },
+              y: { grid: { drawBorder: true, borderWidth: 2, borderColor: '#333' } }
+          }
+      }
+  });
+</script>
+{% endblock %}

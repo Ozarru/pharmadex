@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+{% load static i18n %}
+
+{% block content %}
+<section class="min-h-[70vh] flex items-center justify-center px-6">
+  <div class="w-full max-w-3xl">
+    <div class="relative bg-lightest/90 backdrop-blur rounded-2xl shadow-xl border border p-10 text-center">
+
+      <!-- Icon -->
+      <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
+        <!-- <i class="fa-solid fa-folder-open text-3xl"></i> -->
+        <img
+          id="404_image"
+          class="h-80"
+          src="{% static 'imgs/404.jpg' %}"
+          alt="logo"
+        />
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-3">
+        {% trans "Page not found" %}
+      </h1>
+
+      <!-- Subtitle -->
+      {% bloctrans %}
+      <p class="text-label text-lg mb-8">
+          The page you are looking for doesn’t exist or may have been moved 
+          <br>
+           trans "You can continue browsing using the options below.
+        </p>
+      {% enblocktrans %}
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="javascript:history.back()"
+          class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-500 transition"
+        >
+          <i class="fa-solid fa-arrow-left"></i>
+          {% trans "Go back" %}
+        </a>
+
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium hover:bg-gray-100 transition"
+        >
+          <i class="fa-solid fa-house"></i>
+          {% trans "Go to homepage" %}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

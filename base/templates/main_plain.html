@@ -1,0 +1,216 @@
+{% load static i18n permission_tags %}
+
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    />
+    <script src="{% static 'main.js' %}" defer="true"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet" />
+    <!-- <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=TASA+Explorer"
+    /> -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Poppins"
+    />
+    <link
+      rel="shortcut icon"
+      href="{% static 'imgs/brand/icon.png' %}"
+      type="image/x-icon"
+    />
+
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        /* font-family: "TASA Explorer", sans-serif; */
+      }
+    </style>
+    {% if title %}
+    <title>pharmadex - {{title}}</title>
+    {% else %}
+    <title>pharmadex</title>
+    {% endif %}
+  </head>
+  <body
+    hx-boost="false"
+    hx-headers='{"X-CSRFToken" : "{{ csrf_token}}"}'
+    class="flex flex-col bg-light h-full w-full"
+  >
+    {% csrf_token %}
+    <div
+      id="base"
+      class="min-h-screen flex flex-col justify-center items-center"
+    >
+      {% block content %} {% endblock %}
+    </div>
+    <!--  -->
+
+    <script>
+      //  dropdown manager ----------------------------------------------------------------------------------------------------
+      let activeMenu = null; // Track the currently active menu globally
+
+      // Dropdown manager
+      function toggleMenu(e, obj_id) {
+        // Get the menu element
+        const newActiveMenu = document.getElementById(obj_id);
+
+        // Toggle the visibility of the menu
+        if (newActiveMenu === activeMenu) {
+          // If the same menu is clicked again, close it
+          newActiveMenu.classList.add("hidden");
+          activeMenu = null; // Reset active menu
+        } else {
+          // If a new menu is clicked, close the previous menu (if any)
+          if (activeMenu) {
+            activeMenu.classList.add("hidden");
+          }
+          // Show the new menu and update activeMenu
+          newActiveMenu.classList.remove("hidden");
+          activeMenu = newActiveMenu;
+        }
+      }
+
+      // Close menu if clicking outside
+      window.addEventListener("mouseup", function (event) {
+        if (activeMenu && !event.target.closest(`#${activeMenu.id}`)) {
+          activeMenu.classList.add("hidden");
+          activeMenu = null; // Reset active menu
+        }
+      });
+
+      // App theme Toggle ------------------------------------------------------------------------------------------------------
+      function setTheme(mode = "") {
+        const body = document.body;
+        body.classList.remove("light-mode", "dark-mode");
+
+        if (mode === "light") {
+          body.classList.add("light-mode");
+          sessionStorage.setItem("theme", "light");
+          localStorage.setItem("theme", "light");
+        } else if (mode === "dark") {
+          body.classList.add("dark-mode");
+          sessionStorage.setItem("theme", "dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          // Use system preference
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          body.classList.add(prefersDark ? "dark-mode" : "light-mode");
+          sessionStorage.setItem("theme", "system");
+          localStorage.setItem("theme", "system");
+        }
+
+        updateThemeIcon();
+        closeAllMenus(); // optional
+      }
+
+      function applySavedTheme() {
+        const savedTheme =
+          sessionStorage.getItem("theme") ||
+          localStorage.getItem("theme") ||
+          "system";
+
+        if (savedTheme === "light") {
+          document.body.classList.add("light-mode");
+        } else if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+        } else {
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          document.body.classList.add(prefersDark ? "dark-mode" : "light-mode");
+        }
+
+        updateThemeIcon();
+      }
+
+      function updateThemeIcon() {
+        const icon = document.getElementById("themeIcon");
+        const theme =
+          sessionStorage.getItem("theme") ||
+          localStorage.getItem("theme") ||
+          "system";
+
+        if (!icon) return;
+
+        if (theme === "light") {
+          icon.className = "fa-regular fa-sun";
+        } else if (theme === "dark") {
+          icon.className = "fa-solid fa-moon";
+        } else {
+          icon.className = "fa-solid fa-display";
+        }
+      }
+
+      function closeAllMenus() {
+        document.querySelectorAll('[id$="Menu"]').forEach((menu) => {
+          menu.classList.add("hidden");
+        });
+      }
+
+      // Style form fields with required asterisk and classes
+      function styleFormFields() {
+        const formFields = document.querySelectorAll("#form-fields .field");
+        formFields.forEach((field) => {
+          const inputElement = field.querySelector("input, select, textarea");
+          const label = field.querySelector("label");
+
+          if (inputElement) {
+            inputElement.classList.add(
+              "required",
+              "mb-2",
+              "px-4",
+              "py-2",
+              "rounded-md",
+              "border",
+              "border",
+              "focus:border-none",
+              "focus:outline-none",
+              "focus:ring-2",
+              "focus:ring-red-500",
+              "w-full",
+            );
+          }
+
+          if (inputElement?.required && label) {
+            label.innerHTML += ' <span class="text-red-500">*</span>';
+          }
+        });
+      }
+
+      styleFormFields();
+
+      document.body.addEventListener("htmx:afterRequest", function (event) {
+        const trigger = event.detail.xhr.getResponseHeader("HX-Trigger");
+        if (trigger === "server_response") {
+          close_modal();
+        }
+      });
+
+      // Run on initial page load
+      document.addEventListener("DOMContentLoaded", function (e) {
+        applySavedTheme();
+      });
+
+      setTimeout(() => {
+        const el = document.getElementById("server-messages");
+        if (el) el.remove();
+      }, 3000);
+    </script>
+  </body>
+</html>

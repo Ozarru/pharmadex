@@ -1,0 +1,13 @@
+{% load static i18n %}
+<!--  -->
+{% with true_label=true_label|default:_("Yes") false_label=false_label|default:_("No")%}
+  {% if value %}
+    <span class="inline-block px-4 py-1 bg-green-100 text-green-600 rounded-full text-xs">
+      {{ true_label|default:"" }}
+    </span>
+  {% else %}
+    <span class="inline-block px-4 py-1 bg-red-100 text-red-600 rounded-full text-xs">
+      {{ false_label|default:"" }}
+    </span>
+  {% endif %}
+{% endwith %}

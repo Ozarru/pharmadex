@@ -1,0 +1,102 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="flex flex-col gap-6">
+  <!-- ================= HEADER ================= -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ subtitle }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Total Audits</p>
+      <p class="text-2xl font-bold">{{ total_audits }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Audits This Month</p>
+      <p class="text-2xl font-bold text-indigo-600">{{ audits_this_month }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Audits w/ Discrepancies</p>
+      <p class="text-2xl font-bold text-amber-600">
+        {{ audits_with_discrepancies }}
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Total Discrepancy</p>
+      <p class="text-2xl font-bold text-rose-600">{{ total_discrepancy }}</p>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Status Pie -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-4">Audit Status Distribution</h2>
+      <canvas id="statusChart"></canvas>
+    </div>
+
+    <!-- Discrepancy Trend -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-4">Recent Audit Discrepancies</h2>
+      <canvas id="discrepancyChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* -----------------------------
+     Status Pie
+  ----------------------------- */
+  new Chart(document.getElementById("statusChart"), {
+      type: "pie",
+      data: {
+          labels: [{% for s in audits_by_status %}"{{ s.status }}",{% endfor %}],
+          datasets: [{
+              data: [{% for s in audits_by_status %}{{ s.total }},{% endfor %}],
+              backgroundColor: [
+                  "#F59E0B", // pending
+                  "#3B82F6", // in progress
+                  "#10B981", // validated
+                  "#EF4444", // unvalidated
+              ]
+          }]
+      }
+  });
+
+  /* -----------------------------
+     Discrepancy Trend
+  ----------------------------- */
+  new Chart(document.getElementById("discrepancyChart"), {
+      type: "bar",
+      data: {
+          labels: {{ audit_labels|safe }},
+          datasets: [{
+              label: "Total Discrepancy",
+              data: {{ audit_discrepancies|safe }},
+              backgroundColor: "rgba(245,158,11,0.5)",
+              borderColor: "#F59E0B",
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: { beginAtZero: true }
+          }
+      }
+  });
+</script>
+{% endblock %}

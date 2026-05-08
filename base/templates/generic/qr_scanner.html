@@ -1,0 +1,119 @@
+{% load i18n %}
+
+<div id="qr_scanner_view" class="space-y-4">
+  <div class="flex justify-between items-center">
+    <h3 class="text-lg text-heading font-bold">{% trans "Scan QR Code" %}</h3>
+    <button
+      onclick="close_modal()"
+      type="button"
+      class="modal_closer px-3 py-2 bg-gray-200 text-sm text-heading hover:text-red-700 hover-bg-lightest hover-text-primaryest rounded-md transition ease-in duration-200"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="relative bg-black rounded-xl overflow-hidden">
+    <div id="qr-reader" class="w-full aspect-square"></div>
+
+    <!-- Overlay frame -->
+    <div
+      class="absolute inset-4 border-2 border-white/70 rounded-lg pointer-events-none"
+    ></div>
+  </div>
+
+  <p class="text-sm text-secondary text-center mt-3">
+    {% trans "Align the QR code inside the frame" %}
+  </p>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+  let qrReaderInstance = null;
+  let lastText = null;
+  let lastTs = 0;
+
+  async function startQrScanner() {
+    if (qrReaderInstance) return;
+
+    const container = document.getElementById("qr-reader");
+    if (!container || container.offsetParent === null) {
+      setTimeout(startQrScanner, 100);
+      return;
+    }
+
+    container.style.minHeight = "320px";
+
+    // Create instance
+    qrReaderInstance = new Html5Qrcode("qr-reader");
+
+    // Config
+    const config = {
+      fps: 10,
+      qrbox: { width: 300, height: 300 },
+      disableFlip: true,
+      experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+    };
+
+    // 1) Try environment camera (non-exact)
+    try {
+      await qrReaderInstance.start(
+        { facingMode: "environment" },
+        config,
+        onScanSuccess,
+        onScanFailure,
+      );
+      return;
+    } catch (e) {
+      console.warn("Back camera not available, falling back:", e);
+    }
+
+    // 2) Fallback: pick first available camera by deviceId
+    try {
+      const cams = await Html5Qrcode.getCameras();
+      if (!cams || cams.length === 0) throw new Error("No cameras found");
+
+      // Prefer a camera that looks like "back"/"rear" if labels exist
+      const preferred =
+        cams.find((c) => /back|rear|environment/i.test(c.label)) || cams[0];
+
+      await qrReaderInstance.start(
+        { deviceId: { exact: preferred.id } },
+        config,
+        onScanSuccess,
+        onScanFailure,
+      );
+    } catch (err) {
+      console.error("Unable to start QR scanner:", err);
+      qrReaderInstance = null;
+    }
+  }
+
+  function onScanSuccess(qrText) {
+    const now = Date.now();
+    if (qrText === lastText && now - lastTs < 1500) return;
+    lastText = qrText;
+    lastTs = now;
+
+    const input = document.getElementById("qr_hash");
+    if (input) input.value = qrText;
+
+    qrReaderInstance.stop().then(() => {
+      qrReaderInstance.clear();
+      qrReaderInstance = null;
+      close_modal();
+    });
+  }
+
+  function onScanFailure(_) {
+    // optional: keep silent
+  }
+
+  function stopQrScanner() {
+    if (!qrReaderInstance) return;
+
+    qrReaderInstance.stop().finally(() => {
+      qrReaderInstance.clear();
+      qrReaderInstance = null;
+    });
+  }
+</script>

@@ -1,0 +1,101 @@
+{% if htmx_response_status %}
+<div
+  id="htmx-message-container"
+  class="w-full max-w-[400px] flex items-center gap-4 p-4 rounded-xl"
+>
+  <i
+    class="fa-solid {% if message_type == 'error' %} fa-circle-exclamation {% elif message_type == 'warning' %} fa-triangle-exclamation {% elif message_type == 'info' %} fa-info-circle {% elif message_type == 'success' %} fa-circle-check {% else %} fa-circle-question {% endif %}"
+  >
+  </i>
+  <span>{{ message|default:"Something went wrong..." }}</span>
+
+  <!-- Dismiss Button -->
+  <button
+    id="dismiss-message"
+    class="ml-4 p-2 bg-transparent border-0 text-black hover:text-gray-600"
+  >
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</div>
+{% endif %}
+
+<script>
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    const status = event.detail.xhr.getResponseHeader("htmx_response_status");
+    const messageType = event.detail.xhr.getResponseHeader("message_type");
+
+    if (status && messageType) {
+      let message = "";
+
+      // Customize the message based on status code
+      const messageMap = {
+        403: "You do not have permission to perform this action.",
+        400: "There was a problem with your submission.",
+        500: "There was a problem with the server (Please try again later).",
+        204: "Submission completed successfully.",
+        200: "Request completed successfully.",
+      };
+
+      message = messageMap[status] || "Unknown error occurred."; // Default message for unknown status
+
+      // Update the status message container
+      const statusMessageDiv = document.getElementById(
+        "htmx-message-container"
+      );
+      if (statusMessageDiv) {
+        // Reset the display to make sure it shows up again if previously hidden
+        statusMessageDiv.style.display = "flex"; // Ensure it's visible
+
+        // Update message and styles dynamically
+        statusMessageDiv.innerHTML = `
+        <i class="fa-solid ${
+          messageType === "error"
+            ? "fa-circle-exclamation"
+            : messageType === "debug"
+            ? "fa-bug"
+            : messageType === "warning"
+            ? "fa-triangle-exclamation"
+            : messageType === "info"
+            ? "fa-info-circle"
+            : messageType === "success"
+            ? "fa-circle-check"
+            : "fa-circle-question"
+        }"></i>
+        <span>${message}</span>
+        
+        <!-- Dismiss Button -->
+        <button id="dismiss-message" class="ml-4 p-2 bg-transparent border-0 text-black hover:text-gray-600">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      `;
+
+        // Change styles based on status
+        statusMessageDiv.className = `absolute right-4 top-4 flex items-center gap-2 p-4 rounded-xl z-50 border
+        ${
+          status === "200" || status === "204"
+            ? "bg-green-100 text-green-600 border-green-400"
+            : status === "403"
+            ? "bg-red-100 text-red-600 border-red-400"
+            : status === "400"
+            ? "bg-yellow-100 text-yellow-600 border-yellow-400"
+            : status === "500"
+            ? "bg-orange-100 text-orange-600 border-orange-400"
+            : "bg-gray-100 text-black/50 hover:text-black border-gray-400"
+        }`;
+
+        // Auto-dismiss after 10 seconds
+        setTimeout(function () {
+          statusMessageDiv.style.display = "none"; // Hide the message after 10 seconds
+        }, 10000); // 10 seconds
+
+        // Dismiss on button click
+        const dismissButton = document.getElementById("dismiss-message");
+        if (dismissButton) {
+          dismissButton.addEventListener("click", function () {
+            statusMessageDiv.style.display = "none"; // Hide the message immediately on click
+          });
+        }
+      }
+    }
+  });
+</script>

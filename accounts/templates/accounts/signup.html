@@ -1,0 +1,216 @@
+{% extends 'main_plain.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<section
+  class="bg-lightest min-h-screen w-full grid grid-cols-1 md:grid-cols-5"
+>
+  <div class="relative flex flex-col justify-center gap-4 col-span-3">
+    <div class="absolute top-0 w-full">
+      {% include 'components/_theme_language.html' %}
+    </div>
+
+    <div class="mt-20 w-full max-w-md mx-auto" id="messages-container">
+      {% include 'components/_html_messages.html' %}
+    </div>
+
+    <div class="w-full max-w-lg mx-auto p-8 flex flex-col justify-center gap-4">
+      <div class="flex items-end">
+        <img
+          id="app_logo"
+          class="h-12"
+          src="{% static 'imgs/brand/icon.png' %}"
+          alt="logo"
+        />
+
+        <span class="text-primary text-2xl font-semibold">Pharmadex</span>
+      </div>
+      <small class="text-secondary text-sm">
+        The Modern Pharmacy Operating System
+      </small>
+      <hr />
+      <h1 class="text-heading text-xl font-bold">{% trans "Signup" %}</h1>
+
+      <!-- Form Section -->
+      <form
+        class="w-full text-sm flex flex-col gap-4"
+        method="POST"
+        action=""
+        enctype="multipart/form-data"
+        id="signupForm"
+      >
+        {% csrf_token %}
+
+        <!-- Hidden Field for invitation_token -->
+        <input type="hidden" name="token" value="{{ token}}" />
+        <!-- Form Fields -->
+        <div class="flex flex-col">
+          <label class="mb-1 text-body font-medium"
+            >{{ form.last_name.label|default:"" }}</label
+          >
+          <div class="relative group">
+            <i
+              class="fa-solid fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-label"
+            ></i>
+            {{ form.last_name|default:"" }}
+          </div>
+          <span class="text-red-500 text-xs mt-1 hidden" id="last_name_error"
+            >{% trans "Please enter a valid last name" %}</span
+          >
+        </div>
+
+        <div class="flex flex-col">
+          <label class="mb-1 text-body font-medium"
+            >{{ form.first_name.label|default:"" }}</label
+          >
+          <div class="relative group">
+            <i
+              class="fa-solid fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-label"
+            ></i>
+            {{ form.first_name|default:"" }}
+          </div>
+          <span class="text-red-500 text-xs mt-1 hidden" id="first_name_error"
+            >{% trans "Please enter a valid first name" %}</span
+          >
+        </div>
+
+        <div class="flex flex-col">
+          <label class="mb-1 text-body font-medium"
+            >{{ form.email.label|default:"" }}</label
+          >
+          <div class="relative group">
+            <i
+              class="fa-solid fa-envelope-circle-check absolute left-3 top-1/2 transform -translate-y-1/2 text-label"
+            ></i>
+            {{ form.email|default:"" }}
+          </div>
+          <span class="text-red-500 text-xs mt-1 hidden" id="email_error"
+            >{% trans "Please enter a valid email address" %}</span
+          >
+        </div>
+
+        <div class="flex flex-col relative">
+          <label class="mb-1 text-body font-medium"
+            >{% trans "Password" %}</label
+          >
+          <div class="relative group">
+            <i
+              class="fa-solid fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-label"
+            ></i>
+            {{ form.password1|default:"" }}
+            <button
+              type="button"
+              class="absolute right-3 inset-y-0 my-auto h-6 w-6 flex items-center justify-center text-label toggle-password"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          {% if form.password1.errors %}
+          <ul class="text-red-500 text-xs mt-1">
+            {% for error in form.password1.errors %}
+            <li>{{ error|default:"" }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="flex flex-col relative">
+          <label class="mb-1 text-body font-medium"
+            >{% trans "Confirm password" %}</label
+          >
+          <div class="relative group">
+            <i
+              class="fa-solid fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-label"
+            ></i>
+            {{ form.password2|default:"" }}
+            <button
+              type="button"
+              class="absolute right-3 inset-y-0 my-auto h-6 w-6 flex items-center justify-center text-label toggle-password"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          {% if form.password2.errors %}
+          <ul class="text-red-500 text-xs mt-1">
+            {% for error in form.password2.errors %}
+            <li>{{ error|default:"" }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        <!-- Submit Button -->
+        <button
+          class="w-full btn btn-primary py-3 space-x-2 relative overflow-hidden flex justify-center items-center group"
+          type="submit"
+          id="submitButton"
+        >
+          <span id="submitButtonText" class="flex items-center space-x-2">
+            <span>{% trans "Create Account" %}</span>
+            <i
+              class="fa-solid fa-user-plus transform transition-transform duration-300 group-hover:translate-x-2"
+            ></i>
+          </span>
+          <i
+            id="loading-spinner"
+            class="fa-solid fa-circle-notch animate-spin hidden absolute"
+          ></i>
+        </button>
+      </form>
+
+      <!-- Login Link -->
+      <p class="flex justify-between items-center text-label">
+        {% trans "Already have an account?" %}
+        <a
+          href="{% url 'accounts:login' %}?next={{ request.path}}"
+          class="text-secondary hover:underline font-medium flex items-center gap-2"
+          id="loginLink"
+        >
+          <span>{% trans "Login" %}</span>
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <img
+    class="hidden md:block md:min-h-screen h-full w-full object-cover col-span-2"
+    src="{% static 'imgs/auth-hero.png' %}"
+    alt="bg-hero"
+  />
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Password visibility toggle
+    document.querySelectorAll(".toggle-password").forEach((button) => {
+      button.addEventListener("click", function () {
+        const input = this.parentElement.querySelector("input");
+        const icon = this.querySelector("i");
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+      });
+    });
+  });
+
+  const form = document.getElementById("signupForm");
+  const submitButton = document.getElementById("submitButton");
+  const submitText = document.getElementById("submitButtonText");
+  const spinner = document.getElementById("loading-spinner");
+
+  form.addEventListener("submit", function (event) {
+    if (!form.checkValidity()) {
+      return; // Stop if form is invalid
+    }
+
+    // Form is valid → trigger loading state
+    submitButton.disabled = true; // prevent clicks
+    submitButton.classList.add("opacity-70", "cursor-not-allowed"); // visually disabled
+    submitText.classList.add("opacity-0"); // fade out text/icon
+    spinner.classList.remove("hidden"); // show spinner
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'main_plain.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<section
+  class="bg-lightest min-h-screen w-full grid grid-cols-1 md:grid-cols-5"
+>
+  <div class="relative flex flex-col justify-center gap-4 col-span-3">
+    <div class="absolute top-0 w-full">
+      {% include 'components/_theme_language.html' %}
+    </div>
+
+    <div class="mt-20 w-full max-w-md mx-auto" id="messages-container">
+      {% include 'components/_html_messages.html' %}
+    </div>
+
+    <div class="w-full max-w-lg mx-auto p-8 flex flex-col justify-center gap-4">
+      <div class="flex items-end">
+        <img
+          id="app_logo"
+          class="h-12"
+          src="{% static 'imgs/brand/icon.png' %}"
+          alt="logo"
+        />
+
+        <span class="text-primary text-2xl font-semibold">Pharmadex</span>
+      </div>
+      <small class="text-secondary text-sm">
+        The Modern Pharmacy Operating System
+      </small>
+      <hr />
+      <h1 class="text-heading text-xl font-bold">{% trans "Login" %}</h1>
+      <form
+        id="loginForm"
+        method="POST"
+        class="h-fit w-full flex flex-col gap-4"
+      >
+        {% csrf_token %}
+        <div class="flex flex-col mb-1">
+          <div class="relative group">
+            <i
+              class="fa-solid fa-envelope-circle-check absolute left-3 top-1/2 transform -translate-y-1/2 text-label group-focus:text-teal-100 transition-all duration-200"
+            ></i>
+            <!-- Email or Phone -->
+            <input
+              type="text"
+              name="email_or_phone_number"
+              class="form-field pl-10"
+              placeholder="{% trans 'Email or telephone' %}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col mb-1">
+          <div class="relative group">
+            <i
+              class="fa-solid fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-label group-focus:text-teal-100 transition-all duration-200"
+            ></i>
+            <!-- Password -->
+            <input
+              type="password"
+              name="password"
+              class="form-field pl-10"
+              placeholder="{% trans 'Password' %}"
+              required
+            />
+            <button
+              type="button"
+              class="absolute right-3 inset-y-0 my-auto h-6 w-6 flex items-center justify-center text-label toggle-password"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <!-- redirects to intended page -->
+        {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{request.GET.next}}" />
+        {% endif %}
+
+        <!-- Submit Button -->
+        <button
+          class="w-full btn btn-primary py-3 space-x-2 relative overflow-hidden flex justify-center items-center group"
+          type="submit"
+          id="submitButton"
+        >
+          <span id="submitButtonText" class="flex items-center space-x-2">
+            <span>{% trans "Login" %}</span>
+            <i
+              class="fa-solid fa-right-to-bracket transform transition-transform duration-300 group-hover:translate-x-2"
+            ></i>
+          </span>
+          <i
+            id="loading-spinner"
+            class="fa-solid fa-circle-notch animate-spin hidden absolute"
+          ></i>
+        </button>
+      </form>
+
+      <a
+        href="{% url 'accounts:password-reset' %}"
+        class="px-4 py-1 text-center text-label hover:text-red-500 hover:underline rounded-md transition ease-in duration-200"
+        >{% trans "I forgot my password" %}</a
+      >
+
+      <div class="flex justify-between items-center text-label">
+        <p>{% trans "Got no acount?" %}</p>
+        <a
+          href="{% url 'accounts:signup' %}"
+          class="text-secondary hover:underline ml-2"
+          >{% trans "Signup" %}</a
+        >
+      </div>
+    </div>
+  </div>
+  <img
+    class="hidden md:block md:min-h-screen h-full w-full object-cover col-span-2"
+    src="{% static 'imgs/auth-hero.png' %}"
+    alt="bg-hero"
+  />
+</section>
+<script>
+  document.querySelectorAll(".toggle-password").forEach((button) => {
+    button.addEventListener("click", function () {
+      const input = this.parentElement.querySelector("input");
+      const icon = this.querySelector("i");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+  });
+  // Vérifie si la page est chargée après un retour en arrière
+  if (window.performance && window.performance.navigation.type === 2) {
+    // Recharge la page pour obtenir un nouveau token CSRF valide
+    window.location.reload();
+  }
+
+  const form = document.getElementById("loginForm");
+  const submitButton = document.getElementById("submitButton");
+  const submitText = document.getElementById("submitButtonText");
+  const spinner = document.getElementById("loading-spinner");
+
+  form.addEventListener("submit", function (event) {
+    if (!form.checkValidity()) {
+      return; // Stop if form is invalid
+    }
+
+    // Form is valid → trigger loading state
+    submitButton.disabled = true; // prevent clicks
+    submitButton.classList.add("opacity-70", "cursor-not-allowed"); // visually disabled
+    submitText.classList.add("opacity-0"); // fade out text/icon
+    spinner.classList.remove("hidden"); // show spinner
+  });
+</script>
+{% endblock %}

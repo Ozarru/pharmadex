@@ -1,0 +1,592 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+  <div class="flex flex-col md:flex-row gap-4">
+    <!-- Products List -->
+    <section class="w-full flex-1">
+      <div class="w-full flex justify-between items-center gap-2 mb-4">
+        <div class="w-full flex max-w-4xl gap-2">
+          <input
+            type="text"
+            id="product-search"
+            placeholder="{% trans 'Search products...' %}"
+            class="form-field flex-grow"
+            onkeyup="
+              filterProducts();
+              toggleClearButton();
+            "
+          />
+          <select
+            id="category-filter"
+            class="form-field flex-grow"
+            onchange="
+              filterSubcategories();
+              filterProducts();
+              toggleClearButton();
+            "
+          >
+            <option value="">{% trans 'All Categories' %}</option>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+          <select
+            id="subcategory-filter"
+            class="form-field flex-grow"
+            onchange="
+              filterProducts();
+              toggleClearButton();
+            "
+          >
+            <option value="">{% trans 'All Subcategories' %}</option>
+            {% for subcategory in subcategories %}
+            <option
+              value="{{ subcategory.id }}"
+              data-category-id="{{ subcategory.category_id }}"
+            >
+              {{ subcategory.name }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Clear Button -->
+        <button
+          type="button"
+          id="{{ container_id }}_clear_filter_btn"
+          class="btn btn-outlined-danger hidden"
+          onclick="resetFilters()"
+        >
+          <i class="fa-solid fa-delete-left"></i>
+        </button>
+      </div>
+
+      {% if not product_stocks %}
+      <div
+        class="py-60 bg-lightest border h-full rounded-xl flex flex-col flex-grow justify-center items-center gap-2"
+      >
+        <span class="p-4 rounded-full bg-accent text-3xl text-primary">
+          <i class="fa-solid fa-inbox"></i>
+        </span>
+        <p class="text-sm text-muted">
+          {% blocktrans %} No Product was found {% endblocktrans %}
+        </p>
+      </div>
+      {% else %}
+      <div
+        id="products-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        {% for stock in product_stocks %}
+        <div
+          class="bg-lighter border rounded-lg flex flex-col justify-between product-card group overflow-hidden"
+          data-name="{{ stock.product.name|lower }}"
+          data-code="{{ stock.product.code_name|lower }}"
+          data-stock-id="{{ stock.id }}"
+          data-subcategory="{{ stock.product.subcategory.id }}"
+          data-category="{{ stock.product.subcategory.category.id }}"
+          data-quantity="{{ stock.quantity }}"
+        >
+          <div class="relative h-36">
+            {% if stock.product.image %}
+            <img
+              src="{{ stock.product.image.url }}"
+              alt="{{ stock.product.name }}"
+              class="w-full h-36 object-cover mb-2"
+            />
+            {% else %}
+            <div
+              class="w-full h-36 flex items-center justify-center bg-gray-100 text-gray-400 mb-2 rounded"
+            >
+              <i class="{{ stock.product.model_icon }} text-3xl"></i>
+            </div>
+            {% endif %}
+
+            <!-- Add to Cart Button -->
+            <button
+              class="absolute top-2 right-2 btn btn-secondary"
+              onclick="addToCart('{{ stock.id }}','{{ stock.product.name }}', {{ stock.effective_price|default:0 }})"
+              {% if stock.quantity <= 0 %}disabled class="btn btn-secondary disabled:opacity-50 cursor-not-allowed"{% endif %}
+            >
+              <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+
+            <!-- Category Badge -->
+            <div
+              class="absolute bottom-2 left-2 bg-lime-400 bg-opacity-50 text-green-900 text-xs px-2 py-1 rounded-full shadow"
+            >
+              {{ stock.product.subcategory.category.name }}
+            </div>
+          </div>
+
+          <div class="p-4 border-t">
+            <h3 class="font-semibold text-sm">{{ stock.product.name }}</h3>
+            <p class="text-xs text-gray-500">
+              Code : {{ stock.product.code_name }}
+            </p>
+            <p
+              class="text-sm font-medium mt-1 group-hover:font-bold group-hover-text-lime-accent"
+            >
+              {{ stock.effective_price|default:"0.00" }}
+              <!--  -->
+              {{ stock.organization.currency }}
+            </p>
+            <p id="stock-badge-{{ stock.id }}" class="text-xs text-gray-500 mt-1">
+              {% trans "Available:" %} {{ stock.quantity }}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+
+    <!-- Cart Summary -->
+    <section
+      class="md:sticky md:top-0 md:h-[calc(100vh-6rem)] bg-lightest lg:h-[calc(100vh-7rem)] w-full md:w-1/3 border p-4 rounded-xl flex flex-col justify-between gap-3"
+    >
+      <div class="bg-lighter border rounded-lg p-4 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-heading">
+            {% trans "Current Customer" %}
+          </h3>
+          <i class="fa-solid fa-id-card text-label"></i>
+        </div>
+
+        <!--  -->
+        {% if current_customer %}
+        <div class="flex flex-col gap-3">
+          <!-- Customer Info -->
+          <div class="flex items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full shadow-md bg-lightest flex items-center justify-center"
+            >
+              <i class="fa-solid fa-user text-primary"></i>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-heading">
+                {{ current_customer.full_name|default:"" }}
+              </p>
+              <p class="text-xs text-body">
+                {% trans "Phone:" %} {{ current_customer.phone_number|default:"—" }}
+              </p>
+            </div>
+          </div>
+
+          <form method="get" class="w-full pt-3 border-t">
+            <label for="current_customer" class="block text-xs text-body mb-1">
+              {% trans "Select customer" %}
+            </label>
+            <select
+              id="current_customer"
+              name="current_customer"
+              class="form-field w-full"
+              onchange="this.form.submit()"
+            >
+              <option value="">{% trans "Choose a customer…" %}</option>
+              {% for c in customers %}
+                <option value="{{ c.id }}" {% if current_customer and current_customer.id == c.id %}selected{% endif %}>
+                  {{ c.full_name }}
+                </option>
+              {% endfor %}
+            </select>
+          </form>
+
+        </div>
+
+        {% else %}
+        <!-- Empty State / No client scanned yet -->
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+            >
+              <i class="fa-solid fa-question text-gray-500"></i>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-heading">
+                {% trans "No client selected" %}
+              </p>
+              <p class="text-xs text-body">{% trans "Select a customer to begin" %}</p>
+            </div>
+          </div>
+
+          <form method="get" class="w-full">
+            <label for="current_customer" class="block text-xs text-body mb-1">
+              {% trans "Select customer" %}
+            </label>
+            <select
+              id="current_customer"
+              name="current_customer"
+              class="form-field w-full"
+              onchange="this.form.submit()"
+            >
+              <option value="">{% trans "Choose a customer…" %}</option>
+              {% for c in customers %}
+                <option value="{{ c.id }}" {% if current_customer and current_customer.id == c.id %}selected{% endif %}>
+                  {{ c.full_name }}
+                </option>
+              {% endfor %}
+            </select>
+          </form>
+
+        </div>
+        {% endif %}
+
+        <div class="mt-3 pt-3 border-t">
+          <label class="flex items-center gap-2 text-xs text-body">
+            <input id="insured-toggle" type="checkbox" />
+            {% trans "Insured customer (quick add)" %}
+          </label>
+
+          <div id="insured-fields" class="mt-2 grid grid-cols-1 gap-2 hidden">
+            <input id="insured-id" type="text" class="form-field w-full" placeholder="{% trans 'Insurance ID' %}" />
+            <input id="insured-first" type="text" class="form-field w-full" placeholder="{% trans 'First name' %}" />
+            <input id="insured-last" type="text" class="form-field w-full" placeholder="{% trans 'Last name' %}" />
+            <input id="insured-phone" type="text" class="form-field w-full" placeholder="{% trans 'Phone number' %}" />
+          </div>
+
+          <p class="text-xs text-label mt-2">
+            {% trans "If no customer is selected and insured is off, checkout uses the generic Walk-in Customer." %}
+          </p>
+        </div>
+      </div>
+
+      <div class="h-full flex flex-col gap-3">
+        <h3 class="font-semibold text-lg">{% trans "Cart" %}</h3>
+
+        <div
+          id="cart-items"
+          class="flex flex-col flex-grow gap-2 overflow-y-auto"
+        >
+          <div
+            class="p-8 bg-accent border rounded-xl flex flex-col flex-grow justify-center items-center gap-2"
+          >
+            <span class="p-4 rounded-full bg-accent text-3xl text-primary">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </span>
+            <p class="text-sm text-muted">{% trans "No items yet" %}</p>
+          </div>
+        </div>
+      </div>
+
+      {#% if current_card_account.balance > 0 %#}
+      <div class="space-y-2">
+        <div class="mt-2 flex justify-between font-semibold">
+          <span>{% trans "Total:" %}</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <div class="flex gap-2.5">
+          <button class="btn btn-accent w-2/5" onclick="clearCart()">
+            <i class="fa fa-trash mr-2"></i>
+            {% trans "Clear" %}
+          </button>
+
+          <button
+            id="checkout-btn"
+            type="button"
+            class="btn btn-primary w-3/5"
+            onclick="checkoutCart()"
+          >
+            <i class="fa fa-credit-card mr-2"></i>
+            {% trans "Checkout" %}
+          </button>
+        </div>
+      </div>
+      {#% endif %#}
+    </section>
+  </div>
+
+<script>
+  let cart = {};
+
+  // Map of stock quantities
+  const stockQuantities = {};
+  document.querySelectorAll(".product-card").forEach((card) => {
+    const id = card.dataset.stockId;
+    const qty = parseFloat(card.dataset.quantity || 0);
+    if (id) stockQuantities[id] = qty;
+
+    // Disable Add button if out of stock on page load
+    const addBtn = card.querySelector("button[onclick^='addToCart']");
+    const stockBadge = card.querySelector(`#stock-badge-${id}`);
+    if (qty <= 0 && addBtn) addBtn.disabled = true;
+    if (stockBadge) stockBadge.innerText = `{% trans "Stock:" %} ${qty}`;
+  });
+
+  const insuredToggle = document.getElementById("insured-toggle");
+  const insuredFields = document.getElementById("insured-fields");
+  if (insuredToggle && insuredFields) {
+    insuredToggle.addEventListener("change", () => {
+      if (insuredToggle.checked) insuredFields.classList.remove("hidden");
+      else insuredFields.classList.add("hidden");
+    });
+  }
+
+  function addToCart(id, name, price) {
+    if (!id) return;
+    const maxQty = stockQuantities[id] || 0;
+
+    if (cart[id]) {
+      if (cart[id].quantity < maxQty) {
+        cart[id].quantity += 1;
+      } else {
+        alert("{% trans 'Cannot add more than available stock.' %}");
+        return;
+      }
+    } else {
+      if (maxQty <= 0) {
+        alert("{% trans 'This item is out of stock.' %}");
+        return;
+      }
+      cart[id] = { name: name, price: price, quantity: 1 };
+    }
+
+    updateStockDisplay(id);
+    renderCart();
+  }
+
+  function increaseQty(id) {
+    const maxQty = stockQuantities[id] || 0;
+    if (cart[id] && cart[id].quantity < maxQty) {
+      cart[id].quantity += 1;
+      updateStockDisplay(id);
+      renderCart();
+    } else if (cart[id]) {
+      alert("{% trans 'Cannot exceed available stock.' %}");
+    }
+  }
+
+  function decreaseQty(id) {
+    if (!cart[id]) return;
+
+    cart[id].quantity -= 1;
+    if (cart[id].quantity <= 0) delete cart[id];
+
+    updateStockDisplay(id);
+    renderCart();
+  }
+
+  function removeFromCart(id) {
+    if (!cart[id]) return;
+
+    delete cart[id];
+    updateStockDisplay(id);
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById("cart-items");
+    container.innerHTML = "";
+    let total = 0;
+
+    if (Object.keys(cart).length === 0) {
+      container.innerHTML = `<p class="text-gray-500 text-sm">{% trans "No items yet" %}</p>`;
+    }
+
+    for (const id in cart) {
+      const item = cart[id];
+      const lineTotal = item.price * item.quantity;
+      total += lineTotal;
+
+      const div = document.createElement("div");
+      div.className = "flex justify-between items-center text-sm";
+
+      div.innerHTML = `
+        <div>
+          <p class="font-medium">${item.name}</p>
+          <div class="flex items-center gap-2 mt-1">
+            <button 
+              onclick="decreaseQty('${id}')"
+              class="btn btn-outlined px-2 py-0.5 rounded-md"
+            >−</button>
+
+            <span class="min-w-[24px] text-center">${item.quantity}</span>
+
+            <button 
+              onclick="increaseQty('${id}')"
+              class="btn btn-outlined px-2 py-0.5 rounded-md"
+            >+</button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="font-medium">$${lineTotal.toFixed(2)}</span>
+          <button 
+            onclick="removeFromCart('${id}')"
+            class="btn btn-outlined-danger px-2 py-0.5 rounded-md"
+          >
+            ×
+          </button>
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    document.getElementById("cart-total").innerText = `$${total.toFixed(2)}`;
+  }
+
+  function updateStockDisplay(id) {
+    const remaining = (stockQuantities[id] || 0) - (cart[id]?.quantity || 0);
+    const stockBadge = document.getElementById(`stock-badge-${id}`);
+    const addBtn = document.querySelector(
+      `.product-card[data-stock-id="${id}"] button[onclick^='addToCart']`,
+    );
+
+    if (stockBadge) stockBadge.innerText = `{% trans "Stock:" %} ${remaining}`;
+    if (addBtn) addBtn.disabled = remaining <= 0;
+  }
+
+  function clearCart() {
+    if (Object.keys(cart).length === 0) {
+      alert("{% trans 'Cart is already empty.' %}");
+      return;
+    }
+
+    if (!confirm("{% trans 'Are you sure you want to clear the cart?' %}"))
+      return;
+
+    cart = {};
+    document.querySelectorAll(".product-card").forEach((card) => {
+      const id = card.dataset.stockId;
+      updateStockDisplay(id);
+    });
+    renderCart();
+  }
+
+  function getCartPayload() {
+    return Object.keys(cart).map((id) => ({
+      product_stock_id: id,
+      quantity: cart[id].quantity,
+    }));
+  }
+
+  function checkoutCart() {
+    const checkoutBtn = document.getElementById("checkout-btn");
+    const customerId = "{{ current_customer.id|default:'' }}";
+
+    if (Object.keys(cart).length === 0) {
+      alert("{% trans 'Cart is empty' %}");
+      return;
+    }
+
+    const payload = {
+      customer_id: customerId,
+      items: getCartPayload(),
+    };
+
+    if (!customerId && insuredToggle && insuredToggle.checked) {
+      const insId = document.getElementById("insured-id")?.value?.trim();
+      const firstName = document.getElementById("insured-first")?.value?.trim();
+      const lastName = document.getElementById("insured-last")?.value?.trim();
+      const phone = document.getElementById("insured-phone")?.value?.trim();
+
+      if (!insId) {
+        alert("{% trans 'Insurance ID is required.' %}");
+        return;
+      }
+
+      payload.insured_customer = {
+        insurrance_id: insId,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phone,
+      };
+    }
+
+    checkoutBtn.disabled = true;
+    checkoutBtn.innerText = "{% trans 'Processing…' %}";
+
+    fetch("{% url 'pharmacies:sale-checkout' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok) {
+          throw new Error(
+            data?.message || "{% trans 'Server error during checkout.' %}"
+          );
+        }
+
+        return data;
+      })
+      .then((data) => {
+        if (data.success) {
+          alert("{% trans 'Sale completed!' %}");
+          location.reload();
+        } else {
+          alert(data.message || "{% trans 'Error processing sale' %}");
+        }
+      })
+      .catch((err) => {
+        console.error("Checkout error:", err);
+        alert(err.message || "{% trans 'Network or server error. Please try again.' %}");
+      })
+      .finally(() => {
+        checkoutBtn.disabled = false;
+        checkoutBtn.innerText = "{% trans 'Checkout' %}";
+      });
+  }
+
+  // Filter functions remain unchanged
+  function filterSubcategories() {
+    const selectedCategory = document.getElementById("category-filter").value;
+    const subcategorySelect = document.getElementById("subcategory-filter");
+    subcategorySelect.querySelectorAll("option").forEach((option) => {
+      const categoryId = option.getAttribute("data-category-id");
+      option.style.display =
+        !selectedCategory || selectedCategory === categoryId ? "block" : "none";
+    });
+  }
+
+  function toggleClearButton() {
+    const search = document.getElementById("product-search").value;
+    const category = document.getElementById("category-filter").value;
+    const subcategory = document.getElementById("subcategory-filter").value;
+
+    const btn = document.getElementById("{{ container_id }}_clear_filter_btn");
+    if (btn) {
+      if (search || category || subcategory) btn.classList.remove("hidden");
+      else btn.classList.add("hidden");
+    }
+  }
+
+  function resetFilters() {
+    document.getElementById("product-search").value = "";
+    document.getElementById("category-filter").value = "";
+    document.getElementById("subcategory-filter").value = "";
+    filterProducts();
+    toggleClearButton();
+  }
+
+  function filterProducts() {
+    const search = document
+      .getElementById("product-search")
+      .value.toLowerCase();
+    const category = document.getElementById("category-filter").value;
+    const subcategory = document.getElementById("subcategory-filter").value;
+
+    document.querySelectorAll(".product-card").forEach((card) => {
+      const name = card.dataset.name.toLowerCase();
+      const code = card.dataset.code.toLowerCase();
+      const cat = card.dataset.category;
+      const subcat = card.dataset.subcategory;
+      const matches =
+        name.includes(search) ||
+        code.includes(search) &&
+        (category === "" || category === cat) &&
+        (subcategory === "" || subcategory === subcat);
+      card.style.display = matches ? "flex" : "none";
+    });
+  }
+</script>
+
+{% endblock %}

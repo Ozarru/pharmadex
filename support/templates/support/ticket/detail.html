@@ -1,0 +1,400 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="h-full flex flex-col">
+  <!-- Ticket header -->
+  <section class="bg-lightest border rounded-xl shadow-sm p-4">
+    <header class="space-y-1">
+      <div class="relative flex justify-between gap-2">
+        <h2 class="font-bold text-heading flex items-center gap-2">
+          {{ ticket.subject|default:"" }}
+        </h2>
+        <button
+          type="button"
+          class="w-fit h-fit px-3 py-2.5 flex items-center text-sm hover:text-heading bg-light hover:bg-gray-200 rounded-md text-center cursor-pointer transition ease-in duration-200"
+          name="actions"
+          onclick="toggleMenu(this, 'ticket_{{ ticket.id }}' )"
+        >
+          <i class="fa-sharp fa-solid fa-ellipsis"></i>
+        </button>
+        <div
+          class="hidden bg-lightest w-40 shadow-md lg:w-[180px] absolute right-0 top-8 origin-top-left z-10 rounded-md flex flex-col items-center text-xs overflow-hidden"
+          id="ticket_{{ ticket.id }}"
+        >
+          {% if ticket.author == user %}
+          <!-- Edit -->
+          <button
+            hx-target="#modal_dialog"
+            hx-get="{% url 'support:support-ticket-update' ticket.id %}"
+            class="modal_opener px-4 py-3 flex items-center hover:text-heading hover:bg-slate-100 w-full text-center cursor-pointer"
+          >
+            <i class="fa-solid fa-pen-to-square mr-2"></i>{% trans "Edit" %}
+          </button>
+
+          <!-- Archive / Delete -->
+          {% if not ticket.is_archived %}
+          <form
+            method="post"
+            action="{% url 'support:support-ticket-archive' ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="px-4 py-3 flex items-center hover:text-gray-7600 hover:bg-gray-200 w-full text-center cursor-pointer"
+            >
+              <i class="fa-solid fa-box-archive mr-2"></i>{% trans "Archive" %}
+            </button>
+          </form>
+          {% else %}
+          <span
+            class="px-4 py-3 flex items-center text-gray-500 w-full text-center cursor-not-allowed"
+          >
+            <i class="fa-solid fa-box-archive mr-2"></i>{% trans "Archived" %}
+          </span>
+          {% endif %} {% endif %} {% if user.is_staff %}
+          <!-- Status transitions -->
+          {% if ticket.status == "open" %}
+          <form
+            method="post"
+            action="{% url 'base:toggle-status' ticket.model_name ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="status" value="ongoing" />
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-3 flex items-center hover:text-orange-700 hover:bg-orange-100 cursor-pointer"
+            >
+              <i class="fa-solid fa-hourglass-half mr-2"></i>{% trans "Handle"
+              %}
+            </button>
+          </form>
+          {% elif ticket.status == "ongoing" %}
+          <form
+            method="post"
+            action="{% url 'base:toggle-status' ticket.model_name ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="status" value="resolved" />
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-3 flex items-center hover:text-green-700 hover:bg-green-100 cursor-pointer"
+            >
+              <i class="fa-solid fa-check-circle mr-2"></i>{% trans "Resolve" %}
+            </button>
+          </form>
+          {% elif ticket.status == "resolved" %}
+          <form
+            method="post"
+            action="{% url 'base:toggle-status' ticket.model_name ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="status" value="closed" />
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-3 flex items-center hover:text-body hover:bg-light cursor-pointer"
+            >
+              <i class="fa-solid fa-lock mr-2"></i>{% trans "Close" %}
+            </button>
+          </form>
+          {% elif ticket.status == "closed" %}
+          <form
+            method="post"
+            action="{% url 'base:toggle-status' ticket.model_name ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="status" value="open" />
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-3 flex items-center hover:text-blue-700 hover:bg-blue-100 cursor-pointer"
+            >
+              <i class="fa-solid fa-folder-open mr-2"></i>{% trans "Reopen" %}
+            </button>
+          </form>
+          {% endif %}
+
+          <!-- Escalate / Deescalate -->
+          {% if ticket.is_escalated %}
+          <form
+            method="post"
+            action="{% url 'support:support-ticket-deescalate' ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-3 flex items-center hover:text-blue-700 hover:bg-blue-100 cursor-pointer"
+            >
+              <i class="fa-solid fa-rotate-left mr-2"></i>{% trans "Deescalate"
+              %}
+            </button>
+          </form>
+          {% else %}
+          <form
+            method="post"
+            action="{% url 'support:support-ticket-escalate' ticket.id %}"
+            class="w-full"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-3 flex items-center hover:text-red-700 hover:bg-red-100 cursor-pointer"
+            >
+              <i class="fa-solid fa-code mr-2"></i>{% trans "Escalate to devs"
+              %}
+            </button>
+          </form>
+          {% endif %} {% endif %}
+        </div>
+      </div>
+
+      <p class="text-sm text-label">
+        <i class="fa-solid fa-user"></i>
+        <!--  -->
+        {{ ticket.author.full_name|default:"" }}
+      </p>
+      <p class="text-sm text-label">
+        <i class="fa-solid fa-calendar-day"></i>
+        <!--  -->
+        {{ ticket.created_at|date:"SHORT_DATETIME_FORMAT"|default:"" }}
+      </p>
+    </header>
+
+    <!-- Meta Info Grid -->
+    <div class="my-2 flex justify-between items-center gap-4">
+      <div>
+        {% include 'badges/_object_badge.html' with value=ticket.ticket_type %}
+      </div>
+
+      <div>
+        {% include 'badges/_object_badge.html' with value=ticket.status %}
+      </div>
+    </div>
+
+    <!-- Proof File -->
+    {% if ticket.proof_file %}
+    <div class="pt-4 border-t">
+      <span class="text-gray-500 font-medium"
+        >{% trans "Attached File" %} :</span
+      >
+      <a
+        href="{{ ticket.proof_file.url}}"
+        class="ml-2 text-indigo-600 hover:text-indigo-800 underline break-all"
+        target="_blank"
+      >
+        {{ ticket.proof_file.name|default:"" }}
+      </a>
+    </div>
+    {% endif %}
+
+    <!-- Description -->
+    <div class="text-sm">
+      <h3 class="mb-1">{% trans "Description" %}</h3>
+      <div class="bg-lighter p-4 rounded-lg border text-body leading-relaxed">
+        {{ ticket.description|default:"" }}
+      </div>
+    </div>
+  </section>
+
+  <!-- Responses -->
+  <section class="h-full flex flex-col overflow-hidden">
+    <!-- Ticket Response List -->
+    <div
+      id="ticket-response-list"
+      class="flex-1 overflow-y-auto p-3 flex flex-col gap-2"
+    >
+      {% include 'support/response/_list.html' %}
+    </div>
+
+    <!-- Scroll-to-bottom button -->
+    <button
+      id="scroll-bottom-btn"
+      class="btn btn-secondary rounded-full fixed bottom-24 right-6 hidden"
+    >
+      <i class="fa-solid fa-angle-down"></i>
+    </button>
+
+    {% if ticket.status != 'closed' %} {% if ticket.status != 'closed' %}
+    <form
+      id="response-form"
+      hx-post="{% url 'support:ticket-response-create' ticket.id %}"
+      hx-target="#ticket-response-list"
+      hx-swap="beforeend"
+      class="px-1 pb-1 flex items-center gap-2"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+
+      <!-- Attach file button -->
+      <!-- <label
+        for="response-attachment"
+        class="cursor-pointer btn btn-outlined text-sm p-3"
+        title="{% trans 'Attach a file' %}"
+      >
+        <i class="fa-solid fa-paperclip"></i>
+      </label>
+      <input
+        type="file"
+        name="attachments"
+        id="response-attachment"
+        class="hidden"
+        multiple
+      /> -->
+
+      <!-- Auto-growing textarea -->
+      <textarea
+        id="response-input"
+        name="message"
+        rows="1"
+        maxlength="2000"
+        class="form-field flex-1 resize-none overflow-y-auto"
+        placeholder="{% trans 'Type your response...' %}"
+      ></textarea>
+
+      <!-- Send button -->
+      <button type="submit" class="btn btn-primary p-3">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
+    <script>
+      (function () {
+        const textarea = document.getElementById("response-input");
+        if (!textarea) return;
+
+        const minRows = 1;
+        const maxRows = 4;
+        const lineHeight = 24; // px, adjust to your CSS
+
+        function autoResize() {
+          textarea.style.height = "auto";
+
+          const scrollRows = Math.ceil(textarea.scrollHeight / lineHeight);
+
+          const rows = Math.min(Math.max(scrollRows, minRows), maxRows);
+
+          textarea.style.height = `${rows * lineHeight}px`;
+
+          // Enable scrolling if content exceeds maxRows
+          if (scrollRows > maxRows) {
+            textarea.style.overflowY = "auto";
+          } else {
+            textarea.style.overflowY = "hidden";
+          }
+        }
+
+        textarea.addEventListener("input", autoResize);
+        document.addEventListener("DOMContentLoaded", autoResize);
+      })();
+    </script>
+    {% endif %} {% endif %}
+  </section>
+</div>
+
+<style>
+  /* Add spacing for last message so it doesn’t touch the input */
+  #ticket-response-list > *:last-child {
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<script>
+  const responseList = document.getElementById("ticket-response-list");
+  const form = document.getElementById("response-form");
+  const input = document.getElementById("response-input");
+
+  // Scroll-to-bottom button
+  let scrollBtn = document.getElementById("scroll-bottom-btn");
+  if (!scrollBtn) {
+    scrollBtn = document.createElement("button");
+    scrollBtn.id = "scroll-bottom-btn";
+    scrollBtn.innerHTML = '<i class="fa-solid fa-angle-down"></i>';
+    scrollBtn.className =
+      "fixed bottom-20 right-6 hidden bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 transition";
+    document.body.appendChild(scrollBtn);
+  }
+
+  // Scroll to bottom
+  function scrollToBottom() {
+    if (responseList) {
+      responseList.scrollTo({
+        top: responseList.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  // Generic function to reload object list (works for create/update/delete)
+  function reload_obj_list() {
+    htmx.ajax(
+      "GET",
+      "{% url 'support:ticket-response-list' ticket.id %}?origin=partial",
+      "#ticket-response-list",
+    );
+  }
+
+  // Listen for obj_changed triggers (from HTMX headers)
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    const trigger = event.detail.xhr.getResponseHeader("HX-Trigger");
+    if (trigger === "obj_changed") {
+      reload_obj_list();
+    }
+  });
+
+  // Remove empty state and scroll after HTMX swaps in new content
+  document.body.addEventListener("htmx:afterSwap", function (event) {
+    if (event.target.id === "ticket-response-list") {
+      // Remove empty state if it exists
+      const empty = document.getElementById("empty-state");
+      if (empty) empty.remove();
+
+      // Scroll to bottom
+      scrollToBottom();
+
+      // Hide scroll button
+      scrollBtn.classList.add("hidden");
+
+      // Clear input
+      if (input) {
+        input.value = "";
+        input.focus();
+      }
+    }
+  });
+
+  // Show/hide scroll button depending on scroll position
+  if (responseList) {
+    responseList.addEventListener("scroll", function () {
+      const nearBottom =
+        responseList.scrollHeight -
+          responseList.scrollTop -
+          responseList.clientHeight <
+        50;
+      if (nearBottom) {
+        scrollBtn.classList.add("hidden");
+      } else {
+        scrollBtn.classList.remove("hidden");
+      }
+    });
+  }
+
+  // Scroll to bottom on button click
+  scrollBtn.addEventListener("click", scrollToBottom);
+
+  // Initial scroll to bottom on page load
+  document.addEventListener("DOMContentLoaded", scrollToBottom);
+
+  // Submit form on Enter, allow Shift+Enter for newline
+  if (input) {
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+  }
+</script>
+{% endblock %}

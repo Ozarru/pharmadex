@@ -1,0 +1,75 @@
+<div class="flex {% if response.author == user %}justify-end{% else %}justify-start{% endif %}">
+  <div
+    class="flex flex-col gap-1.5 w-[70%] max-w-[400px] border rounded-xl p-3 shadow-sm hover:shadow-md transition {% if response.author == user %} bg-lighter {% else %} bg-light {% endif %}"
+  >
+    <div class="relative flex justify-between items-center">
+      <span
+        class="text-xs font-medium px-2 py-1 rounded-full {% if response.is_by_platform_admin %} bg-red-100 text-red-700 {% elif response.is_by_organization_admin %} bg-teal-100 text-teal-700 {% else %} bg-blue-100 text-blue-700 {% endif %}"
+      >
+        {% if response.is_by_platform_admin %}
+          <i class="fa-sharp fa-solid fa-terminal"></i> {% trans "Platform Support" %}
+        {% elif response.is_by_organization_admin %}
+          <i class="fa-sharp fa-solid fa-school"></i> {% trans "I.T Support" %}
+        {% elif response.is_by_author %}
+          <i class="fa-sharp fa-solid fa-user"></i>
+          {% if response.support_ticket.author == request.user %} {% trans "You" %} {% else %} {% trans "Ticket Author" %} {% endif %}
+        {% endif %}
+      </span>
+
+      {% if user == response.author %}
+      <button
+        type="button"
+        class="btn btn-outlined"
+        onclick="toggleMenu(this, 'response_{{ response.id }}')"
+      >
+        <i class="fa-sharp fa-solid fa-ellipsis"></i>
+      </button>
+      {% endif %}
+
+      <div
+        class="hidden bg-lightest w-40 shadow-md absolute right-0 top-8 z-10 rounded-md flex flex-col items-center text-xs overflow-hidden"
+        id="response_{{ response.id }}"
+      >
+        <button
+          onclick="close_modal()"
+          hx-target="#modal_dialog"
+          hx-get="{% url 'support:ticket-response-update' response.id %}"
+          class="modal_opener px-4 py-3 flex items-center hover:text-heading hover:bg-slate-100 w-full"
+        >
+          <i class="fa-solid fa-pen-to-square mr-2"></i>{% trans "Edit" %}
+        </button>
+        <button
+          hx-post="{% url 'support:ticket-response-delete' response.id %}"
+          hx-confirm="{% trans 'Are you sure you want to delete this item?' %}"
+          class="px-4 py-3 flex items-center hover:text-white hover:bg-red-700 w-full"
+        >
+          <i class="fa-solid fa-trash mr-2"></i>{% trans "Delete" %}
+        </button>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="text-sm text-body">{{ response.message }}</div>
+
+    <!-- Attachments -->
+    {% if response.attachments.all %}
+    <div class="flex flex-wrap gap-2 mt-2">
+      {% for att in response.attachments.all %}
+      <a
+        href="{{ att.file.url }}"
+        target="_blank"
+        class="flex items-center gap-1 text-xs text-blue-700 hover:underline bg-gray-100 px-2 py-1 rounded"
+      >
+        <i class="fa-solid fa-file"></i>
+        {{ att.file.name }}
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Timestamp -->
+    <p class="text-xs text-label text-right">
+      {{ response.created_at|date:"SHORT_DATETIME_FORMAT" }}
+    </p>
+  </div>
+</div>

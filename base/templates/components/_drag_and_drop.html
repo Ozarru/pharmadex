@@ -1,0 +1,138 @@
+<div
+  id="file-upload-container"
+  class="h-full p-4 md:p-6 bg-lighter border-2 border-dashed border-indigo-300 rounded-xl shadow-md
+         flex flex-col justify-center items-center gap-4 text-center cursor-pointer
+         hover:bg-indigo-50 transition"
+  data-app-name="{{ app_name }}"
+  data-model-name="{{ model_name }}"
+  data-object-id="{{ object_id }}"
+  data-file-field="{{ file_field }}"
+>
+  <span
+    id="file-icon"
+    class="p-4 rounded-full bg-accent text-3xl text-primary"
+  >
+    <i class="fa-solid fa-file-arrow-up"></i>
+  </span>
+
+  <p id="upload-text">{% trans "Drag & drop file here or click to upload" %}</p>
+
+  <input
+    type="file"
+    id="file-input"
+    class="hidden"
+    accept=".pdf,.jpg,.jpeg,.png"
+  />
+</div>
+
+<script>
+(function() {
+  const container = document.getElementById("file-upload-container");
+  const fileInput = document.getElementById("file-input");
+  const uploadText = document.getElementById("upload-text");
+  const fileIcon = document.getElementById("file-icon");
+
+  if (!container) return;
+
+  const { appName, modelName, objectId, fileField } = container.dataset;
+
+  if (!appName || !modelName || !objectId || !fileField) {
+    console.error("Missing upload metadata", container.dataset);
+    return;
+  }
+
+  container.addEventListener("click", () => fileInput.click());
+  container.addEventListener("dragover", e => { e.preventDefault(); container.classList.add("bg-indigo-100","border-indigo-500"); });
+  container.addEventListener("dragleave", () => container.classList.remove("bg-indigo-100","border-indigo-500"));
+  container.addEventListener("drop", e => {
+    e.preventDefault();
+    container.classList.remove("bg-indigo-100","border-indigo-500");
+    if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener("change", () => {
+    if(fileInput.files.length) handleFile(fileInput.files[0]);
+  });
+
+  function handleFile(file) {
+    resetUI();
+    uploadText.textContent = file.name;
+    sendFile(file);
+  }
+
+  function resetUI() {
+    uploadText.classList.remove("text-green-600","text-red-600");
+    uploadText.textContent = "{% trans 'Drag & drop file here or click to upload' %}";
+    fileIcon.innerHTML = '<i class="fa-solid fa-file-arrow-up"></i>';
+    fileIcon.className = "p-4 rounded-full bg-accent text-3xl text-primary";
+  }
+
+  function sendFile(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("app_name", appName);
+    formData.append("model_name", modelName);
+    formData.append("object_id", objectId);
+    formData.append("file_field", fileField);
+    formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+
+    const isModal = !!document.getElementById("modal");
+
+    fetch("{% url 'base:generic-file-upload' %}", {
+      method: "POST",
+      body: formData,
+      headers: isModal ? { "HX-Request": "true" } : {}
+    })
+    .then(res => {
+      // Normal HTML: if status 200+ → just reload
+      if (!isModal && res.ok) {
+        location.reload();
+        return;
+      }
+
+      // HTMX modal: 204 → success, else error
+      if (isModal && res.status === 204) {
+        showSuccess();
+      } else {
+        showError();
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      showError();
+    });
+  }
+
+  function showSuccess() {
+    uploadText.textContent = "File uploaded successfully!";
+    uploadText.classList.add("text-green-600");
+    fileIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+    fileIcon.className = "p-4 rounded-full bg-green-100 text-green-600 text-3xl";
+    fileInput.value = "";
+
+    const modal = document.getElementById("modal");
+    if(modal){
+      setTimeout(() => {
+        modal.classList.add("hidden");
+        modal.innerHTML = "";
+        location.reload();
+      }, 1000);
+    }
+  }
+
+  function showError() {
+    uploadText.textContent = "File upload failed. Please try again.";
+    uploadText.classList.add("text-red-600");
+    fileIcon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+    fileIcon.className = "p-4 rounded-full bg-red-100 text-red-600 text-3xl";
+    fileInput.value = "";
+  }
+
+  // Global HTMX server_response
+  document.body.addEventListener("server_response", () => {
+    const modal = document.getElementById("modal");
+    if(modal){ modal.classList.add("hidden"); modal.innerHTML = ""; }
+    location.reload();
+  });
+})();
+</script>
+

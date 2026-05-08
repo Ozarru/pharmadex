@@ -1,0 +1,86 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+
+  <!-- Header -->
+  <div class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ Staff.model_icon }}"></i>
+      </span>
+      <p class="text-sm text-body leading-relaxed w-full">
+        {% trans "Staff profile and account details." %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Metadata -->
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Name -->
+    <div class="bg-lighter p-4 rounded-xl shadow-md text-center">
+      <div class="font-bold">
+        {{ Staff.full_name }}
+      </div>
+      <div class="text-sm text-label">{% trans "Full Name" %}</div>
+    </div>
+
+    <!-- Staff ID -->
+    <div class="bg-lighter p-4 rounded-xl shadow-md text-center">
+      <div class="font-bold">
+        {{ Staff.staff_id|default:"—" }}
+      </div>
+      <div class="text-sm text-label">{% trans "Staff ID" %}</div>
+    </div>
+
+    <!-- Department -->
+    <div class="bg-lighter p-4 rounded-xl shadow-md text-center">
+      <div class="font-bold">
+        {{ Staff.department|default:"—" }}
+      </div>
+      <div class="text-sm text-label">{% trans "Department" %}</div>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-lighter p-4 rounded-xl shadow-md text-center">
+      <div class="font-bold">
+        {{ Staff.card_account_number|default:"—" }}
+      </div>
+      <div class="text-sm text-label">{% trans "Card Account" %}</div>
+    </div>
+
+  </div>
+
+  <!-- Contact Info -->
+  <div class="bg-lightest border rounded-xl shadow-md p-4">
+    <h3 class="text-lg font-semibold text-heading mb-4">
+      {% trans "Contact Information" %}
+    </h3>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-lighter p-4 rounded-lg">
+        <div class="text-heading font-semibold">
+          {{ Staff.email|default:"—" }}
+        </div>
+        <div class="text-sm text-label">{% trans "Email" %}</div>
+      </div>
+
+      <div class="bg-lighter p-4 rounded-lg">
+        <div class="text-heading font-semibold">
+          {{ Staff.phone_number|default:"—" }}
+        </div>
+        <div class="text-sm text-label">{% trans "Phone" %}</div>
+      </div>
+
+      <div class="bg-lighter p-4 rounded-lg">
+        <div class="text-heading font-semibold">
+          {{ Staff.get_gender_display|default:"—" }}
+        </div>
+        <div class="text-sm text-label">{% trans "Gender" %}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

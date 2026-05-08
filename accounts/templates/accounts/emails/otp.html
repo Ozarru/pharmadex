@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Your OTP Code</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9fafb; padding: 40px;">
+    <div style="max-width: 600px; margin: auto; background-color: white; border-radius: 0.5rem; padding: 32px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+        <h2 style="font-size: 24px; font-weight: 600; color: #111827; margin-bottom: 16px;">
+            Your Login Verification Code
+        </h2>
+
+        <p style="font-size: 16px; color: #4b5563; margin-bottom: 16px;">
+            You (or someone else) attempted to log into your account.
+        </p>
+
+        <p style="font-size: 16px; color: #4b5563; margin-bottom: 16px;">
+            Use the code below to complete your login. This code is valid for <strong>5 minutes</strong>.
+        </p>
+
+        <div style="font-size: 32px; font-weight: bold; color: #111827; text-align: center; margin: 32px 0;">
+            {{ otp_code|default:"" }}
+        </div>
+
+        <p style="font-size: 14px; color: #9ca3af;">
+            If you didn't try to log in, we recommend changing your password immediately.
+        </p>
+    </div>
+</body>
+</html>

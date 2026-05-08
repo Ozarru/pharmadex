@@ -1,0 +1,59 @@
+{% extends 'main.html' %} {% load static i18n permission_tags  %} 
+<!--  -->
+{% block content %}<section class="p-8 w-full max-w-[1240px] mx-auto">
+  <div class="bg-lightest rounded-lg shadow-md p-4 md:p-6">
+     <div class="flex justify-between items-center ">
+      <h1 class="text-2xl font-bold">{{ title|default:"" }}</h1>
+      <a
+        href="javascript:history.back()"
+        class="text-primary hover:text-sky-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>{% trans "Go back" %}
+      </a>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-body">{{ subtitle|default:"" }}</p>
+
+      <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <div class="grid gap-4 md:gap-6 md:grid-cols-2">
+          {% for field in form %}
+          <div class="space-y-2">
+            <label
+              for="{{ field.id_for_label}}"
+              class="block text-sm font-medium text-body"
+            >
+              {{ field.label|default:"" }} {% if field.field.required %}
+              <span class="text-red-500">*</span>
+              {% endif %}
+            </label>
+            {{ field|default:"" }} {% if field.help_text %}
+            <p class="text-sm text-label mt-1">{{ field.help_text|default:"" }}</p>
+            {% endif %} {% if field.errors %}
+            <div class="text-red-500 text-sm">{{ field.errors|default:"" }}</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="flex justify-end space-x-4">
+          <a
+            href="javascript:history.back()"
+            class="px-4 py-2 border border-gray-300 rounded-md text-body hover-bg-lighter"
+          >
+            {% trans "Cancel" %}
+          </a>
+          <button
+            type="submit"
+            class="px-6 py-2 bg-sky-600 text-light rounded-md hover:bg-primary transition-colors"
+          >
+            <i class="fa-solid fa-save mr-2"></i>{% trans "Save" %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% load static i18n permission_tags %}
+
+<div
+  class="relative inline-block import-wrapper w-full"
+  data-model="{{ model_name }}"
+>
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    action="{% url 'base:import-csv-data' model_name=model_name %}"
+    class="w-full flex flex-col gap-2 text-sm"
+  >
+    {% csrf_token %}
+    <div
+      class="w-full mx-auto px-4 py-3 bg-light rounded-xl mb-4 flex flex-col gap-2"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg text-heading font-bold">{{ title|default:"" }}</h3>
+        <button
+          onclick="close_modal()"
+          type="button"
+          class="modal_closer px-3 py-2 bg-gray-200 text-sm text-heading hover:text-red-700 hover-bg-lightest hover-text-primaryest rounded-md transition ease-in duration-200"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <p>{{ subtitle|default:"" }}</p>
+    </div>
+    
+    <!-- Select input for movement type (Entry or Exit) -->
+    {% if model_name == "InventoryMovement" %}
+    <label for="movement_type">{% trans "Movement Type" %}</label>
+    <select
+      name="movement_type"
+      id="movement_type"
+      required
+      class="form-field"
+    >
+      <option value="entry">{% trans "Entry" %}</option>
+      <option value="exit">{% trans "Exit" %}</option>
+    </select>
+    {% endif %}
+
+    <label class="block text-sm font-medium mb-2">
+      {% trans "Choose a CSV file" %}
+    </label>
+
+    <input
+      type="file"
+      name="csv_file"
+      accept=".csv"
+      required
+      class="form-field"
+    />
+
+    <button
+      type="submit"
+      class="btn btn-secondary w-full mt-2 import-btn loading-link"
+    >
+      <i class="fa-solid fa-file-import import-icon"></i>
+      <span class="btn-text">{% trans "Import Now" %}</span>
+    </button>
+  </form>
+</div>

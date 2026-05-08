@@ -1,0 +1,327 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">{{ header_paragraph }}</p>
+    </div>
+  </header>
+
+  <!-- Dashboard Sections -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Point of Sale -->
+    <a href="{% url 'pharmacies:point-of-sale' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-store text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Point of Sale" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Process sales for customers. Update stock and generate
+        receipts.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Product Categories -->
+    <a
+      href="{% url 'pharmacies:product-category-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-tag text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Categories" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Organize products into categories for easier management
+        and reporting.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Product Sub-Categories -->
+    <a
+      href="{% url 'pharmacies:product-subcategory-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-tags text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Sub-Categories" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %} Organize products into sub-categories for better
+        structure, filtering, and reporting. {% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Products -->
+    <a href="{% url 'pharmacies:product-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-box text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Products" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Manage all products in your pharmacy, including stock,
+        pricing, categories, and expiration dates.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Product Batches -->
+    <a href="{% url 'pharmacies:product-batch-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-cart-flatbed text-xl"></i>
+          </div>
+
+          <span
+            class="text-lg font-semibold text-heading transition-colors duration-300 group-hover-text-primary"
+          >
+            {% trans "Product Batches" %}
+          </span>
+        </div>
+
+        <i
+          class="fa-solid fa-chevron-right text-label transition-transform duration-300 group-hover:translate-x-1 group-hover-text-primary"
+        ></i>
+      </div>
+
+      <p class="text-sm leading-relaxed text-body mt-3">
+        {% blocktrans %} Organize and monitor product batches, including
+        quantities, pricing, manufacturing details, and expiration tracking for
+        better inventory control. {% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Product Supplies -->
+    <a href="{% url 'pharmacies:product-batch-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-truck-ramp-box text-xl"></i>
+          </div>
+
+          <span
+            class="text-lg font-semibold text-heading transition-colors duration-300 group-hover-text-primary"
+          >
+            {% trans "Product Supplies" %}
+          </span>
+        </div>
+
+        <i
+          class="fa-solid fa-chevron-right text-label transition-transform duration-300 group-hover:translate-x-1 group-hover-text-primary"
+        ></i>
+      </div>
+
+      <p class="text-sm leading-relaxed text-body mt-3">
+        {% blocktrans %} Track incoming product supplies, manage suppliers,
+        monitor delivery status, and keep inventory updated with every restock
+        operation. {% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Inventory Movements -->
+    <a
+      href="{% url 'pharmacies:inventory-movement-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-up-down text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Inventory Movements" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Track all stock entries and exits, adjust quantities,
+        and monitor inventory levels.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Inventory Audit -->
+    <a href="{% url 'pharmacies:inventory-audit-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-clipboard-check text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Inventory Audit" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %} Review, verify, and reconcile stock levels to ensure
+        inventory accuracy. {% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Expiring batches -->
+    <a
+      href="{% url 'pharmacies:product-batch-list' %}?filter=expiring"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-hourglass-half text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Expiring Batches" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Monitor products that are approaching their expiry date.
+        Take action early to minimize waste, manage stock rotation, and ensure
+        safe dispensing.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Expired batches -->
+    <a
+      href="{% url 'pharmacies:product-batch-list' %}?filter=expired"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Expired Batches" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Review products that have passed their expiry date.
+        Remove or quarantine expired stock to maintain compliance and ensure
+        patient safety.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Stock reconciliations -->
+    <a
+      href="{% url 'pharmacies:product-batch-list' %}?filter=expiring"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-scale-balanced text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Stock Reconciliations" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}View detailed reports of your pharmacy activities,
+        including sales, purchases, stock levels, and financial summaries for
+        accurate decision-making.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Stock analytics -->
+    <a href="{% url 'pharmacies:pharmacy-analytics' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-chart-pie text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Stock Analytics" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Analyze inventory trends, track stock movement, and
+        identify usage patterns across your pharmacy. Use data insights to
+        improve stock planning, reduce waste, and make informed decisions.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+  </div>
+</div>
+{% endblock %}

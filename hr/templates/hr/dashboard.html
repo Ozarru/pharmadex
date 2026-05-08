@@ -1,0 +1,48 @@
+
+
+
+
+  <a href="{% url 'hr:salary-scale-list' %}" class="cardbox group">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-money-check-dollar text-xl"></i>
+        </div>
+        <h2 class="text-lg font-semibold text-heading group-hover-text-primary">{% trans "Salary Scale" %}</h2>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover:text-primary"></i>
+    </div>
+    <p class="text-body text-sm leading-snug mt-2">
+      {% blocktrans %}Define staff salary structures including allowances and deductions.{% endblocktrans %}
+    </p>
+  </a>
+
+  <a href="{% url 'hr:payroll-item-list' %}" class="cardbox group">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-table-list text-xl"></i>
+        </div>
+        <h2 class="text-lg font-semibold text-heading group-hover-text-primary">{% trans "Payroll Items" %}</h2>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover:text-primary"></i>
+    </div>
+    <p class="text-body text-sm leading-snug mt-2">
+      {% blocktrans %}Configure allowances, deductions, and payroll components.{% endblocktrans %}
+    </p>
+  </a>
+
+  <a href="{% url 'hr:payroll-transaction-list' %}" class="cardbox group">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-hand-holding-dollar text-xl"></i>
+        </div>
+        <h2 class="text-lg font-semibold text-heading group-hover-text-primary">{% trans "Payroll Transactions" %}</h2>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover:text-primary"></i>
+    </div>
+    <p class="text-body text-sm leading-snug mt-2">
+      {% blocktrans %}Process salaries, bonuses, and payroll records.{% endblocktrans %}
+    </p>
+  </a>

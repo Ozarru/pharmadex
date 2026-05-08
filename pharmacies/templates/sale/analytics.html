@@ -1,0 +1,278 @@
+{% extends 'main.html' %}
+{% load i18n %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="flex flex-col gap-6">
+
+  <!-- ================= HEADER ================= -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ subtitle }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= QUICK STATS ================= -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+    <!-- Total Revenue -->
+    <div class="bg-lighter rounded-xl shadow-sm hover:shadow-md transition p-5 border-l-4 border-green-500">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-label">{% trans "Total Revenue" %}</p>
+        <i class="fa-solid fa-coins text-green-500 text-lg"></i>
+      </div>
+      <p class="text-md font-bold text-heading">
+        {{ total_revenue|default:"0.00" }}
+      </p>
+    </div>
+
+    <!-- Today Revenue -->
+    <div class="bg-lighter rounded-xl shadow-sm hover:shadow-md transition p-5 border-l-4 border-teal-500">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-label">{% trans "Today Revenue" %}</p>
+        <i class="fa-solid fa-calendar-day text-teal-500 text-lg"></i>
+      </div>
+      <p class="text-md font-bold text-heading">
+        {{ today_revenue|default:"0.00" }}
+      </p>
+    </div>
+
+    <!-- Last 7 Days Revenue -->
+    <div class="bg-lighter rounded-xl shadow-sm hover:shadow-md transition p-5 border-l-4 border-indigo-500">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-label">{% trans "Last 7 Days Revenue" %}</p>
+        <i class="fa-solid fa-calendar-week text-indigo-500 text-lg"></i>
+      </div>
+      <p class="text-md font-bold text-heading">
+        {{ last_7_days_revenue|default:"0.00" }}
+      </p>
+    </div>
+
+    <!-- Losses -->
+    <div class="bg-lighter rounded-xl shadow-sm hover:shadow-md transition p-5 border-l-4 border-red-500">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-label">{% trans "Inventory Losses" %}</p>
+        <i class="fa-solid fa-triangle-exclamation text-red-500 text-lg"></i>
+      </div>
+      <p class="text-md font-bold text-heading">
+        {{ total_loss_value|default:0 }}
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ================= SALES TREND ================= -->
+  <!-- ================= SALES TREND ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg space-y-4">
+    <div
+      class="tab_bar rounded-lg 2xl:w-full bg-lightest border border-b-0 shadow-lg grid grid-cols-2 lg:flex justify-evenly items-center text-sm divide-x overflow-hidden"
+    >
+      <button
+        class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+        onclick="openTab(event, 'daily_stats')"
+        id="defaultTab"
+      >
+        <i class="fa-solid fa-calendar-day"></i>
+        <span>{% trans "Last 24 Hours" %}</span>
+      </button>
+      <button
+        class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+        onclick="openTab(event, 'weekly_stats')"
+      >
+        <i class="fa-solid fa-calendar-week"></i>
+        <span>{% trans "Last 7 days" %}</span>
+      </button>
+      <button
+        class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+        onclick="openTab(event, 'monthly_stats')"
+      >
+        <i class="fa-solid fa-calendar"></i>
+        <span>{% trans "Last 30 days" %}</span>
+      </button>
+    </div>
+    <div id="daily_stats" class="tabcontent">
+      <h3 class="text-lg font-semibold text-heading mb-6">
+        {% trans "Last 24 Hours Sales Trend" %}
+      </h3>
+      <canvas id="24hourSalesChart"></canvas>
+    </div>
+    <div id="weekly_stats" class="tabcontent">
+      <h3 class="text-lg font-semibold text-heading mb-6">
+        {% trans "Weekly Sales Trend" %}
+      </h3>
+      <canvas id="weeklySalesChart"></canvas>
+    </div>
+    <div id="monthly_stats" class="tabcontent">
+      <h3 class="text-lg font-semibold text-heading mb-6">
+        {% trans "Sales Trend (Last 30 Days)" %}
+      </h3>
+      <canvas id="monthlySalesChart"></canvas>
+    </div>
+  </section>
+
+  <!-- ================= TOP PRODUCTS ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg">
+    <h3 class="text-lg font-semibold text-heading mb-6">
+      {% trans "Top Selling Products" %}
+    </h3>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Table -->
+      <div class="space-y-3">
+        {% for p in top_products %}
+          <div class="rounded-xl p-4 bg-light shadow-sm flex justify-between items-center">
+            <div>
+              <p class="font-medium text-heading">{{ p.product_stock__product__name }}</p>
+              <p class="text-xs text-body">Qty: {{ p.quantity }}</p>
+            </div>
+            <p class="font-bold text-green-600">{{ p.revenue }}</p>
+          </div>
+        {% empty %}
+          <p class="text-sm text-body">{% trans "No sales data available." %}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Chart -->
+      <div>
+        <canvas id="topProductsChart"></canvas>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SALES BY CATEGORY ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg">
+    <h3 class="text-lg font-semibold text-heading mb-6">
+      {% trans "Sales by Category" %}
+    </h3>
+    <canvas id="salesByCategoryChart"></canvas>
+  </section>
+
+  <!-- ================= SALES BY SUBCATEGORY ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg">
+    <h3 class="text-lg font-semibold text-heading mb-6">
+      {% trans "Sales by Subcategory" %}
+    </h3>
+    <canvas id="salesBySubcategoryChart"></canvas>
+  </section>
+
+</div>
+
+<!-- ================= CHARTS ================= -->
+<script>
+  // Daily Sales
+  new Chart(document.getElementById('monthlySalesChart'), {
+    type: 'line',
+    data: {
+      labels: [{% for d in daily_sales %}"{{ d.day }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Revenue',
+        data: [{% for d in daily_sales %}{{ d.revenue|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        borderColor: '#22C55E',
+        backgroundColor: 'rgba(34,197,94,0.2)',
+        tension: 0.35,
+        fill: true,
+        pointRadius: 3
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Weekly Sales
+  new Chart(document.getElementById('weeklySalesChart'), {
+    type: 'line',
+    data: {
+      labels: [{% for d in weekly_sales %}"{{ d.day }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Revenue',
+        data: [{% for d in weekly_sales %}{{ d.revenue|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        borderColor: '#3B82F6',
+        backgroundColor: 'rgba(59,130,246,0.2)',
+        tension: 0.35,
+        fill: true,
+        pointRadius: 3
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Last 24h Sales
+  new Chart(document.getElementById('24hourSalesChart'), {
+    type: 'line',
+    data: {
+      labels: [{% for d in last_24h_sales %}"{{ d.hour }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Revenue',
+        data: [{% for d in last_24h_sales %}{{ d.revenue|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        borderColor: '#F59E0B',
+        backgroundColor: 'rgba(245,158,11,0.2)',
+        tension: 0.35,
+        fill: true,
+        pointRadius: 3
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Top Products Chart
+  new Chart(document.getElementById('topProductsChart'), {
+    type: 'bar',
+    data: {
+      labels: [{% for p in top_products %}"{{ p.product_stock__product__name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Quantity Sold',
+        data: [{% for p in top_products %}{{ p.quantity }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(59,130,246,0.3)',
+        borderColor: '#3B82F6',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Sales by Category
+  new Chart(document.getElementById('salesByCategoryChart'), {
+    type: 'bar',
+    data: {
+      labels: [{% for c in sales_by_category %}"{{ c.product_stock__product__subcategory__category__name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Revenue',
+        data: [{% for c in sales_by_category %}{{ c.revenue|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(16,185,129,0.3)',
+        borderColor: '#10B981',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Sales by Subcategory
+  new Chart(document.getElementById('salesBySubcategoryChart'), {
+    type: 'bar',
+    data: {
+      labels: [{% for c in sales_by_subcategory %}"{{ c.product_stock__product__subcategory__name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Revenue',
+        data: [{% for c in sales_by_subcategory %}{{ c.revenue|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(251,191,36,0.3)',
+        borderColor: '#F59E0B',                
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+</script>
+
+{% endblock %}

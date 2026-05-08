@@ -1,0 +1,113 @@
+{% extends "main.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="flex flex-col gap-6">
+
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ header_paragraph }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== -->
+  <!-- QUICK STATS -->
+  <!-- ===================== -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Total Revenue" %}</p>
+      <p class="text-md font-bold text-heading">${{ total_revenue }}</p>
+    </div>
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Today's Revenue" %}</p>
+      <p class="text-md font-bold text-heading">${{ today_revenue }}</p>
+    </div>
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "This Month" %}</p>
+      <p class="text-md font-bold text-heading">${{ monthly_revenue }}</p>
+    </div>
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Low Stock Products" %}</p>
+      <p class="text-2xl font-bold text-rose-500">{{ low_stock_products }}</p>
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- STORE OVERVIEW -->
+  <!-- ===================== -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Products" %}</p>
+      <p class="text-xl font-semibold">{{ total_products }}</p>
+    </div>
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Categories" %}</p>
+      <p class="text-xl font-semibold">{{ total_categories }}</p>
+    </div>
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Sales" %}</p>
+      <p class="text-xl font-semibold">{{ total_sales }}</p>
+    </div>
+
+    <div class="cardbox">
+      <p class="text-sm text-body">{% trans "Purchases" %}</p>
+      <p class="text-xl font-semibold">{{ total_purchases }}</p>
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- TOP SELLING PRODUCTS -->
+  <!-- ===================== -->
+  <section class="cardbox">
+    <h3 class="text-lg font-semibold text-heading mb-4">
+      {% trans "Top selling products" %}
+    </h3>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="border-b text-body">
+          <tr>
+            <th class="py-2 text-left">{% trans "Product" %}</th>
+            <th class="py-2 text-right">{% trans "Quantity Sold" %}</th>
+            <th class="py-2 text-right">{% trans "Revenue" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in top_products %}
+          <tr class="border-b last:border-0">
+            <td class="py-2">{{ item.product__name }}</td>
+            <td class="py-2 text-right">{{ item.quantity }}</td>
+            <td class="py-2 text-right font-semibold">
+              ${{ item.revenue }}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3" class="py-4 text-center text-muted">
+              {% trans "No sales data available." %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

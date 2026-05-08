@@ -1,0 +1,170 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">{{header_paragraph}}</p>
+    </div>
+  </header>
+
+  <!-- Financial Management Sections -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    <a href="{% url 'finances:invoice-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Invoices" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Generate and manage invoices.{% endblocktrans %}
+      </p>
+    </a>
+
+    <a href="{% url 'finances:bill-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-file-invoice text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Bills" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Track expenses, due dates, and payable amounts.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+
+    <a href="{% url 'finances:financial-operation-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-money-bill-transfer text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Financial Operations" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Monitor all financial transactions including income and
+        expenses.{% endblocktrans %}
+      </p>
+    </a>
+
+    <a href="{% url 'finances:bank-account-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-university text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Bank Accounts" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Manage accounts, balances, and bank transactions.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+
+    <a href="{% url 'finances:cash-account-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-cash-register text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Cash Desk" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Track daily cash flow and petty cash activities.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+
+    <a href="{% url 'finances:financial-reports' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-file-lines text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Financial Reports" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Generate reports on income, expenses, and financial
+        performance.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Cash Closing -->
+    <a href="{% url 'finances:cash-closing-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-cash-register text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Cash Closing" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %} Perform end-of-day cash counting and reconciliation.
+        Record physical cash (notes and coins), compare with expected balance,
+        and track any differences for proper financial control.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+  </div>
+</div>
+
+{% endblock %}

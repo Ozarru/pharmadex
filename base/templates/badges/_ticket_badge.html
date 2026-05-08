@@ -1,0 +1,55 @@
+{% load static i18n %}
+
+<!-- -------------------- Ticket Type Badges -------------------- -->
+
+{% if value == "technical" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-red-100 text-red-700 rounded-full">
+  <i class="fa-solid fa-bug mr-2"></i> {% trans "System Error" %}
+</span>
+
+{% elif value == "billing" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-yellow-100 text-yellow-800 rounded-full">
+  <i class="fa-solid fa-file-invoice-dollar mr-2"></i> {% trans "Billing / Invoice Issue" %}
+</span>
+
+{% elif value == "account" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-blue-100 text-blue-700 rounded-full">
+  <i class="fa-solid fa-user-lock mr-2"></i> {% trans "Account Access Issue" %}
+</span>
+
+{% elif value == "inventory" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-indigo-100 text-indigo-700 rounded-full">
+  <i class="fa-solid fa-boxes-stacked mr-2"></i> {% trans "Inventory Issue" %}
+</span>
+
+{% elif value == "prescription" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
+  <i class="fa-solid fa-prescription mr-2"></i> {% trans "Prescription Issue" %}
+</span>
+
+{% elif value == "staff" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-pink-100 text-pink-700 rounded-full">
+  <i class="fa-solid fa-user-doctor mr-2"></i> {% trans "Staff Issue" %}
+</span>
+
+{% elif value == "feature_request" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-purple-100 text-purple-700 rounded-full">
+  <i class="fa-solid fa-lightbulb mr-2"></i> {% trans "Feature Request" %}
+</span>
+
+{% elif value == "report" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-orange-100 text-orange-700 rounded-full">
+  <i class="fa-solid fa-triangle-exclamation mr-2"></i> {% trans "Incident Report" %}
+</span>
+
+{% elif value == "general" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-cyan-100 text-cyan-700 rounded-full">
+  <i class="fa-solid fa-circle-question mr-2"></i> {% trans "General Inquiry" %}
+</span>
+
+{% else %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-full">
+  <i class="fa-solid fa-question-circle mr-2"></i> {% trans "Other" %}
+</span>
+{% endif %}
+

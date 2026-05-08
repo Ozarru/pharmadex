@@ -1,0 +1,262 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmadex by l'Escale Africaine</title>
+
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link href="{% static 'styles.css' %}" rel="stylesheet" />
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    h1, h2, h3 {
+        font-family: 'Playfair Display', serif;
+    }
+</style>
+
+
+</head>
+
+<body class="bg-gray-50 text-gray-800 scroll-smooth">
+
+<!-- HEADER -->
+
+<header class="fixed top-0 left-0 w-full bg-white shadow z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <a href="#accueil" class="flex items-center space-x-3">
+            <img src="{% static 'imgs/brand/icon.png' %}" class="w-10 h-10" alt="logo">
+            <span class="text-xl font-bold text-primary">Pharmadex</span>
+        </a>
+
+
+    <nav class="hidden md:flex space-x-6 items-center">
+        <a href="#accueil" class="hover:text-primary">Accueil</a>
+        <a href="#comment" class="hover:text-primary">Comment ça marche</a>
+        <a href="#features" class="hover:text-primary">Fonctionnalités</a>
+        <a href="#roles" class="hover:text-primary">Utilisateurs</a>
+        <a href="#cgu" class="hover:text-primary">CGU</a>
+        <a href="#contact" class="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition">
+            Contact
+        </a>
+    </nav>
+</div>
+
+
+</header>
+
+<!-- HERO -->
+
+<section id="accueil" class="h-screen flex items-center justify-center prime-to-sec-gradient text-white text-center px-6">
+    <div class="max-w-2xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Simplifiez la gestion de votre cantine
+        </h1>
+        <p class="mb-6 text-lg">
+            Carte QR sécurisée, recharge rapide et paiement sans espèces pour écoles, entreprises et cantines.
+        </p>
+        <a href="#comment" class="bg-lime-accent text-black px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition">
+            Découvrir
+        </a>
+    </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+
+<section id="comment" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-primary mb-4">Comment ça marche</h2>
+        <p class="text-gray-600 mb-12">
+            Un système simple et rapide pour gérer votre cantine.
+        </p>
+
+
+    <div class="grid md:grid-cols-4 gap-8">
+
+        <div class="p-6">
+            <h3 class="font-semibold text-secondary mb-2">Carte QR</h3>
+            <p>Chaque utilisateur reçoit une carte avec un QR code unique et sécurisé.</p>
+        </div>
+
+        <div class="p-6">
+            <h3 class="font-semibold text-secondary mb-2">Recharge</h3>
+            <p>Recharge via espèces, Flooz, TMoney ou autres moyens.</p>
+        </div>
+
+        <div class="p-6">
+            <h3 class="font-semibold text-secondary mb-2">Paiement</h3>
+            <p>Scannez simplement la carte pour payer rapidement.</p>
+        </div>
+
+        <div class="p-6">
+            <h3 class="font-semibold text-secondary mb-2">Suivi</h3>
+            <p>Consultez le solde et l'historique des transactions.</p>
+        </div>
+
+    </div>
+</div>
+
+
+</section>
+
+<!-- FEATURES -->
+
+<section id="features" class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-primary mb-12">Fonctionnalités</h2>
+
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="text-xl font-semibold text-secondary mb-3">Carte sécurisée</h3>
+            <p>QR code unique et sécurisé pour chaque utilisateur.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="text-xl font-semibold text-secondary mb-3">Recharge multiple</h3>
+            <p>Recharge via mobile money ou espèces.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="text-xl font-semibold text-secondary mb-3">Paiement rapide</h3>
+            <p>Paiement instantané sans manipulation d'espèces.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="text-xl font-semibold text-secondary mb-3">Historique</h3>
+            <p>Suivi des dernières transactions.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="text-xl font-semibold text-secondary mb-3">Multi établissements</h3>
+            <p>Gestion de plusieurs cantines.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="text-xl font-semibold text-secondary mb-3">Statistiques</h3>
+            <p>Rapports détaillés pour les gestionnaires.</p>
+        </div>
+
+    </div>
+</div>
+
+
+</section>
+
+<!-- ROLES -->
+
+<section id="roles" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-primary mb-12">Utilisateurs</h2>
+
+
+    <div class="grid md:grid-cols-5 gap-6">
+
+        <div class="p-4">
+            <h3 class="font-semibold">Détenteur</h3>
+            <p class="text-sm">Consulte et paie avec sa carte.</p>
+        </div>
+
+        <div class="p-4">
+            <h3 class="font-semibold">Caissier</h3>
+            <p class="text-sm">Recharge les cartes.</p>
+        </div>
+
+        <div class="p-4">
+            <h3 class="font-semibold">Vendeur</h3>
+            <p class="text-sm">Encaisse les achats.</p>
+        </div>
+
+        <div class="p-4">
+            <h3 class="font-semibold">Superviseur</h3>
+            <p class="text-sm">Supervise et corrige.</p>
+        </div>
+
+        <div class="p-4">
+            <h3 class="font-semibold">Administrateur</h3>
+            <p class="text-sm">Gestion complète.</p>
+        </div>
+
+    </div>
+</div>
+
+
+</section>
+
+<!-- SECURITY -->
+
+<section class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-primary mb-6">Sécurité</h2>
+        <p>
+            Chaque carte dispose d'un QR code unique sécurisé. Les données sont protégées et accessibles uniquement via l'application autorisée.
+        </p>
+    </div>
+</section>
+
+<!-- CGU -->
+
+<section id="cgu" class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-primary mb-6 text-center">
+            Conditions Générales d'Utilisation
+        </h2>
+
+
+    <div class="bg-gray-50 p-8 rounded-xl shadow space-y-6">
+        <p class="text-sm text-gray-500">Dernière mise à jour : Mars 2026</p>
+
+        <p>
+            La plateforme permet la gestion des paiements de cantine via carte QR.
+        </p>
+
+        <h3 class="text-xl font-semibold text-secondary">Utilisation</h3>
+        <p>
+            L'utilisateur est responsable de sa carte et de ses transactions.
+        </p>
+
+        <h3 class="text-xl font-semibold text-secondary">Recharge</h3>
+        <p>
+            Les recharges peuvent être effectuées via mobile money ou espèces.
+        </p>
+
+    </div>
+</div>
+
+
+</section>
+
+<!-- FOOTER -->
+
+<footer id="contact" class="bg-primary text-white py-10">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <div class="flex flex-col items-center space-y-4">
+            <img src="{% static 'imgs/brand/icon.png' %}" class="w-12 h-12" alt="logo">
+            <h3 class="text-xl font-semibold">Pharmadex by l'Escale Africaine</h3>
+            <p>Lomé, Togo</p>
+            <p>Email: zenheit.coe@gmail.com</p>
+        </div>
+
+
+    <div class="mt-6 border-t border-white/30 pt-4 text-sm">
+        &copy; 2026 Pharmadex by l'Escale Africaine. Tous droits réservés.
+    </div>
+</div>
+
+
+</footer>
+
+</body>
+</html>

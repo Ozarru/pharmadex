@@ -1,0 +1,268 @@
+{% load static i18n permission_tags  %}
+<!-- title bar -->
+<header
+  id="titlebar"
+  class="bg-light sticky top-0 z-30 min-h-[77px] w-full max-w-[3840px] px-4 py-3.5 border-b shadow-sm lg:transition-all"
+>
+  <div class="w-full flex justify-between items-center gap-4">
+    <div class="w-full flex items-center gap-2">
+      <button
+        id="sidebarToggle"
+        class="btn btn-primary text-sm px-3"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="flex flex-col items-start">
+        <h2 class="text-xl font-bold text-heading">{{title}}</h2>
+        <span class="text-sm text-body">{{subtitle}}</span>
+      </div>
+    </div>
+
+    <div id="title_actions" class="sm:w-full sm:max-w-32  md:max-w-52 flex justify-end items-center gap-2">
+      <div class="hidden relative md:flex fex-col items-center">
+        <button
+          onclick="toggleMenu(this, 'languageMenu')"
+          aria-label="Language menu"
+          class="btn btn-outlined text-sm px-3"
+        >
+          <i class="fa-solid fa-language"></i>
+        </button>
+        <div
+          id="languageMenu"
+          class="hidden absolute right-0 top-12 bg-lighter border rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden divide-y"
+          role="menu"
+          aria-orientation="vertical"
+        >
+          <form action="{% url 'base:set-language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <input type="hidden" name="language" value="en">
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            >
+              <i class="fa-solid fa-globe"></i> English (en)
+            </button>
+          </form>
+
+          <form action="{% url 'base:set-language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <input type="hidden" name="language" value="fr">
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            >
+              <i class="fa-solid fa-globe"></i> Français (fr)
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="hidden relative sm:flex fex-col items-center">
+        <button
+          onclick="toggleMenu(this, 'themeMenu')"
+          aria-label="Theme menu"
+          class="btn btn-outlined text-sm px-3"
+          id="themeButton"
+        >
+          <i id="themeIcon" class="fa-regular fa-sun"></i>
+        </button>
+        <div
+          id="themeMenu"
+          class="hidden absolute right-0 top-12 bg-lighter border rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden divide-y"
+          role="menu"
+          aria-orientation="vertical"
+        >
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('light')"
+          >
+            <i class="fa-regular fa-sun"></i> Light Theme
+          </button>
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('dark')"
+          >
+            <i class="fa-solid fa-moon"></i> Dark Theme
+          </button>
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('system')"
+          >
+            <i class="fa-solid fa-display"></i> System Theme
+          </button>
+        </div>
+      </div>
+
+      <div class="relative flex fex-col items-center">
+        <!-- User Avatar and Dropdown -->
+        <button
+          onclick="toggleMenu(this, 'dropdownMenu')"
+          aria-label="User menu"
+        >
+          {% if user.profile.image %}
+          <img
+            src="{{ user.profile.image.url}}"
+            alt="Avatar"
+            class="btn btn-outlined p-0 h-10 w-10 object-cover"
+          />
+          {% else %}
+          <img
+            src="{% static 'imgs/anon.png' %}"
+            alt="Anonymous avatar"
+            class="btn btn-outlined p-0 h-10 w-10 object-cover"
+          />
+          {% endif %}
+        </button>
+
+       
+        <div
+          id="dropdownMenu"
+          class="hidden absolute right-0 top-12 bg-lighter border rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden divide-y"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="user-menu-button"
+        >
+        <div class="md:hidden">
+          <form action="{% url 'base:set-language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <input type="hidden" name="language" value="en">
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            >
+              <i class="fa-solid fa-globe"></i> English (en)
+            </button>
+          </form>
+
+          <form action="{% url 'base:set-language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <input type="hidden" name="language" value="fr">
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            >
+              <i class="fa-solid fa-globe"></i> Français (fr)
+            </button>
+          </form>
+        <hr>
+        </div>
+        <div class="sm:hidden">
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('light')"
+          >
+            <i class="fa-regular fa-sun"></i> Light Theme
+          </button>
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('dark')"
+          >
+            <i class="fa-solid fa-moon"></i> Dark Theme
+          </button>
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('system')"
+          >
+            <i class="fa-solid fa-display"></i> System Theme
+          </button>
+          <hr>
+        </div>
+          {% if request.user.role != 'parent' %}
+          <a
+            href="{% url 'accounts:user-detail' user.pk %}"
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            role="menuitem"
+          >
+            <i class="fa-regular fa-circle-user"></i> {% trans "Profile" %}
+          </a>
+          <a
+            href="{% url 'base:home' %}"
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            role="menuitem"
+          >
+            <i class="fa-solid fa-gear"></i> {% trans "Settings" %}
+          </a>
+          {% endif %}
+          <a
+            hx-boost="false"
+            href="{% url 'accounts:password-change' %}"
+            class="px-4 py-2 hover:bg-amber-600 hover:text-white flex items-center gap-2"
+            role="menuitem"
+          >
+            <i class="fa-solid fa-key"></i> {% trans "Change password" %}
+          </a>
+          <a
+            hx-boost="false"
+            href="{% url 'accounts:logout' %}"
+            class="px-4 py-2 hover:bg-red-600 hover:text-white flex items-center gap-2"
+            role="menuitem"
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> {% trans "Logout" %}
+          </a>
+        </div>
+       
+      </div>
+
+      {% if can_crud_object and object_crud_link %}  {% if object_crud_via_htmx %}
+      <button
+        onclick="close_modal()"
+        hx-target="#modal_dialog"
+        hx-get="{% if object_pk %}{% url object_crud_link object_pk %}{% else %}{% url object_crud_link %}{% endif %}"
+        class="modal_opener btn btn-primary text-sm text-light"
+      >
+        <i
+          class="fa-solid {% if object_pk %}fa-pen-to-square{% else %}fa-add{% endif %}"
+        ></i>
+      </button>
+      {% else %}
+      <a
+        hx-boost="false"
+        href="{% if object_pk %}{% url object_crud_link object_pk %}{% else %}{% url object_crud_link %}{% endif %}"
+        class="btn btn-primary text-sm text-light"
+      >
+        <i
+          class="fa-solid {% if object_pk %}fa-pen{% else %}fa-add{% endif %}"
+        ></i>
+      </a>
+      {% endif %} {% endif %}
+    </div>
+  </div>
+</header>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + "=")) {
+          cookieValue = decodeURIComponent(cookie.slice(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  function setLanguage(langCode) {
+    fetch("/i18n/setlang/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: new URLSearchParams({
+        language: langCode,
+        next: window.location.pathname
+      })
+    }).then(() => {
+      window.location.reload();
+    });
+  }
+</script>

@@ -1,0 +1,21 @@
+<!-- Responses List -->
+{% if responses %}
+<div class="py-4 px-3 flex flex-col gap-4">
+  {% for response in responses %}
+  <!--  -->
+  {% include 'support/response/_item.html' %}
+  <!--  -->
+  {% endfor %}
+</div>
+{% else %}
+<div
+  class="py-60 bg-lightest border h-full rounded-xl flex flex-col flex-grow justify-center items-center gap-2 mt-2"
+>
+  <span class="p-4 rounded-full bg-accent text-3xl text-tertiary">
+    <i class="fa-solid fa-inbox"></i>
+  </span>
+  <p class="text-sm text-muted">
+    {% blocktrans %} No Ticekt Response Was Found {% endblocktrans %}
+  </p>
+</div>
+{% endif %}

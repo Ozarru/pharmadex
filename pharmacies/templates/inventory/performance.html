@@ -1,0 +1,84 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="flex flex-col gap-6">
+  <!-- ================= HEADER ================= -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ subtitle }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Today Entries</p>
+      <p class="text-2xl font-bold text-emerald-600">{{ today_entries }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Today Exits</p>
+      <p class="text-2xl font-bold text-rose-600">{{ today_exits }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Monthly Entries</p>
+      <p class="text-2xl font-bold text-emerald-600">{{ monthly_entries }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4">
+      <p class="text-sm text-gray-500">Monthly Exits</p>
+      <p class="text-2xl font-bold text-rose-600">{{ monthly_exits }}</p>
+    </div>
+  </div>
+
+  <!-- Weekly Chart -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-lg font-semibold mb-4">Weekly Inventory Movement</h2>
+    <canvas id="weeklyInventoryChart" height="120"></canvas>
+  </div>
+</div>
+
+<script>
+  const ctx = document.getElementById("weeklyInventoryChart");
+
+  new Chart(ctx, {
+      type: "bar",
+      data: {
+          labels: {{ weekly_labels|safe }},
+          datasets: [
+              {
+                  label: "Entries",
+                  data: {{ weekly_entries|safe }},
+                  backgroundColor: "rgba(16,185,129,0.3)",
+                  borderColor: "#10B981",
+                  borderWidth: 1
+              },
+              {
+                  label: "Exits",
+                  data: {{ weekly_exits|safe }},
+                  backgroundColor: "rgba(245,158,11,0.3)",
+                  borderColor: "#F59E0B",
+                  borderWidth: 1
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          plugins: {
+              legend: { position: "top" }
+          },
+          scales: {
+              y: { beginAtZero: true }
+          }
+      }
+  });
+</script>
+{% endblock %}

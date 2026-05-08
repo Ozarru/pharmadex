@@ -1,0 +1,122 @@
+{% load custom_tags %}
+
+<!-- Dynamic Data Setting -->
+{% if tab %}
+  {% set form_fields = tab.filters_fields %}
+  {% set form_choices = tab.filters_choices %}
+  {% set form_list_url = tab.model_list_url %}
+{% else %}
+  {% set form_fields = filters_fields %}
+  {% set form_choices = filters_choices %}
+  {% set form_list_url = model_list_url %}
+{% endif %}
+
+<!-- FILTER DIALOG -->
+  <div id="filters_dialog"
+    class="hidden m-4 rounded-xl bg-lightest shadow-lg p-4 md:p-6 w-full max-w-sm flex flex-col gap-4 overflow-y-auto">
+
+    <div class="flex justify-between items-end">
+      <h3 class="text-lg text-heading font-bold">{% trans "Filters" %}</h3>
+      <button
+        onclick="close_modal()"
+        type="button"
+        class="modal_closer px-3 py-2 bg-lightest text-sm text-heading hover:text-red-700 hover-bg-lightest rounded-md transition ease-in duration-200"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+  <!-- {{ form_fields }}
+  {{ form_choices }}
+  {{ form_list_url }} -->
+
+    <form id="filters_form"
+          hx-get="{{ list_url }}?origin=partial"
+          hx-target="#{{ model_container }}"
+          hx-swap="innerHTML"
+          class="w-full flex flex-col gap-3 text-sm">
+
+      {% for field in form_fields %}
+      <div>
+        <label class="block text-sm mb-1">{{ field.verbose_name|capfirst }}</label>
+
+        {% if field.type == "select" %}
+          <select name="{{ field.name }}" class="form-field w-full">
+            <option value="">{% trans "All" %}</option>
+            {% for value, label in form_choices|get_item:field.name %}
+              <option value="{{ value }}" {% if request.GET|get_item:field.name == value|stringformat:"s" %}selected{% endif %}>
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+
+        {% elif field.type == "boolean" %}
+          <select name="{{ field.name }}" class="form-field w-full">
+            <option value="">{% trans "Any" %}</option>
+            <option value="true" {% if request.GET|get_item:field.name == "true" %}selected{% endif %}>
+              {% trans "Yes" %}
+            </option>
+            <option value="false" {% if request.GET|get_item:field.name == "false" %}selected{% endif %}>
+              {% trans "No" %}
+            </option>
+          </select>
+
+        {% elif field.type == "date" or field.type == "datetime" %}
+          <div class="grid grid-cols-2 gap-2">
+            <input type="date" name="{{ field.name }}_start"
+                    class="form-field w-full"
+                    placeholder="{% trans 'From' %}"
+                    value="{{ request.GET|get_item:field.name|stringformat:'_start'|default:'' }}">
+            <input type="date" name="{{ field.name }}_end"
+                    class="form-field w-full"
+                    placeholder="{% trans 'To' %}"
+                    value="{{ request.GET|get_item:field.name|stringformat:'_end'|default:'' }}">
+          </div>
+
+        {% elif field.type == "m2m" %}
+          <select name="{{ field.name }}" multiple class="form-field w-full">
+            {% for value, label in form_choices|get_item:field.name %}
+              <option value="{{ value }}"
+                {% if value|stringformat:"s" in request.GET|getlist:field.name %}selected{% endif %}>
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <hr>
+
+      <div class="w-full flex gap-2">
+        <button type="button" class="btn btn-outlined w-1/3 py-3" id="clear_filters">
+          <i class="fa fa-trash mr-1"></i> {% trans "Clear" %}
+        </button>
+
+        <button type="button" class="btn btn-primary w-2/3 py-3" id="apply_filters">
+          <i class="fa fa-filter mr-1"></i> {% trans "Apply Filters" %}
+        </button>
+      </div>
+    </form>
+  </div>
+
+<script>
+
+  // Apply filters
+  document.getElementById('apply_filters')
+    .addEventListener('click', function() {
+      const form = document.getElementById('filters_form');
+      htmx.trigger(form, 'submit');
+      close_modal();
+    });
+
+  // Clear filters
+  document.getElementById('clear_filters')
+    .addEventListener('click', function() {
+      const form = document.getElementById('filters_form');
+      form.reset();
+      htmx.trigger(form, 'submit');
+      close_modal();
+    });
+
+</script>

@@ -1,0 +1,926 @@
+@media (min-width: 1024px) {
+  .aside-init-open #sidebar {
+    width: 320px !important;
+  }
+  .aside-init-open #titlebar {
+    width: calc(100vw - 258px) !important;
+  }
+}
+
+/* =========================================================
+   Root Variables — CAFETTE (Coffee + Orange + Green)
+   ========================================================= */
+:root {
+  /* --------------------------
+     Brand Colors
+     -------------------------- */
+  /* --color-primary: #152341; */
+  --color-primary: #151d86;
+  /* --color-secondary: #02958d; */
+  --color-secondary: #02958d;
+  --color-tertiary: #719ac9;
+  --color-accent: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  --color-lime-accent: #84cc16;
+  --color-lime-accent-hover: #65a30d;
+
+  /* --------------------------
+     Feedback & Status
+     -------------------------- */
+  --color-success: #5fbf7a;
+  --color-success-hover: #5fbf7a;
+
+  --color-info: #92400e;
+  --color-info-hover: #78350f;
+
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+
+  /* --------------------------
+   Neutral Palette (True Gray)
+   -------------------------- */
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* --------------------------
+     Background & Text
+     -------------------------- */
+  --color-bg-lightest: #ffffff; /* paper white */
+  --color-bg-lighter: #f9fafb; /* reading background */
+  --color-bg-light: #f3f4f6; /* subtle contrast surfaces */
+  --color-bg-hover: #e5e7eb;
+
+  --color-text-dark: #111827;
+  --color-text-light: #f9fafb;
+
+  /* App backgrounds */
+  --color-bg-lighter: var(--color-gray-50);
+  --color-bg-light: var(--color-gray-100);
+  --color-bg-hover: var(--color-gray-200);
+
+  /* Cards / panels (recommended usage) */
+  --color-bg-card: var(--color-gray-50);
+  --color-bg-card-hover: var(--color-gray-100);
+
+  /* --------------------------
+     Scrollbar
+     -------------------------- */
+  --scroll-thumb: #9ca3af80;
+
+  /* --------------------------
+     Button & Form Defaults
+     -------------------------- */
+  --btn-radius: 0.5rem;
+  --btn-padding-y: 0.5rem;
+  --btn-padding-x: 1rem;
+  --btn-transition: all 0.2s ease;
+
+  /* --------------------------
+     Borders
+     -------------------------- */
+  --color-border: #d1d5db;
+
+  /* --------------------------
+     Forms
+     -------------------------- */
+  --form-bg: #ffffff;
+  --form-border: var(--color-border);
+  --form-border-focus: var(--color-primary);
+  --form-ring: var(--color-secondary);
+
+  /* --------------------------
+     Header
+     -------------------------- */
+  --header-bar-radius: 0.75rem;
+  --header-bar-padding: 1rem;
+  --header-bar-gap: 1rem;
+
+  --header-bar-shadow-light: 0 6px 12px rgba(0, 0, 0, 0.08);
+  --header-bar-shadow-dark: 0 6px 12px rgba(0, 0, 0, 0.5);
+
+  --header-bar-gradient-light: linear-gradient(to right, #e0f2fe, #e0e7ff);
+
+  --header-bar-gradient-dark: linear-gradient(to right, #0f172a, #1e3a8a);
+
+  --header-bar-text-light: #1f2937;
+  --header-bar-text-dark: #e5e7eb;
+
+  --header-icon-bg-light: rgba(255, 255, 255, 0.7);
+  --header-icon-bg-dark: rgba(30, 41, 59, 0.7);
+
+  --header-icon-color-light: var(--color-secondary);
+  --header-icon-color-dark: var(--color-secondary);
+
+  /* --------------------------
+     Typography
+     -------------------------- */
+  --color-text-dark: var(--color-gray-900);
+  --color-text-body: var(--color-gray-700);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-light: #ffffff;
+
+  --text-heading: var(--color-gray-900);
+  --text-body: var(--color-gray-700);
+  --text-label: var(--color-gray-500);
+}
+
+body.dark-mode {
+  /* --------------------------
+     Backgrounds (True Neutral Dark)
+     -------------------------- */
+  --color-bg-lightest: #111827; /* Dark background */
+  --color-bg-lighter: #1f2937; /* Slightly lighter background */
+  --color-bg-light: #374151; /* Lightest contrast surface */
+  --color-bg-hover: #4b5563; /* Slightly lighter for hover */
+
+  /* --------------------------
+     Neutrals (Inverted True Gray)
+     -------------------------- */
+  --color-gray-900: #f9fafb; /* Lightest gray for text */
+  --color-gray-800: #f3f4f6; /* Lighter gray */
+  --color-gray-700: #e5e7eb; /* Soft gray */
+  --color-gray-600: #d1d5db; /* Neutral gray */
+  --color-gray-500: #9ca3af; /* Mid-range gray */
+  --color-gray-400: #6b7280; /* Darker gray */
+  --color-gray-300: #4b5563; /* Even darker gray */
+  --color-gray-200: #374151; /* Darkest gray */
+  --color-gray-100: #2e2e2e; /* Very dark gray */
+  --color-gray-50: #141414; /* Deepest gray for borders and muted text */
+
+  /* --------------------------
+     Text Colors
+     -------------------------- */
+  --color-text-dark: #f9fafb; /* Light text for headings */
+  --color-text-body: #e5e7eb; /* Light gray body text */
+  --color-text-muted: #9ca3af; /* Muted text */
+  --color-text-light: #111827; /* Dark text for light mode equivalents */
+
+  /* --------------------------
+     Brand Colors (Consistent)
+     -------------------------- */
+  --color-primary: #281c7c; /* Primary accent color (still bright) */
+  --color-secondary: #02958d; /* Secondary color (still vibrant) */
+  --color-tertiary: #719ac9; /* Tertiary color */
+  --color-accent: color-mix(
+    in srgb,
+    var(--color-primary) 18%,
+    transparent
+  ); /* Accent */
+
+  --color-lime-accent: #c6ff2e;
+  --color-lime-accent-hover: #b4f000;
+
+  /* --------------------------
+     Borders
+     -------------------------- */
+  --color-border: #2f2f2f; /* Dark border for dark mode */
+
+  /* --------------------------
+     Forms (Inverted Background & Border)
+     -------------------------- */
+  --form-bg: #1a1a1a; /* Dark background for forms */
+  --form-border: var(--color-border);
+  --form-border-focus: var(--color-primary);
+  --form-ring: var(--color-secondary);
+
+  /* --------------------------
+     Typography (Inverted for Dark Mode)
+     -------------------------- */
+  --text-heading: #f9fafb; /* Light for headings */
+  --text-body: #e5e7eb; /* Lighter gray for body */
+  --text-label: #9ca3af; /* Muted label text */
+}
+
+/* bg colors */
+.bg-light {
+  background-color: var(--color-bg-light);
+}
+
+.bg-lighter {
+  background-color: var(--color-bg-lighter);
+}
+.bg-lightest {
+  background-color: var(--color-bg-lightest);
+}
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+.bg-accent {
+  background-color: var(--color-accent);
+}
+.bg-lime-accent {
+  background-color: var(--color-lime-accent);
+}
+
+/* bg hover */
+.hover-bg-light:hover {
+  background-color: var(--color-bg-light);
+}
+
+.hover-bg-lighter:hover {
+  background-color: var(--color-bg-lighter);
+}
+
+.hover-bg-lightest:hover {
+  background-color: var(--color-bg-lightest);
+}
+
+.hover-bg-primary:hover {
+  background-color: var(--color-primary);
+}
+
+.hover-bg-secondary:hover {
+  background-color: var(--color-secondary);
+}
+
+.hover-bg-accent:hover {
+  background-color: var(--color-accent);
+}
+
+.hover-bg-lime-accent:hover {
+  background-color: var(--color-lime-accent);
+}
+
+/* bg group-hover */
+.group:hover .group-hover-bg-light {
+  background-color: var(--color-bg-light);
+}
+
+.group:hover .group-hover-bg-lighter {
+  background-color: var(--color-bg-lighter);
+}
+
+.group:hover .group-hover-bg-lightest {
+  background-color: var(--color-bg-lightest);
+}
+
+.group:hover .group-hover-bg-primary {
+  background-color: var(--color-primary);
+}
+
+.group:hover .group-hover-bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.group:hover .group-hover-bg-accent {
+  background-color: var(--color-accent);
+}
+
+.group:hover .group-hover-bg-lime-accent {
+  background-color: var(--color-lime-accent);
+}
+
+/* bg hover transistions */
+.bg-light,
+.bg-lighter,
+.bg-lightest,
+.bg-primary,
+.bg-secondary,
+.bg-accent,
+.bg-lime-accent,
+.hover-bg-light,
+.hover-bg-lighter,
+.hover-bg-lightest,
+.hover-bg-primary,
+.hover-bg-secondary,
+.hover-bg-accent,
+.hover-bg-lime-accent,
+.group-hover-bg-light,
+.group-hover-bg-lighter,
+.group-hover-bg-lightest,
+.group-hover-bg-primary,
+.group-hover-bg-secondary,
+.group-hover-bg-accent,
+.group-hover-bg-lime-accent {
+  transition: background-color 0.25s ease;
+}
+
+/* border colors */
+hr {
+  height: 2px;
+  background-color: var(--color-border);
+  border-top: 1px solid var(--color-border);
+}
+
+.border {
+  border: 1px solid var(--color-border);
+}
+
+.border-t {
+  border-top: 1px solid var(--color-border);
+}
+
+.border-r {
+  border-right: 1px solid var(--color-border);
+}
+
+.border-b {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.border-l {
+  border-left: 1px solid var(--color-border);
+}
+
+.border-y {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.border-x {
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+}
+
+.border-light {
+  border: 1px solid var(--color-bg-light);
+}
+
+.border-lighter {
+  border: 1px solid var(--color-bg-lighter);
+}
+
+.border-lightest {
+  border: 1px solid var(--color-bg-lightest);
+}
+
+.border-primary {
+  border: 1px solid var(--color-primary);
+}
+
+.border-secondary {
+  border: 1px solid var(--color-secondary);
+}
+
+.border-accent {
+  border: 1px solid var(--color-accent);
+}
+
+.border-lime-accent {
+  border: 1px solid var(--color-lime-accent);
+}
+
+/* Raw CSS gradient from primary to secondary */
+.prime-to-sec-gradient {
+  background: linear-gradient(
+    to top right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  color: white; /* optional: text color */
+}
+
+/* =========================================================
+   Typography
+   ========================================================= */
+.text-black {
+  color: var(--color-gray-800);
+}
+.text-white {
+  color: var(--color-text-light);
+}
+.text-label {
+  color: var(--color-gray-600);
+}
+.text-gray-500 {
+  color: var(--color-gray-500);
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.text-secondary {
+  color: var(--color-secondary);
+}
+.text-tertiary {
+  color: var(--color-tertiary);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+.text-lime-accent {
+  color: var(--color-lime-accent);
+}
+.text-heading {
+  color: var(--text-heading);
+}
+.text-body {
+  color: var(--text-body);
+}
+.text-label {
+  color: var(--text-label);
+}
+/* text hover */
+.hover-text-primary:hover {
+  color: var(--color-primary);
+}
+.hover-text-secondary:hover {
+  color: var(--color-secondary);
+}
+.hover-text-tertiary:hover {
+  color: var(--color-tertiary);
+}
+
+.hover-text-accent:hover {
+  color: var(--color-accent);
+}
+.hover-text-lime-accent:hover {
+  color: var(--color-lime-accent);
+}
+/* text group-hover */
+.group:hover .group-hover-text-primary {
+  color: var(--color-primary);
+}
+
+.group:hover .group-hover-text-primary {
+  color: var(--color-secondary);
+}
+
+.group:hover .group-hover-text-accent {
+  color: var(--color-accent);
+}
+
+.group:hover .group-hover-text-lime-accent {
+  color: var(--color-lime-accent);
+}
+/* text hover transitions */
+.text-primary,
+.text-secondary,
+.text-accent,
+.text-lime-accent,
+.hover-text-primary,
+.hover-text-secondary,
+.hover-text-accent,
+.hover-text-lime-accent,
+.group-hover-text-primary,
+.group-hover-text-primary,
+.group-hover-text-accent,
+.group-hover-text-lime-accent {
+  transition: color 0.2s ease;
+}
+
+/* =========================================================
+   Global & Reset
+   ========================================================= */
+* {
+  box-sizing: border-box;
+}
+ul {
+  list-style: none;
+}
+li {
+  text-decoration: none;
+}
+
+.smoothen {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.3, 1);
+}
+
+/* =========================================================
+   Scrollbar (Vertical + Horizontal)
+   ========================================================= */
+/* Vertical scrollbar */
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em; /* horizontal scrollbar */
+}
+
+/* Scrollbar track (optional but recommended) */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Scrollbar thumb (both directions) */
+::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb);
+  border-radius: 3px;
+}
+
+/* Hover state (optional modern touch) */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scroll-thumb-hover, var(--scroll-thumb));
+}
+
+/* =========================================================
+   Tables
+   ========================================================= */
+table {
+  width: 100%;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 10px !important;
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--color-gray-300);
+}
+
+table th {
+  background-color: var(--color-bg-lightest);
+  color: var(--color-text-dark);
+}
+table thead tr:last-child th:first-child {
+  border-top-left-radius: 10px;
+}
+table thead tr:last-child th:last-child {
+  border-top-right-radius: 10px;
+}
+table tbody tr:nth-of-type(even) {
+  background: var(--color-bg-lightest);
+}
+table tbody tr:nth-of-type(odd) {
+  background: var(--color-bg-lighter);
+}
+table tbody tr:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-dark);
+}
+table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+table tr {
+  border-top: 1px solid var(--color-gray-500);
+}
+
+/* Dark Mode Tables */
+body.dark-mode table {
+  background-color: var(--color-bg-light);
+  border-color: var(--color-bg-hover);
+}
+body.dark-mode table th {
+  background-color: #1f2937;
+  color: var(--color-text-dark);
+}
+body.dark-mode table tbody tr:nth-of-type(even) {
+  background: #1f2937;
+}
+body.dark-mode table tbody tr:hover {
+  background: var(--color-bg-hover);
+  color: white;
+}
+body.dark-mode table tr {
+  border-top: 1px solid var(--color-bg-hover);
+}
+
+/* =========================================================
+   Card-style for small screens
+   ========================================================= */
+@media (max-width: 1024px) {
+  /* Remove outer table borders */
+  table.responsive-card-view {
+    border: none !important; /* remove table border */
+    border-collapse: separate !important; /* keep rows separate */
+    width: 100%;
+  }
+
+  table.responsive-card-view tbody {
+    border: none !important;
+  }
+
+  table.responsive-card-view thead {
+    display: none;
+  }
+
+  table.responsive-card-view tbody,
+  table.responsive-card-view tr,
+  table.responsive-card-view td {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* Each row becomes a card */
+  table.responsive-card-view tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-bg-light);
+  }
+
+  /* Flex layout for label + content */
+  table.responsive-card-view td {
+    display: flex !important; /* make td a flex container */
+    justify-content: space-between; /* push content to the right */
+    align-items: center; /* vertically center label + content */
+    position: relative;
+    padding-left: 0 !important; /* remove previous 50% padding */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    text-align: left; /* content aligns left inside flex */
+    border-bottom: 1px solid #ddd; /* <-- divider between each td */
+  }
+
+  /* Label on the left */
+  table.responsive-card-view td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 1rem; /* space between label and content */
+    flex-shrink: 0; /* label doesn't shrink */
+    min-width: 40%; /* optional: give label some space */
+    text-align: left;
+  }
+
+  /* Remove divider from last row */
+  table.responsive-card-view td:last-child {
+    border-bottom: none;
+  }
+
+  /* Ensure links/buttons inside td stretch full width */
+  table.responsive-card-view td a,
+  table.responsive-card-view td button {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Optional: hover effect */
+  table.responsive-card-view tr:hover {
+    background: var(--color-bg-hover);
+  }
+}
+
+table.responsive-card-view tbody {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  table.responsive-card-view tbody {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================================================
+   Cardbox — Modern Accent Bar
+   ========================================================= */
+.cardbox {
+  position: relative;
+  background-color: var(--color-bg-lightest); /* lightest */
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* gap-3 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+  transition: all 0.3s ease;
+}
+
+.cardbox:hover {
+  box-shadow:
+    0 20px 25px rgba(0, 0, 0, 0.1),
+    0 8px 10px rgba(0, 0, 0, 0.04); /* shadow-xl */
+  border: 1px solid var(--color-primary);
+}
+
+.cardbox-icon {
+  padding: 0.75rem; /* p-2 */
+  background-color: var(--color-bg-lighter);
+  color: var(--color-primary); /* text-primary */
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+
+/* =========================================================
+   Sidebar Links — Modern Accent Bar
+   ========================================================= */
+#sidebar ul a {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--color-text-body);
+  transition: all 0.2s ease;
+}
+
+#sidebar ul a:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+}
+
+#sidebar ul a.active {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+#sidebar ul a i {
+  margin-right: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+/* =========================================================
+   Tabs
+   ========================================================= */
+.tab_bar button.active,
+.nested_tab_bar button.active {
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+.tab_bar button:hover,
+.nested_tab_bar button:hover {
+  color: var(--color-secondary);
+}
+
+.tabcontent,
+.nested_tabcontent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: inherit;
+  animation: fadeEffect 1s;
+}
+
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  border-radius: var(--btn-radius);
+  transition: var(--btn-transition);
+  cursor: pointer;
+  font: inherit;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: #fff;
+}
+.btn-secondary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-tertiary {
+  background-color: var(--color-tertiary);
+  color: #fff;
+}
+.btn-tertiary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #fff;
+  padding: var(--btn-padding-y) 1.5rem;
+}
+.btn-danger:hover {
+  background-color: var(--color-danger-hover);
+}
+
+/* Outlined */
+.btn-outlined {
+  background-color: var(--color-bg-lighter);
+  color: var(--color-gray-500);
+  border: 1px solid var(--form-border);
+  border-radius: var(--btn-radius);
+  transition: var(--btn-transition);
+}
+.btn-outlined:hover {
+  color: var(--color-secondary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-secondary);
+}
+
+/* Danger Outlined */
+.btn-outlined-danger {
+  background-color: var(--color-bg-lightest);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--btn-radius);
+  transition: var(--btn-transition);
+}
+.btn-outlined-danger:hover {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+/* =========================================================
+   Forms
+   ========================================================= */
+.form-field {
+  width: 100%;
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: var(--btn-radius);
+  padding: 0.625rem 1rem;
+  transition: var(--btn-transition);
+}
+.form-field:hover,
+.form-field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-secondary);
+}
+
+/* Custom File Input */
+.file-field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: var(--btn-radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: var(--btn-transition);
+  overflow: hidden;
+}
+.file-field:hover,
+.file-field:focus-within {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-secondary);
+  /* color: var(--color-primary); */
+}
+
+/* Dark Mode Inputs */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: transparent;
+  color: #e5e7eb;
+  border-color: #4b5563;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+/* =========================================================
+   Header Bar
+   ========================================================= */
+.header-bar {
+  padding: var(--header-bar-padding);
+  background: var(--header-bar-gradient-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--header-bar-gap);
+  border-radius: var(--header-bar-radius);
+  box-shadow: var(--header-bar-shadow-light);
+  transition: all 0.2s ease-in-out;
+  color: var(--header-bar-text-light);
+}
+
+@media (min-width: 768px) {
+  .header-bar {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+body.dark-mode .header-bar {
+  background: var(--header-bar-gradient-dark);
+  box-shadow: var(--header-bar-shadow-dark);
+  color: var(--header-bar-text-dark);
+}
+
+.header-icon {
+  padding: var(--header-bar-padding);
+  display: flex;
+  gap: 0.75rem;
+  border-radius: var(--header-bar-radius);
+  background-color: var(--header-icon-bg-light);
+  box-shadow: var(--header-bar-shadow-light);
+  color: var(--header-icon-color-light);
+  font-size: 1.25rem;
+  transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(8px);
+}
+
+body.dark-mode .header-icon {
+  background-color: var(--header-icon-bg-dark);
+  color: var(--header-icon-color-dark);
+  box-shadow: var(--header-bar-shadow-dark);
+}

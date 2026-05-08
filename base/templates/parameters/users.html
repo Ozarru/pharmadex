@@ -1,0 +1,93 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  {% if user.role in 'admin,super_admin' %}
+  <!-- header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Users -->
+    <a href="{% url 'accounts:user-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-users text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Users" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}View and manage all users in the system, including
+        creation, editing, and access control.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- User Permissions -->
+    <a
+      href="{% url 'accounts:user-permission-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-key text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "User Permissions" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Manage permissions assigned to users, including viewing,
+        adding, and removing access rights.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- User Analytics -->
+    <a href="{% url 'accounts:user-analytics' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-chart-line text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "User Analytics" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}View reports and analytics for user activity,
+        permissions, and user roles.{% endblocktrans %}
+      </p>
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'main.html' %} {% load static i18n permission_tags  %}
+<!--  -->
+{% block content %}<div class="flex flex-col gap-4">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  {% if user.role in 'admin,super_admin' %}
+  <!-- header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+<div
+  class="tab_bar rounded-lg 2xl:w-full bg-lightest border border-b-0 shadow-lg grid grid-cols-2 lg:flex justify-evenly items-center text-sm divide-x overflow-hidden"
+>
+  <!-- Authentication & Password Policy -->
+  <button
+    class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+    onclick="openTab(event, 'base_auth_tab')"
+    id="defaultTab"
+  >
+    <i class="fa-solid fa-key"></i>
+    <span>{% trans "Authentication & Password Policy" %}</span>
+  </button>
+
+  <!-- Multi-Factor Authentication -->
+  <button
+    class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+    onclick="openTab(event, 'notifications_alerts')"
+  >
+    <i class="fa-solid fa-shield-halved"></i>
+    <span>{% trans "Multi-Factor Authentication" %}</span>
+  </button>
+
+  <!-- Session & Access Controls -->
+  <button
+    class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+    onclick="openTab(event, 'advanced_auth_tab')"
+  >
+    <i class="fa-solid fa-user-lock"></i>
+    <span>{% trans "Session & Access Controls" %}</span>
+  </button>
+
+  <!-- IP & Geographic Restrictions -->
+  <button
+    class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+    onclick="openTab(event, 'access_control_tab')"
+  >
+    <i class="fa-solid fa-globe"></i>
+    <span>{% trans "IP & Geographic Restrictions" %}</span>
+  </button>
+
+  <!-- Account Lockout Rules -->
+  <button
+    class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+    onclick="openTab(event, 'accounts_lockout_tab')"
+  >
+    <i class="fa-solid fa-user-slash"></i>
+    <span>{% trans "Account Lockout Rules" %}</span>
+  </button>
+</div>
+
+
+  
+  <!-- Authentication & Password Policy -->
+  <section id="base_auth_tab" class="tabcontent hidden space-y-6">
+    <h4 class="text-lg font-semibold text-gray-800">
+      {% trans "Authentication & Password Policy" %}
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Minimum Password Length" %}
+        </label>
+        <input type="number" class="form-input w-full" min="6" value="8" />
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Require Special Characters" %}
+        </label>
+        <select class="form-field w-full">
+          <option value="yes">{% trans "Yes" %}</option>
+          <option value="no">{% trans "No" %}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Password Expiration (days)" %}
+        </label>
+        <input type="number" class="form-input w-full" min="0" value="90" />
+        <p class="text-xs text-gray-500 mt-1">
+          {% trans "Set 0 to disable expiration." %}
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Multi-Factor Authentication -->
+  <section id="advanced_auth_tab" class="tabcontent hidden space-y-6">
+    <h4 class="text-lg font-semibold text-gray-800">
+      {% trans "Multi-Factor Authentication" %}
+    </h4>
+
+    <div class="space-y-4">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="form-checkbox" />
+        <span>{% trans "Enable MFA for all users" %}</span>
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="form-checkbox" />
+        <span>{% trans "Allow SMS-based MFA" %}</span>
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="form-checkbox" />
+        <span>{% trans "Allow Authenticator App MFA" %}</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Session & Access Controls -->
+  <section  id="access_control_tab" class="tabcontent hidden space-y-6">
+    <h4 class="text-lg font-semibold text-gray-800">
+      {% trans "Session & Access Controls" %}
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Session Timeout (minutes)" %}
+        </label>
+        <input type="number" class="form-input w-full" min="5" value="30" />
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Maximum Concurrent Sessions" %}
+        </label>
+        <input type="number" class="form-input w-full" min="1" value="1" />
+      </div>
+
+      <div class="col-span-1 md:col-span-2">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="form-checkbox" />
+          <span>{% trans "Force logout on password change" %}</span>
+        </label>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- IP & Geographic Restrictions -->
+  <section  id="ip_restrictions_tab" class="tabcontent hidden space-y-6">
+    <h4 class="text-lg font-semibold text-gray-800">
+      {% trans "IP & Geographic Restrictions" %}
+    </h4>
+
+    <div class="space-y-4">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="form-checkbox" />
+        <span>{% trans "Enable IP Whitelisting" %}</span>
+      </label>
+
+      <input
+        type="text"
+        class="form-input w-full"
+        placeholder="{% trans 'Enter allowed IP ranges (e.g. 192.168.0.0/24)' %}"
+      />
+
+      <label class="flex items-center gap-2">
+        <input type="checkbox" class="form-checkbox" />
+        <span>{% trans "Block logins from high-risk countries" %}</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Account Lockout Rules -->
+  <section  id="accounts_lockout_tab" class="tabcontent hidden space-y-6">
+    <h4 class="text-lg font-semibold text-gray-800">
+      {% trans "Account Lockout Rules" %}
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Failed Login Attempts Allowed" %}
+        </label>
+        <input type="number" class="form-input w-full" min="3" value="5" />
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">
+          {% trans "Lockout Duration (minutes)" %}
+        </label>
+        <input type="number" class="form-input w-full" min="1" value="15" />
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-2xl font-semibold text-heading">{{ bill.title }}</h1>
+        <p class="text-sm text-body">{% trans "Bill Details" %}</p>
+      </div>
+    </div>
+    <div class="mt-3 flex flex-wrap gap-2">
+      {% if bill.balance > 0 %}
+      {% if  user.is_staff or user|can_add:'payment'  %}
+      <button
+        onclick="close_modal()"
+        hx-target="#modal_dialog"
+        hx-get="{% url 'finances:payment-create' %}?model_name=bill&object_id={{ bill.id }}&direction=out&payment_cause=bill"
+        class="modal_opener btn btn-primary"
+      >
+        <i class="fa-solid fa-hand-holding-dollar
+        mr-2"></i>{% trans "Pay Bill" %}
+      </button>
+      {% endif %}
+
+      {% if  user.is_staff or user|can_delete:'payment'  %}
+      <a
+        href="{% url 'base:delete-object' 'bill' bill.id %}?next={{ request.get_full_path|urlencode }}"
+        class="btn btn-outlined-danger"
+      >
+        <i class="fa-solid fa-trash mr-2"></i>{% trans "Delete Bill" %}
+      </a>
+      {% endif %}
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Bill Information -->
+  <div class="w-full p-4 md:p-6 bg-lightest border rounded-xl flex flex-col lg:flex-row gap-4 md:gap-6 lg:divide-x">
+
+    <!-- =============================== -->
+    <!-- Left Column: Bill Details -->
+    <!-- =============================== -->
+    <div class="w-full lg:max-w-[420px] flex flex-col gap-4 md:gap-6">
+
+      <!-- Bill Header -->
+      <div class="flex items-center gap-4 bg-lighter p-4 rounded-xl shadow-md">
+        <i class="{{ bill.model_icon }} text-3xl text-primary"></i>
+        <div class="flex flex-col">
+          <h2 class="text-xl font-semibold text-heading">{{ bill.title|default:"—" }}</h2>
+          <span class="text-sm text-label">{% trans "Bill Number" %} : {{ bill.bill_number|default:"—" }}</span>
+        </div>
+      </div>
+
+      <!-- Bill Details Box -->
+      <div class="h-full bg-lighter p-4 rounded-xl shadow-md flex flex-col gap-3 text-sm text-label">
+        <ul class="flex flex-col gap-2">
+          <li><b>{% trans "Description" %} :</b> {{ bill.description|default:"—" }}</li>
+          <li><b>{% trans "Amount" %} :</b> {{ bill.amount|floatformat:2 }}</li>
+          <li><b>{% trans "Total Paid" %} :</b> {{ bill.total_paid|floatformat:2 }}</li>
+          <li><b>{% trans "Balance" %} :</b> {{ bill.balance|floatformat:2 }}</li>
+          <li><b>{% trans "Issue Date" %} :</b> {{ bill.issue_date|date:"d M, Y" }}</li>
+          <li><b>{% trans "Due Date" %} :</b> {{ bill.due_date|date:"d M, Y" }}</li>
+          <li>
+            <b>{% trans "Status" %} :</b>
+            <span>{% include 'badges/_object_badge.html' with value=bill.status %}</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- =============================== -->
+    <!-- Right Column: Proof File -->
+    <!-- =============================== -->
+    <div class="h-full w-full lg:pl-6 flex flex-col gap-4">
+      {% if bill.proof_file %}
+        <div class="bg-light border rounded-lg shadow-md flex flex-col items-center text-center divide-y">
+          <div class="px-4 w-full flex justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-file-lines text-primary"></i>
+              <h2 class="text-sm">{% trans "Operation Proof File" %}</h2>
+            </div>
+            <div class="flex divide-x gap-2 mt-4 rounded-lg bg-white text-sm mb-4">
+              <!-- Upload button (opens modal) -->
+              <button
+                onclick="close_modal()"
+                hx-target="#modal_dialog"
+                hx-get="{% url 'base:generic-file-upload' %}?app_name=finances&model_name=bill&object_id={{ bill.id }}&file_field=proof_file"
+                class="modal_opener btn hover:text-primary rounded-none"
+              >
+                <i class="fa-solid fa-file-arrow-up"></i>
+                <span>Upload</span>
+              </button>
+              <!-- Download button (active only if file exists) -->
+              {% if bill.proof_file %}
+              <a
+                href="{{ bill.proof_file.url }}"
+                class="btn hover:text-primary rounded-none"
+                download
+              >
+                <i class="fa-solid fa-file-arrow-down"></i>
+                <span>Download</span>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="bg-lighter w-full h-[600px] overflow-hidden rounded-b-lg">
+            <iframe
+              src="{{ bill.proof_file.url }}"
+              width="100%"
+              height="100%"
+              frameborder="0"
+            >
+            </iframe>
+          </div>
+        </div>
+      {% else %}
+        <!-- Drag & Drop Upload -->
+        <div id="bill-upload" 
+          class="h-full p-4 md:p-6 bg-lighter border rounded-xl shadow-md flex flex-col justify-center items-center gap-4 text-center">
+          {% include 'components/_drag_and_drop.html' with app_name='finances' model_name='bill' object_id=bill.id file_field='proof_file' %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+
+  <!-- Related Bill Payments -->
+  <div class="space-y-2">
+    <h2 class="text-heading text-primary font-bold">{% trans "Payments made for this bill" %}</h2>
+    <div
+      id="payment-list"
+      class="payment-list"
+      hx-get="{% url 'finances:payment-list' %}?origin=partial&model_name=bill&object_id={{ bill.id }}"
+      hx-trigger="load, db_changed from:body"
+      hx-target="this"
+    >
+      <p
+        class="h-[400px] w-full flex justify-center items-center text-secondary p-4"
+      >
+        <i class="m-auto fa-solid fa-circle-notch text-3xl animate-spin"></i>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

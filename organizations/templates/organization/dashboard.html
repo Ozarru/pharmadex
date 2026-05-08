@@ -1,0 +1,360 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+
+<div class="flex flex-col gap-6">
+  <!-- HEADER -->
+  <section class="bg-lightest border rounded-2xl shadow-md overflow-hidden">
+    <div
+      class="p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+    >
+      <div class="flex items-start gap-4">
+        <div
+          class="w-24 h-24 rounded-2xl bg-accent flex items-center justify-center text-primary text-2xl"
+        >
+          <i class="{{ model_icon }}"></i>
+        </div>
+
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-heading">
+            {{ organization.name }}
+          </h1>
+
+          {% if header_paragraph %}
+          <p class="text-sm text-body mt-3 max-w-3xl">{{ header_paragraph }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <a
+          href="{% url 'organizations:organization-update' organization.id %}" class="btn btn-outlined">
+          <i class="fa-solid fa-pen mr-2"></i>
+          {% trans "Edit Organization" %}
+        </a>
+
+        <a href="{% url 'pharmacies:pharmacy-list' %}" class="btn btn-primary">
+          <i class="fa-solid fa-staff-snake mr-2"></i>
+          {% trans "Manage Pharmacies" %}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI CARDS -->
+  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <!-- Pharmacies -->
+    <div
+      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+    >
+      <div>
+        <p class="text-xs uppercase tracking-wide">{% trans "Pharmacies" %}</p>
+
+        <h2 class="text-3xl font-bold text-heading mt-2">
+          {{ pharmacies_count }}
+        </h2>
+      </div>
+
+      <div
+        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
+      >
+        <i class="fa-solid fa-staff-snake"></i>
+      </div>
+    </div>
+
+    <!-- Customers -->
+    <div
+      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+    >
+      <div>
+        <p class="text-xs uppercase tracking-wide">{% trans "Customers" %}</p>
+
+        <h2 class="text-3xl font-bold text-heading mt-2">
+          {{ customers_count }}
+        </h2>
+      </div>
+
+      <div
+        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
+      >
+        <i class="fa-solid fa-users"></i>
+      </div>
+    </div>
+
+    <!-- Staff -->
+    <div
+      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+    >
+      <div>
+        <p class="text-xs uppercase tracking-wide">
+          {% trans "Staff Members" %}
+        </p>
+
+        <h2 class="text-3xl font-bold text-heading mt-2">
+          {{ staff_count|default:"0" }}
+        </h2>
+      </div>
+
+      <div
+        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
+      >
+        <i class="fa-solid fa-user-tie"></i>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div
+      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+    >
+      <div>
+        <p class="text-xs uppercase tracking-wide">{% trans "Products" %}</p>
+
+        <h2 class="text-3xl font-bold text-heading mt-2">
+          {{ products_count|default:"0" }}
+        </h2>
+      </div>
+
+      <div
+        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
+      >
+        <i class="fa-solid fa-capsules"></i>
+      </div>
+    </div>
+
+    <!-- Sales -->
+    <div
+      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+    >
+      <div>
+        <p class="text-xs uppercase tracking-wide">
+          {% trans "Sales (30 Days)" %}
+        </p>
+
+        <h2 class="text-3xl font-bold text-heading mt-2">
+          {{ sales_total|default:"0.00" }}
+        </h2>
+
+        <p class="text-xs text-label mt-1">
+          {% trans "Total revenue generated" %}
+        </p>
+      </div>
+
+      <div
+        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
+      >
+        <i class="fa-solid fa-chart-line"></i>
+      </div>
+    </div>
+
+    <!-- Purchases -->
+    <div
+      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+    >
+      <div>
+        <p class="text-xs uppercase tracking-wide">
+          {% trans "Purchases (30 Days)" %}
+        </p>
+
+        <h2 class="text-3xl font-bold text-heading mt-2">
+          {{ purchases_total|default:"0.00" }}
+        </h2>
+
+        <p class="text-xs text-label mt-1">
+          {% trans "Total stock procurement cost" %}
+        </p>
+      </div>
+
+      <div
+        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
+      >
+        <i class="fa-solid fa-truck-ramp-box"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN GRID -->
+  <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+    <!-- LEFT -->
+    <div class="xl:col-span-2 flex flex-col gap-6">
+      <!-- Quick Actions -->
+      <div class="bg-lightest border rounded-2xl shadow-md p-6">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-semibold text-heading">
+            {% trans "Quick Actions" %}
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <a
+            href="{% url 'pharmacies:pharmacy-create' %}"
+            class="btn btn-outlined rounded-xl p-4"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </div>
+
+              <div class="text-start">
+                <p class="font-medium text-heading">
+                  {% trans "Add Pharmacy" %}
+                </p>
+
+                <p class="text-xs text-label">
+                  {% trans "Register a new pharmacy" %}
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <button
+            onclick="close_modal()"
+            hx-target="#modal_dialog"
+            hx-get="{% url 'accounts:user-invitation-create' %}"
+            class="modal_opener btn btn-outlined rounded-xl p-4"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+              >
+                <i class="fa-solid fa-user-plus"></i>
+              </div>
+
+              <div class="text-start">
+                <p class="font-medium text-heading">
+                  {% trans "Invite Staff" %}
+                </p>
+
+                <p class="text-xs text-label">
+                  {% trans "Invite organization users" %}
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <a href="#" class="btn btn-outlined rounded-xl p-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-warning/10 text-warning flex items-center justify-center"
+              >
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+
+              <div class="text-start">
+                <p class="font-medium text-heading">{% trans "Analytics" %}</p>
+
+                <p class="text-xs text-label">
+                  {% trans "View organization metrics" %}
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Activity -->
+      <div class="bg-lightest border rounded-2xl shadow-md p-6">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-semibold text-heading">
+            {% trans "Recent Activity" %}
+          </h2>
+        </div>
+
+        <div class="flex flex-col divide-y">
+          <div class="py-4 flex items-center justify-between">
+            <div>
+              <p class="font-medium text-heading">
+                {% trans "New pharmacy created" %}
+              </p>
+
+              <p class="text-sm text-label">
+                {% trans "Main Branch Pharmacy" %}
+              </p>
+            </div>
+
+            <span class="text-xs text-label"> 2h ago </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="flex flex-col gap-6">
+      <!-- Organization Info -->
+      <div class="bg-lightest border rounded-2xl shadow-md p-6">
+        <h2 class="text-lg font-semibold text-heading mb-5">
+          {% trans "Organization Information" %}
+        </h2>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-xs uppercase text-label">
+              {% trans "Organization Name" %}
+            </p>
+
+            <p class="font-medium text-heading mt-1">{{ organization.name }}</p>
+          </div>
+
+          <div>
+            <p class="text-xs uppercase text-label">{% trans "Created At" %}</p>
+
+            <p class="font-medium text-heading mt-1">
+              {{ organization.created_at }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Status -->
+      <div class="bg-lightest border rounded-2xl shadow-md p-6">
+        <h2 class="text-lg font-semibold text-heading mb-5">
+          {% trans "System Status" %}
+        </h2>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-body">
+              {% trans "Organization Status" %}
+            </span>
+
+            {% include "badges/_activity_badge.html" with value=organization.is_active %}
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-body">
+              {% trans "Active Pharmacies" %}
+            </span>
+
+            <span class="px-4 py-1 bg-green-100 text-green-600 rounded-lg font-semibold text-heading">
+              <i class="fa-solid fa-staff-snake mr-2"></i>
+              {{ active_pharmacies_count }}
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-body">
+              {% trans "Inactive Pharmacies" %}
+            </span>
+
+            <span class="px-4 py-1 bg-gray-100 text-gray-600 rounded-lg font-semibold text-heading">
+              <i class="fa-solid fa-staff-snake mr-2"></i>
+              {{ inactive_pharmacies_count }}
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-body">
+              {% trans "Suspended Pharmacies" %}
+            </span>
+
+            <span class="px-4 py-1 bg-red-100 text-red-600 rounded-lg font-semibold text-heading">
+              <i class="fa-solid fa-staff-snake mr-2"></i>
+              {{ suspended_pharmacies_count }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

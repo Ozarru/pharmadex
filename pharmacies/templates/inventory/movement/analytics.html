@@ -1,0 +1,118 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="flex flex-col gap-6">
+  <!-- ================= HEADER ================= -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ subtitle }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= KPIs ================= -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="bg-lighter rounded-xl p-5 border-l-4 border-green-500">
+      <p class="text-sm text-label">{% trans "Total Stock Entries" %}</p>
+      <p class="text-3xl font-bold text-green-600">{{ total_entries }}</p>
+    </div>
+
+    <div class="bg-lighter rounded-xl p-5 border-l-4 border-red-500">
+      <p class="text-sm text-label">{% trans "Total Stock Exits" %}</p>
+      <p class="text-3xl font-bold text-red-600">{{ total_exits }}</p>
+    </div>
+  </div>
+
+  <!-- ================= TABS ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl space-y-6">
+    <div class="tab_bar grid grid-cols-3 border rounded-lg overflow-hidden">
+      <button
+        class="tab_button h-14"
+        onclick="openTab(event, 'hourly')"
+        id="defaultTab"
+      >
+        {% trans "Last 24 Hours" %}
+      </button>
+      <button class="tab_button h-14" onclick="openTab(event, 'weekly')">
+        {% trans "Last 7 Days" %}
+      </button>
+      <button class="tab_button h-14" onclick="openTab(event, 'monthly')">
+        {% trans "Last 30 Days" %}
+      </button>
+    </div>
+
+    <div id="hourly" class="tabcontent">
+      <canvas id="hourlyChart"></canvas>
+    </div>
+
+    <div id="weekly" class="tabcontent">
+      <canvas id="weeklyChart"></canvas>
+    </div>
+
+    <div id="monthly" class="tabcontent">
+      <canvas id="monthlyChart"></canvas>
+    </div>
+  </section>
+</div>
+
+<script>
+  function movementChart(canvasId, labels, entries, exits) {
+    new Chart(document.getElementById(canvasId), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Entries',
+            data: entries,
+            borderColor: '#22C55E',
+            backgroundColor: 'rgba(34,197,94,0.3)',
+            fill: true,
+            tension: 0.35
+          },
+          {
+            label: 'Exits',
+            data: exits,
+            borderColor: '#EF4444',
+            backgroundColor: 'rgba(239,68,68,0.3)',
+            fill: true,
+            tension: 0.35
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  }
+
+  movementChart(
+    'hourlyChart',
+    [{% for d in hourly_movements %}"{{ d.hour }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+    [{% for d in hourly_movements %}{{ d.entries }}{% if not forloop.last %},{% endif %}{% endfor %}],
+    [{% for d in hourly_movements %}{{ d.exits }}{% if not forloop.last %},{% endif %}{% endfor %}]
+  );
+
+  movementChart(
+    'weeklyChart',
+    [{% for d in weekly_movements %}"{{ d.day }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+    [{% for d in weekly_movements %}{{ d.entries }}{% if not forloop.last %},{% endif %}{% endfor %}],
+    [{% for d in weekly_movements %}{{ d.exits }}{% if not forloop.last %},{% endif %}{% endfor %}]
+  );
+
+  movementChart(
+    'monthlyChart',
+    [{% for d in monthly_movements %}"{{ d.day }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+    [{% for d in monthly_movements %}{{ d.entries }}{% if not forloop.last %},{% endif %}{% endfor %}],
+    [{% for d in monthly_movements %}{{ d.exits }}{% if not forloop.last %},{% endif %}{% endfor %}]
+  );
+</script>
+
+{% endblock %}

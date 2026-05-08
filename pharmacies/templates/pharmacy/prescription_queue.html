@@ -1,0 +1,28 @@
+{% extends 'main.html' %} {% load i18n %}
+{% block content %}
+<div class="h-full flex flex-col gap-4">
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+
+  <div class="bg-lightest border rounded-xl p-4 md:p-6 shadow-md">
+    <h1 class="text-lg font-bold text-heading">{{ title }}</h1>
+    <p class="text-sm text-label mt-1">{{ subtitle }}</p>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <a href="{% url 'pharmacies:point-of-sale' %}" class="btn btn-primary">
+        {% trans "Open POS" %}
+      </a>
+      <a href="{% url 'pharmacies:sale-list' %}" class="btn btn-outlined">
+        {% trans "Sales History" %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

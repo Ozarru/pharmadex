@@ -1,0 +1,212 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">{{ header_paragraph }}</p>
+    </div>
+  </header>
+
+<!-- Pharmacy Analytics Dashboard -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+<!-- Pharmacy Analytics -->
+<a href="{% url 'pharmacies:pharmacy-analytics' %}" class="cardbox group">
+  <div class="flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="cardbox-icon">
+        <i class="fa-solid fa-chart-line text-xl"></i>
+      </div>
+      <span class="text-lg font-semibold text-heading group-hover-text-primary">
+        {% trans "Pharmacy Analytics" %}
+      </span>
+    </div>
+    <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+  </div>
+  <p class="text-sm text-body leading-snug">
+    {% blocktrans %}
+    Gain a complete overview of your pharmacy’s performance, including product trends,
+    category distribution, sales growth, revenue insights, and inventory efficiency —
+    all in one intelligent analytics dashboard.
+    {% endblocktrans %}
+  </p>
+</a>
+
+
+  <!-- Product Analytics -->
+  <a href="{% url 'pharmacies:product-analytics' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-box text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Product Analytics" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Analyze product performance, best sellers, slow-moving items,
+      stock turnover, and revenue contribution.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Category Analytics -->
+  <a href="{% url 'pharmacies:product-category-analytics' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-tag text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Category Analytics" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Monitor performance by category, compare revenue distribution,
+      and identify high-performing product groups.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Sub-Category Analytics -->
+  <a href="{% url 'pharmacies:product-subcategory-analytics' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-tags text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Sub-Category Analytics" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Drill down into sub-category trends, product distribution,
+      and demand patterns for detailed insights.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Sales Analytics -->
+  <a href="{% url 'pharmacies:sale-analytics' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-chart-line text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Sales Analytics" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Track daily, weekly, and monthly sales performance,
+      revenue growth, and transaction trends.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Inventory Performance -->
+  <a href="{% url 'pharmacies:inventory-performance' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-warehouse text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Inventory Performance" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Evaluate stock levels, turnover rates, shortages,
+      overstock risks, and inventory efficiency.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Stock Movement Analysis -->
+  <a href="{% url 'pharmacies:inventory-movement-analytics' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-arrow-right-arrow-left text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Stock Movement Analysis" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Analyze stock inflow and outflow trends,
+      identify anomalies, and optimize replenishment cycles.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Stock Audit Analysis -->
+  <a href="{% url 'pharmacies:inventory-audit-analytics' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-clipboard-check text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Stock Audit Analysis" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      Analyze stock inflow and outflow trends,
+      identify anomalies, and optimize replenishment cycles.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+  <!-- Profit & Loss Reports -->
+  <a href="{% url 'pharmacies:profit-and-loss-reports' %}" class="cardbox group">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-coins text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading group-hover-text-primary">
+          {% trans "Profit & Loss Reports" %}
+        </span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-label group-hover-text-primary"></i>
+    </div>
+    <p class="text-sm text-body leading-snug">
+      {% blocktrans %}
+      View revenue breakdowns, profit margins,
+      cost analysis, and financial performance indicators.
+      {% endblocktrans %}
+    </p>
+  </a>
+
+</div>
+
+</div>
+{% endblock %}

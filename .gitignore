@@ -1,0 +1,16 @@
+*.log
+*.pot
+*.pyc
+.env
+.conf
+.docx
+*.json
+*.sqlite3
+*stage_db.sqlite3
+*prod_db.sqlite3
+media/cards/card_files/
+*.pdf
+venv/
+__pycache__
+.env
+api_tests.http

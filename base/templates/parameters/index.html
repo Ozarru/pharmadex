@@ -1,0 +1,59 @@
+{% extends 'main.html' %} {% load static i18n permission_tags  %}
+<!--  -->
+{% block content %}<div class="flex flex-col gap-4">
+  {% if user.role in 'organization_admin,platform_admin' %}
+  <!-- header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <div class="w-full flex flex-col">
+    <!--------------------------------------- tab buttons --------------------------------------->
+    <div class="nested_tab_bar border border-b-0 w-full bg-lightest text-body shadow-md grid grid-cols-2 lg:flex justify-evenly items-center text-sm divide-x">
+      
+      <!-- System Settings Subtab -->
+      <button class="nested_tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200" onclick="openNestedTab(event, 'system_settings')">
+        <i class="fa-solid fa-cogs"></i>
+        <span>{% trans "System Settings" %}</span>
+      </button>
+      
+      <!-- Notifications & Alerts Subtab -->
+      <button class="nested_tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200" onclick="openNestedTab(event, 'notifications_alerts')">
+        <i class="fa-solid fa-bell"></i>
+        <span>{% trans "Notifications & Alerts" %}</span>
+      </button>
+      
+      <!-- Data Backup & Recovery Subtab -->
+      <button class="nested_tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200" onclick="openNestedTab(event, 'backup_recovery')">
+        <i class="fa-solid fa-database"></i>
+        <span>{% trans "Data Backup & Recovery" %}</span>
+      </button>
+      
+      <!-- Reports & Analytics Subtab -->
+      <button class="nested_tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200" onclick="openNestedTab(event, 'reports_analytics')">
+        <i class="fa-solid fa-chart-bar"></i>
+        <span>{% trans "Reports & Analytics" %}</span>
+      </button>
+      
+      <!-- Customizations Subtab -->
+      <button class="nested_tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200" onclick="openNestedTab(event, 'customizations')">
+        <i class="fa-solid fa-paint-brush"></i>
+        <span>{% trans "Customizations" %}</span>
+      </button>
+
+    </div>
+
+
+
+  
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="container mx-auto">
+  <div class="bg-lightest border rounded-xl max-w-6xl mx-auto shadow-md">
+
+    <!-- header -->
+    <header class="header-bar rounded-b-none">
+      <div class="flex items-center gap-4 w-full max-w-7xl">
+        <span class="header-icon">
+          <i class="{{ model_icon }}"></i>
+        </span>
+        <p class="text-sm w-full max-w-7xl text-body">
+          {{ header_paragraph|default:"" }}
+        </p>
+      </div>
+    </header>
+
+    <hr />
+
+    <!-- Main Form -->
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="relative p-4 md:p-6 flex flex-col gap-4" id="form-fields">
+
+        <!-- Parent Form -->
+        <div class="grid grid-cols-1 lg:grid-cols-{{ parent_cols|default:1 }} gap-4">
+          {% for field in form %}
+          <div class="flex flex-col items-start field" id="field_{{ field.id_for_label }}">
+            <label for="{{ field.id_for_label }}" class="mb-1">
+              {{ field.label|default:"" }}
+            </label>
+
+            {{ field|default:"" }}
+
+            {% if field.errors %}
+            <span class="text-sm text-sky-600 mt-1">
+              {% for error in field.errors %}
+              <p>{{ error|default:"" }}</p>
+              {% endfor %}
+            </span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Formset Title -->
+        <h3 class="-mb-2">
+            {{ formset_title|default:_("Items") }}
+        </h3>
+
+        <div class="bg-light p-4 rounded-xl shadow-md">
+            {{ formset.management_form|default:"" }}
+
+            <!-- Formset Container -->
+            <div class="flex flex-col gap-4" id="formset-container">
+                {% for f in formset.forms %}
+                {{ f.id|default:"" }}
+
+                <div class="flex gap-3 formset-form">
+                    {% for field in f.visible_fields %}
+                    {% if field.name != 'DELETE' %}
+                    <div class="flex flex-col items-start field" id="inline_field_{{ field.id_for_label }}">
+                        <label for="{{ field.id_for_label }}" class="mb-1">
+                        {{ field.label|default:"" }}
+                        </label>
+
+                        {{ field|default:"" }}
+
+                        {% if field.errors %}
+                        <span class="text-sm text-sky-600 mt-1">
+                        {% for error in field.errors %}
+                        <p>{{ error|default:"" }}</p>
+                        {% endfor %}
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if formset.can_delete and f.instance.pk %}
+                    <div class="flex justify-between items-center hover:bg-red-100 p-3 rounded-lg group">
+                    <label class="text-sm text-red-700 group-hover:font-semibold">
+                        {% trans "Delete" %}
+                    </label>
+                    {{ f.DELETE|default:"" }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Empty form template for JS add -->
+            <div id="empty-form-template" class="hidden">
+                <div class="flex gap-3 formset-form">
+                {% for field in formset.empty_form.visible_fields %}
+                    {% if field.name != 'DELETE' %}
+                    <div class="flex flex-col flex-grow items-start field" id="inline_field_{{ field.id_for_label }}">
+                    <label for="{{ field.id_for_label }}" class="mb-1">
+                        {{ field.label|default:"" }}
+                    </label>
+                    {{ field|default:"" }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between items-center mt-4">
+            {% if can_add_item %}
+            <button type="button" id="add-item" class="btn btn-secondary">
+            <i class="fa fa-plus mr-1"></i> {{ add_item_label|default:_("Add item") }}
+            </button>
+            {% else %}
+            <span></span>
+            {% endif %}
+
+
+
+          <div class="p-4 pt-0 flex justify-between gap-2 items-end text-sm">
+            <button type="button" onclick="history.back()" class="btn btn-danger">
+              {% trans "Cancel" %}
+            </button>
+            <button type="submit" class="btn btn-primary">
+              {% trans "Save" %}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- JS: add formset form -->
+    {% if can_add_item|default:True %}
+    <script>
+      const addBtn = document.getElementById("add-item");
+      const formsetContainer = document.getElementById("formset-container");
+      const totalForms = document.querySelector("#id_{{ formset.prefix }}-TOTAL_FORMS");
+      const emptyFormTemplate = document.getElementById("empty-form-template").innerHTML;
+
+      if (addBtn && formsetContainer && totalForms) {
+        addBtn.addEventListener("click", () => {
+          const formIndex = parseInt(totalForms.value);
+          const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, formIndex);
+
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = newFormHtml.trim();
+          const newForm = tempDiv.firstElementChild;
+
+          formsetContainer.appendChild(newForm);
+          totalForms.value = formIndex + 1;
+
+          // optional: if you have a global style function, keep it safe
+          if (typeof styleFormFields === "function") styleFormFields();
+        });
+      }
+    </script>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

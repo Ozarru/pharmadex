@@ -1,0 +1,207 @@
+{% extends 'main.html' %}
+{% load static i18n permission_tags %}
+
+{% block content %}
+<div class="w-full max-w-5xl mx-auto px-6 py-10 bg-lightest shadow-xl rounded-2xl flex flex-col gap-8">
+
+  <!-- ================= PROFILE HEADER ================= -->
+  <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+
+    {% if profile and profile.image %}
+      <img
+        src="{{ profile.image.url }}"
+        alt="{{ curr_obj.full_name }}"
+        class="w-28 h-28 rounded-full object-cover shadow-md"
+      />
+    {% else %}
+      <div class="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-2xl text-body shadow-inner font-bold">
+        {{ curr_obj.first_name|default:"U"|slice:":1" }}
+        {{ curr_obj.last_name|default:"N"|slice:":1" }}
+      </div>
+    {% endif %}
+
+    <div>
+      <h1 class="text-3xl font-bold text-heading">
+        {{ curr_obj.full_name|default:"" }}
+      </h1>
+
+      <!-- ================= ROLE ================= -->
+      <p class="text-sm text-primary">
+        <i class="fa-solid fa-id-badge"></i>
+
+        {% with user.current_role as current_role %}
+          {% if current_role and current_role.role %}
+
+            {% with current_role.role.user_type as role_type %}
+
+              {% if role_type == 'vendor' %}
+                <span>{{ _("Vendor") }}</span>
+
+              {% elif role_type == 'cashier' %}
+                <span>{{ _("Cashier") }}</span>
+
+              {% elif role_type == 'pharmacist' %}
+                <span>{{ _("Pharmacist") }}</span>
+
+              {% elif role_type == 'doctor' %}
+                <span>{{ _("Doctor") }}</span>
+
+              {% elif role_type == 'inventory_manager' %}
+                <span>{{ _("Inventory Manager") }}</span>
+
+              {% elif role_type == 'pharmacy_manager' %}
+                <span>{{ _("Pharmacy Manager") }}</span>
+
+              {% elif role_type == 'platform_admin' %}
+                <a href="{% url 'accounts:user-detail' user.platform_admin_profile.id %}">
+                  {{ _("Platform Administrator") }}
+                </a>
+
+              {% else %}
+                <span>{{ current_role.role.get_user_type_display|default:_("User") }}</span>
+              {% endif %}
+
+            {% endwith %}
+
+          {% else %}
+            <span>{{ _("User") }}</span>
+          {% endif %}
+        {% endwith %}
+      </p>
+
+      <p class="text-sm text-label mt-1">
+        <i class="fa-regular fa-calendar-check"></i>
+        {% trans "Joined on" %} {{ curr_obj.created_at|date:"d M Y at H:i" }}
+      </p>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- ================= DETAILS ================= -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-body text-sm">
+
+    <div>
+      <i class="fa-solid fa-phone mr-2 text-primary"></i>
+      <strong>{% trans "Phone number" %} :</strong>
+      {{ curr_obj.phone_number|default:"—" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-envelope-circle-check mr-2 text-primary"></i>
+      <strong>{% trans "Email" %} :</strong>
+      {{ curr_obj.email|default:"—" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-user mr-2 text-primary"></i>
+      <strong>{% trans "Username" %} :</strong>
+      {{ curr_obj.username|default:"—" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-venus-mars mr-2 text-primary"></i>
+      <strong>{% trans "Gender" %} :</strong>
+      {{ profile.get_gender_display|default:"—" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-toggle-on mr-2 text-primary"></i>
+      <strong>{% trans "Online" %} :</strong>
+
+      {% if curr_obj.is_online %}
+        <span class="inline-block px-2 py-0.5 bg-green-100 text-green-600 rounded-full text-xs">
+          {% trans "Yes" %}
+        </span>
+      {% else %}
+        <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs">
+          {% trans "No" %}
+        </span>
+      {% endif %}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-right-to-bracket mr-2 text-primary"></i>
+      <strong>{% trans "Last login" %} :</strong>
+      {{ curr_obj.last_login|date:"d M Y H:i" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-right-from-bracket mr-2 text-primary"></i>
+      <strong>{% trans "Last logout" %} :</strong>
+      {{ curr_obj.last_logout|date:"d M Y H:i"|default:"—" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-building mr-2 text-primary"></i>
+      <strong>{% trans "Current Pharmacy" %} :</strong>
+      {{ curr_obj.profile.current_organization.name|default:"—" }}
+    </div>
+
+    <div>
+      <i class="fa-solid fa-user-check mr-2 text-primary"></i>
+      <strong>{% trans "Active" %} :</strong>
+
+      <span class="inline-block px-2 py-0.5 rounded-full text-xs
+        {{ curr_obj.is_active|yesno:'bg-green-100 text-green-600,bg-red-100 text-red-600' }}">
+        {{ curr_obj.is_active|yesno:_("Yes,No") }}
+      </span>
+    </div>
+
+    <div>
+      <i class="fa-solid fa-shield-halved mr-2 text-primary"></i>
+      <strong>{% trans "Staff" %} :</strong>
+
+      <span class="inline-block px-2 py-0.5 rounded-full text-xs
+        {{ curr_obj.is_staff|yesno:'bg-blue-100 text-blue-600,bg-gray-100 text-gray-600' }}">
+        {{ curr_obj.is_staff|yesno:_("Yes,No") }}
+      </span>
+    </div>
+
+  </div>
+
+  <!-- ================= BIO ================= -->
+  {% if profile.bio %}
+  <div>
+    <h2 class="text-lg font-semibold text-heading mb-2">
+      <i class="fa-solid fa-quote-left mr-2 text-primary"></i>
+      {% trans "Biography" %}
+    </h2>
+
+    <p class="text-body leading-relaxed text-sm bg-lighter p-4 rounded-lg shadow-inner">
+      {{ profile.bio|default:_("No biography provided.") }}
+    </p>
+  </div>
+  {% endif %}
+
+  <!-- ================= EDIT BUTTONS ================= -->
+  {% if is_self %}
+  <hr />
+
+  <div class="flex justify-between text-sm">
+
+    <button
+      onclick="close_modal()"
+      hx-target="#modal_dialog"
+      hx-get="{% url 'accounts:user-update' curr_obj.id %}"
+      class="modal_opener btn btn-danger"
+    >
+      <i class="fa-solid fa-id-badge mr-2"></i>
+      {% trans "Edit Account" %}
+    </button>
+
+    <button
+      onclick="close_modal()"
+      hx-target="#modal_dialog"
+      hx-get="{% url 'accounts:user-profile-update' curr_obj.profile.id %}"
+      class="modal_opener btn btn-primary inline-flex items-center py-3"
+    >
+      <i class="fa-solid fa-pen-to-square mr-2"></i>
+      {% trans "Edit Profile" %}
+    </button>
+
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

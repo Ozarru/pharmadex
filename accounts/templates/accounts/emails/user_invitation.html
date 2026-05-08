@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>You're Invited</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family: Arial, sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+            <td align="center" style="padding: 20px 0;">
+                <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff; border-radius:8px; padding:32px; box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);">
+                    
+                    <!-- Pharmacy Logo -->
+                    {% if organization_logo %}
+                    <tr>
+                        <td align="center" style="padding-bottom:24px;">
+                            <img src="{{ organization_logo }}" alt="{{ organization_name }} Logo" style="max-width:150px; max-height:50px; object-fit:contain;">
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                    <!-- Platform Logo (Optional) -->
+                    {% if platform_logo %}
+                    <tr>
+                        <td align="center" style="padding-bottom:24px;">
+                            <img src="{{ platform_logo }}" alt="Pharmadex Platform Logo" style="max-width:150px; max-height:50px; object-fit:contain;">
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                    <!-- Main Heading -->
+                    <tr>
+                        <td style="font-size:24px; font-weight:600; color:#111827; text-align:center; padding-bottom:16px;">
+                            🎉 {{ _('Invitation to Join') }} {{ organization_name }} {{ _('on Pharmadex') }}!
+                        </td>
+                    </tr>
+
+                    <!-- Email Introduction -->
+                    <tr>
+                        <td style="font-size:16px; color:#4b5563; padding-bottom:12px; text-align:center;">
+                            {{ _('Hello,') }} <strong>{{ email }}</strong>! {{ _('You have been invited to join') }}
+                            <strong>{{ organization_name }}</strong> {{ _('as a') }} <strong>{{ user_type }}</strong> {{ _('on the Pharmadex platform.') }}
+                        </td>
+                    </tr>
+
+                    <!-- Invitation Instruction -->
+                    <tr>
+                        <td style="font-size:16px; color:#4b5563; padding-bottom:24px; text-align:center;">
+                            {{ _('Please click the button below to complete your registration. This link will expire in 3 days.') }}
+                        </td>
+                    </tr>
+
+                    <!-- Join Now Button -->
+                    <tr>
+                        <td align="center" style="padding-bottom:24px;">
+                            <a href="{{ invite_url }}"
+                               style="display:inline-block; width:100%; max-width:200px; padding:12px 24px; background-color:#3b82f6; color:#ffffff; font-weight:600; text-decoration:none; border-radius:6px; text-align:center;">
+                                {{ _('Join Now') }}
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Footer Text -->
+                    <tr>
+                        <td style="font-size:14px; color:#9ca3af; text-align:center; padding-bottom:12px;">
+                            {{ _('If you didn’t request this invitation, you can safely ignore this email.') }}
+                        </td>
+                    </tr>
+
+                    <!-- Platform Footer -->
+                    <tr>
+                        <td style="font-size:14px; color:#9ca3af; text-align:center;">
+                            {{ _('Best regards,') }}<br>
+                            {{ organization_name }} {{ _('Team') }}<br>
+                            {{ _('Powered by <i>Zenheit Technologies</i>') }}
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

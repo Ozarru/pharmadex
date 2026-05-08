@@ -1,0 +1,153 @@
+{% load static i18n permission_tags %}
+<div class="p-4 flex justify-between items-center gap-4 text-body">
+  <div class="relative flex fex-col items-center">
+    <button
+      onclick="toggleMenu(this, 'languageMenu')"
+      aria-label="Language menu"
+      class="btn btn-outlined"
+    >
+      <i class="fa-solid fa-language"></i>
+    </button>
+    <div
+      id="languageMenu"
+      class="hidden absolute left-0 top-12 bg-lighter border divider-y rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden"
+      role="menu"
+      aria-orientation="vertical"
+    >
+      <form action="{% url 'base:set-language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        <input type="hidden" name="language" value="en" />
+
+        <button
+          type="submit"
+          class="w-full text-left px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+        >
+          <i class="fa-solid fa-globe"></i> English (en)
+        </button>
+      </form>
+
+      <form action="{% url 'base:set-language' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        <input type="hidden" name="language" value="fr" />
+
+        <button
+          type="submit"
+          class="w-full text-left px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+        >
+          <i class="fa-solid fa-globe"></i> Français (fr)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="relative flex fex-col items-center">
+    <button
+      onclick="toggleMenu(this, 'themeMenu')"
+      aria-label="Theme menu"
+      class="btn btn-outlined"
+      id="themeButton"
+    >
+      <i id="themeIcon" class="fa-regular fa-sun"></i>
+    </button>
+    <div
+      id="themeMenu"
+      class="hidden absolute right-0 top-12 bg-lighter border divider-y rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden"
+      role="menu"
+      aria-orientation="vertical"
+    >
+      <button
+        class="px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+        onclick="setTheme('light')"
+      >
+        <i class="fa-regular fa-sun"></i> {% trans "Light Theme" %}
+      </button>
+      <button
+        class="px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+        onclick="setTheme('dark')"
+      >
+        <i class="fa-solid fa-moon"></i> {% trans "Dark Theme" %}
+      </button>
+      <button
+        class="px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+        onclick="setTheme('system')"
+      >
+        <i class="fa-solid fa-display"></i> {% trans "System Theme" %}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // App theme Toggle ------------------------------------------------------------------------------------------------------
+  function setTheme(mode = "") {
+    const body = document.body;
+    body.classList.remove("light-mode", "dark-mode");
+
+    if (mode === "light") {
+      body.classList.add("light-mode");
+      sessionStorage.setItem("theme", "light");
+      localStorage.setItem("theme", "light");
+    } else if (mode === "dark") {
+      body.classList.add("dark-mode");
+      sessionStorage.setItem("theme", "dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      // Use system preference
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      body.classList.add(prefersDark ? "dark-mode" : "light-mode");
+      sessionStorage.setItem("theme", "system");
+      localStorage.setItem("theme", "system");
+    }
+
+    updateThemeIcon();
+    closeAllMenus(); // optional
+  }
+
+  function applySavedTheme() {
+    const savedTheme =
+      sessionStorage.getItem("theme") ||
+      localStorage.getItem("theme") ||
+      "system";
+
+    if (savedTheme === "light") {
+      document.body.classList.add("light-mode");
+    } else if (savedTheme === "dark") {
+      document.body.classList.add("dark-mode");
+    } else {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      document.body.classList.add(prefersDark ? "dark-mode" : "light-mode");
+    }
+
+    updateThemeIcon();
+  }
+
+  function updateThemeIcon() {
+    const icon = document.getElementById("themeIcon");
+    const theme =
+      sessionStorage.getItem("theme") ||
+      localStorage.getItem("theme") ||
+      "system";
+
+    if (!icon) return;
+
+    if (theme === "light") {
+      icon.className = "fa-regular fa-sun";
+    } else if (theme === "dark") {
+      icon.className = "fa-solid fa-moon";
+    } else {
+      icon.className = "fa-solid fa-display";
+    }
+  }
+
+  function closeAllMenus() {
+    document.querySelectorAll('[id$="Menu"]').forEach((menu) => {
+      menu.classList.add("hidden");
+    });
+  }
+</script>

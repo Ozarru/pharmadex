@@ -1,0 +1,271 @@
+{% extends 'main.html' %} {% load static i18n permission_tags  %}
+<!--  -->
+{% block content %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="flex flex-col gap-4">
+  {% if user.get_current_user_type in 'platform_admin' %}
+  <!-- header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <!-- Stats Overview -->
+  <div class="grid md:grid-cols-4 gap-4">
+    <div class="bg-lightest shadow rounded-xl p-5">
+      <h2 class="text-gray-500 text-sm">Total Users</h2>
+      <p class="text-3xl font-bold">{{ total_users }}</p>
+    </div>
+
+    <div class="bg-lightest shadow rounded-xl p-5">
+      <h2 class="text-gray-500 text-sm">Active Users</h2>
+      <p class="text-3xl font-bold">{{ active_users }}</p>
+    </div>
+
+    <div class="bg-lightest shadow rounded-xl p-5">
+      <h2 class="text-gray-500 text-sm">Online</h2>
+      <p class="text-3xl font-bold">{{ offline_users }}</p>
+    </div>
+
+    <div class="bg-lightest shadow rounded-xl p-5">
+      <h2 class="text-gray-500 text-sm">Offline</h2>
+      <p class="text-3xl font-bold">{{ online_users }}</p>
+    </div>
+  </div>
+
+  <!-- Login 30 days timeline -->
+  <div class="bg-lightest shadow p-4 md:p-6 rounded-xl">
+    <h2 class="text-xl font-semibold mb-4">Login Activity (Last 30 Days)</h2>
+    <canvas id="loginLogout30DayTimeline"></canvas>
+  </div>
+
+  <!-- Login 24 hours volume -->
+  <div class="bg-lightest shadow p-4 md:p-6 rounded-xl">
+    <h2 class="text-xl font-semibold mb-4">Login Activity (Last 24 Hours)</h2>
+    <canvas id="loginLogout24hVolume"></canvas>
+  </div>
+
+  <!-- 2-column charts -->
+  <div class="grid md:grid-cols-2 gap-4">
+    <!-- Gender -->
+    <div class="bg-lightest shadow p-4 md:p-6 rounded-xl">
+      <h2 class="text-xl font-semibold mb-4">Gender Distribution</h2>
+      <canvas id="genderChart"></canvas>
+    </div>
+
+    <!-- User Types -->
+    <div class="bg-lightest shadow p-4 md:p-6 rounded-xl">
+      <h2 class="text-xl font-semibold mb-4">User Type Breakdown</h2>
+      <canvas id="userTypeChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Pharmacy distribution -->
+  <div class="bg-lightest shadow p-4 md:p-6 rounded-xl">
+    <h2 class="text-xl font-semibold mb-4">Current Pharmacy Distribution</h2>
+    <canvas id="organizationChart"></canvas>
+  </div>
+</div>
+
+<!-- Chart.js Scripts -->
+<script>
+  
+// ===== Shared chart helpers =====
+const glassFill = (r, g, b, a = 0.12) => `rgba(${r}, ${g}, ${b}, ${a})`;
+
+const chartGrid = {
+    color: 'rgba(255,255,255,0.06)'
+};
+
+const chartTicks = {
+    color: '#9CA3AF',
+    precision: 0
+};
+
+const darkTooltip = {
+    backgroundColor: 'rgba(17, 24, 39, 0.9)',
+    titleColor: '#E5E7EB',
+    bodyColor: '#E5E7EB',
+    borderWidth: 1
+};
+
+new Chart(document.getElementById('loginLogout30DayTimeline'), {
+    type: 'line',
+    data: {
+        labels: {{ logins.timeline_labels|safe }},
+        datasets: [
+            {
+                label: 'Logins',
+                data: {{ logins.timeline_data|safe }},
+                borderColor: '#22C55E', // green-500
+                backgroundColor: glassFill(34, 197, 94),
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4
+            },
+            {
+                label: 'Logouts',
+                data: {{ logouts.timeline_data|safe }},
+                borderColor: '#EF4444', // red-500
+                backgroundColor: glassFill(239, 68, 68),
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4
+            }
+        ]
+    },
+    options: {
+        plugins: {
+            tooltip: darkTooltip
+        },
+        scales: {
+            x: { grid: { display: false }, ticks: chartTicks },
+            y: { beginAtZero: true, grid: chartGrid, ticks: chartTicks }
+        }
+    }
+});
+
+
+const hourLabels = {{ activity_24h.labels|safe }};
+const loginData = {{ activity_24h.logins|safe }};
+const logoutData = {{ activity_24h.logouts|safe }};
+
+new Chart(document.getElementById('loginLogout24hVolume'), {
+    type: 'bar',
+    data: {
+        labels: hourLabels,
+        datasets: [
+            {
+                label: 'Logins',
+                data: loginData,
+                backgroundColor: glassFill(34,197,94),
+                borderColor: '#22C55E',
+                borderWidth: 2,
+                borderRadius: 6
+            },
+            {
+                label: 'Logouts',
+                data: logoutData,
+                backgroundColor: glassFill(239,68,68),
+                borderColor: '#EF4444',
+                borderWidth: 2,
+                borderRadius: 6
+            }
+        ]
+    },
+    options: {
+        plugins: {
+            tooltip: darkTooltip,
+            legend: { position: 'top' }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: chartTicks
+            },
+            y: {
+                beginAtZero: true,
+                grid: chartGrid,
+                ticks: chartTicks
+            }
+        }
+    }
+});
+
+
+new Chart(document.getElementById('genderChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Male', 'Female'],
+        datasets: [{
+            data: [{{ gender.male }}, {{ gender.female }}],
+            backgroundColor: [
+                glassFill(59, 130, 246),
+                glassFill(236, 72, 153)
+            ],
+            borderColor: [
+                '#60A5FA', // blue-400
+                '#F472B6'  // pink-400
+            ],
+            borderWidth: 2,
+            borderRadius: 12,
+            spacing:16,
+            cutout: '70%'
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { position: 'bottom' },
+            tooltip: darkTooltip
+        }
+    }
+});
+
+const userTypeLabels = {{ user_type_labels|safe }};
+const userTypeValues = {{ user_type_values|safe }};
+
+const userTypePalette = [
+    [59,130,246,'#60A5FA'],
+    [16,185,129,'#34D399'],
+    [245,158,11,'#FBBF24'],
+    [239,68,68,'#F87171'],
+    [139,92,246,'#A78BFA'],
+    [236,72,153,'#F472B6']
+];
+
+new Chart(document.getElementById('userTypeChart'), {
+    type: 'bar',
+    data: {
+        labels: userTypeLabels,
+        datasets: [{
+            data: userTypeValues,
+            backgroundColor: userTypePalette.map(c => glassFill(c[0], c[1], c[2])),
+            borderColor: userTypePalette.map(c => c[3]),
+            borderWidth: 2,
+            borderRadius: 10
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false },
+            tooltip: darkTooltip
+        },
+        scales: {
+            x: { grid: { display: false }, ticks: chartTicks },
+            y: { beginAtZero: true, grid: chartGrid, ticks: chartTicks }
+        }
+    }
+});
+
+
+new Chart(document.getElementById('organizationChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ organization_labels|safe }},
+        datasets: [{
+            data: {{ organization_values|safe }},
+            backgroundColor: glassFill(16, 185, 129),
+            borderColor: '#34D399',
+            borderWidth: 2,
+            borderRadius: 12
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false },
+            tooltip: darkTooltip
+        },
+        scales: {
+            x: { grid: { display: false }, ticks: chartTicks },
+            y: { beginAtZero: true, grid: chartGrid, ticks: chartTicks }
+        }
+    }
+});
+</script>
+{% endblock %}

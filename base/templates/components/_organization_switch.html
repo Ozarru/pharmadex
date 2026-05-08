@@ -1,0 +1,101 @@
+{% load i18n %}
+
+<div class="relative w-full max-w-sm flex flex-col gap-4" id="org-switcher">
+  <!-- If Manager Has No Organization -->
+  {% if not request.available_organizations %}
+  <!--  -->
+  {% if request.user.is_superuser or request.user.is_platform_admin %}
+  <div
+    class="p-4 lg:px-2 bg-light rounded-xl border shadow-md text-sm text-label flex flex-col items-center text-center gap-2 dynamic-text"
+  >
+    <i
+      class="fa-solid fa-circle-exclamation text-xl text-yellow-500"
+    ></i>
+    <span class="">
+      {% trans "You have no Organization under your management yet. Kindly click below to create one." %}
+    </span>
+    <a
+      href="{% url 'organizations:organization-create' %}"
+      class="btn btn-secondary flex items-center justify-center gap-2"
+    >
+      <span class=""> {% trans "Create an Organization" %} </span>
+      <i class="fa-solid fa-plus"></i>
+    </a>
+  </div>
+  {% endif %}
+  <!--  -->
+  {% endif %}
+
+  <!-- Trigger -->
+   {% if request.available_organizations %}
+   <button
+    onclick="toggleMenu(this, 'organizationListMenu')"
+    type="button"
+     class="btn w-full flex items-center gap-4 p-4 lg:px-2.5 bg-lighter border border-dashed rounded-xl hover:shadow-md transition"
+   >
+     {% if request.current_organization %}
+     <div class="w-full flex justify-between items-center gap-2">
+       <div
+        class="w-12 h-12 flex items-center justify-center rounded-full bg-accent text-primary shadow-md {% if not request.current_organization.is_active %} bg-red-100 text-red-600 {% endif %}"
+       >
+         <i class="fa-solid fa-building text-lg"></i>
+       </div>
+ 
+       <!-- Name -->
+       <div class="flex flex-col items-start min-w-0 dynamic-text">
+         <span class="font-semibold text-heading text-primary truncate">
+           {{ request.current_organization.name|default:"" }}
+         </span>
+         <span class="text-xs text-label italic line-clamp-1">
+          {{ request.current_organization.code|default:"" }}
+         </span>
+       </div>
+       <!-- Arrow -->
+       <i class="fa-solid fa-chevron-down text-label dynamic-icon"></i>
+     </div>
+     {% else %}
+     <div class="w-full flex justify-between items-center gap-2 dynamic-text">
+       <span class="text-sm">
+         <i class="fa-solid fa-circle-info mr-2"></i>
+         {% trans "Choose an Organization" %}
+       </span>
+       <i class="fa-solid fa-chevron-down text-label dynamic-icon"></i>
+     </div>
+     {% endif %}
+   </button>
+ 
+   <!-- Dropdown -->
+   <div
+    id="organizationListMenu"
+    class="hidden absolute mt-20 w-full bg-lightest border border-dashed rounded-lg shadow-lg max-h-80 overflow-y-auto z-10"
+  >
+     {% for obj in request.available_organizations %} 
+     <!--  -->
+     {% if obj != request.current_organization %}
+     <a
+      href="{% url 'accounts:organization-switch' obj.id %}"
+       class="flex items-center gap-4 p-3 hover-bg-lightest hover-text-primaryer hover-text-primary hover-bg-accent transition border-b last:border-b-0"
+     >
+       <div
+         class="w-10 h-10 flex items-center justify-center rounded-full bg-light {% if not obj.is_active %} bg-red-100 text-red-600 {% endif %}"
+       >
+         <i class="fa-solid fa-building text-sm"></i>
+       </div>
+ 
+       <div class="flex flex-col min-w-0">
+         <h4 class="text-sm font-medium text-heading truncate dynamic-text">
+           {{ obj.name }}
+         </h4>
+         <p class="text-xs text-label italic line-clamp-1 dynamic-text">
+          {{ obj.code|default:"" }}
+         </p>
+       </div>
+     </a>
+     {% endif %} {% empty %}
+     <div class="p-4 text-sm text-label italic">
+       {% trans "No other organizations available." %}
+     </div>
+     {% endfor %}
+   </div>
+   {% endif %}
+</div>

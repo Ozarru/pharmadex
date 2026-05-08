@@ -1,0 +1,33 @@
+{% extends 'main_plain.html' %}
+{% load static i18n %}
+
+{% block content %}
+<section class="bg-lightest min-h-screen w-full grid grid-cols-1 md:grid-cols-5">
+  <div class="relative flex flex-col justify-center gap-4 col-span-3">
+
+    <div class="mt-20 w-full max-w-lg mx-auto p-8 flex flex-col justify-center gap-4 bg-white rounded-lg shadow-md">
+
+      <div class="flex items-start gap-2">
+        <img id="app_logo" class="h-12" src="{% static 'imgs/brand/icon.png' %}" alt="logo" />
+        <span class="text-primary text-3xl font-semibold mt-4">Pharmadex</span>
+      </div>
+      <small class="text-secondary text-sm">The Modern Pharmacy Operating System</small>
+      <hr class="my-4" />
+
+      <h1 class="text-heading text-xl font-bold mb-2">{% trans "Password Reset Successful" %}</h1>
+      <p class="text-gray-600 mb-4">
+        {% trans "Your password has been successfully updated. You can now log in with your new password." %}
+      </p>
+
+      <a href="{% url 'accounts:login' %}" class="btn btn-primary">
+        {% trans "Back to Login" %}
+      </a>
+
+    </div>
+  </div>
+
+  <img class="hidden md:block md:min-h-screen h-full w-full object-cover col-span-2"
+       src="{% static 'imgs/auth-hero.png' %}"
+       alt="bg-hero" />
+</section>
+{% endblock %}

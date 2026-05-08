@@ -1,0 +1,10 @@
+    {% load static i18n permission_tags  %}
+    <div class="flex flex-grow items-center divide-x gap-2 mt-4 rounded-md bg-lightest text-sm p-[2px]">
+      {% if user|can_import:model_name  %}
+      {% include "components/_import.html" with app=model_app model=model_name|title %}
+      {% endif %}
+
+      {% if user|can_export:model_name %}
+      {% include "components/_export.html" with app=model_app model=model_name|title %}
+      {% endif %}
+    </div>

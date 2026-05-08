@@ -1,0 +1,9 @@
+{% load static i18n %}
+<span class="flex items-center gap-2"
+  ><img
+    src="{{value.country.flag}}"
+    alt="{{ value.country.name}}"
+    class="h-4"
+  />
+  {{ value.country.name|default:"" }}</span
+>

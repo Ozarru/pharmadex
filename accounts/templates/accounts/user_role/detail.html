@@ -1,0 +1,39 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+  {% if user.get_current_user_type in 'platform_admin,' %}
+  <!-- header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {{ header_paragraph|default:"" }}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <form method="post" id="permission-form">
+    {% csrf_token %}
+
+    <div class="field">
+      {{ form.permissions.label_tag }} 
+      <!--  -->
+      {{ form.permissions }}
+    </div>
+
+    <div class="mt-4 flex justify-between">
+      <!-- Cancel Button -->
+      <a href="{{ request.META.HTTP_REFERER}}" class="btn btn-outlined">
+        {% trans "Cancel" %}
+      </a>
+
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

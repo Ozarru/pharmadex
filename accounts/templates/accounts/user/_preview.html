@@ -1,0 +1,43 @@
+{% load static i18n permission_tags  %}
+<div class="flex flex-col gap-4">
+  {% if not curr_obj.image %}
+  <img
+    class="h-40 w-40 bg-lightest rounded-full object-cover"
+    src="{% static 'imgs/anon.png' %}"
+    alt="image"
+  />
+  {% else %}
+  <img
+    class="h-40 w-40 bg-lightest rounded-full object-cover"
+    src="{{curr_obj.image.url}}"
+    alt="image"
+  />
+  {% endif %}
+  <article class=" grid gap-1 w-full">
+    <div class="flex justify-between items-center">
+      <h4 class="text-heading text-2xl font-bold">{{curr_obj.full_name}}</h4>
+      <button
+        hx-target="#modal_dialog"
+        hx-get="{% url 'accounts:user-update' curr_obj.id %}"
+        class="bg-gray-700 hover:bg-gray-900 rounded-lg py-2 px-4 text-light flex items-center gap-2"
+      >
+        <i class="fa-solid fa-pen text-xs"></i>
+      </button>
+    </div>
+    <span >@{{curr_obj.username}}</span>
+    <p>
+      <i class="fa-solid fa-id-badge mr-3"></i> Role :
+      {% for obj in curr_obj.roles.all %}
+      <span class="text-heading"> {{obj.name}} </span> -
+      {% endfor %}
+    </p>
+    <p>
+      <i class="fa-solid fa-venus-mars mr-3"></i> Sex :
+      <span class="text-heading"> {{curr_obj.profile.gender|title}} </span>
+    </p>
+    <p>
+      <i class="fa-solid fa-phone mr-3"></i> Phone :
+      <span class="text-heading"> {{curr_obj.profile.phone}} </span>
+    </p>
+  </article>
+</div>

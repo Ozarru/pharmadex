@@ -1,0 +1,82 @@
+{% load static i18n permission_tags %}
+
+<div class="mx-auto w-full rounded-xl space-y-2">
+  {% include 'components/_html_messages.html' %}
+  <form
+    id="modal_form"
+    class="w-full flex flex-col gap-2 text-sm"
+    hx-post="{{ request.path }}"
+    action=""
+    enctype="multipart/form-data"
+    name="generic_form"
+  >
+    {% csrf_token %}
+    <div
+      class="w-full mx-auto px-4 py-3 bg-light rounded-xl mb-4 flex flex-col gap-2"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg text-heading font-bold">
+          {{ form_title|default:"" }}
+        </h3>
+        <button
+          onclick="close_modal()"
+          type="button"
+          class="modal_closer px-3 py-2 bg-gray-200 text-sm text-heading hover:text-red-700 hover-bg-lightest hover-text-primaryest rounded-md transition ease-in duration-200"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <p>{{ form_subtitle|default:"" }}</p>
+    </div>
+
+    <div class="relative" id="form-fields">
+      {% for field in form %}
+      <div
+        class="flex flex-col items-start field"
+        id="field_{{ field.id_for_label}}"
+      >
+        <label for="{{ field.id_for_label}}" class="mb-1"
+          >{{ field.label|default:"" }}</label
+        >
+        {{ field|default:"" }} {% if field.errors %}
+        <ul class="text-sm text-red-700 list-disc mb-4 ml-5">
+          {% for error in field.errors %}
+          <li>{{ error|default:"" }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+
+    <!-- Related object and payment defaults (from GET) -->
+    <input type="hidden" name="model_name" value="{{ request.GET.model_name }}">
+    <input type="hidden" name="object_id" value="{{ request.GET.object_id }}">
+    <input type="hidden" name="payment_cause" value="{{ request.GET.payment_cause }}">
+    <input type="hidden" name="direction" value="{{ request.GET.direction }}">
+
+    <!-- Pre-filled form fields (from form.initial) -->
+    {% if form.initial.cash_account %}
+      <input type="hidden" name="object_id" value="{{ form.initial.object_id }}">
+    {% endif %}
+    {% if form.initial.cash_account %}
+      <input type="hidden" name="cash_account" value="{{ form.initial.cash_account.id }}">
+    {% endif %}
+    {% if form.initial.bank_account %}
+      <input type="hidden" name="bank_account" value="{{ form.initial.bank_account.id }}">
+    {% endif %}
+
+
+    <div class="mt-4 flex flex-row-reverse gap-2 items-end text-sm">
+      <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+      <button
+        onclick="close_modal()"
+        type="button"
+        class="modal_closer btn btn-danger"
+      >
+        {% trans "Cancel" %}
+      </button>
+    </div>
+  </form>
+</div>

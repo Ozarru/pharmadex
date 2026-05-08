@@ -1,0 +1,15 @@
+{% load static i18n %}
+<!--  -->
+{% if value == "male" %}
+<span
+  class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-blue-100 text-blue-600/80 rounded-full"
+>
+  <i class="fa-solid fa-mars"></i> {% trans "Masc." %}
+</span>
+{% else %}
+<span
+  class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-rose-100 text-rose-600/80 rounded-full"
+>
+  <i class="fa-solid fa-venus"></i> {% trans "Fem." %}
+</span>
+{% endif %}

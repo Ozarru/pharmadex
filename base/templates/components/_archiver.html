@@ -1,0 +1,15 @@
+{% load static i18n permission_tags custom_tags  %}
+
+{% if request.user.is_superuser or request.user.role in 'admin, superadmin' %}<a
+  hx-target="#{{ value }}"
+  hx-post="{% url 'base:toggle-archival' obj.model_name obj.id %}"
+  class="px-4 py-3 flex items-center {% if not obj.is_archived %} hover:text-emerald-600 hover:bg-emerald-100 {% else %} hover:text-red-700 hover:bg-red-100 {% endif %} w-full text-center cursor-pointer"
+>
+  {% if not obj.is_archived %}
+  <i class="fa-solid fa-toggle-on mr-2"></i>{% trans "Archive" %}
+  <!--  -->
+  {% else %} <i class="fa-solid fa-toggle-off mr-2"></i>
+  <!--  -->
+  {% trans "Unarchive" %} {% endif %}
+</a>
+{% endif %}

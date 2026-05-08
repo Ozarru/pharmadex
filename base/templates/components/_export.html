@@ -1,0 +1,225 @@
+{% load tz %}
+
+<div
+  class="relative inline-block export-dropdown w-full"
+  data-app="{{ model_app }}"
+  data-model="{{ model_name }}"
+>
+  <button
+    type="button"
+    id="{{ model_name }}_export_button"
+    class="export-button btn hover-text-secondary w-full rounded-none"
+  >
+    <i class="fa-solid fa-file-export"></i>
+    Export
+  </button>
+
+  <!-- FORMAT MENU -->
+  <div
+    id="{{ model_name }}_export_format"
+    class="export-dropdown-menu hidden absolute right-0 mt-2 w-48 bg-lightest border rounded-md shadow-lg divide-y"
+  >
+    <a href="#" data-format="csv"
+       class="export-format block px-4 py-2 text-sm hover-bg-light hover-text-secondary">
+      <i class="fa-solid fa-file-csv mr-2"></i> CSV
+    </a>
+
+    <a href="#" data-format="xlsx"
+       class="export-format block px-4 py-2 text-sm hover-bg-light hover-text-secondary">
+      <i class="fa-solid fa-file-excel mr-2"></i> Excel (XLSX)
+    </a>
+  </div>
+
+  <!-- DATE MENU -->
+  <div
+    id="{{ model_name }}_export_range"
+    class="hidden absolute right-0 mt-2 w-80 bg-lightest border rounded-md shadow-lg divide-y"
+  >
+    <!-- New "All" option at the top -->
+    <a href="#" data-range="all" class="export-range block px-4 py-2 text-sm hover-bg-light">
+      <i class="fa-solid fa-infinity mr-2"></i> {% trans "All Time" %}
+    </a>
+
+    <div class="grid grid-cols-2 divide-x">
+      <div class="flex flex-col divide-y">
+        <a href="#" data-range="today" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar-day mr-2"></i> {% trans "Today" %}
+        </a>
+    
+        <a href="#" data-range="yesterday" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "Yesterday" %}
+        </a>
+    
+        <a href="#" data-range="this_week" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar-week mr-2"></i> {% trans "This Week" %}
+        </a>
+    
+        <a href="#" data-range="last_week" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar-minus mr-2"></i> {% trans "Last Week" %}
+        </a>
+    
+        <a href="#" data-range="this_month" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar-days mr-2"></i> {% trans "This Month" %}
+        </a>
+    
+        <a href="#" data-range="last_month" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar-days mr-2"></i> {% trans "Last Month" %}
+        </a>
+    
+        <a href="#" data-range="this_year" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar mr-2"></i> {% trans "This Year" %}
+        </a>
+    
+        <a href="#" data-range="last_year" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-calendar mr-2"></i> {% trans "Last Year" %}
+        </a>
+        
+      </div>
+      <div class="flex flex-col divide-y">
+        <!-- Hourly ranges -->
+        <a href="#" data-range="this_hour" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock mr-2"></i> {% trans "This Hour" %}
+        </a>
+        <a href="#" data-range="last_hour" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "Last Hour" %}
+        </a>
+        <a href="#" data-range="2_hours_ago" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "2 Hours Ago" %}
+        </a>
+        <a href="#" data-range="3_hours_ago" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "3 Hours Ago" %}
+        </a>
+        <a href="#" data-range="6_hours_ago" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "6 Hours Ago" %}
+        </a>
+        <a href="#" data-range="12_hours_ago" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "12 Hours Ago" %}
+        </a>
+        <a href="#" data-range="18_hours_ago" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "18 Hours Ago" %}
+        </a>
+        <a href="#" data-range="24_hours_ago" class="export-range block px-4 py-2 text-sm hover-bg-light">
+          <i class="fa-solid fa-clock-rotate-left mr-2"></i> {% trans "24 Hours Ago" %}
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.querySelectorAll(".export-dropdown").forEach((dropdownWrapper) => {
+  const button = dropdownWrapper.querySelector(".export-button");
+  const formatMenu = dropdownWrapper.querySelector("#" + dropdownWrapper.dataset.model + "_export_format");
+  const rangeMenu = dropdownWrapper.querySelector("#" + dropdownWrapper.dataset.model + "_export_range");
+  const app = dropdownWrapper.dataset.app;
+  const model = dropdownWrapper.dataset.model;
+
+  let selectedFormat = null;
+
+  // Toggle format dropdown
+  button.addEventListener("click", () => {
+    formatMenu.classList.toggle("hidden");
+    rangeMenu.classList.add("hidden"); // hide range if open
+  });
+
+  // Handle format selection → show range menu
+  formatMenu.querySelectorAll(".export-format").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      selectedFormat = link.dataset.format;
+      formatMenu.classList.add("hidden");
+      rangeMenu.classList.remove("hidden");
+    });
+  });
+
+  // Handle range selection → generate URL and navigate
+  rangeMenu.querySelectorAll(".export-range").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const range = link.dataset.range;
+      const now = new Date();
+
+      function formatDate(d) {
+        return d.toISOString().split("T")[0];
+      }
+
+      let url = `/export-objects/${app}/${model}/${selectedFormat}/`;
+
+      // ---------------- Hourly ranges ----------------
+      if(range === "this_hour") {
+        // current hour
+        let start = new Date();
+        start.setMinutes(0, 0, 0);
+        let end = new Date();
+        end.setMinutes(59, 59, 999);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(end)}&start_hour=${start.getHours()}&end_hour=${end.getHours()}`;
+      }
+      else if(range.endsWith("_hours_ago") || range === "last_hour") {
+        // Extract number of hours ago
+        let hoursAgo = range === "last_hour" ? 1 : parseInt(range.split("_")[0], 10);
+        let start = new Date();
+        start.setHours(now.getHours() - hoursAgo, 0, 0, 0);
+        let end = new Date();
+        end.setHours(now.getHours() - hoursAgo, 59, 59, 999);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(end)}&start_hour=${start.getHours()}&end_hour=${end.getHours()}`;
+      }
+      // ---------------- Other ranges ----------------
+      else if(range === "today") {
+        url += `?date=${formatDate(now)}`;
+      }
+      else if(range === "yesterday") {
+        let d = new Date();
+        d.setDate(now.getDate() - 1);
+        url += `?date=${formatDate(d)}`;
+      }
+      else if(range === "this_week") {
+        let start = new Date();
+        start.setDate(now.getDate() - now.getDay() + 1);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(now)}`;
+      }
+      else if(range === "last_week") {
+        let start = new Date();
+        start.setDate(now.getDate() - now.getDay() - 6);
+        let end = new Date();
+        end.setDate(now.getDate() - now.getDay());
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(end)}`;
+      }
+      else if(range === "this_month") {
+        let start = new Date(now.getFullYear(), now.getMonth(), 1);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(now)}`;
+      }
+      else if(range === "last_month") {
+        let start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        let end = new Date(now.getFullYear(), now.getMonth(), 0);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(end)}`;
+      }
+      else if(range === "this_year") {
+        let start = new Date(now.getFullYear(), 0, 1);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(now)}`;
+      }
+      else if(range === "last_year") {
+        let start = new Date(now.getFullYear() - 1, 0, 1);
+        let end = new Date(now.getFullYear() - 1, 11, 31);
+        url += `?start_date=${formatDate(start)}&end_date=${formatDate(end)}`;
+      }
+      else if(range === "all") {
+        // no query params
+      }
+
+      // Navigate
+      window.location.href = url;
+      rangeMenu.classList.add("hidden");
+    });
+  });
+    
+// Close all menus on outside click
+  document.addEventListener("click", (e) => {
+    if (!dropdownWrapper.contains(e.target)) {
+      formatMenu.classList.add("hidden");
+      rangeMenu.classList.add("hidden");
+    }
+  });
+});
+</script>

@@ -1,0 +1,319 @@
+{% load static i18n custom_tags permission_tags %}
+<aside
+  id="sidebar"
+  class="sidebar bg-lightest hidden fixed lg:block lg:relative z-20 top-0 left-0 h-screen w-80 lg:w-20 border-r shadow transition-all duration-300 transform -translate-x-full lg:translate-x-0"
+>
+  <!-- Logo -->
+  <a
+    class="h-[77px] border-b px-4 py-3.5 mb-4 flex items-center gap-2 dynamic-text"
+    href="{% url 'base:home' %}"
+    data-click-default="true"
+  >
+    <img
+      id="app_logo"
+      class="h-8"
+      src="{% static 'imgs/brand/icon.png' %}"
+      alt="logo"
+    />
+    <span class="text-primary text-2xl font-semibold">Pharmadex</span>
+  </a>
+
+  {% if request.user.is_authenticated %}
+  <!-- Organization Switch / Pharmacy Switch -->
+  <div class="m-4 flex flex-col gap-2">
+    <div>{% include 'components/_organization_switch.html' %}</div>
+    <div>{% include 'components/_pharmacy_switch.html' %}</div>
+  </div>
+  {% endif %}
+
+  <!-- Sidebar Links -->
+  <ul
+    class="-mt-4 pt-2 pb-6 lg:pb-24 px-4 h-[calc(100vh-10rem)] lg:h-[calc(100vh-10rem)] w-full flex flex-col gap-1 lg:items-center xl:items-start overflow-y-auto"
+  >
+  {% if request.user.is_platform_admin %}
+    <div class="mb-1.5 w-full rounded-xl flex flex-col gap-2">
+      <!-- Export button -->
+      <button
+        hx-get="{% url 'base:export-email-trigger' %}"
+        hx-trigger="click"
+        hx-swap="none"
+        hx-disabled-elt="this"
+        class="btn btn-secondary gap-2 loading-link dynamic-text"
+      >
+        <i class="fa fa-file-export"></i>
+        <span class="hidden md:inline">{% trans "Export Pharma Data" %}</span>
+      </button>
+
+      <button
+        hx-post="{% url 'accounts:pharmacy-scope-toggle' %}"
+        hx-trigger="click"
+        hx-swap="none"
+        hx-disabled-elt="this"
+        class="btn btn-outlined-danger gap-2 loading-link dynamic-text"
+      >
+        <i class="fa-solid fa-layer-group"></i>
+        <span class="hidden md:inline">
+          {% if request.pharmacy_scope_disabled %}
+            {% trans "Enable Pharma Scope" %}
+          {% else %}
+            {% trans "Disable Pharma Scope" %}
+          {% endif %}
+        </span>
+      </button>
+    </div>
+    {% endif %}
+
+    {% for link in sidebar_links %}
+
+    <!-- loop through liks and pass arguments if they exist -->
+    {% if link.url_args|length == 1 %}
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      href="{% url link.url link.url_args.0 %}"
+      data-click-default="true"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+      ></span>
+
+      <i class="{{ link.icon }} text-sm"></i>
+      <span class="lg:hidden">{% trans link.name %}</span>
+    </a>
+    {% elif link.url_args|length == 2 %}
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      href="{% url link.url link.url_args.0 link.url_args.1 %}"
+      data-click-default="true"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+      ></span>
+
+      <i class="{{ link.icon }} text-sm"></i>
+      <span class="lg:hidden">{% trans link.name %}</span>
+    </a>
+    {% elif link.url_args|length == 3 %}
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      href="{% url link.url link.url_args.0 link.url_args.1 link.url_args.2 %}"
+      data-click-default="true"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+      ></span>
+
+      <i class="{{ link.icon }} text-sm"></i>
+      <span class="lg:hidden">{% trans link.name %}</span>
+    </a>
+    {% else %}
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      href="{% url link.url %}"
+      data-click-default="true"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+      ></span>
+
+      <i class="{{ link.icon }} text-sm"></i>
+      <span class="dynamic-text">{% trans link.name %}</span>
+    </a>
+    {% endif %}
+    <!-- end links loop -->
+    {% endfor %}
+    <!--  -->
+    {% if user.is_superuser %}
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-md"
+      target="_blank"
+      href="{% url 'admin:index' %}"
+      data-click-default="true"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+      ></span>
+
+      <i class="fa-solid fa-user-secret text-sm"></i>
+      <span class="dynamic-text">{% trans "Super Admin Dashboard" %}</span>
+    </a>
+    {% endif %}
+  </ul>
+</aside>
+
+<style>
+  /* ================================
+   General sidebar behavior
+================================ */
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.6s ease-in-out 0.2s;
+    z-index: 50;
+  }
+
+  #overlay {
+    transition: opacity 0.6s ease-in-out;
+    opacity: 0;
+  }
+
+  #main-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Hide active indicator by default */
+  #sidebar ul a .sidebar-indicator {
+    display: None !important;
+  }
+
+  /* ================================
+   Shared dynamic behavior
+   (TEXT + ICONS)
+================================ */
+  .dynamic-text,
+  .dynamic-icon {
+    display: flex;
+    align-items: center;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      justify-content 0.25s ease;
+  }
+
+  /* ================================
+   Mobile / Tablet
+   → Always visible
+================================ */
+  @media (max-width: 1024px) {
+    #sidebar:not(.hidden) {
+      transform: translateX(0);
+    }
+
+    #overlay:not(.hidden) {
+      opacity: 1;
+    }
+
+    /* Always show text */
+    .dynamic-text span {
+      display: inline !important;
+    }
+
+    /* Text + icon always left-aligned */
+    .dynamic-text,
+    .dynamic-icon {
+      justify-content: flex-start !important;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ================================
+   Desktop
+================================ */
+  @media (min-width: 1024px) {
+    #sidebar {
+      transform: translateX(0);
+    }
+
+    /* ============================
+     COLLAPSED ASIDE
+  ============================ */
+
+    /* Hide ONLY text */
+    body:not(.aside-open) .dynamic-text span {
+      display: none;
+    }
+
+    /* Keep containers visible */
+    body:not(.aside-open) .dynamic-text {
+      justify-content: center;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hide chevron icons only */
+    body:not(.aside-open) .dynamic-icon {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ============================
+     ASIDE OPEN
+  ============================ */
+
+    body.aside-open .dynamic-text span {
+      display: inline;
+    }
+
+    body.aside-open .dynamic-text {
+      justify-content: flex-start;
+      opacity: 1;
+    }
+
+    body.aside-open .dynamic-icon {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Rotate chevrons */
+    body.aside-open .dynamic-icon.chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Show active indicator */
+    body.aside-open #sidebar ul a.active .sidebar-indicator {
+      display: block !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const toggleBtn = document.getElementById("sidebarToggle");
+    const mainContent = document.getElementById("main-content");
+    const titlebar = document.getElementById("titlebar");
+    const title_actions = document.getElementById("title_actions");
+    const body = document.body;
+
+    const toggleSidebar = () => {
+      const isSmallScreen = window.innerWidth < 1024;
+
+      if (isSmallScreen) {
+        // Mobile toggle
+        sidebar.classList.toggle("hidden");
+        sidebar.classList.toggle("-translate-x-full");
+        overlay.classList.toggle("hidden");
+      } else {
+        // Desktop toggle
+        const isOpen = body.classList.toggle("aside-open");
+
+        sidebar.classList.toggle("lg:w-20", !isOpen);
+        sidebar.classList.toggle("lg:w-[360px]", isOpen);
+
+        mainContent.classList.toggle("lg:ml-0", isOpen);
+
+        localStorage.setItem("asideOpen", isOpen ? "1" : "0");
+      }
+    };
+
+    toggleBtn.addEventListener("click", toggleSidebar);
+    overlay.addEventListener("click", toggleSidebar);
+
+    // Repharmacy desktop sidebar state
+    const shouldBeOpen = localStorage.getItem("asideOpen") === "1";
+
+    if (window.innerWidth >= 1024 && shouldBeOpen) {
+      body.classList.add("aside-open");
+      sidebar.classList.remove("lg:w-20");
+      sidebar.classList.add("lg:w-[360px]");
+      mainContent.classList.add("lg:ml-0");
+    } else {
+      body.classList.remove("aside-open");
+      sidebar.classList.remove("lg:w-[360px]");
+      sidebar.classList.add("lg:w-20");
+      mainContent.classList.remove("lg:ml-0");
+    }
+  });
+</script>
+

@@ -1,0 +1,116 @@
+{% extends 'main.html' %}
+{% load i18n %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="flex flex-col gap-6">
+
+  <!-- ================= HEADER ================= -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <div>
+        <h1 class="text-lg font-semibold text-heading">{{ title }}</h1>
+        <p class="text-sm text-body">{{ subtitle }}</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= QUICK STATS ================= -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+    <div class="bg-lighter rounded-xl p-5 border-l-4 border-indigo-500">
+      <p class="text-sm text-label">{% trans "Total Subcategories" %}</p>
+      <p class="text-md font-bold text-heading">{{ total_subcategories }}</p>
+    </div>
+
+    <div class="bg-lighter rounded-xl p-5 border-l-4 border-green-500">
+      <p class="text-sm text-label">{% trans "Active Subcategories" %}</p>
+      <p class="text-md font-bold text-heading">
+        {{ sales_by_subcategory|length }}
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ================= SUBCATEGORY SALES ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg">
+    <h3 class="text-lg font-semibold text-heading mb-6">
+      {% trans "Sales by Subcategory" %}
+    </h3>
+    <canvas id="salesBySubcategoryChart"></canvas>
+  </section>
+
+  <!-- ================= WEEKLY TREND ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg">
+    <h3 class="text-lg font-semibold text-heading mb-6">
+      {% trans "Weekly Sales Trend" %}
+    </h3>
+    <canvas id="weeklySalesChart"></canvas>
+  </section>
+
+  <!-- ================= MONTHLY TREND ================= -->
+  <section class="p-6 bg-lightest border rounded-2xl hover:shadow-lg">
+    <h3 class="text-lg font-semibold text-heading mb-6">
+      {% trans "Monthly Sales Trend" %}
+    </h3>
+    <canvas id="monthlySalesChart"></canvas>
+  </section>
+
+</div>
+
+<script>
+  // ================= SUBCATEGORY BAR =================
+  new Chart(document.getElementById('salesBySubcategoryChart'), {
+    type: 'bar',
+    data: {
+      labels: [{% for c in sales_by_subcategory %}"{{ c.product_stock__product__subcategory__name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        label: 'Revenue',
+        data: [{% for c in sales_by_subcategory %}{{ c.revenue|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        backgroundColor: 'rgba(251,191,36,0.4)',
+        borderColor: '#F59E0B',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+
+  // ================= WEEKLY =================
+  new Chart(document.getElementById('weeklySalesChart'), {
+    type: 'line',
+    data: {
+      labels: [{% for d in weekly_sales %}"{{ d.sale__created_at__date }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        data: [{% for d in weekly_sales %}{{ d.revenue }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        borderColor: '#3B82F6',
+        backgroundColor: 'rgba(59,130,246,0.2)',
+        fill: true,
+        tension: 0.35
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
+
+  // ================= MONTHLY =================
+  new Chart(document.getElementById('monthlySalesChart'), {
+    type: 'line',
+    data: {
+      labels: [{% for d in monthly_sales %}"{{ d.sale__created_at__date }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+      datasets: [{
+        data: [{% for d in monthly_sales %}{{ d.revenue }}{% if not forloop.last %},{% endif %}{% endfor %}],
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16,185,129,0.2)',
+        fill: true,
+        tension: 0.35
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
+</script>
+
+{% endblock %}

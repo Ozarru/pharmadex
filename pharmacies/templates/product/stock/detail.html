@@ -1,0 +1,115 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="flex flex-col gap-4">
+
+  <!-- {# Header bar for staff/admin #} --> 
+  {% if request.user.is_staff or request.user.is_superuser %}
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">
+        {% trans "Use this page to view stock details, pricing, and quantity for this product." %}
+      </p>
+    </div>
+  </header>
+  {% endif %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+    <!-- {# LEFT: Stock Identity #} --> 
+    <div class="lg:col-span-1 bg-lightest border rounded-xl p-4 md:p-6 shadow-lg relative">
+
+      <div class="flex flex-col items-center text-center gap-4">
+        <div class="w-32 h-32 rounded-full overflow-hidden bg-accent border shadow-lg flex items-center justify-center">
+          {% if product_stock.image %}
+            <img src="{{ product_stock.image.url }}" alt="{{ product_stock.product.name }}" class="object-cover w-full h-full">
+          {% else %}
+            <i class="fa-solid fa-boxes-stacked text-4xl text-label"></i>
+          {% endif %}
+        </div>
+
+        <div>
+          <h1 class="text-lg font-bold text-heading">
+            {{ product_stock.product.name }}
+          </h1>
+
+          {% if product_stock.product.brand %}
+          <p class="text-sm text-body mt-1">
+            {% trans "Brand:" %} <span class="font-medium">{{ product_stock.product.brand }}</span>
+          </p>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- {# RIGHT: Stock Stats, Pricing, Quantity #} --> 
+    <div class="lg:col-span-2 flex flex-col gap-4">
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Quantity" %}</p>
+          <p class="text-md font-bold text-heading">
+            {{ product_stock.quantity|floatformat:2 }}
+          </p>
+        </div>
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Price" %}</p>
+          <p class="text-md font-bold text-heading">
+            {{ product_stock.effective_price }}
+          </p>
+        </div>
+
+        <div class="bg-lighter border rounded-xl p-4 text-center">
+          <p class="text-xs text-label uppercase">{% trans "Status" %}</p>
+          <p class="text-md font-bold text-heading">
+            {% if product_stock.quantity > 0 %}{% trans "In Stock" %}{% else %}{% trans "Out of Stock" %}{% endif %}
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-2">
+
+      <!-- {# Meta info #} --> 
+      <ul class="space-y-2 text-sm text-body">
+        <li class="flex gap-2">
+          <i class="fa-solid fa-tag text-label mt-1"></i>
+          {% trans "Category : " %}
+          <span>{{ product_stock.product.subcategory.category.name }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-tags text-label mt-1"></i>
+          {% trans "Subcategory : " %}
+          <span>{{ product_stock.product.subcategory.name }}</span>
+        </li>
+        <li class="flex gap-2">
+          <i class="fa-solid fa-barcode text-label mt-1"></i>
+          {% trans "Code : " %}
+          <span>{{ product_stock.product.code_name|default:_("No code") }}</span>
+        </li>
+      </ul>
+
+      <!-- {# Actions #} --> 
+      <div class="mt-4 flex flex-wrap gap-3">
+        {% if perms.products.change_productstock %}
+        <a href="{% url 'pharmacies:inventory-movement-create' %}" class="btn btn-lime-accent flex-grow">
+          <i class="fa-solid fa-cart-flatbed mr-2"></i> {% trans "Restock Product" %}
+        </a>
+        {% endif %}
+
+        {% if perms.products.delete_productstock %}
+        <a href="" class="btn btn-outlined-danger">
+          <i class="fa-solid fa-trash mr-2"></i> {% trans "Delete Stock" %}
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

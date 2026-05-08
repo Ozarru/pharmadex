@@ -1,0 +1,190 @@
+{% load static i18n permission_tags custom_tags  %}
+{% load i18n %}
+<!-- get_attr, get_verbose_name, etc. -->
+{% load custom_tags %} {% if not objects %}
+<div
+  class="py-60 bg-lightest border h-full rounded-xl flex flex-col flex-grow justify-center items-center gap-2"
+>
+  <span class="p-4 rounded-full bg-accent text-3xl text-primary">
+    <i class="fa-solid fa-inbox"></i>
+  </span>
+  <p class="text-sm text-muted">{% blocktrans %} No {{model_verbose_name}} was found {% endblocktrans %}</p>
+</div>
+{% else %}
+<div
+  id="table-{{ model_container }}-container"
+  class="flex flex-col gap-2 relative"
+  data-model-name="{{ model_name|lower }}"
+  data-pagination-target="{{ pagination_target }}"
+  data-pagination-url="{% url pagination_url %}?{{url_query_string}}"
+  data-can-activate="{{ can_activate }}"
+  data-can-verify="{{ can_verify }}"
+>
+  <div data-htmx-table-overlay class="hidden absolute inset-0 bg-white/70 flex items-center justify-center z-10">
+    <div class="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+  </div>
+  <div class="overflow-x-auto pb-2">
+    <table
+      id="table-{{ model_name|lower }}"
+      class="selectable-table w-full text-left border rounded-lg"
+      data-total-objects="{{ page_obj.paginator.count }}"
+      data-current-page="{{ page_obj.number|default:1 }}"
+      data-num-pages="{{ page_obj.paginator.num_pages|default:1 }}"
+    >
+      <!-- ========================= -->
+      <!-- TABLE HEADERS -->
+      <!-- ========================= -->
+      <thead class="bg-lightest text-heading text-sm">
+        <tr class="bg-light">
+          {% for field in display_fields %}
+          <th class="p-4 text-sm">{{ field.verbose }}</th>
+          {% endfor %}
+          {% if model_detail_url != None or object_is_actionable %}
+          {% if not user.is_staff %}
+          <th class="p-4 text-center text-sm">{{ action_column_label|default:_("Details") }}</th>
+          {% else %}
+          <th class="p-4 text-center text-sm">{{ action_column_label|default:_("Action") }}</th>
+          {% endif %}
+          {% endif %}
+        </tr>
+      </thead>
+
+      <!-- ========================= -->
+      <!-- TABLE BODY -->
+      <!-- ========================= -->
+      <tbody class="border">
+        {% for obj in objects %}
+        <tr class="text-sm group cursor-pointer" data-obj-id="{{ obj.id }}">
+          {% for field in display_fields %}
+          <td class="p-4">
+            {% set val = obj|get_related_field_value:field.name %}
+            {% set display_method = "get_"|add:field.name|add:"_display" %}
+
+            <!-- {# ---------- STATUS ---------------------------------- #} -->
+            {% if 'status' in field.name %}
+                {% include "badges/_status_badge.html" with value=val %}
+           
+           <!-- {# Use get_<field>_display if available #} -->
+            {% elif obj|has_attr:display_method %}
+                {{ obj|call_method:display_method }}
+            {% else %}
+               <!-- {# ---------- IMAGE -------------------------------- #} -->
+                {% if field.type == "image" %}
+                    {% if val and val.name %}
+                        <img src="{{ val.url }}" class="h-12 w-12 rounded-full object-cover btn btn-outlined p-0" />
+                    {% else %}
+                        <div class="h-12 w-12 rounded-full bg-light flex items-center justify-center
+                            {% if can_be_activated and not obj.is_active %} bg-red-100 {% endif %}">
+                            <i class="{{ model_icon }}
+                                {% if can_be_activated and not obj.is_active %} text-red-700 {% else %} text-label {% endif %}">
+                            </i>
+                        </div>
+                    {% endif %}
+
+               <!-- {# ---------- BOOLEAN ------------------------------- #} -->
+                {% elif field.type == "boolean" %}
+                    {% if field.name == "is_active" %}
+                        {% include "badges/_activity_badge.html" with value=val %}
+                    {% else %}
+                        {% include "badges/_boolean_badge.html" with value=val %}
+                    {% endif %}
+
+               <!-- {# ---------- DATE ---------------------------------- #} -->
+                {% elif field.type == "date" %}
+                    {{ val|date:"d M, Y" }}
+
+               <!-- {# ---------- FK ------------------------------------ #} -->
+                {% elif field.type == "fk" %}
+                    {{ val|stringformat:"s"|default:"—" }}
+
+               <!-- {# ---------- M2M / O2M ------------------------------ #} -->
+                {% elif field.type == "m2m" %}
+                  <div class="flex flex-wrap gap-1">
+                      {% for item in val %}
+                          <span class="px-2 py-1 rounded-full text-xs
+                              {% if model_name == 'OrganizationFeePlan' %} bg-blue-100 text-blue-700
+                              {% else %} bg-slate-100 text-slate-700 {% endif %}">
+                              {{ item }}
+                          </span>
+                      {% empty %}
+                          —
+                      {% endfor %}
+                  </div>
+               <!-- {# ---------- DEFAULT -------------------------------- #} -->
+                {% else %}
+                    {{ val|default:"—" }}
+                {% endif %}
+            {% endif %}
+          </td>
+          {% endfor %}
+
+          <!-- ACTIONS -->
+          {% if model_detail_url != None or object_is_actionable %}
+          <td class="p-4 text-center relative">
+            <div class="w-fit flex items-center gap-2 lg:mx-auto">
+              {% if model_detail_url != None %}
+                <a hx-boost="false" href="{% url model_detail_url obj.id %}" class="btn btn-primary">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              {% endif %}
+
+              {% if object_is_actionable and not is_parent_user %}
+              <button type="button" class="btn btn-outlined"
+                onclick="toggleMenu(this, '{{ model_name|lower }}_{{ obj.id }}')">
+                <i class="fa-sharp fa-solid fa-ellipsis"></i>
+              </button>
+            
+              <div id="{{ model_name|lower }}_{{ obj.id }}"
+                  class="hidden bg-lightest w-40 shadow-md lg:w-[180px] absolute right-0 top-8
+                          origin-top-left z-10 rounded-md flex flex-col items-center text-xs overflow-hidden">
+
+                {% if can_activate and not is_parent_user %}
+                {% include 'components/_activator.html' with value=model_container|lower %}
+                {% endif %}
+
+                {% if model_update_url != None %}
+                  {% if  user.is_staff or user|can_change:model_name  %}
+                    {% if  object_crud_via_htmx  %}
+                      <button hx-target="#modal_dialog"
+                              hx-get="{% url model_update_url obj.id %}"
+                              class="modal_opener px-4 py-3 flex items-center hover:text-heading
+                                    hover:bg-slate-100 w-full">
+                        <i class="fa-solid fa-pen-to-square mr-2"></i> {% trans "Edit" %}
+                      </button>
+                    {% else %}
+                    <a href="{% url model_update_url obj.id %}"
+                            class="px-4 py-3 flex items-center hover:text-heading
+                                  hover:bg-slate-100 w-full">
+                      <i class="fa-solid fa-pen mr-2"></i> {% trans "Edit" %}
+                    </a>
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+                {% if model_name != "PermissionProxy" and can_be_deleted %}
+                {% if user.is_platform_admin or user|can_delete:model_name %}
+                  <a href="{% url 'base:delete-object' model_name obj.id %}?next={{ request.get_full_path|urlencode }}"
+                    class="px-4 py-3 flex items-center hover:text-white hover:bg-red-700 w-full">
+                    <i class="fa-solid fa-trash mr-2"></i> {% trans "Soft Delete" %}
+                  </a>
+                  <a href="{% url 'base:delete-object' model_name obj.id %}?hard_delete=1&next={{ request.get_full_path|urlencode }}"
+                    class="px-4 py-3 flex items-center hover:text-white hover:bg-red-900 w-full">
+                    <i class="fa-solid fa-triangle-exclamation mr-2"></i> {% trans "Hard Delete" %}
+                  </a>
+                {% endif %}
+                {% endif %}
+              </div>
+              {% endif %}
+            </div>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="w-full">
+    {% include "pagination.html" with page_obj=page_obj pagination_target=pagination_target %}
+  </div>
+</div>
+{% endif %}

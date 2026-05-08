@@ -1,0 +1,5 @@
+django-admin makemessages -a -e py,html,js --ignore "venv/*" --ignore "node_modules/*" --ignore ".git/*" --ignore "__pycache__/*"
+
+python manage.py makemessages -a -e py,html,js --ignore "venv/*" --ignore "node_modules/*" --ignore ".git/*" --ignore "__pycache__/*"
+
+python manage.py compilemessages --verbosity 3

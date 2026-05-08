@@ -1,0 +1,170 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+<div class="flex flex-col gap-4">
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">{{ header_paragraph }}</p>
+    </div>
+  </header>
+
+  {% if not current_organization %}
+  <div class="bg-lightest border rounded-xl p-4 md:p-6 shadow-lg">
+    <h2 class="text-lg font-semibold text-heading mb-2">
+      {% trans "No organization selected" %}
+    </h2>
+    <p class="text-sm text-body mb-4">
+      {% trans "Create an organization or ask an admin to invite you to an
+      existing one." %}
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a
+        href="{% url 'organizations:organization-create' %}"
+        class="btn btn-primary"
+      >
+        <i class="fa-solid fa-plus mr-2"></i> {% trans "Create organization" %}
+      </a>
+      <a
+        href="{% url 'organizations:organization-list' %}"
+        class="btn btn-outlined"
+      >
+        <i class="fa-solid fa-list mr-2"></i> {% trans "View organizations" %}
+      </a>
+    </div>
+  </div>
+  {% else %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-users text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Customers" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ customers_count }}</p>
+    </div>
+
+    <!-- SUPPLIERS -->
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-truck-field text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Suppliers" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ suppliers_count }}</p>
+    </div>
+
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-warehouse text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Warehouses" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ warehouses_count }}</p>
+    </div>
+
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-prescription-bottle-medical text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Products" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ products_count }}</p>
+    </div>
+
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-receipt text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Sales" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ sales_count }}</p>
+    </div>
+
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-truck-ramp-box text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Purchases" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ purchases_count }}</p>
+    </div>
+
+    <!-- LOW STOCK -->
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon text-red-600">
+            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Low Stock" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ low_stock_count }}</p>
+    </div>
+
+    <!-- EXPIRING PRODUCTS -->
+    <div class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon text-amber-600">
+            <i class="fa-solid fa-calendar-xmark text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading">
+            {% trans "Expiring Soon" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ expiring_products_count }}</p>
+    </div>
+
+    <!-- EXPIRED PRODUCTS -->
+    <div class="cardbox group border border-red-300 hover:border-red-500 hover-border-2">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon text-white bg-red-700">
+            <i class="fa-solid fa-skull-crossbones text-xl"></i>
+          </div>
+          <span class="text-lg font-semibold text-heading text-red-500">
+            {% trans "Expired Stock" %}
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-body">{{ expiring_products_count }}</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
