@@ -311,3 +311,30 @@ class PharmacyModel(OrganizationModel):
                     {"pharmacy": _(
                         "Pharmacy must belong to the same organization.")}
                 )
+
+
+class SinglePharmacyModel(OrganizationModel):
+
+    pharmacy = models.OneToOneField(
+        "pharmacies.Pharmacy",
+        on_delete=models.PROTECT,
+        related_name="%(class)s",
+        verbose_name=_("Related Pharmacy"),
+        to_field="id",
+    )
+
+    objects = TenantManager()
+
+    class Meta:
+        abstract = True
+
+    def clean(self):
+        super().clean()
+
+        if self.pharmacy_id and self.organization_id:
+            if self.pharmacy.organization_id != self.organization_id:
+                raise ValidationError({
+                    "pharmacy": _(
+                        "Pharmacy must belong to the same organization."
+                    )
+                })

@@ -1,97 +1,137 @@
 {% load static i18n %}
-<!-- -------------------- Card Status -------------------- -->
+
+<!-- -------------------- Generic Status -------------------- -->
 {% if value == "active" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-  <i class="fa-solid fa-circle-check mr-2"></i> {% trans "Active" %}
+  <i class="fa-regular fa-circle-check mr-2"></i> {% trans "Active" %}
+</span>
+{% elif value == "suspended" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-amber-100 text-amber-700 rounded-full">
+  <i class="fa-regular fa-pause-circle mr-2"></i> {% trans "Suspended" %}
+</span>
+{% elif value == "archived" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-slate-100 text-slate-700 rounded-full">
+  <i class="fa-solid fa-box-archive mr-2"></i> {% trans "Archived" %}
 </span>
 {% elif value == "deactivated" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-red-100 text-red-700 rounded-full">
-  <i class="fa-solid fa-ban mr-2"></i> {% trans "Deactivated" %}
+  <i class="fa-regular fa-ban mr-2"></i> {% trans "Deactivated" %}
+</span>
+{% elif value == "inactive" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-gray-100 text-gray-700 rounded-full">
+  <i class="fa-regular fa-ban mr-2"></i> {% trans "Inactive" %}
 </span>
 {% elif value == "unassigned" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-slate-100 text-slate-700 rounded-full">
-  <i class="fa-solid fa-circle-question mr-2"></i> {% trans "Unassigned" %}
+  <i class="fa-regular fa-circle-question mr-2"></i> {% trans "Unassigned" %}
+</span>
+
+<!-- -------------------- Process Status -------------------- -->
+{% elif value == "pending" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-amber-100 text-amber-700 rounded-full">
+  <i class="fa-solid fa-stopwatch mr-2"></i> {% trans "Pending" %}
+</span>
+{% elif value == "backordered" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-purple-100 text-purple-700 rounded-full">
+  <i class="fa-solid fa-clock-rotate-left mr-2"></i>
+  {% trans "Backordered" %}
+</span>
+{% elif value == "completed" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
+  <i class="fa-regular fa-circle-check mr-2"></i> {% trans "Completed" %}
+</span>
+{% elif value == "validated" %}
+<span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
+  <i class="fa-regular fa-circle-double mr-2"></i> {% trans "Validated" %}
 </span>
 
 
 <!-- -------------------- Stock Status -------------------- -->
+
 {% elif value == "expired" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-red-100 text-red-700 rounded-full">
-  <i class="fa-solid fa-triangle-exclamation mr-2"></i> {% trans "Expired" %}
+  <i class="fa-solid fa-skull-crossbones mr-2"></i>
+  {% trans "Expired" %}
 </span>
 
 {% elif value == "expiring" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-orange-100 text-orange-700 rounded-full">
-  <i class="fa-solid fa-hourglass-half mr-2"></i> {% trans "Expiring" %}
+  <i class="fa-regular fa-triangle-exclamation mr-2"></i>
+  {% trans "Expiring" %}
 </span>
 
 {% elif value == "damaged" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-purple-100 text-purple-700 rounded-full">
-  <i class="fa-solid fa-house-crack mr-2"></i> {% trans "Damaged" %}
+  <i class="fa-regular fa-house-crack mr-2"></i>
+  {% trans "Damaged" %}
 </span>
 
 {% elif value == "usable" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-  <i class="fa-solid fa-check mr-2"></i> {% trans "Usable" %}
+  <i class="fa-regular fa-circle-check mr-2"></i>
+  {% trans "Usable" %}
 </span>
 
+<!-- -------------------- Stock Quantity Status -------------------- -->
 {% elif value == "out_of_stock" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-red-100 text-red-700 rounded-full">
-  <i class="fa-solid fa-xmark mr-2"></i> {% trans "Out of stock" %}
+  <i class="fa-solid fa-box-open mr-2"></i>
+  {% trans "Out of stock" %}
 </span>
 
 {% elif value == "low_stock" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-yellow-100 text-yellow-700 rounded-full">
-  <i class="fa-solid fa-triangle-exclamation mr-2"></i> {% trans "Low stock" %}
+  <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+  {% trans "Low stock" %}
 </span>
 
 {% elif value == "in_stock" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-  <i class="fa-solid fa-box mr-2"></i> {% trans "In stock" %}
+  <i class="fa-solid fa-boxes-stacked mr-2"></i>
+  {% trans "In stock" %}
 </span>
-
 
 <!-- -------------------- Payment Status -------------------- -->
 {% elif value == "unpaid" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-red-100 text-red-700 rounded-full">
-  <i class="fa-solid fa-xmark mr-2"></i> {% trans "Unpaid" %}
+  <i class="fa-regular fa-xmark mr-2"></i> {% trans "Unpaid" %}
 </span>
 {% elif value == "partially_paid" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-amber-100 text-amber-700 rounded-full">
-  <i class="fa-solid fa-circle-half-stroke mr-2"></i> {% trans "Partially Paid" %}
+  <i class="fa-regular fa-circle-half-stroke mr-2"></i> {% trans "Partially Paid" %}
 </span>
 {% elif value == "fully_paid" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-  <i class="fa-solid fa-circle-check mr-2"></i> {% trans "Fully Paid" %}
+  <i class="fa-regular fa-circle-check mr-2"></i> {% trans "Fully Paid" %}
 </span>
 
 
 <!-- -------------------- Ticket Status -------------------- -->
 {% elif value == "open" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-blue-100 text-blue-800 rounded-full">
-  <i class="fa-solid fa-folder-open mr-2"></i> {% trans "Open" %}
+  <i class="fa-regular fa-folder-open mr-2"></i> {% trans "Open" %}
 </span>
 {% elif value == "ongoing" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-teal-100 text-teal-700 rounded-full">
-  <i class="fa-solid fa-spinner animate-spin mr-2"></i> {% trans "Ongoing" %}
+  <i class="fa-regular fa-spinner animate-spin mr-2"></i> {% trans "Ongoing" %}
 </span>
 {% elif value == "resolved" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-green-100 text-green-700 rounded-full">
-  <i class="fa-solid fa-circle-check mr-2"></i> {% trans "Resolved" %}
+  <i class="fa-regular fa-circle-check mr-2"></i> {% trans "Resolved" %}
 </span>
 {% elif value == "closed" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-light text-body rounded-full">
-  <i class="fa-solid fa-lock mr-2"></i> {% trans "Closed" %}
+  <i class="fa-regular fa-lock mr-2"></i> {% trans "Closed" %}
 </span>
 {% elif value == "escalated" %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-red-100 text-red-600 rounded-full">
-  <i class="fa-solid fa-code mr-2"></i> {% trans "Escalated" %}
+  <i class="fa-regular fa-code mr-2"></i> {% trans "Escalated" %}
 </span>
 
 
 <!-- -------------------- Unknown -------------------- -->
 {% else %}
 <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-light text-body rounded-full">
-  <i class="fa-solid fa-question-circle mr-2"></i> {% trans "Unknown" %}
+  <i class="fa-regular fa-question-circle mr-2"></i> {% trans "Unknown" %}
 </span>
 {% endif %}

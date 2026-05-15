@@ -44,14 +44,14 @@
         <span class="hidden md:inline">{% trans "Export Pharma Data" %}</span>
       </button>
 
-      <button
+      <!-- <button
         hx-post="{% url 'accounts:pharmacy-scope-toggle' %}"
         hx-trigger="click"
         hx-swap="none"
         hx-disabled-elt="this"
         class="btn btn-outlined-danger gap-2 loading-link dynamic-text"
       >
-        <i class="fa-solid fa-layer-group"></i>
+        <i class="fa-solid fa-crosshairs"></i>
         <span class="hidden md:inline">
           {% if request.pharmacy_scope_disabled %}
             {% trans "Enable Pharma Scope" %}
@@ -59,7 +59,7 @@
             {% trans "Disable Pharma Scope" %}
           {% endif %}
         </span>
-      </button>
+      </button> -->
     </div>
     {% endif %}
 
@@ -69,7 +69,7 @@
     {% if link.url_args|length == 1 %}
     <a
       class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
-      href="{% url link.url link.url_args.0 %}"
+      href="{% url link.url link.url_args.0 %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
@@ -82,7 +82,7 @@
     {% elif link.url_args|length == 2 %}
     <a
       class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
-      href="{% url link.url link.url_args.0 link.url_args.1 %}"
+      href="{% url link.url link.url_args.0 link.url_args.1 %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
@@ -95,7 +95,7 @@
     {% elif link.url_args|length == 3 %}
     <a
       class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
-      href="{% url link.url link.url_args.0 link.url_args.1 link.url_args.2 %}"
+      href="{% url link.url link.url_args.0 link.url_args.1 link.url_args.2 %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
@@ -108,7 +108,7 @@
     {% else %}
     <a
       class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
-      href="{% url link.url %}"
+      href="{% url link.url %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
@@ -126,15 +126,26 @@
     <a
       class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-md"
       target="_blank"
+       href="/rosetta/"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+      ></span>
+
+      <i class="fa-solid fa-language text-sm"></i>
+      <span class="dynamic-text">{% trans "Rosetta Access" %}</span>
+    </a>
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-md"
+      target="_blank"
       href="{% url 'admin:index' %}"
-      data-click-default="true"
     >
       <span
         class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
       ></span>
 
       <i class="fa-solid fa-user-secret text-sm"></i>
-      <span class="dynamic-text">{% trans "Super Admin Dashboard" %}</span>
+      <span class="dynamic-text">{% trans "Super Admin Access" %}</span>
     </a>
     {% endif %}
   </ul>

@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% load static i18n permission_tags %}
 <!--  -->
 {% block content %}
-<div class="flex flex-col gap-4">
+<div class="h-full flex flex-col gap-4">
   <!-- Header -->
   <header class="header-bar">
     <div class="flex items-center gap-4 w-full max-w-7xl">
@@ -215,60 +215,6 @@
       </p>
     </a>
 
-    <!-- Expiring batches -->
-    <a
-      href="{% url 'pharmacies:product-batch-list' %}?filter=expiring"
-      class="cardbox group"
-    >
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-hourglass-half text-xl"></i>
-          </div>
-          <span
-            class="text-lg font-semibold text-heading group-hover-text-primary"
-          >
-            {% trans "Expiring Batches" %}
-          </span>
-        </div>
-        <i
-          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
-        ></i>
-      </div>
-      <p class="text-sm text-body leading-snug">
-        {% blocktrans %}Monitor products that are approaching their expiry date.
-        Take action early to minimize waste, manage stock rotation, and ensure
-        safe dispensing.{% endblocktrans %}
-      </p>
-    </a>
-
-    <!-- Expired batches -->
-    <a
-      href="{% url 'pharmacies:product-batch-list' %}?filter=expired"
-      class="cardbox group"
-    >
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-          </div>
-          <span
-            class="text-lg font-semibold text-heading group-hover-text-primary"
-          >
-            {% trans "Expired Batches" %}
-          </span>
-        </div>
-        <i
-          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
-        ></i>
-      </div>
-      <p class="text-sm text-body leading-snug">
-        {% blocktrans %}Review products that have passed their expiry date.
-        Remove or quarantine expired stock to maintain compliance and ensure
-        patient safety.{% endblocktrans %}
-      </p>
-    </a>
-
     <!-- Stock reconciliations -->
     <a
       href="{% url 'pharmacies:product-batch-list' %}?filter=expiring"
@@ -293,6 +239,60 @@
         {% blocktrans %}View detailed reports of your pharmacy activities,
         including sales, purchases, stock levels, and financial summaries for
         accurate decision-making.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Expiring batches -->
+    <a
+      href="{% url 'pharmacies:product-batch-list' %}?filter=expiring"
+      class="cardbox group hover:border-orange-400"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-triangle-exclamation text-xl text-orange-500"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover:text-orange-500"
+          >
+            {% trans "Expiring Batches" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-orange-500"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Monitor products that are approaching their expiry date.
+        Take action early to minimize waste, manage stock rotation, and ensure
+        safe dispensing.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Expired batches -->
+    <a
+      href="{% url 'pharmacies:product-batch-list' %}?filter=expired"
+      class="cardbox group hover:border-red-400"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-skull-crossbones text-xl text-red-600"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover:text-red-600"
+          >
+            {% trans "Expired Batches" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-red-600"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Review products that have passed their expiry date.
+        Remove or quarantine expired stock to maintain compliance and ensure
+        patient safety.{% endblocktrans %}
       </p>
     </a>
 

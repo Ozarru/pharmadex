@@ -281,6 +281,33 @@ def logoutUser(request):
     user.save()
     return redirect('accounts:login')
 
+class ArchiveAccountView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, "accounts/archive.html")
+
+    def post(self, request):
+        user = request.user
+
+        confirm = request.POST.get("confirm")
+
+        if confirm != "ARCHIVE":
+            messages.error(request, _("You must type ARCHIVE to confirm."))
+            return redirect("accounts:archive-account")
+
+        user.is_archived = True
+        user.is_active = False
+        user.save(update_fields=["is_archived", "is_active"])
+
+        logout(request)
+
+        messages.info(
+            request,
+            _("Your account has been archived. We’re sad to see you go 💔")
+        )
+
+        return redirect("accounts:login")
+
 
 # ------------------------------------------------- Context views -------------------------------------------------
 @login_required(login_url='accounts:login')
@@ -341,7 +368,8 @@ def switch_pharmacy(request, pk):
 
     if not (user.is_staff or user.is_superuser):
         allowed_qs = profile.allowed_pharmacies.filter(
-            organization=current_org)
+            organization=current_org
+        )
         if allowed_qs.exists() and not allowed_qs.filter(id=pharmacy.id).exists():
             return HttpResponseForbidden("Unauthorized pharmacy switch.")
 
@@ -351,7 +379,10 @@ def switch_pharmacy(request, pk):
     profile.save(update_fields=["current_pharmacy"])
 
     messages.success(request, f"Switched to {pharmacy.name}")
-    return redirect('base:home')
+
+    # go back to previous page safely
+    next_url = request.META.get("HTTP_REFERER", "base:home")
+    return redirect(next_url)
 
 
 @login_required(login_url='accounts:login')
@@ -495,6 +526,8 @@ class CustomUserListView(BaseListView):
             'cashier': _('Cashiers'),
             'pharmacist': _('Pharmacists'),
             'doctor': _('Doctors'),
+            'nurses': _('Nurses'),
+            'supplier': _('Suppliers'),
             'inventory_manager': _('Inventory Managers'),
             'pharmacy_manager': _('Pharmacy Managers'),
             'platform_admin': _('Platform Administrator'),
@@ -520,6 +553,12 @@ class CustomUserListView(BaseListView):
         doctors_count = CustomUser.objects.filter(
             user_roles__role__user_type='doctor'
         ).distinct().count()
+        nurses_count = CustomUser.objects.filter(
+            user_roles__role__user_type='nurse'
+        ).distinct().count()
+        suppliers_count = CustomUser.objects.filter(
+            user_roles__role__user_type='supplier'
+        ).distinct().count()
         inventory_managers_count = CustomUser.objects.filter(
             user_roles__role__user_type='inventory_manager'
         ).distinct().count()
@@ -534,8 +573,10 @@ class CustomUserListView(BaseListView):
         data_groups = [
             (_("Vendors"), vendors_count, "fa-user-tag", "green"),
             (_("Cashiers"), cashiers_count, "fa-cash-register", "teal"),
-            (_("Pharmacists"), pharmacists_count, "fa-user-nurse", "blue"),
+            (_("Pharmacists"), pharmacists_count, "fa-mortar-pestle", "sky"),
             (_("Doctors"), doctors_count, "fa-user-doctor", "orange"),
+            (_("Nurses"), nurses_count, "fa-user-nurse", "pink"),
+            # (_("Suppliers"), suppliers_count, "fa-truck-medical", "lime"),
             (_("Inventory Managers"), inventory_managers_count,
              "fa-boxes-stacked", "purple"),
             (_("Pharmacy Managers"), pharmacy_managers_count, "fa-store", "indigo"),
@@ -630,7 +671,7 @@ class UserInvitationListView(BaseListView):
     template_name = 'generic/index.html'
     partial_parent_directory = 'generic'
     context_object_name = 'objects'
-    active_page = 'user_invitation_page'
+    active_page = 'user_invitations_page'
     title = _("Organization Invitations")
     subtitle = _("Manage organization invitations")
     object_crud_link = 'accounts:user-invitation-create'

@@ -1,3 +1,7 @@
+from django.db.models import Q, ForeignKey, F, Count, Sum, Max, ExpressionWrapper, DecimalField
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required, user_passes_test
+from openpyxl import Workbook
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.db.models import F, Sum
@@ -9,7 +13,7 @@ from django.db.models import Sum, Case, When, IntegerField
 from django.utils.timezone import now, timedelta
 from django.db.models.functions import TruncDay, TruncHour
 from django.db.models import Sum, Count, Avg, F, Q
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 import json
 from django.db import transaction
 from django.http import JsonResponse
@@ -21,7 +25,9 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db import models
-from organizations.models import Customer
+from organizations.models import Customer, InsurancePolicy
+from pharmacies.services.statistics import PharmacyStatsService
+from utils import to_bool
 from .forms import *
 from .models import *
 from django.core.paginator import Paginator
@@ -106,9 +112,8 @@ def pharmacy_analytics(request):
     # ------------------------------------------------
     # CORE COUNTS
     # ------------------------------------------------
-    total_products = Product.objects.filter(
-        is_active=True
-    ).count()
+    total_products = Product.objects.filter()
+    active_products = total_products.filter(is_active=True)
 
     total_categories = ProductCategory.objects.count()
 
@@ -136,20 +141,39 @@ def pharmacy_analytics(request):
     # ------------------------------------------------
     # INVENTORY
     # ------------------------------------------------
-    stocks = (
-        ProductStock.objects
-        .filter(product__is_active=True)
-        .annotate(quantity=Coalesce(Sum("batches__quantity"), 0))
+    batches = ProductBatch.objects.all()
+    available_products = batches.filter(quantity__gt=0)
+    expiring_products = batches.expiring()
+    expired_products = batches.expired()
+    damaged_products = batches.damaged()
+
+    low_stock_products = batches.filter(quantity__lte=F(
+        "product_stock__product__min_stock_threshold"))
+
+    deadstock_cutoff_date = now() - timedelta(days=180)
+
+    dead_stock_products = ProductBatch.objects.annotate(
+        last_sale_date=Max("product_stock__sale_items__sale__created_at")
+    ).filter(
+        quantity__gt=0,   # only if ProductBatch HAS quantity field
+        last_sale_date__lt=deadstock_cutoff_date
     )
 
-    total_stock_quantity = ProductBatch.objects.aggregate(total=Sum("quantity"))[
-        "total"] or 0
-    low_stock_products = stocks.filter(
-        quantity__lte=F("product__min_stock_threshold")
-    ).count()
-    overstocked_products = stocks.filter(
-        quantity__gte=F("product__max_stock_threshold")
-    ).count()
+    fmg_cutoff_date = now() - timedelta(days=30)
+
+    fast_moving_products = ProductBatch.objects.annotate(
+        sales_count=Count(
+            "product_stock__sale_items",
+            filter=models.Q(
+                product_stock__sale_items__sale__created_at__gte=fmg_cutoff_date)
+        )
+    ).filter(
+        sales_count__gte=10,   # threshold = high frequency
+        quantity__gt=0
+    )
+
+    overstocked_products = batches.filter(quantity__gt=F(
+        "product_stock__product__min_stock_threshold") * 3)
 
     # ------------------------------------------------
     # TOP PRODUCTS
@@ -217,23 +241,25 @@ def pharmacy_analytics(request):
     )
 
     last_24h_sales = (
-        sales_qs.filter(created_at__gte=last_24_hours)
-        .annotate(hour=TruncDay("created_at"))  # or TruncHour if needed
+        sales_qs
+        .filter(created_at__gte=last_24_hours)
+        .annotate(hour=TruncHour("created_at"))
         .values("hour")
-        .annotate(revenue=Sum("total_amount"), sales=Count("id"))
+        .annotate(
+            revenue=Sum("total_amount"),
+            sales=Count("id")
+        )
         .order_by("hour")
     )
 
     context = {
-        "active_page": "inventory_page",
+        "active_page": "pharmacies_page",
         "model_icon": "fa-solid fa-chart-line",
         "title": _("Pharmacy Analytics"),
         "subtitle": _("Sales, Revenue, Inventory & Losses Overview"),
         "header_paragraph": header_paragraph,
 
         # KPIs
-        "total_products": total_products,
-        "total_categories": total_categories,
         "total_sales": total_sales,
         "avg_sale_value": avg_sale_value,
         "total_revenue": total_revenue,
@@ -243,9 +269,17 @@ def pharmacy_analytics(request):
         "last_24h_revenue": last_24h_revenue,
 
         # Inventory
-        "total_stock_quantity": total_stock_quantity,
-        "low_stock_products": low_stock_products,
-        "overstocked_products": overstocked_products,
+        "total_categories": total_categories,
+        "total_products": total_products.count(),
+        "active_products": active_products.count(),
+        "available_stock_count": available_products.count(),
+        "low_stock_count": low_stock_products.count(),
+        "expiring_count": expiring_products.count(),
+        "expired_count": expired_products.count(),
+        "damaged_count": damaged_products.count(),
+        "dead_stock_count": dead_stock_products.count(),
+        "fast_moving_count": fast_moving_products.count(),
+        "overstocked_count": overstocked_products.count(),
 
         # Tables
         "top_products": top_products,
@@ -262,9 +296,6 @@ def pharmacy_analytics(request):
         "last_24h_sales": list(last_24h_sales),
     }
 
-    if request.user.is_platform_admin():
-        context["active_page"] = "pharmacy_stats_page"
-
     return render(request, "pharmacy/analytics.html", context)
 
 
@@ -279,26 +310,104 @@ class PharmacyListView(BaseListView):
     active_page = 'pharmacies_page'
     title = _("Pharmacies")
     subtitle = _("Manage pharmacies (pharmacies)")
-    header_paragraph = _("View and manage pharmacies under the current organization.")
+    header_paragraph = _(
+        "View and manage pharmacies under the current organization.")
     object_crud_link = "pharmacies:pharmacy-create"
     object_crud_via_htmx = False
 
 
 class PharmacyDetailView(BaseDetailView):
     model = Pharmacy
-    template_name = 'pharmacy/detail.html'
+    template_name = "pharmacy/detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['active_page'] = 'pharmacies_page'
-        context['title'] = _('Pharmacy Details')
-        context['subtitle'] = _('View pharmacy details')
+
+        pharmacy = self.object
+
+        stocks = ProductStock.objects.filter(
+            pharmacy=pharmacy,
+            product__is_active=True,
+        )
+
+        analytics = PharmacyStatsService(stocks)
+
+        context.update({
+            **analytics.dashboard(),
+            # UI
+            "active_page": "pharmacies_page",
+            "title": _("Pharmacy Details"),
+            "subtitle": _("View pharmacy details"),
+        })
+
+        # -----------------------------
+        # BASE QS
+        # -----------------------------
+        batches = ProductBatch.objects.filter(
+            product_stock__pharmacy=pharmacy
+        )
+
+        sales_qs = Sale.objects.filter(
+            pharmacy=pharmacy
+        )
+
+        sale_items_qs = SaleItem.objects.filter(
+            sale__pharmacy=pharmacy
+        )
+
+        # -----------------------------
+        # STOCK OVERVIEW
+        # -----------------------------
+        stock_items = batches.count()
+
+        active_stock = batches.filter(quantity__gt=0).count()
+
+        low_stock = batches.filter(
+            quantity__lte=F("product_stock__product__min_stock_threshold")
+        ).count()
+
+        expiring_stock = batches.expiring().count()
+        expired_stock = batches.expired().count()
+        damaged_stock = batches.damaged().count()
+
+        # -----------------------------
+        # RECENT ACTIVITY (simple feed)
+        # -----------------------------
+        recent_sales = sales_qs.order_by("-created_at")[:5]
+
+        recent_activity = [
+            {
+                "id": sale.id,
+                "title": "Sale",
+                "subtitle": f"Invoice #{str(sale.id)[:5]}",
+                "items": f"Invoice #{sale.get_items_summary}",
+                "time": sale.created_at,
+                "status": sale.status,
+            }
+            for sale in recent_sales
+        ]
+
+        # -----------------------------
+        # CONTEXT
+        # -----------------------------
+        context.update({
+            "stock_items": stock_items,
+            "active_stock": active_stock,
+            "low_stock": low_stock,
+            "expiring_stock": expiring_stock,
+            "expired_stock": expired_stock,
+            "damaged_stock": damaged_stock,
+
+            "recent_activity": recent_activity,
+        })
+
         return context
 
 
 class PharmacyCreateView(BaseModelView, CreateView):
     model = Pharmacy
-    fields = ['name', 'code', 'address', 'phone_number', 'is_active']
+    fields = ['name', 'code', 'state_or_region', 'city', 'address', 'phone_number',
+              'status', 'requires_cashier_validation']
     success_url = reverse_lazy('pharmacies:pharmacy-list')
     title = _("Add Pharmacy")
     subtitle = _("Create a new pharmacy under the current organization")
@@ -310,10 +419,52 @@ class PharmacyCreateView(BaseModelView, CreateView):
 
 class PharmacyUpdateView(BaseModelView, UpdateView):
     model = Pharmacy
-    fields = ['name', 'code', 'address', 'phone_number', 'is_active', 'is_suspended', 'is_archived']
+    fields = ['name', 'code', 'state_or_region', 'city', 'address', 'phone_number',
+              'status', 'requires_cashier_validation']
     success_url = reverse_lazy('pharmacies:pharmacy-list')
     title = _("Edit Pharmacy")
     subtitle = _("Update pharmacy details")
+
+
+def pharmacy_monthly_trend(request, pk):
+    pharmacy = get_object_or_404(
+        Pharmacy,
+        pk=pk
+    )
+
+    stocks = ProductStock.objects.filter(
+        pharmacy=pharmacy,
+        product__is_active=True,
+    )
+
+    analytics = PharmacyStatsService(
+        stock_queryset=stocks
+    )
+
+    data = analytics.monthly_trend()
+
+    context = {
+        "pharmacy": pharmacy,
+        "data": data,
+
+        # explicit chart keys
+        "labels": data.get("labels", []),
+        "sales": data.get("sales", []),
+        "expenditures": data.get("expenditures", []),
+        "losses": data.get("losses", []),
+        "profit": data.get("profit", []),
+    }
+
+    print("\n========== MONTHLY TREND ==========")
+    print("PHARMACY:", pharmacy.name)
+    print("LABELS:", context["labels"])
+    print("SALES:", context["sales"])
+    print("EXPENDITURES:", context["expenditures"])
+    print("LOSSES:", context["losses"])
+    print("PROFIT:", context["profit"])
+    print("===================================\n")
+
+    return JsonResponse(data)
 
 
 # -------------------------------
@@ -375,7 +526,7 @@ class ProductCategoryListView(BaseListView):
         ]
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "product_page"
+            context["active_page"] = "products_page"
 
         return context
 
@@ -395,7 +546,7 @@ class ProductCategoryDetailView(BaseDetailView):
         })
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "product_page"
+            context["active_page"] = "products_page"
 
         return context
 
@@ -497,7 +648,7 @@ class ProductSubcategoryListView(BaseListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "product_page"
+            context["active_page"] = "products_page"
 
         return context
 
@@ -517,7 +668,7 @@ class ProductSubcategoryDetailView(BaseDetailView):
         })
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "product_page"
+            context["active_page"] = "products_page"
 
         return context
 
@@ -600,7 +751,7 @@ class ProductListView(BaseListView):
     template_name = 'generic/index.html'
     partial_parent_directory = 'generic'
     context_object_name = 'objects'
-    active_page = 'product_page'
+    active_page = 'products_page'
     title = _("Products")
     subtitle = _("Manage products")
     header_paragraph = _("View and manage all products.")
@@ -622,14 +773,14 @@ class ProductDetailView(BaseDetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "active_page": "product_page",
+            "active_page": "products_page",
             "title": _("Product Details"),
             "subtitle": _("View product information"),
             "header_paragraph": _("This page displays product details and pricing."),
         })
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "product_page"
+            context["active_page"] = "products_page"
 
         return context
 
@@ -666,7 +817,7 @@ class ProductStockListView(BaseListView):
     template_name = "generic/index.html"
     partial_parent_directory = "generic"
     context_object_name = "objects"
-    active_page = "product_stock_page"
+    active_page = "product_stocks_page"
     title = _("Product Stocks")
     subtitle = _("Manage product stock levels")
     header_paragraph = _("View and manage stock quantities for all products.")
@@ -684,7 +835,7 @@ class ProductStockListView(BaseListView):
         context["object_crud_link"] = None
 
         if not self.request.user.is_staff and self.request.user.role not in ["admin", "super_admin"]:
-            context["active_page"] = "product_stock_page"
+            context["active_page"] = "product_stocks_page"
 
         return context
 
@@ -703,7 +854,7 @@ class ProductStockDetailView(BaseDetailView):
             "header_paragraph": _("This page shows stock information and quantity for the product."),
         })
         if not self.request.user.is_staff and not self.request.user.is_superuser:
-            context["active_page"] = "product_stock_page"
+            context["active_page"] = "product_stocks_page"
         return context
 
 
@@ -725,19 +876,21 @@ class ProductBatchListView(BaseListView):
     template_name = 'generic/index.html'
     partial_parent_directory = 'generic'
     context_object_name = 'objects'
-    active_page = 'batch_page'
+    active_page = 'product_batches_page'
+    active_page = 'inventory_page'
     title = _("Batches Management (FEFO)")
     subtitle = _("Manage product batches")
     header_paragraph = _("View and manage all product batches.")
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(
-            quantity__gt=0,
-            is_active=True,
-            # pharmacy=self.request.user.pharmacy  # ✅ if needed
+            pharmacy=self.request.current_pharmacy,
+            # quantity__gt=0,
+            # is_active=True,
         ).select_related("product_stock", "product_stock__product")
 
         filter_type = self.request.GET.get("filter")
+        # print('filter_type : ', filter_type)
         today = timezone.now().date()
         threshold = today + timedelta(days=30)
 
@@ -763,36 +916,81 @@ class ProductBatchListView(BaseListView):
             queryset = queryset.order_by("expiry_date")
 
         return queryset
-    
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         filter_type = self.request.GET.get("filter")
 
+        # Always use BASE queryset for stats
+        base_queryset = ProductBatch.objects.filter(
+            pharmacy=self.request.current_pharmacy
+        )
+
+        today = timezone.now().date()
+        threshold = today + timedelta(days=30)
+
+        # UI header changes
         if filter_type == "expiring":
             context.update({
+                "active_page": "inventory_page",
                 "title": _("Expiring Batches"),
                 "subtitle": _("Batches nearing expiry"),
                 "header_paragraph": _("Monitor batches that will expire soon."),
-                "model_icon": "fa-solid fa-hourglass-half",
+                "model_icon": "fa-solid fa-triangle-exclamation",
             })
 
         elif filter_type == "expired":
             context.update({
+                "active_page": "inventory_page",
                 "title": _("Expired Batches"),
                 "subtitle": _("Batches past expiry"),
                 "header_paragraph": _("Review and manage expired batches."),
-                "model_icon": "fa-solid fa-triangle-exclamation",
+                "model_icon": "fa-solid fa-skull-crossbones",
             })
 
         elif filter_type == "alerts":
             context.update({
+                "active_page": "inventory_page",
                 "title": _("Stock Alerts"),
                 "subtitle": _("Expiry risks and warnings"),
                 "header_paragraph": _("View expired and near-expiry batches."),
                 "model_icon": "fa-solid fa-bell",
             })
+
+        else:
+            # DATA GROUPS (always based on full dataset)
+            total_batches = base_queryset.count()
+
+            expired_batches = base_queryset.filter(
+                expiry_date__lt=today
+            ).count()
+
+            expiring_batches = base_queryset.filter(
+                expiry_date__gte=today,
+                expiry_date__lte=threshold
+            ).count()
+
+            damaged_batches = base_queryset.filter(
+                is_damaged=True
+            ).count()
+
+            usable_batches = base_queryset.filter(
+                is_damaged=False
+            ).filter(
+                Q(expiry_date__gte=threshold) | Q(expiry_date__isnull=True)
+            ).count()
+
+            context["data_groups"] = [
+                # (_("Total Batches"), total_batches, "fa-solid fa-layer-group", "blue"),
+                (_("Usable Stock"), usable_batches,
+                 "fa-solid fa-circle-check", "green"),
+                (_("Damaged"), damaged_batches, "fa-solid fa-house-crack", "blue"),
+                (_("Expiring Soon"), expiring_batches,
+                 "fa-solid fa-triangle-exclamation", "amber"),
+                (_("Expired"), expired_batches,
+                 "fa-solid fa-skull-crossbones", "red"),
+            ]
 
         return context
 
@@ -805,14 +1003,14 @@ class ProductBatchDetailView(BaseDetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "active_page": "batch_page",
+            "active_page": "product_batches_page",
             "title": _("Batch Details"),
             "subtitle": _("View batch information"),
             "header_paragraph": _("This page displays batch details, stock, and expiry."),
         })
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "batch_page"
+            context["active_page"] = "product_batches_page"
 
         return context
 
@@ -995,7 +1193,7 @@ def product_analytics(request):
     # CONTEXT
     # ======================================================
     context = {
-        "active_page": "product_page",
+        "active_page": "products_page",
         "model_icon": "fa-solid fa-boxes-stacked",
         "title": _("Product Analytics"),
         "subtitle": _("Stock, Sales & Loss Performance"),
@@ -1034,18 +1232,124 @@ def product_analytics(request):
     return render(request, "product/analytics.html", context)
 
 
+@login_required
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def synchronize_stock(request):
+    today = timezone.now().date()
+
+    batches = ProductBatch.objects.all()
+
+    expired_count = 0
+    damaged_count = 0
+    updated_count = 0
+
+    for batch in batches:
+        updated = False
+
+        # 1. Expired stock
+        if batch.expiry_date and batch.expiry_date < today:
+            if batch.is_active:
+                batch.is_active = False
+                updated = True
+            if hasattr(batch, "status"):
+                batch.status = "expired"
+            expired_count += 1
+
+        # 2. Damaged stock
+        if hasattr(batch, "is_damaged") and batch.is_damaged:
+            if batch.is_active:
+                batch.is_active = False
+                updated = True
+            if hasattr(batch, "status"):
+                batch.status = "damaged"
+            damaged_count += 1
+
+        # 3. Zero stock cleanup
+        if hasattr(batch, "quantity") and batch.quantity <= 0:
+            if batch.is_active:
+                batch.is_active = False
+                updated = True
+
+        if updated:
+            batch.save()
+            updated_count += 1
+
+    # optional: you can still keep a message via session
+    request.session["sync_message"] = (
+        f"Sync complete: {expired_count} expired, "
+        f"{damaged_count} damaged, {updated_count} updated."
+    )
+
+    # return to previous page
+    return redirect(request.META.get("HTTP_REFERER", "base:home"))
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def export_problem_stock_excel(request):
+    today = timezone.now().date()
+
+    # Get relevant batches
+    batches = ProductBatch.objects.filter(
+        models.Q(expiry_date__lt=today) | models.Q(is_damaged=True)
+    )
+
+    # Create Excel workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Problem Stock"
+
+    # Header row
+    headers = [
+        "Product",
+        "Batch No",
+        "Quantity",
+        "Expiry Date",
+        "Damaged",
+        "Status"
+    ]
+    ws.append(headers)
+
+    # Fill rows
+    for batch in batches:
+        # Determine status clearly
+        if getattr(batch, "is_damaged", False):
+            status = "DAMAGED"
+        elif batch.expiry_date and batch.expiry_date < today:
+            status = "EXPIRED"
+        else:
+            status = "UNKNOWN"
+
+        ws.append([
+            str(batch.product) if hasattr(batch, "product") else "",
+            getattr(batch, "batch_number", ""),
+            getattr(batch, "quantity", 0),
+            batch.expiry_date if batch.expiry_date else "",
+            "YES" if getattr(batch, "is_damaged", False) else "NO",
+            status
+        ])
+
+    # Response as Excel file
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = 'attachment; filename="problem_stock.xlsx"'
+
+    wb.save(response)
+    return response
+
+
 class PrescriptionListView(BaseListView):
     model = Prescription
     template_name = "generic/index.html"
     context_object_name = "objects"
-    active_page = "prescription_page"
+    active_page = "prescriptions_page"
     title = _("Prescriptions")
     subtitle = _("Manage prescriptions")
     header_paragraph = _("View and manage prescriptions.")
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(
-            is_active=True,
             # pharmacy=self.request.user.pharmacy  # ✅ if multi-tenant
         ).prefetch_related("items", "items__product")
 
@@ -1064,7 +1368,7 @@ class PrescriptionListView(BaseListView):
             )
 
         return queryset.order_by("-issued_date")
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["object_crud_via_htmx"] = False
@@ -1117,14 +1421,14 @@ class PrescriptionDetailView(BaseDetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "active_page": "prescription_page",
+            "active_page": "prescriptions_page",
             "title": _("Prescription Details"),
             "subtitle": _("View prescription information"),
             "header_paragraph": _("This page displays prescription details, prescribed items, and dispensing status."),
         })
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "prescription_page"
+            context["active_page"] = "prescriptions_page"
 
         return context
 
@@ -1141,7 +1445,7 @@ class PrescriptionUpsertView(BaseParentChildFormView):
     title_update = _("Edit Prescription")
     subtitle_update = _("Modify prescription details and items.")
 
-    active_page = "prescription_page"
+    active_page = "prescriptions_page"
     header_paragraph = _(
         "Use this form to create and manage prescriptions and their items."
     )
@@ -1168,7 +1472,7 @@ class SaleListView(BaseListView):
     template_name = 'generic/index.html'
     partial_parent_directory = 'generic'
     context_object_name = 'objects'
-    active_page = 'sale_page'
+    active_page = 'sales_page'
     title = _("Sales")
     subtitle = _("Sales history")
     header_paragraph = _("View recorded sales transactions.")
@@ -1187,7 +1491,7 @@ class SaleListView(BaseListView):
         context["model_update_url"] = None
 
         if not self.request.user.is_platform_admin():
-            context["active_page"] = "sale_page"
+            context["active_page"] = "sales_page"
 
         return context
 
@@ -1200,7 +1504,7 @@ class SaleDetailView(BaseDetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "active_page": "sale_page",
+            "active_page": "sales_page",
             "title": _("Sale Details"),
             "subtitle": _("View sale information"),
             "header_paragraph": _("This page displays sale transaction details."),
@@ -1216,20 +1520,47 @@ class SaleDetailView(BaseDetailView):
 
 @login_required(login_url='accounts:login')
 def point_of_sale(request):
-    current_customer = None
     customer_id = request.GET.get("current_customer")
+    current_customer = None
+    current_pharma = request.current_pharmacy
 
+    # If customer passed explicitly
     if customer_id:
-        current_customer = get_object_or_404(
-            Customer, pk=customer_id)
+        current_customer = get_object_or_404(Customer, pk=customer_id)
 
-    # Fetch all data in a lightweight, ordered way
-    product_stocks = ProductStock.objects.select_related('product').filter(
-        product__is_active=True
-    ).order_by('product__name')
+    else:
+        # Get first customer
+        current_customer = Customer.objects.order_by(
+            'last_name',
+            'first_name'
+        ).first()
+
+        # Create default customer if none exists
+        if not current_customer:
+            current_customer = Customer.objects.create(
+                first_name="Walk-in",
+                last_name="Customer",
+            )
+
+    # Fetch all data
+    product_stocks = (
+        ProductStock.objects
+        .select_related('product')
+        .filter(
+            pharmacy=current_pharma,
+            product__is_active=True,
+        )
+        .order_by('product__name')
+    )
+
     categories = ProductCategory.objects.all().order_by('name')
     subcategories = ProductSubcategory.objects.all().order_by('name')
-    customers = Customer.objects.all().order_by('last_name', 'first_name')
+    customers = Customer.objects.all().order_by(
+        '-created_at',
+        'last_name',
+        'first_name'
+    )
+    insurance_policies = InsurancePolicy.objects.all().order_by('insurer__name', 'name')
 
     header_paragraph = _(
         "This page allows you to process sales at the point of sale. "
@@ -1249,6 +1580,7 @@ def point_of_sale(request):
         "subcategories": subcategories,
         "customers": customers,
         "current_customer": current_customer,
+        "insurance_policies": insurance_policies,
     }
 
     if request.user.is_platform_admin():
@@ -1260,80 +1592,94 @@ def point_of_sale(request):
 @login_required
 @require_POST
 def sale_checkout(request):
-    """
-    Processes a sale:
-    - Creates a Sale and SaleItems
-    - Vendor is always the logged-in user
-    - Stock adjustment happens via post_save signals on SaleItem
-    """
     try:
         data = json.loads(request.body)
+
         customer_id = data.get("customer_id")
+        new_customer = data.get("new_customer")  # 👈 NEW
         insured_customer = data.get("insured_customer")
         items = data.get("items", [])
+
+        is_backordered = to_bool(data.get("is_backordered"))
+        is_insured = to_bool(data.get("is_insured"))
+        insurance_policy_id = data.get("insurance_policy_id")
+        
+        print('is_backordered : ', is_backordered)
 
         if not items:
             return JsonResponse({"success": False, "message": "Invalid payload"}, status=400)
 
+        # -------------------------
+        # CONTEXT RESOLUTION
+        # -------------------------
         profile = getattr(request.user, "profile", None)
         organization = getattr(request, "current_organization", None) or getattr(profile, "current_organization", None)
         pharmacy = getattr(request, "current_pharmacy", None) or getattr(profile, "current_pharmacy", None)
+
         if not organization:
             return JsonResponse({"success": False, "message": "No organization selected."}, status=400)
+
         if not pharmacy:
             return JsonResponse({"success": False, "message": "No pharmacy selected."}, status=400)
 
+        # -------------------------
+        # CUSTOMER RESOLUTION (CLEANED)
+        # -------------------------
         customer = None
+
+        # 1. Existing customer
         if customer_id:
             customer = get_object_or_404(Customer, pk=customer_id)
-        elif isinstance(insured_customer, dict) and insured_customer.get("insurrance_id"):
-            ins_id = str(insured_customer.get("insurrance_id")).strip()
-            dob = insured_customer.get("date_of_birth") or None
+
+        # 2. New customer creation
+        elif isinstance(new_customer, dict) and new_customer.get("first_name"):
+            customer = Customer.objects.create(
+                organization=organization,
+                first_name=(new_customer.get("first_name") or "").strip(),
+                last_name=(new_customer.get("last_name") or "").strip(),
+                phone_number=(new_customer.get("phone_number") or "").strip() or None,
+            )
+
+        # 3. Insurance-based customer (legacy fallback)
+        elif isinstance(insured_customer, dict) and insured_customer.get("insurance_id"):
+            ins_id = str(insured_customer.get("insurance_id")).strip()
+
+            dob = insured_customer.get("date_of_birth")
             if isinstance(dob, str):
                 dob = parse_date(dob) or None
-            defaults = {
-                "first_name": (insured_customer.get("first_name") or "").strip() or None,
-                "last_name": (insured_customer.get("last_name") or "").strip() or None,
-                "email": (insured_customer.get("email") or "").strip() or None,
-                "phone_number": (insured_customer.get("phone_number") or "").strip() or None,
-                "gender": insured_customer.get("gender") or None,
-                "date_of_birth": dob,
-                "is_active": True,
-            }
+
             customer, _ = Customer.objects.update_or_create(
                 organization=organization,
-                insurrance_id=ins_id,
-                defaults=defaults,
+                insurance_id=ins_id,
+                defaults={
+                    "first_name": (insured_customer.get("first_name") or "").strip() or None,
+                    "last_name": (insured_customer.get("last_name") or "").strip() or None,
+                    "phone_number": (insured_customer.get("phone_number") or "").strip() or None,
+                    "date_of_birth": dob,
+                },
             )
-        else:
+
+        # 4. Walk-in fallback
+        if not customer:
             customer, _ = Customer.objects.get_or_create(
                 organization=organization,
                 first_name="Walk-in",
                 last_name="Customer",
-                defaults={"is_active": True},
             )
 
+        # -------------------------
+        # ITEM VALIDATION
+        # -------------------------
         validated_items = []
         total = 0
 
-        # -----------------------------
-        # STEP 1 — Validate items
-        # -----------------------------
         for item in items:
-            product_stock = get_object_or_404(
-                ProductStock,
-                pk=item["product_stock_id"]
-            )
-
+            product_stock = get_object_or_404(ProductStock, pk=item["product_stock_id"])
             quantity = int(item["quantity"])
 
             if quantity <= 0:
-                return JsonResponse({
-                    "success": False,
-                    "message": "Invalid quantity"
-                }, status=400)
+                return JsonResponse({"success": False, "message": "Invalid quantity"}, status=400)
 
-            # Optional stock protection
             if product_stock.quantity < quantity:
                 return JsonResponse({
                     "success": False,
@@ -1352,10 +1698,19 @@ def sale_checkout(request):
                 "line_total": line_total
             })
 
-        # -----------------------------
-        # STEP 3 — Create sale safely
-        # -----------------------------
+        # -------------------------
+        # INSURANCE
+        # -------------------------
+        insurance_policy = None
+        if is_insured and insurance_policy_id:
+            insurance_policy = get_object_or_404(InsurancePolicy, pk=insurance_policy_id)
+
+        # -------------------------
+        # SALE CREATION
+        # -------------------------
         with transaction.atomic():
+
+            requires_validation = pharmacy.requires_cashier_validation
 
             sale = Sale.objects.create(
                 organization=organization,
@@ -1363,12 +1718,17 @@ def sale_checkout(request):
                 customer=customer,
                 vendor=request.user,
                 created_by=request.user,
-                total_amount=total
+                total_amount=total,
+
+                status="backordered" if is_backordered
+                else ("pending" if requires_validation else "completed"),
+
+                insurance_policy=insurance_policy,
+                insurance_coverage_percent=getattr(insurance_policy, "coverage_percent", None),
+                insurance_max_coverage_amount=getattr(insurance_policy, "max_coverage_amount", None),
+                insurance_applied=bool(insurance_policy),
             )
 
-            # -----------------------------
-            # STEP 4 — Create items
-            # -----------------------------
             for item in validated_items:
                 SaleItem.objects.create(
                     sale=sale,
@@ -1381,14 +1741,130 @@ def sale_checkout(request):
         return JsonResponse({
             "success": True,
             "sale_id": sale.id,
-            "total": float(total)
+            "total": float(total),
+            "status": sale.status
         })
 
     except Exception as e:
-        return JsonResponse({
-            "success": False,
-            "message": str(e)
-        }, status=400)
+        return JsonResponse({"success": False, "message": str(e)}, status=400)
+
+from django.db.models import Q
+@login_required
+def cashier_validation(request):
+
+    profile = getattr(request.user, "profile", None)
+    organization = getattr(request, "current_organization", None) or getattr(
+        profile, "current_organization", None)
+    pharmacy = getattr(request, "current_pharmacy", None) or getattr(
+        profile, "current_pharmacy", None)
+
+    # Guard clause: if feature is disabled, redirect back safely
+    if not pharmacy or not pharmacy.requires_cashier_validation:
+        return redirect(request.META.get("HTTP_REFERER", "base:home"))
+
+    sales = Sale.objects.filter(
+        Q(organization=organization),
+        Q(pharmacy=pharmacy),
+        Q(status="pending")|Q(status="backordered"),
+    ).order_by("-created_at")
+
+    return render(request, "pharmacy/cashier_validation.html", {
+        "sales": sales,
+        "active_page": "cashier_validation_page",
+        "title": "Cashier Validation",
+        "subtitle": "Approve sales & clinical transactions",
+    })
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def sale_validation_view(request, pk):
+
+    sale = get_object_or_404(Sale, id=pk)
+
+    profile = getattr(request.user, "profile", None)
+    organization = getattr(request, "current_organization", None) or getattr(
+        profile, "current_organization", None)
+    pharmacy = getattr(request, "current_pharmacy", None) or getattr(
+        profile, "current_pharmacy", None)
+
+    # ----------------------------
+    # SAFETY CHECKS
+    # ----------------------------
+    if sale.status not in "pending, backordered":
+        return redirect("pharmacies:cashier-validation")
+
+    if not sale.requires_cashier_validation:
+        return redirect("pharmacies:cashier-validation")
+
+    # ----------------------------
+    # GET → RENDER TEMPLATE
+    # ----------------------------
+    if request.method == "GET":
+        context={
+            "active_page": "cashier_validation_page",
+            "title": "Sale validation",
+            "subtitle": "Approve pending and backordered sales here",
+            "sale": sale
+            
+        }
+        return render(request, "pharmacy/sale_validation.html", context)
+
+    # ----------------------------
+    # POST → VALIDATE SALE
+    # ----------------------------
+    data = json.loads(request.body)
+    action = data.get("action")
+
+    with transaction.atomic():
+
+        if action == "approve":
+
+            new_total = 0
+
+            for item in data.get("items", []):
+                product_stock = get_object_or_404(
+                    ProductStock, id=item["product_stock_id"])
+                quantity = int(item["quantity"])
+
+                if quantity <= 0:
+                    continue
+
+                if product_stock.quantity < quantity:
+                    return JsonResponse({
+                        "success": False,
+                        "message": f"Not enough stock for {product_stock.product.name}"
+                    }, status=400)
+
+                line_total = product_stock.effective_price * quantity
+
+                SaleItem.objects.create(
+                    sale=sale,
+                    product_stock=product_stock,
+                    quantity=quantity,
+                    unit_price=product_stock.effective_price,
+                    total_price=line_total
+                )
+
+                new_total += line_total
+
+            sale.total_amount = new_total
+            sale.status = "completed"
+            sale.cashier = request.user
+            sale.validated_at = timezone.now()
+            sale.save()
+
+            return JsonResponse({"success": True})
+
+        elif action == "reject":
+            sale.status = "cancelled"
+            sale.cashier = request.user
+            sale.validated_at = timezone.now()
+            sale.save()
+
+            return JsonResponse({"success": True})
+
+    return JsonResponse({"success": False, "message": "Invalid action"})
 
 
 @login_required(login_url="accounts:login")

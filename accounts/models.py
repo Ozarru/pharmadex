@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from functools import lru_cache
 from django.db.models import Q
 import uuid
@@ -9,6 +10,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from phonenumber_field.modelfields import PhoneNumberField
 from base.models import ArchivableModel, BaseModel, OptimizedImageMixin
 from django.contrib.auth.models import Permission
+from django import forms
 
 
 class PermissionProxy(Permission):
@@ -70,22 +72,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
     first_name = models.CharField(max_length=100, verbose_name=_("First name"))
     last_name = models.CharField(max_length=100, verbose_name=_("Last name"))
     username = models.CharField(
-        unique=True,
-        max_length=100,
-        blank=True,
-        null=True,
-        verbose_name=_("Username")
-    )
-    
-    unique_identifier = models.CharField(
-        max_length=50,
-        unique=True,
-        null=True,
-        blank=True,
-        verbose_name=_("Unique identifier"),
-        help_text=_(
-            "Optional identifier used for login instead of email or phone."),
-    )
+        unique=True, max_length=100, blank=True, null=True, verbose_name=_("Username"))
+    unique_identifier = models.CharField(max_length=50, unique=True, null=True, blank=True, verbose_name=_(
+        "Unique identifier"), help_text=_("Optional identifier used for login instead of email or phone."))
     phone_number = PhoneNumberField(
         blank=True, null=True, verbose_name=_("Phone number"))
 
@@ -99,7 +88,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
         blank=True, null=True, verbose_name=_("Last logout"))
     is_active = models.BooleanField(default=True, verbose_name=_("Is Active"))
     is_staff = models.BooleanField(default=False, verbose_name=_("Is Staff"))
-    is_superuser = models.BooleanField(default=False, verbose_name=_("Is Superuser"))
+    is_superuser = models.BooleanField(
+        default=False, verbose_name=_("Is Superuser"))
     is_online = models.BooleanField(default=False, verbose_name=_("Is Online"))
 
     USERNAME_FIELD = 'email'
@@ -213,7 +203,7 @@ class Profile(OptimizedImageMixin, BaseModel):
     allowed_organizations = models.ManyToManyField(
         'organizations.Organization', related_name='allowed_organizations', blank=True, verbose_name=_("Allowed organizations"))
     current_pharmacy = models.ForeignKey('pharmacies.Pharmacy', on_delete=models.SET_NULL, null=True, blank=True,
-                                             related_name='active_profiles', verbose_name=_("Current Pharmacy"))
+                                         related_name='active_profiles', verbose_name=_("Current Pharmacy"))
     allowed_pharmacies = models.ManyToManyField(
         "pharmacies.Pharmacy", blank=True, verbose_name=_("Allowed pharmacies"))
 
@@ -228,59 +218,74 @@ class Profile(OptimizedImageMixin, BaseModel):
 
 
 class Role(BaseModel):
-    USER_TYPE_CHOICES = (
-        ('vendor', _('Vendor')),
-        ('cashier', _('Cashier')),
-        ('pharmacist', _('Pharmacist')),
-        ('doctor', _('Doctor')),
-        ('inventory_manager', _('Inventory Manager')),
-        ('pharmacy_manager', _('Pharmacy Manager')),
-        ('platform_admin', _('Platform Administrator')),
-    )
+
+    class UserTypes(models.TextChoices):
+        SUPPLIER = 'supplier', _('Supplier')  # external supplier access
+        VENDOR = 'vendor', _('Vendor')
+        CASHIER = 'cashier', _('Cashier')
+        NURSE = 'nurse', _('Nurse')
+        PHARMACIST = 'pharmacist', _('Pharmacist')
+        DOCTOR = 'doctor', _('Doctor')
+        AUDITOR = 'auditor', _('Auditor')
+        ACCOUNTANT = 'accountant', _('Accountant')
+        FINANCE_MANAGER = 'finance_manager', _('Finance Manager')
+        INVENTORY_MANAGER = 'inventory_manager', _('Inventory Manager')
+        PHARMACY_MANAGER = 'pharmacy_manager', _('Pharmacy Manager')
+        PLATFORM_ADMIN = 'platform_admin', _('Platform Administrator')
 
     name = models.CharField(max_length=255)
+
     user_type = models.CharField(
-        max_length=24,
-        choices=USER_TYPE_CHOICES,
-        verbose_name=_("User Type")
-    )
+        max_length=24, choices=UserTypes.choices, verbose_name=_("User Type"))
+
     permissions = models.ManyToManyField(
         Permission, related_name="roles", blank=True)
-    
+
     model_icon = 'fa-solid fa-id-badge'
 
     class Meta:
-        unique_together = ('name', 'user_type')  # better constraint
+        unique_together = ('name', 'user_type')
         verbose_name = _("User Role")
         verbose_name_plural = _("User Roles")
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.get_user_type_display()})"
 
 
 class UserRole(BaseModel):
     user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name="user_roles"
-    )
+        CustomUser, on_delete=models.CASCADE, related_name="user_roles")
     role = models.ForeignKey(
-        Role,
-        on_delete=models.CASCADE,
-        related_name="assigned_users"
-    )
+        Role, on_delete=models.CASCADE, related_name="assigned_users")
     organization = models.ForeignKey(
-        'organizations.Organization',
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="user_roles"
-    )
-    
+        'organizations.Organization', on_delete=models.CASCADE, null=True, blank=True, related_name="user_roles")
+    pharmacies = models.ManyToManyField(
+        'pharmacies.Pharmacy', blank=True, null=True, related_name="user_roles")
+
     model_icon = 'fa-solid fa-user-tag'
 
     class Meta:
-        unique_together = ('user', 'role', 'organization')
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "organization"],
+                name="unique_user_org_role"
+            )
+        ]
+
+    def clean(self):
+        super().clean()
+
+        if not self.organization:
+            return
+
+        invalid_pharmacies = self.pharmacies.exclude(
+            organization=self.organization
+        )
+
+        if invalid_pharmacies.exists():
+            raise ValidationError(
+                "All pharmacies must belong to the selected organization."
+            )
 
     def __str__(self):
         scope = self.organization.name if self.organization else "Global"
@@ -292,36 +297,40 @@ def get_default_invitation_expiration():
 
 
 class UserInvitation(BaseModel):
-    USER_TYPE_CHOICES = [
-        ('vendor', _('Vendor')),
-        ('cashier', _('Cashier')),
-        ('pharmacist', _('Pharmacist')),
-        ('doctor', _('Doctor')),
-        ('inventory_manager', _('Inventory Manager')),
-        ('pharmacy_manager', _('Pharmacy Manager')),
-        ('platform_admin', _('Platform Administrator')),
-    ]
+
+    class UserTypes(models.TextChoices):
+        SUPPLIER = 'supplier', _('Supplier')  # external supplier access
+        VENDOR = 'vendor', _('Vendor')
+        CASHIER = 'cashier', _('Cashier')
+        NURSE = 'nurse', _('Nurse')
+        PHARMACIST = 'pharmacist', _('Pharmacist')
+        DOCTOR = 'doctor', _('Doctor')
+        AUDITOR = 'auditor', _('Auditor')
+        ACCOUNTANT = 'accountant', _('Accountant')
+        FINANCE_MANAGER = 'finance_manager', _('Finance Manager')
+        INVENTORY_MANAGER = 'inventory_manager', _('Inventory Manager')
+        PHARMACY_MANAGER = 'pharmacy_manager', _('Pharmacy Manager')
+        PLATFORM_ADMIN = 'platform_admin', _('Platform Administrator')
 
     organization = models.ForeignKey('organizations.Organization', blank=True, null=True,
                                      on_delete=models.CASCADE, related_name="user_invitations")
+    pharmacies = models.ManyToManyField(
+        'pharmacies.Pharmacy', blank=True, null=True, related_name="user_invitations")
     sender = models.ForeignKey(CustomUser, on_delete=models.PROTECT,
                                related_name='invitations_sent', verbose_name=_("Invitation Sender"))
     receiver = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='invitations_received',
                                  blank=True, null=True, verbose_name=_("Invitation Receiver"))
     receiver_email = models.EmailField(verbose_name=_("Receiver Email"))
     user_type = models.CharField(
-        max_length=24, choices=USER_TYPE_CHOICES, blank=True, null=True, verbose_name=_("User Type"))
+        max_length=24, choices=UserTypes.choices, verbose_name=_("User Type"))
     token = models.UUIDField(default=uuid.uuid4, unique=True,
                              editable=False, verbose_name=_("Invitation Token"))
-
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Created At"))
     expiration_date = models.DateTimeField(
         blank=True, null=True,
         default=get_default_invitation_expiration,
         verbose_name=_("Expiration Date")
     )
-    
+
     model_icon = 'fa-solid fa-envelope-circle-check'
 
     def is_expired(self):

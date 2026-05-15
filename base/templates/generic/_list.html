@@ -138,8 +138,79 @@
                   class="hidden bg-lightest w-40 shadow-md lg:w-[180px] absolute right-0 top-8
                           origin-top-left z-10 rounded-md flex flex-col items-center text-xs overflow-hidden">
 
-                {% if can_activate and not is_parent_user %}
+                {% if can_activate %}
                 {% include 'components/_activator.html' with value=model_container|lower %}
+                {% endif %}
+                <!--  -->
+                {% if model_name == "Pharmacy" %}
+
+                  {# Suspend / Activate #}
+                  {% if obj.status != "archived" %}
+                  <form
+                    class="w-full"
+                    method="post"
+                    action="{% url 'base:toggle-status' obj.model_name obj.id %}"
+                  >
+                    {% csrf_token %}
+
+                    {% if obj.status == "active" %}
+                      <input type="hidden" name="status" value="suspended" />
+
+                      <button
+                        type="submit"
+                        class="w-full px-4 py-3 flex items-center gap-3 text-amber-700 hover:bg-amber-100 transition-colors duration-200"
+                      >
+                        <i class="fa-regular fa-pause-circle"></i>
+                        {% trans "Suspend Pharmacy" %}
+                      </button>
+
+                    {% elif obj.status == "suspended" %}
+                      <input type="hidden" name="status" value="active" />
+
+                      <button
+                        type="submit"
+                        class="w-full px-4 py-3 flex items-center gap-3 text-emerald-700 hover:bg-emerald-100 transition-colors duration-200"
+                      >
+                        <i class="fa-regular fa-circle-check"></i>
+                        {% trans "Activate Pharmacy" %}
+                      </button>
+                    {% endif %}
+                  </form>
+                  {% endif %}
+
+
+                  {# Archive / Unarchive #}
+                  <form
+                    class="w-full"
+                    method="post"
+                    action="{% url 'base:toggle-status' obj.model_name obj.id %}"
+                  >
+                    {% csrf_token %}
+
+                    {% if obj.status == "archived" %}
+                      <input type="hidden" name="status" value="active" />
+
+                      <button
+                        type="submit"
+                        class="w-full px-4 py-3 flex items-center gap-3 text-sky-700 hover:bg-sky-100 transition-colors duration-200"
+                      >
+                        <i class="fa-solid fa-box-open"></i>
+                        {% trans "Unarchive Pharmacy" %}
+                      </button>
+
+                    {% else %}
+                      <input type="hidden" name="status" value="archived" />
+
+                      <button
+                        type="submit"
+                        class="w-full px-4 py-3 flex items-center gap-3 text-slate-700 hover:bg-slate-100 transition-colors duration-200"
+                      >
+                        <i class="fa-solid fa-box-archive"></i>
+                        {% trans "Archive Pharmacy" %}
+                      </button>
+                    {% endif %}
+                  </form>
+
                 {% endif %}
 
                 {% if model_update_url != None %}
@@ -166,10 +237,10 @@
                     class="px-4 py-3 flex items-center hover:text-white hover:bg-red-700 w-full">
                     <i class="fa-solid fa-trash mr-2"></i> {% trans "Soft Delete" %}
                   </a>
-                  <a href="{% url 'base:delete-object' model_name obj.id %}?hard_delete=1&next={{ request.get_full_path|urlencode }}"
+                  <!-- <a href="{% url 'base:delete-object' model_name obj.id %}?hard_delete=1&next={{ request.get_full_path|urlencode }}"
                     class="px-4 py-3 flex items-center hover:text-white hover:bg-red-900 w-full">
                     <i class="fa-solid fa-triangle-exclamation mr-2"></i> {% trans "Hard Delete" %}
-                  </a>
+                  </a> -->
                 {% endif %}
                 {% endif %}
               </div>

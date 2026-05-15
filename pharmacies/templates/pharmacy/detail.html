@@ -1,14 +1,14 @@
 {% extends 'main.html' %} {% load i18n %} {% block content %}
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="flex flex-col gap-6">
   <!-- HEADER -->
   <section class="bg-lightest border rounded-2xl shadow-md overflow-hidden">
     <div
       class="p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
     >
-      <div class="flex items-start gap-4">
+      <div class="w-full max-w-lg flex items-start gap-4">
         <div
-          class="w-24 h-24 rounded-2xl bg-accent flex items-center justify-center text-primary text-2xl"
+          class="w-24 h-24 rounded-full bg-lighter flex items-center justify-center text-primary text-3xl shadow-md"
         >
           <i class="{{ pharmacy.model_icon }}"></i>
         </div>
@@ -18,7 +18,8 @@
             {{ pharmacy.name }}
           </h1>
 
-          <p class="text-sm text-label mt-1">{{ pharmacy.address }}</p>
+          <p class="text-sm text-label mt-1">{{ pharmacy.city }}</p>
+          <p class="text-sm text-label mt-1">{{ pharmacy.state_or_region }}</p>
 
           {% if header_paragraph %}
           <p class="text-sm text-body mt-3 max-w-3xl">{{ header_paragraph }}</p>
@@ -26,7 +27,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-2">
         <a
           href="{% url 'pharmacies:pharmacy-update' pharmacy.id %}"
           class="btn btn-outlined"
@@ -42,114 +43,104 @@
           <i class="fa-solid fa-cart-flatbed mr-2"></i>
           {% trans "Manage Stock Batches" %}
         </a>
+
+        <a
+          href="{% url 'pharmacies:pharmacy-analytics' %}"
+          class="btn btn-secondary"
+        >
+          <i class="fa-solid fa-chart-pie mr-2"></i>
+          {% trans "Pharmacy Analytics" %}
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- KPI ROW (ERP CORE METRICS) -->
-  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
-    <!-- SALES -->
+  <!-- KPI ROW (REVENUE METRICS - ERP STYLE) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Total Revenue -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-green-200"
     >
-      <div>
-        <p class="text-xs uppercase">{% trans "Sales (30 Days)" %}</p>
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ sales_total|default:"0.00" }}
-        </h2>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Total Revenue" %}
+        </p>
+
+        <div
+          class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-coins text-green-600"></i>
+        </div>
       </div>
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-primary"
-      >
-        <i class="fa-solid fa-chart-line"></i>
-      </div>
+
+      <p class="text-2xl font-bold text-heading">
+        {{ total_revenue|default:"0.00" }}
+      </p>
     </div>
 
-    <!-- PURCHASES -->
+    <!-- Today Revenue -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-blue-200"
     >
-      <div>
-        <p class="text-xs uppercase">{% trans "Purchases (30 Days)" %}</p>
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ purchases_total|default:"0.00" }}
-        </h2>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Today Revenue" %}
+        </p>
+
+        <div
+          class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-calendar-day text-blue-600"></i>
+        </div>
       </div>
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-primary"
-      >
-        <i class="fa-solid fa-truck-ramp-box"></i>
-      </div>
+
+      <p class="text-2xl font-bold text-heading">
+        {{ today_revenue|default:"0.00" }}
+      </p>
     </div>
 
-    <!-- PROFIT -->
+    <!-- Last 7 Days -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-amber-200"
     >
-      <div>
-        <p class="text-xs uppercase">{% trans "Profit (30 Days)" %}</p>
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ profit|default:"0.00" }}
-        </h2>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Last 7 Days" %}
+        </p>
+
+        <div
+          class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-calendar-week text-amber-600"></i>
+        </div>
       </div>
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-primary"
-      >
-        <i class="fa-solid fa-coins"></i>
-      </div>
+
+      <p class="text-2xl font-bold text-heading">
+        {{ last_7_days_revenue|default:"0.00" }}
+      </p>
     </div>
 
-    <!-- LOSS -->
+    <!-- Last 30 Days -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-purple-200"
     >
-      <div>
-        <p class="text-xs uppercase">{% trans "Loss (30 Days)" %}</p>
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ loss_total|default:"0.00" }}
-        </h2>
-      </div>
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-primary"
-      >
-        <i class="fa-solid fa-triangle-exclamation"></i>
-      </div>
-    </div>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Last 30 Days" %}
+        </p>
 
-    <!-- STOCK VALUE -->
-    <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex justify-between"
-    >
-      <div>
-        <p class="text-xs uppercase">{% trans "Stock Value" %}</p>
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ stock_value|default:"0.00" }}
-        </h2>
+        <div
+          class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-calendar text-purple-600"></i>
+        </div>
       </div>
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-primary"
-      >
-        <i class="fa-solid fa-boxes-stacked"></i>
-      </div>
-    </div>
 
-    <!-- STOCK LOST -->
-    <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex justify-between"
-    >
-      <div>
-        <p class="text-xs uppercase">{% trans "Stock Lost" %}</p>
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ stock_value|default:"0.00" }}
-        </h2>
-      </div>
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-primary"
-      >
-        <i class="fa-solid fa-dumpster-fire"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ monthly_revenue|default:"0.00" }}
+      </p>
     </div>
-  </section>
+  </div>
 
   <!-- MAIN GRID -->
   <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -215,17 +206,30 @@
       <!-- TREND (SALES / PURCHASES / PROFIT) -->
       <div class="bg-lightest border rounded-2xl shadow-md p-6">
         <h2 class="text-lg font-semibold text-heading mb-5">
-          {% trans "Last 30 Days Trend" %}
+          {% trans "30 Day Trend Analysis" %}
         </h2>
 
-        <div
-          id="chart_placeholder"
-          class="h-64 flex items-center justify-center text-label"
-        >
-          {% trans "Chart goes here (Sales / Purchases / Profit)" %}
+        <div class="h-64 relative">
+
+          <!-- LOADER -->
+          <div
+            id="monthlyTrendLoader"
+            class="absolute inset-0 flex items-center justify-center bg-lightest z-10"
+          >
+            <i
+              class="fa-solid fa-circle-notch text-3xl text-secondary animate-spin"
+            ></i>
+          </div>
+
+          <!-- CHART -->
+          <canvas id="monthlyTrendChart"></canvas>
+
         </div>
       </div>
+    </div>
 
+    <!-- RIGHT SIDE -->
+    <div class="flex flex-col gap-6">
       <!-- RECENT ACTIVITY -->
       <div class="bg-lightest border rounded-2xl shadow-md p-6">
         <h2 class="text-lg font-semibold text-heading mb-5">
@@ -233,53 +237,32 @@
         </h2>
 
         <div class="flex flex-col divide-y">
+          {% for activity in recent_activity %}
           <div class="py-4 flex justify-between">
-            <div>
-              <p class="font-medium">{% trans "Sale completed" %}</p>
-              <p class="text-sm text-label">Invoice #1024</p>
+            <div class="w-full max-w-[80%] space-y-2">
+              <p class="font-medium">
+                {{ activity.title }}
+                <!--  -->
+                {% include "badges/_status_badge.html" with value=activity.status %}
+              </p>
+              <p class="text-sm text-label">{{ activity.items }}</p>
+              <p></p>
             </div>
-            <span class="text-xs text-label">1h ago</span>
+            <div class="flex flex-col items-end gap-2">
+              <span class="text-xs text-label">
+                {{ activity.time|timesince }} ago
+              </span>
+              <a
+                href="{% url 'pharmacies:sale-detail' activity.id %}"
+                class="btn btn-primary"
+              >
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT SIDE -->
-    <div class="flex flex-col gap-6">
-      <!-- ALERTS -->
-      <div class="bg-lightest border rounded-2xl shadow-md p-6">
-        <h2 class="text-lg font-semibold text-heading mb-5">
-          {% trans "Alerts" %}
-        </h2>
-
-        <div class="space-y-3 text-sm">
-          {% if low_stock_count > 0 %}
-          <p class="text-warning">
-            <i class="fa-solid fa-trinagle-danger text-xl"></i>
-            <!--  -->
-            {{ low_stock_count }} {% trans "products low on stock" %}
-          </p>
-          {% else %}
-          <p class="text-success">
-            <i class="fa-solid fa-inbox text-xl"></i>
-            <!--  -->
-            {% trans "No low stock products" %}
-          </p>
-          {% endif %} {% if expiring_products_count > 0 %}
-          <p class="text-danger">
-            <i class="fa-solid fa-skull-crossbones text-xl"></i>
-            <!--  -->
-            {{ expiring_products_count }}
-            <!--  -->
-            {% trans "medicines expiring soon" %}
-          </p>
-          {% else %}
-          <p class="text-success">
-            <i class="fa-solid fa-inbox text-xl"></i>
-            <!--  -->
-            {% trans "No medicines expiring soon" %}
-          </p>
-          {% endif %}
+          {% empty %}
+          <p class="text-sm text-gray-500 py-4">No recent activity</p>
+          {% endfor %}
         </div>
       </div>
 
@@ -289,31 +272,107 @@
           {% trans "Stock Overview" %}
         </h2>
 
-        <div class="space-y-4 text-sm">
-          <div class="flex justify-between">
-            <span>{% trans "Total Items" %}</span>
-            <span class="font-semibold">{{ stock_items|default:"0" }}</span>
+        <div class="space-y-3 text-sm">
+          <!-- TOTAL -->
+          <div
+            class="p-4 bg-lighter rounded-2xl flex justify-between items-center"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-blue-100 text-blue-600"
+              >
+                <i class="fa-solid fa-boxes-stacked"></i>
+              </div>
+              <span>{% trans "Total Items" %}</span>
+            </div>
+            <span class="font-semibold text-blue-600">
+              {{ stock_items|default:"0" }}
+            </span>
           </div>
 
-          <div class="flex justify-between">
-            <span>{% trans "Low Stock" %}</span>
-            <span class="font-semibold text-warning"
-              >{{ low_stock|default:"0" }}</span
-            >
+          <!-- ACTIVE -->
+          <div
+            class="p-4 bg-lighter rounded-2xl flex justify-between items-center"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-green-100 text-green-600"
+              >
+                <i class="fa-solid fa-check-circle"></i>
+              </div>
+              <span>{% trans "Active Stock" %}</span>
+            </div>
+            <span class="font-semibold text-green-600">
+              {{ active_stock|default:"0" }}
+            </span>
           </div>
 
-          <div class="flex justify-between">
-            <span>{% trans "Expiring Stock" %}</span>
-            <span class="font-semibold text-danger"
-              >{{ expiring|default:"0" }}</span
-            >
+          <!-- LOW STOCK -->
+          <div
+            class="p-4 bg-lighter rounded-2xl flex justify-between items-center"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-yellow-100 text-yellow-600"
+              >
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+              <span>{% trans "Low Stock" %}</span>
+            </div>
+            <span class="font-semibold text-yellow-600">
+              {{ low_stock|default:"0" }}
+            </span>
           </div>
 
-          <div class="flex justify-between">
-            <span>{% trans "Expired Stock" %}</span>
-            <span class="font-semibold text-danger"
-              >{{ expired|default:"0" }}</span
-            >
+          <!-- EXPIRING -->
+          <div
+            class="p-4 bg-lighter rounded-2xl flex justify-between items-center"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-orange-100 text-orange-600"
+              >
+                <i class="fa-solid fa-hourglass-half"></i>
+              </div>
+              <span>{% trans "Expiring Stock" %}</span>
+            </div>
+            <span class="font-semibold text-orange-600">
+              {{ expiring_stock|default:"0" }}
+            </span>
+          </div>
+
+          <!-- EXPIRED -->
+          <div
+            class="p-4 bg-lighter rounded-2xl flex justify-between items-center"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-red-100 text-red-600"
+              >
+                <i class="fa-solid fa-skull-crossbones"></i>
+              </div>
+              <span>{% trans "Expired Stock" %}</span>
+            </div>
+            <span class="font-semibold text-red-600">
+              {{ expired_stock|default:"0" }}
+            </span>
+          </div>
+
+          <!-- DAMAGED -->
+          <div
+            class="p-4 bg-lighter rounded-2xl flex justify-between items-center"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-purple-200 text-purple-700"
+              >
+                <i class="fa-solid fa-house-crack"></i>
+              </div>
+              <span>{% trans "Damaged Stock" %}</span>
+            </div>
+            <span class="font-semibold text-purple-700">
+              {{ damaged_stock|default:"0" }}
+            </span>
           </div>
         </div>
       </div>
@@ -321,4 +380,87 @@
   </section>
 </div>
 
+<script>
+async function loadMonthlyTrendChart() {
+
+  const loader = document.getElementById(
+    "monthlyTrendLoader"
+  );
+
+  try {
+
+    const response = await fetch(
+      "{% url 'pharmacies:pharmacy-monthly-trend' pharmacy.id %}"
+    );
+
+    const chartData = await response.json();
+
+    const ctx = document.getElementById(
+      "monthlyTrendChart"
+    );
+
+    new Chart(ctx, {
+      type: "line",
+
+      data: {
+        labels: chartData.labels,
+
+        datasets: [
+          {
+            label: "Sales",
+            data: chartData.sales,
+            borderColor: "#16a34a",
+            backgroundColor: "rgba(22,163,74,.1)",
+            tension: 0.4,
+          },
+
+          {
+            label: "Expenditures",
+            data: chartData.expenditures,
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37,99,235,.1)",
+            tension: 0.4,
+          },
+
+          {
+            label: "Losses",
+            data: chartData.losses,
+            borderColor: "#dc2626",
+            backgroundColor: "rgba(220,38,38,.1)",
+            tension: 0.4,
+          },
+
+          {
+            label: "Profit",
+            data: chartData.profit,
+            borderColor: "#9333ea",
+            backgroundColor: "rgba(147,51,234,.1)",
+            borderDash: [5, 5],
+            tension: 0.4,
+          }
+        ]
+      },
+
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+  } finally {
+
+    // hide spinner
+    loader.classList.add("hidden");
+  }
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  loadMonthlyTrendChart
+);
+</script>
 {% endblock %}

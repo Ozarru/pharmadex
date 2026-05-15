@@ -1,6 +1,6 @@
 {% extends 'main.html' %} {% load static i18n permission_tags  %}
 <!--  -->
-{% block content %}<div class="flex flex-col gap-4">
+{% block content %}<div class="h-full flex flex-col gap-4">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   {% if user.role in 'admin,super_admin' %}

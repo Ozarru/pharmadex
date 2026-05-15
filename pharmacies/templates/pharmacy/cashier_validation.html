@@ -1,0 +1,112 @@
+{% extends 'main.html' %} {% load i18n %} {% block content %}
+
+<div class="h-full flex flex-col gap-4">
+  <div
+    class="tab_bar rounded-lg 2xl:w-full bg-lightest border border-b-0 shadow-lg grid grid-cols-2 lg:flex justify-evenly items-center text-sm divide-x overflow-hidden"
+  >
+    <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'sales_tab')"
+      id="defaultTab"
+    >
+      <i class="fa-solid fa-shopping-cart"></i>
+      <span>{% trans "Product Sales" %}</span>
+    </button>
+
+    <!-- <button
+      class="tab_button h-16 w-full px-3 py-2 text-label hover:text-secondary flex justify-center items-center gap-2 transition-ease-in duration-200"
+      onclick="openTab(event, 'services_tab')"
+    >
+      <i class="fa-solid fa-stethoscope"></i>
+      <span>{% trans "Clinical Services" %}</span>
+    </button> -->
+  </div>
+
+  <section id="sales_tab" class="tabcontent hidden space-y-6">
+    {% if not sales %}
+    <div
+      class="py-60 bg-lightest border h-full rounded-xl flex flex-col flex-grow justify-center items-center gap-2"
+    >
+      <span class="p-4 rounded-full bg-accent text-3xl text-primary">
+        <i class="fa-solid fa-inbox"></i>
+      </span>
+      <p class="text-sm text-muted">
+        {% blocktrans %} No pending sales {% endblocktrans %}
+      </p>
+    </div>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for sale in sales %}
+      <a
+        href="{% url 'pharmacies:sale-validation' sale.id %}"
+        class="p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
+      >
+        <div class="flex justify-between items-center">
+          <p class="font-semibold">
+            {% trans "Sale " %} #{{ sale.id|truncatechars:"10" }}
+          </p>
+          <span>
+            {% include "badges/_status_badge.html" with value=sale.status %}
+          </span>
+        </div>
+
+        <p class="text-sm text-body mt-2">
+          {{ sale.customer.full_name|default:"Walk-in Customer" }}
+        </p>
+
+        <p class="text-xs text-label mt-1">
+          {% trans "Items:" %} {{ sale.total_items }}
+        </p>
+
+        <p class="text-sm font-bold mt-2">{{ sale.total_amount }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+
+  <section id="services_tab" class="tabcontent hidden space-y-6">
+    {% if not services %}
+    <div
+      class="py-60 bg-lightest border h-full rounded-xl flex flex-col flex-grow justify-center items-center gap-2"
+    >
+      <span class="p-4 rounded-full bg-accent text-3xl text-primary">
+        <i class="fa-solid fa-inbox"></i>
+      </span>
+      <p class="text-sm text-muted">
+        {% blocktrans %} No pending services {% endblocktrans %}
+      </p>
+    </div>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for sale in services %}
+      <a
+        href="{% url 'pharmacies:sale-validation-detail' sale.id %}"
+        class="p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
+      >
+        <div class="flex justify-between items-center">
+          <p class="font-semibold">Sale #{{ sale.id }}</p>
+          <span
+            class="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full"
+          >
+            {{ sale.status }}
+          </span>
+        </div>
+
+        <p class="text-sm text-body mt-2">
+          {{ sale.customer.full_name|default:"Walk-in Customer" }}
+        </p>
+
+        <p class="text-xs text-label mt-1">
+          {% trans "Items:" %} {{ sale.total_items }}
+        </p>
+
+        <p class="text-sm font-bold mt-2">{{ sale.total_amount }}</p>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+</div>
+
+{% endblock %}

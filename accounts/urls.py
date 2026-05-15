@@ -89,7 +89,8 @@ urlpatterns = [
     path('users/<uuid:pk>/update/', CustomUserUpdateView.as_view(), name='user-update'),
     path('users/<uuid:pk>/preview/', user_preview, name='user-preview'),
     path('users/profiles/<uuid:pk>/update/', ProfileUpdateView.as_view(), name='user-profile-update'),
-    
+    path("account/archive/", ArchiveAccountView.as_view(), name="archive-account"),
+
     # User invitations URLs --------------------------------------------------------------
     path('users/user-invitations/list/', UserInvitationListView.as_view(), name='user-invitation-list'),
     path('users/user-invitations/create/', UserInvitationCreateView.as_view(), name='user-invitation-create'),

@@ -445,6 +445,101 @@
       });
     }
 
+    function styleBooleanFields(scope = document) {
+      // Target checkbox + radio fields inside .field wrappers
+      const booleanFields = scope.querySelectorAll(
+        '.field input[type="checkbox"], .field input[type="radio"]',
+      );
+
+      booleanFields.forEach((input) => {
+        // Prevent duplicate initialization
+        if (input.dataset.toggleStyled === "true") return;
+        input.dataset.toggleStyled = "true";
+
+        const field = input.closest(".field");
+        const label = field?.querySelector(`label[for="${input.id}"]`);
+
+        // Hide original input
+        input.classList.add("hidden");
+
+        // =========================
+        // Wrapper
+        // =========================
+        const wrapper = document.createElement("label");
+
+        wrapper.className =
+          "inline-flex items-center gap-3 cursor-pointer select-none";
+
+        // =========================
+        // Toggle Background
+        // =========================
+        const toggle = document.createElement("div");
+
+        toggle.className = `
+      relative w-11 h-6 rounded-full transition-all duration-300
+      shadow-inner
+      ${input.checked ? "bg-secondary ring-2 ring-secondary/30" : "bg-slate-300"}
+    `;
+
+        // =========================
+        // Toggle Knob
+        // =========================
+        const knob = document.createElement("div");
+
+        knob.className =
+          "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md border border-secondary transition-all duration-300";
+
+        knob.style.transform = input.checked
+          ? "translateX(20px)"
+          : "translateX(0px)";
+
+        toggle.appendChild(knob);
+
+        // =========================
+        // Text Label
+        // =========================
+        const text = document.createElement("span");
+
+        text.className = "text-sm font-medium text-slate-700";
+
+        text.textContent = label
+          ? label.textContent.replace("*", "").trim()
+          : "";
+
+        // Remove original label
+        if (label) {
+          label.remove();
+        }
+
+        // =========================
+        // Insert Custom Toggle
+        // =========================
+        input.parentNode.insertBefore(wrapper, input);
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(toggle);
+
+        if (text.textContent) {
+          wrapper.appendChild(text);
+        }
+
+        // =========================
+        // Toggle Interaction
+        // =========================
+        input.addEventListener("change", () => {
+          // Checked state
+          toggle.classList.toggle("bg-secondary", input.checked);
+          // Unchecked state
+          toggle.classList.toggle("bg-slate-300", !input.checked);
+
+          // Move knob
+          knob.style.transform = input.checked
+            ? "translateX(20px)"
+            : "translateX(0px)";
+        });
+      });
+    }
+    
     function styleFormFields(scope = document) {
       const formFields = scope.querySelectorAll(".field");
       formFields.forEach((field) => {
@@ -452,6 +547,9 @@
         const textAreaElement = field.querySelector("textarea");
         const label = field.querySelector("label");
         if (!inputElement) return;
+
+        // Boolean styling
+        styleBooleanFields(field, inputElement, label);
 
         inputElement.classList.add("form-field", "mb-2");
 
@@ -906,7 +1004,7 @@
         delete icon.dataset.originalIcon;
       }
     }
-    
+
     function initLoadingLinks(selector = ".loading-link") {
       document.querySelectorAll(selector).forEach(function (link) {
         link.addEventListener("click", function () {

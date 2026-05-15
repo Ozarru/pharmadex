@@ -9,6 +9,8 @@ urlpatterns = [
     path("report/", pharmacy_reports, name="pharmacy-reports"),
     path("analytics/", pharmacy_analytics, name="pharmacy-analytics"),
     path("point-of-sale/", point_of_sale, name="point-of-sale"),
+    path("cashier-validation/", cashier_validation, name="cashier-validation"),
+    path("sale-validation/<uuid:pk>/", sale_validation_view, name="sale-validation"),
     path("prescription-queue/", prescription_queue, name="prescription-queue"),
     path("profit-and-loss-reports", point_of_sale, name="profit-and-loss-reports"),
 
@@ -18,6 +20,7 @@ urlpatterns = [
     path('pharmacy/<uuid:pk>/detail/', PharmacyDetailView.as_view(), name='pharmacy-detail'),
     path('pharmacy/<uuid:pk>/update/', PharmacyUpdateView.as_view(), name='pharmacy-update'),
     path("pharmacy/analytics/", pharmacy_analytics, name="pharmacy-analytics"),
+    path("pharmacy/monthly-trend/<uuid:pk>/", pharmacy_monthly_trend, name="pharmacy-monthly-trend"),
     
     # Product Category URLs
     path('product-category/list/', ProductCategoryListView.as_view(), name='product-category-list'),
@@ -45,6 +48,7 @@ urlpatterns = [
     path('product-stock/<uuid:pk>/detail/', ProductStockDetailView.as_view(), name='product-stock-detail'),
     path('product-stock/<uuid:pk>/update/', ProductStockUpdateView.as_view(), name='product-stock-update'),
     path("product-stock/analytics/", product_analytics, name="product-stock-analytics"),
+    path("synchronize-stock", synchronize_stock, name="synchronize-stock"),
     
     # ProductBatch URLs
     path('product-batch/list/', ProductBatchListView.as_view(), name='product-batch-list'),

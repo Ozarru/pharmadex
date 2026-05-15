@@ -15,6 +15,8 @@ from django.core.exceptions import ValidationError
 from decimal import Decimal, InvalidOperation
 import locale
 
+def to_bool(value):
+    return str(value).lower() in ["true", "1", "yes", "on"]
 
 def days_before_expirartion(days=3):
     return timezone.now() + timedelta(days)

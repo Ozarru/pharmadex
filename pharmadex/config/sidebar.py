@@ -14,7 +14,7 @@ def get_sidebar_links(user, current_organization=None):
             "icon": icon,
             "active_class": active_class,
             "url_args": url_args or [],
-            "get_params": get_params or [],
+            "get_params": get_params or "",
         })
 
     if not user.is_authenticated:
@@ -26,7 +26,8 @@ def get_sidebar_links(user, current_organization=None):
     profile = getattr(user, "profile", None)
     current_org = getattr(profile, "current_organization",
                           None) if profile else None
-
+    current_pharma = getattr(profile, "current_pharmacy",
+                             None) if profile else None
     assignment = getattr(profile, "current_role", None) if profile else None
     current_role = assignment.role if assignment else None
     current_role_type = getattr(
@@ -41,16 +42,25 @@ def get_sidebar_links(user, current_organization=None):
         add_link(
             _("Organization"),
             "organizations:organization-dashboard",
-            "fa-solid fa-table-list",
-            "organization_page"
+            "fa-solid fa-building",
+            "organizations_page"
         )
 
-        add_link(
-            _("Pharmacies"),
-            "pharmacies:pharmacy-list",
-            "fa-solid fa-staff-snake",
-            "pharmacies_page"
-        )
+        if current_pharma:
+            add_link(
+                _("Pharmacy"),
+                "pharmacies:pharmacy-detail",
+                "fa-solid fa-staff-snake",
+                "pharmacies_page",
+                url_args=[current_pharma.id]
+            )
+        else:
+            add_link(
+                _("Pharmacies"),
+                "pharmacies:pharmacy-list",
+                "fa-solid fa-staff-snake",
+                "pharmacies_page"
+            )
 
     # ==========================================================
     # 💊 PHARMACY CORE (WORKFLOW-BASED)
@@ -74,45 +84,52 @@ def get_sidebar_links(user, current_organization=None):
             "fa-solid fa-store",
             "pos_page"
         )
-
-        add_link(
-            _("Prescriptions"),
-            "pharmacies:prescription-list",
-            "fa-solid fa-file-prescription",
-            "prescription_page",
-            get_params={"status": "pending"}
-        )
+        
+        if current_pharma.requires_cashier_validation:
+            add_link(
+                _("Cashier Validation"),
+                "pharmacies:cashier-validation",
+                "fa-solid fa-cash-register",
+                "cashier_validation_page"
+            )
 
         add_link(
             _("Sales History"),
             "pharmacies:sale-list",
             "fa-solid fa-cart-shopping",
-            "sale_page"
+            "sales_page"
+        )
+
+        add_link(
+            _("Prescriptions"),
+            "pharmacies:prescription-list",
+            "fa-solid fa-file-prescription",
+            "prescriptions_page",
         )
 
         # ------------------------------
         # PRODUCT & BATCH INVENTORY
         # ------------------------------
-        add_link(
-            _("Product Catalog"),
-            "pharmacies:product-list",
-            "fa-solid fa-prescription-bottle-medical",
-            "product_page"
-        )
+        # add_link(
+        #     _("Product Catalog"),
+        #     "pharmacies:product-list",
+        #     "fa-solid fa-prescription-bottle-medical",
+        #     "products_page"
+        # )
 
         add_link(
             _("Stock Overview"),
             "pharmacies:product-stock-list",
             "fa-solid fa-boxes-stacked",
-            "product_stock_page"
+            "product_stocks_page"
         )
 
-        add_link(
-            _("Batch Management"),
-            "pharmacies:product-batch-list",
-            "fa-solid fa-cart-flatbed",
-            "batch_page"
-        )
+        # add_link(
+        #     _("Batch Management"),
+        #     "pharmacies:product-batch-list",
+        #     "fa-solid fa-cart-flatbed",
+        #     "product_batches_page"
+        # )
 
         # ------------------------------
         # INVENTORY OPERATIONS
@@ -125,15 +142,16 @@ def get_sidebar_links(user, current_organization=None):
         )
 
         # ------------------------------
-        # SAFETY / COMPLIANCE
+        # CLINIC LINKS
         # ------------------------------
-        add_link(
-            _("Stock Alerts"),
-            "pharmacies:product-batch-list",
-            "fa-solid fa-bell",
-            "stock_alert_page",
-            get_params={"filter": "alerts"}
-        )
+        
+        # if current_pharma.clinic_enabled:
+        #     add_link(
+        #         _("Clinic Dashboard"),
+        #         "clinics:clinic-dashboard",
+        #         "fa-solid fa-house-medical",
+        #         "clinics_page"
+        #     )
 
     # ==========================================================
     # ADMIN / BACKOFFICE
@@ -163,11 +181,11 @@ def get_sidebar_links(user, current_organization=None):
             _("User Invitations"),
             "accounts:user-invitation-list",
             "fa-solid fa-envelope-circle-check",
-            "user_invitation_page"
+            "user_invitations_page"
         )
 
         add_link(
-            _("Account Settings"),
+            _("Accounts Settings"),
             "base:user-parameters",
             "fa-solid fa-user-gear",
             "user_parameters_page"

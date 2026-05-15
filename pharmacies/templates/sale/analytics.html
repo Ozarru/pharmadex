@@ -136,7 +136,9 @@
             <p class="font-bold text-green-600">{{ p.revenue }}</p>
           </div>
         {% empty %}
-          <p class="text-sm text-body">{% trans "No sales data available." %}</p>
+          <p class="text-sm text-center">
+            {% trans "No sales data available." %}
+          </p>
         {% endfor %}
       </div>
 

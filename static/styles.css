@@ -442,7 +442,7 @@ hr {
   color: var(--color-primary);
 }
 
-.group:hover .group-hover-text-primary {
+.group:hover .group-hover-text-secondary {
   color: var(--color-secondary);
 }
 

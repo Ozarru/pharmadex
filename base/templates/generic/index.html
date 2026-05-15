@@ -25,6 +25,21 @@
     </div>
   </header>
 
+  <!-- Tool Bar -->
+  <div
+    class="p-2.5 w-full bg-lightest rounded-xl border border-gray-200 shadow-sm flex items-center flex-wrap gap-2"
+  >
+    {% if model_name in "ProductBatch, ProductStock" %}
+    <a
+      href="{% url 'pharmacies:synchronize-stock' %}"
+      class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg bg-white hover:bg-gray-100 hover-text-primary border border-gray-200 transition loading-link"
+    >
+      <i class="fa fa-arrows-spin"></i>
+      <span class="hidden md:inline">{% trans "Synchronize Stock" %}</span>
+    </a>
+    {% endif %}
+  </div>
+
   <!-- Data Group Overview -->
   {% if data_groups %}
   <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">

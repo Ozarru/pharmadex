@@ -1,6 +1,6 @@
 {% extends 'main.html' %} {% load static i18n permission_tags  %}
 <!--  -->
-{% block content %}<div class="flex flex-col gap-4">
+{% block content %}<div class="h-full flex flex-col gap-4">
   {% if user.role in 'organization_admin,platform_admin' %}
   <!-- header -->
   <header class="header-bar">

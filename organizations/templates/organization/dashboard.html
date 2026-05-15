@@ -40,7 +40,7 @@
   </section>
 
   <!-- KPI CARDS -->
-  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
     <!-- Pharmacies -->
     <div
       class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
@@ -171,7 +171,7 @@
   </section>
 
   <!-- MAIN GRID -->
-  <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+  <section class="grid grid-cols-1 xl:grid-cols-3 gap-4">
     <!-- LEFT -->
     <div class="xl:col-span-2 flex flex-col gap-6">
       <!-- Quick Actions -->
@@ -207,7 +207,6 @@
           </a>
 
           <button
-            onclick="close_modal()"
             hx-target="#modal_dialog"
             hx-get="{% url 'accounts:user-invitation-create' %}"
             class="modal_opener btn btn-outlined rounded-xl p-4"
@@ -234,7 +233,7 @@
           <a href="#" class="btn btn-outlined rounded-xl p-4">
             <div class="flex items-center gap-3">
               <div
-                class="w-10 h-10 rounded-lg bg-warning/10 text-warning flex items-center justify-center"
+                class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
               >
                 <i class="fa-solid fa-chart-line"></i>
               </div>

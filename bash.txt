@@ -1,0 +1,12 @@
+FOR FIRST RUN ============================================
+django-admin makemessages -l fr -e py,html,js --ignore "venv/*" --ignore "node_modules/*" --ignore ".git/*" --ignore "__pycache__/*"
+python manage.py makemessages -l fr -e py,html,js --ignore "venv/*" --ignore "node_modules/*" --ignore ".git/*" --ignore "__pycache__/*"
+
+FOR SUBSEQUENT RUNS ============================================
+python manage.py makemessages -a -e py,html,js --ignore "venv/*" --ignore "node_modules/*" --ignore ".git/*" --ignore "__pycache__/*"
+
+TRANSLATIONS COMPILER ============================================
+python manage.py compilemessages --verbosity 3
+
+GIT REMOVAL FROM FOLDER ============================================
+Remove-Item -Recurse -Force .git

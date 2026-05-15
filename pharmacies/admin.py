@@ -212,8 +212,8 @@ class ProductBatchAdmin(admin.ModelAdmin):
     ]
 
     list_display = [
-        "product_name_display",
-        "batch_number",
+        "product_stock__product__name",
+        # "batch_number",
         "quantity",
         "expiry_date",
         "days_to_expiry_display",
@@ -225,26 +225,17 @@ class ProductBatchAdmin(admin.ModelAdmin):
     ordering = ["expiry_date"]
 
     list_select_related = ("product_stock__product",)
-
-    # ---------------------------
-    # Related
-    # ---------------------------
-    def product_name_display(self, obj):
-        return obj.product_stock.product.name
-    product_name_display.short_description = "Product"
-
-    def quantity_status(self, obj):
-        return "Available" if obj.quantity > 0 else "Empty"
-
-    def usability_status(self, obj):
-        return "Usable" if obj.is_usable else "Not usable"
     
     # ---------------------------
     # Days
     # ---------------------------
+    def product_stock__product__name(self, obj):
+        return obj.product_stock.product.name
+    product_stock__product__name.short_description = "Product"
+    
     def days_to_expiry_display(self, obj):
         return obj.days_to_expiry
-    days_to_expiry_display.short_description = "Days Left"
+    days_to_expiry_display.short_description = "Days to Expiry"
 
 
 class PrescriptionItemInline(admin.TabularInline):
@@ -311,6 +302,7 @@ class SaleAdmin(admin.ModelAdmin):
         "customer",
         "total_items",
         "total_amount",
+        "status",
     ]
 
 

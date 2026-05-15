@@ -1,0 +1,6763 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-12 19:26+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: .\accounts\admin.py:110
+msgid "Identity"
+msgstr ""
+
+#: .\accounts\admin.py:117 .\pharmacies\templates\purchase\detail.html:37
+#: .\pharmacies\templates\sale\detail.html:53
+msgid "Contact"
+msgstr ""
+
+#: .\accounts\admin.py:123
+msgid "Access & Status"
+msgstr ""
+
+#: .\accounts\admin.py:130 .\pharmacies\templates\product\batch\detail.html:69
+#: .\pharmacies\templates\product\category\detail.html:69
+#: .\pharmacies\templates\product\subcategory\detail.html:48
+msgid "Activity"
+msgstr ""
+
+#: .\accounts\admin.py:148
+msgid "Full name"
+msgstr ""
+
+#: .\accounts\admin.py:214
+msgid "Used"
+msgstr ""
+
+#: .\accounts\admin.py:217 .\accounts\views.py:706
+#: .\base\templates\badges\_status_badge.html:49 .\pharmacies\views.py:841
+msgid "Expired"
+msgstr ""
+
+#: .\accounts\admin.py:219 .\base\templates\badges\_status_badge.html:32
+#: .\clinics\models.py:119 .\pharmacies\models.py:944
+#: .\pharmacies\models.py:1103 .\pharmacies\models.py:1803
+msgid "Pending"
+msgstr ""
+
+#: .\accounts\admin.py:221 .\clinics\models.py:151 .\clinics\models.py:474
+#: .\finances\models.py:678 .\finances\models.py:760
+#: .\finances\templates\bill\detail.html:69
+#: .\finances\templates\invoice\detail.html:69 .\hr\admin.py:76
+#: .\organizations\templates\organization\detail.html:99
+#: .\organizations\templates\organization\employee\detail.html:50
+#: .\pharmacies\models.py:66 .\pharmacies\models.py:962
+#: .\pharmacies\models.py:1114 .\pharmacies\models.py:1342
+#: .\pharmacies\models.py:1475 .\pharmacies\models.py:1810
+#: .\pharmacies\templates\inventory\audit\detail.html:25
+#: .\pharmacies\templates\product\detail.html:83
+#: .\pharmacies\templates\product\stock\detail.html:68
+#: .\pharmacies\templates\sale\detail.html:87 .\support\models.py:60
+msgid "Status"
+msgstr ""
+
+#: .\accounts\forms.py:48 .\accounts\templates\accounts\login.html:64
+#: .\accounts\templates\accounts\signup.html:93
+msgid "Password"
+msgstr ""
+
+#: .\accounts\forms.py:52 .\accounts\templates\accounts\change_password.html:81
+#: .\accounts\templates\accounts\signup.html:118
+msgid "Confirm password"
+msgstr ""
+
+#: .\accounts\forms.py:58
+msgid "This email is already registered."
+msgstr ""
+
+#: .\accounts\forms.py:66
+msgid "Password fields cannot be empty."
+msgstr ""
+
+#: .\accounts\forms.py:69
+msgid "The two password fields must match."
+msgstr ""
+
+#: .\accounts\forms.py:73
+msgid "Password must be at least 8 characters long."
+msgstr ""
+
+#: .\accounts\forms.py:75
+msgid "Password must contain at least one uppercase letter."
+msgstr ""
+
+#: .\accounts\forms.py:77
+msgid "Password must contain at least one lowercase letter."
+msgstr ""
+
+#: .\accounts\forms.py:79
+msgid "Password must contain at least one digit."
+msgstr ""
+
+#: .\accounts\forms.py:81
+msgid "Password must contain at least one special character."
+msgstr ""
+
+#: .\accounts\models.py:22
+msgid "Permission"
+msgstr ""
+
+#: .\accounts\models.py:23
+msgid "Permissions"
+msgstr ""
+
+#: .\accounts\models.py:45
+msgid "Email address is required"
+msgstr ""
+
+#: .\accounts\models.py:61
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: .\accounts\models.py:63
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: .\accounts\models.py:69 .\accounts\templates\accounts\user\detail.html:92
+#: .\organizations\models.py:32 .\organizations\models.py:201
+#: .\organizations\templates\organization\customer\detail.html:66
+#: .\organizations\templates\organization\detail.html:58
+#: .\organizations\templates\organization\employee\detail.html:66
+msgid "Email"
+msgstr ""
+
+#: .\accounts\models.py:70
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:283
+msgid "First name"
+msgstr ""
+
+#: .\accounts\models.py:71
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:284
+msgid "Last name"
+msgstr ""
+
+#: .\accounts\models.py:77 .\accounts\templates\accounts\user\detail.html:98
+msgid "Username"
+msgstr ""
+
+#: .\accounts\models.py:85
+msgid "Unique identifier"
+msgstr ""
+
+#: .\accounts\models.py:87
+msgid "Optional identifier used for login instead of email or phone."
+msgstr ""
+
+#: .\accounts\models.py:90 .\accounts\templates\accounts\user\detail.html:86
+#: .\finances\models.py:183 .\organizations\models.py:220
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:285
+msgid "Phone number"
+msgstr ""
+
+#: .\accounts\models.py:93
+msgid "first login"
+msgstr ""
+
+#: .\accounts\models.py:95
+msgid "first logout"
+msgstr ""
+
+#: .\accounts\models.py:97 .\accounts\templates\accounts\user\detail.html:125
+msgid "Last login"
+msgstr ""
+
+#: .\accounts\models.py:99 .\accounts\templates\accounts\user\detail.html:131
+msgid "Last logout"
+msgstr ""
+
+#: .\accounts\models.py:100 .\base\models.py:152
+msgid "Is Active"
+msgstr ""
+
+#: .\accounts\models.py:101
+msgid "Is Staff"
+msgstr ""
+
+#: .\accounts\models.py:102
+msgid "Is Superuser"
+msgstr ""
+
+#: .\accounts\models.py:103
+msgid "Is Online"
+msgstr ""
+
+#: .\accounts\models.py:118 .\accounts\models.py:201
+#: .\accounts\templates\accounts\user\detail.html:61
+#: .\accounts\templates\accounts\user\detail.html:67 .\hr\models.py:34
+msgid "User"
+msgstr ""
+
+#: .\accounts\models.py:119 .\base\templates\parameters\users.html:30
+msgid "Users"
+msgstr ""
+
+#: .\accounts\models.py:197
+msgid "Masculin"
+msgstr ""
+
+#: .\accounts\models.py:198
+msgid "Feminin"
+msgstr ""
+
+#: .\accounts\models.py:204 .\accounts\templates\accounts\user\detail.html:104
+#: .\organizations\models.py:225
+#: .\organizations\templates\organization\customer\detail.html:80
+#: .\organizations\templates\organization\employee\detail.html:80
+msgid "Gender"
+msgstr ""
+
+#: .\accounts\models.py:206
+msgid "Profile Picture"
+msgstr ""
+
+#: .\accounts\models.py:208
+msgid "Bio"
+msgstr ""
+
+#: .\accounts\models.py:210
+msgid "Current Role"
+msgstr ""
+
+#: .\accounts\models.py:212
+msgid "Current Organization"
+msgstr ""
+
+#: .\accounts\models.py:214
+msgid "Allowed organizations"
+msgstr ""
+
+#: .\accounts\models.py:216 .\accounts\templates\accounts\user\detail.html:137
+msgid "Current Pharmacy"
+msgstr ""
+
+#: .\accounts\models.py:218
+msgid "Allowed pharmacies"
+msgstr ""
+
+#: .\accounts\models.py:223
+msgid "User Profile"
+msgstr ""
+
+#: .\accounts\models.py:224
+msgid "Users Profiles"
+msgstr ""
+
+#: .\accounts\models.py:232 .\accounts\models.py:296
+#: .\accounts\templates\accounts\user\detail.html:38
+#: .\base\templates\badges\_account_badge.html:7 .\hr\models.py:69
+#: .\pharmacies\resources.py:168 .\pharmacies\templates\purchase\detail.html:45
+#: .\pharmacies\templates\sale\detail.html:59
+msgid "Vendor"
+msgstr ""
+
+#: .\accounts\models.py:233 .\accounts\models.py:297
+#: .\accounts\templates\accounts\user\detail.html:41
+#: .\base\templates\badges\_account_badge.html:12 .\hr\models.py:66
+#: .\pharmacies\models.py:1126
+msgid "Cashier"
+msgstr ""
+
+#: .\accounts\models.py:234 .\accounts\models.py:298
+#: .\accounts\templates\accounts\user\detail.html:44
+#: .\base\templates\badges\_account_badge.html:17 .\hr\models.py:64
+msgid "Pharmacist"
+msgstr ""
+
+#: .\accounts\models.py:235 .\accounts\models.py:299
+#: .\accounts\templates\accounts\user\detail.html:47
+#: .\base\templates\badges\_account_badge.html:22 .\hr\models.py:65
+msgid "Doctor"
+msgstr ""
+
+#: .\accounts\models.py:236 .\accounts\models.py:300
+#: .\accounts\templates\accounts\user\detail.html:50
+#: .\base\templates\badges\_account_badge.html:27 .\hr\models.py:68
+msgid "Inventory Manager"
+msgstr ""
+
+#: .\accounts\models.py:237 .\accounts\models.py:301
+#: .\accounts\templates\accounts\user\detail.html:53
+#: .\base\templates\badges\_account_badge.html:32 .\hr\models.py:67
+msgid "Pharmacy Manager"
+msgstr ""
+
+#: .\accounts\models.py:238 .\accounts\models.py:302
+#: .\accounts\templates\accounts\user\detail.html:57 .\accounts\views.py:531
+#: .\base\templates\badges\_account_badge.html:37
+msgid "Platform Administrator"
+msgstr ""
+
+#: .\accounts\models.py:245 .\accounts\models.py:313
+msgid "User Type"
+msgstr ""
+
+#: .\accounts\models.py:254
+msgid "User Role"
+msgstr ""
+
+#: .\accounts\models.py:255
+msgid "User Roles"
+msgstr ""
+
+#: .\accounts\models.py:308
+msgid "Invitation Sender"
+msgstr ""
+
+#: .\accounts\models.py:310
+msgid "Invitation Receiver"
+msgstr ""
+
+#: .\accounts\models.py:311
+msgid "Receiver Email"
+msgstr ""
+
+#: .\accounts\models.py:315
+msgid "Invitation Token"
+msgstr ""
+
+#: .\accounts\models.py:318 .\organizations\models.py:320
+#: .\organizations\templates\organization\dashboard.html:297
+#: .\pharmacies\models.py:1674
+msgid "Created At"
+msgstr ""
+
+#: .\accounts\models.py:322
+msgid "Expiration Date"
+msgstr ""
+
+#: .\accounts\models.py:337
+msgid "User Invitation"
+msgstr ""
+
+#: .\accounts\models.py:338 .\pharmadex\config\sidebar.py:181
+msgid "User Invitations"
+msgstr ""
+
+#: .\accounts\templates\accounts\archive.html:16
+msgid "Archive your account?"
+msgstr ""
+
+#: .\accounts\templates\accounts\archive.html:21
+msgid "This will deactivate your account and log you out immediately."
+msgstr ""
+
+#: .\accounts\templates\accounts\archive.html:25
+msgid ""
+"Your data will be preserved and can be restored later by support if you "
+"choose to return within the next 3 months."
+msgstr ""
+
+#: .\accounts\templates\accounts\archive.html:44
+msgid "Yes, archive my account"
+msgstr ""
+
+#: .\accounts\templates\accounts\archive.html:52
+#: .\accounts\templates\accounts\change_password.html:116
+#: .\accounts\templates\accounts\password_reset\request.html:75
+#: .\accounts\templates\accounts\role\detail.html:31
+#: .\accounts\templates\accounts\user\profile_form.html:46
+#: .\accounts\templates\accounts\user_role\detail.html:31
+#: .\base\templates\delete_confirmation.html:49
+#: .\base\templates\generic\form.html:70
+#: .\base\templates\generic\htmx_form.html:78
+#: .\base\templates\generic\parent_child_form.html:125
+msgid "Cancel"
+msgstr ""
+
+#: .\accounts\templates\accounts\archive.html:58
+msgid "We hope to see you again someday."
+msgstr ""
+
+#: .\accounts\templates\accounts\change_password.html:39
+msgid "Change your password"
+msgstr ""
+
+#: .\accounts\templates\accounts\change_password.html:59
+msgid "New password"
+msgstr ""
+
+#: .\accounts\templates\accounts\change_password.html:100
+msgid "Update Password"
+msgstr ""
+
+#: .\accounts\templates\accounts\change_password.html:122
+#: .\base\templates\titlebar.html:205
+msgid "Logout"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:27
+msgid "Password Reset Request"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:34
+#: .\accounts\templates\accounts\emails\user_invitation.html:43
+msgid "Hello,"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:34
+msgid "We received a request to reset your password."
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:41
+msgid ""
+"Click the button below to reset your password. This link will expire in 1 "
+"hour."
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:66
+msgid ""
+"If you did not request a password reset, you can safely ignore this email."
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:73
+#: .\accounts\templates\accounts\emails\user_invitation.html:75
+msgid "Best regards,"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\password_reset.html:74
+msgid "The Pharmadex Team"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:36
+msgid "Invitation to Join"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:36
+msgid "on Pharmadex"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:43
+msgid "You have been invited to join"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:44
+msgid "as a"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:44
+msgid "on the Pharmadex platform."
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:51
+msgid ""
+"Please click the button below to complete your registration. This link will "
+"expire in 3 days."
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:60
+msgid "Join Now"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:68
+msgid ""
+"If you didn’t request this invitation, you can safely ignore this email."
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:76
+msgid "Team"
+msgstr ""
+
+#: .\accounts\templates\accounts\emails\user_invitation.html:77
+msgid "Powered by <i>Zenheit Technologies</i>"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:31
+#: .\accounts\templates\accounts\login.html:87
+#: .\accounts\templates\accounts\signup.html:167
+msgid "Login"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:48
+msgid "Email or telephone"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:102
+msgid "I forgot my password"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:106
+msgid "Got no acount?"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:110
+#: .\accounts\templates\accounts\password_reset\request.html:90
+#: .\accounts\templates\accounts\signup.html:31
+msgid "Signup"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\complete.html:17
+msgid "Password Reset Successful"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\complete.html:19
+msgid ""
+"Your password has been successfully updated. You can now log in with your "
+"new password."
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\complete.html:23
+#: .\accounts\templates\accounts\password_reset\done.html:24
+msgid "Back to Login"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\confirm.html:16
+msgid "Reset Your Password"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\confirm.html:17
+msgid "Enter a new password below to update your account."
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\confirm.html:44
+msgid "Set New Password"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\done.html:17
+msgid "Check your inbox"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\done.html:19
+msgid ""
+"If an account with the provided email exists, a password reset link has been "
+"sent."
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\done.html:20
+msgid ""
+"Please check your inbox and follow the instructions to reset your password."
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\request.html:42
+msgid "Did you forget your password?"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\request.html:45
+msgid ""
+"Kindly enter your email below and we’ll send you a link to reset your "
+"password."
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\request.html:78
+msgid "Send Reset Link"
+msgstr ""
+
+#: .\accounts\templates\accounts\password_reset\request.html:86
+msgid "Don’t have an account?"
+msgstr ""
+
+#: .\accounts\templates\accounts\signup.html:57
+msgid "Please enter a valid last name"
+msgstr ""
+
+#: .\accounts\templates\accounts\signup.html:72
+msgid "Please enter a valid first name"
+msgstr ""
+
+#: .\accounts\templates\accounts\signup.html:87
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: .\accounts\templates\accounts\signup.html:147
+msgid "Create Account"
+msgstr ""
+
+#: .\accounts\templates\accounts\signup.html:161
+msgid "Already have an account?"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:74
+msgid "Joined on"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:110
+msgid "Online"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:114
+#: .\base\templates\badges\_boolean_badge.html:3
+#: .\base\templates\components\_filters_dialog.html:57
+#: .\base\templates\parameters\security.html:92
+msgid "Yes"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:118
+#: .\base\templates\badges\_boolean_badge.html:3
+#: .\base\templates\components\_filters_dialog.html:60
+#: .\base\templates\parameters\security.html:93
+msgid "No"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:143
+#: .\base\templates\badges\_activity_badge.html:7
+#: .\base\templates\badges\_status_badge.html:6 .\clinics\models.py:13
+#: .\clinics\models.py:97 .\hr\views.py:125 .\organizations\models.py:38
+#: .\organizations\templates\organization\detail.html:101
+#: .\organizations\templates\organization\employee\detail.html:48
+#: .\pharmacies\models.py:25 .\pharmacies\models.py:390
+#: .\pharmacies\templates\product\batch\detail.html:70
+#: .\pharmacies\templates\product\category\detail.html:70
+#: .\pharmacies\templates\product\detail.html:85
+#: .\pharmacies\templates\product\subcategory\detail.html:49
+msgid "Active"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:147
+#: .\accounts\templates\accounts\user\detail.html:157
+msgid "Yes,No"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:153 .\hr\admin.py:126
+#: .\hr\models.py:47 .\hr\models.py:48
+msgid "Staff"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:168
+msgid "Biography"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:172
+msgid "No biography provided."
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:190
+msgid "Edit Account"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\detail.html:200
+msgid "Edit Profile"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\profile_form.html:11
+#: .\base\templates\error_400.html:41
+msgid "Go back"
+msgstr ""
+
+#: .\accounts\templates\accounts\user\profile_form.html:52
+#: .\base\templates\generic\form.html:73
+#: .\base\templates\generic\htmx_form.html:72
+#: .\base\templates\generic\parent_child_form.html:128
+msgid "Save"
+msgstr ""
+
+#: .\accounts\utils.py:131 .\finances\models.py:318
+#: .\organizations\templates\organization\detail.html:108
+#: .\pharmacies\models.py:80 .\pharmacies\models.py:1310
+#: .\pharmacies\models.py:1456 .\pharmacies\models.py:1570
+#: .\pharmacies\templates\purchase\detail.html:51
+#: .\pharmacies\templates\sale\detail.html:65 .\pharmadex\config\sidebar.py:51
+msgid "Pharmacy"
+msgstr ""
+
+#: .\accounts\utils.py:143
+#, python-brace-format
+msgid "You have been invited to join {org} on Pharmadex"
+msgstr ""
+
+#: .\accounts\utils.py:164
+msgid "Invitation email sent to {}."
+msgstr ""
+
+#: .\accounts\utils.py:174
+msgid "Failed to send invitation email."
+msgstr ""
+
+#: .\accounts\views.py:67
+msgid "Invalid or expired invitation token."
+msgstr ""
+
+#: .\accounts\views.py:78
+msgid "Your role or organization access has been updated. Please log in."
+msgstr ""
+
+#: .\accounts\views.py:116
+msgid "Account created successfully."
+msgstr ""
+
+#: .\accounts\views.py:182
+msgid "Password changed successfully."
+msgstr ""
+
+#: .\accounts\views.py:185
+msgid "Please fix the errors below."
+msgstr ""
+
+#: .\accounts\views.py:191
+msgid "Change Password"
+msgstr ""
+
+#: .\accounts\views.py:204 .\accounts\views.py:244
+msgid "Session expired. Please login again."
+msgstr ""
+
+#: .\accounts\views.py:216
+msgid "Session expired or invalid. Please login again."
+msgstr ""
+
+#: .\accounts\views.py:223 .\accounts\views.py:250
+msgid "User not found."
+msgstr ""
+
+#: .\accounts\views.py:233
+msgid "Successfully logged in."
+msgstr ""
+
+#: .\accounts\views.py:236
+msgid "Invalid OTP. Please try again."
+msgstr ""
+
+#: .\accounts\views.py:260
+msgid "A new verification code has been sent."
+msgstr ""
+
+#: .\accounts\views.py:265
+msgid "Your Login Verification Code"
+msgstr ""
+
+#: .\accounts\views.py:295
+msgid "You must type ARCHIVE to confirm."
+msgstr ""
+
+#: .\accounts\views.py:306
+msgid "Your account has been archived. We’re sad to see you go 💔"
+msgstr ""
+
+#: .\accounts\views.py:493
+msgid "Users Page"
+msgstr ""
+
+#: .\accounts\views.py:494
+msgid "Manage the users on the platform"
+msgstr ""
+
+#: .\accounts\views.py:495
+msgid ""
+"Manage and oversee users directly on the platform. Whether adding new users, "
+"updating their profiles, or assigning roles and permissions, the platform "
+"provides an intuitive interface to handle all user-related tasks.\n"
+"                                             Admins can easily view, update, "
+"and remove users, ensuring the right people have access to the right "
+"resources.\n"
+"                                             This central hub allows for "
+"efficient user management, promoting a streamlined experience for everyone "
+"involved in the platform."
+msgstr ""
+
+#: .\accounts\views.py:525 .\accounts\views.py:566
+msgid "Vendors"
+msgstr ""
+
+#: .\accounts\views.py:526 .\accounts\views.py:567
+msgid "Cashiers"
+msgstr ""
+
+#: .\accounts\views.py:527 .\accounts\views.py:568
+msgid "Pharmacists"
+msgstr ""
+
+#: .\accounts\views.py:528 .\accounts\views.py:569
+msgid "Doctors"
+msgstr ""
+
+#: .\accounts\views.py:529 .\accounts\views.py:570
+msgid "Inventory Managers"
+msgstr ""
+
+#: .\accounts\views.py:530 .\accounts\views.py:572
+msgid "Pharmacy Managers"
+msgstr ""
+
+#: .\accounts\views.py:535
+#, python-format
+msgid "Users Page — %(type)s Accounts"
+msgstr ""
+
+#: .\accounts\views.py:537
+#, python-format
+msgid "Manage the users with %(type)s accounts on the platform"
+msgstr ""
+
+#: .\accounts\views.py:573
+msgid "Platform Administrators"
+msgstr ""
+
+#: .\accounts\views.py:624
+msgid "User Detail Page"
+msgstr ""
+
+#: .\accounts\views.py:625
+msgid "View user's detail on the platform"
+msgstr ""
+
+#: .\accounts\views.py:644
+msgid "Edit a user account"
+msgstr ""
+
+#: .\accounts\views.py:645
+msgid "Update the user account info"
+msgstr ""
+
+#: .\accounts\views.py:652
+msgid "Edit User Profile"
+msgstr ""
+
+#: .\accounts\views.py:653
+msgid "Update the user profile info"
+msgstr ""
+
+#: .\accounts\views.py:665
+msgid "Organization Invitations"
+msgstr ""
+
+#: .\accounts\views.py:666
+msgid "Manage organization invitations"
+msgstr ""
+
+#: .\accounts\views.py:682
+msgid "Vendor Invitations"
+msgstr ""
+
+#: .\accounts\views.py:683
+msgid "Cashier Invitations"
+msgstr ""
+
+#: .\accounts\views.py:684
+msgid "Pharmacist Invitations"
+msgstr ""
+
+#: .\accounts\views.py:685
+msgid "Doctor Invitations"
+msgstr ""
+
+#: .\accounts\views.py:686
+msgid "Inventory Manager Invitations"
+msgstr ""
+
+#: .\accounts\views.py:687
+msgid "Pharmacy Manager Invitations"
+msgstr ""
+
+#: .\accounts\views.py:703
+msgid "Total Sent"
+msgstr ""
+
+#: .\accounts\views.py:704
+msgid "Responded"
+msgstr ""
+
+#: .\accounts\views.py:705
+msgid "Unanswered"
+msgstr ""
+
+#: .\accounts\views.py:724
+msgid "Create a new user invitation"
+msgstr ""
+
+#: .\accounts\views.py:725
+msgid "Fill out the form to invite a new user to the organization"
+msgstr ""
+
+#: .\accounts\views.py:742
+msgid ""
+"An invitation with this email already exists for this organization, receiver "
+"email and user type."
+msgstr ""
+
+#: .\accounts\views.py:750
+msgid "There were errors with your submission. Please check and try again."
+msgstr ""
+
+#: .\accounts\views.py:764 .\base\views.py:2449
+msgid "Platform User Parameters Page"
+msgstr ""
+
+#: .\accounts\views.py:765 .\base\views.py:2450
+msgid "Manage the platform's user parameters"
+msgstr ""
+
+#: .\accounts\views.py:955
+msgid "User Permissions Page"
+msgstr ""
+
+#: .\accounts\views.py:956 .\accounts\views.py:957
+msgid "View and manage user permissions here"
+msgstr ""
+
+#: .\accounts\views.py:980
+msgid "Edit User Permission"
+msgstr ""
+
+#: .\accounts\views.py:981
+msgid "Update the permission details"
+msgstr ""
+
+#: .\accounts\views.py:993
+msgid "User Roles Page"
+msgstr ""
+
+#: .\accounts\views.py:994
+msgid "View and manage user roles here"
+msgstr ""
+
+#: .\accounts\views.py:996
+msgid ""
+"Manage and oversee the platform's user roles.\n"
+"\t\tThis page helps administrators maintain clear and consistent access "
+"control."
+msgstr ""
+
+#: .\accounts\views.py:1051 .\accounts\views.py:1094
+msgid "Edit User Role"
+msgstr ""
+
+#: .\accounts\views.py:1052 .\accounts\views.py:1095
+msgid "Update the role details"
+msgstr ""
+
+#: .\accounts\views.py:1065
+msgid "User Role Assignments Page"
+msgstr ""
+
+#: .\accounts\views.py:1066
+msgid "View and manage user user roles here"
+msgstr ""
+
+#: .\accounts\views.py:1068
+msgid ""
+"Manage and oversee your platform users' roles.\n"
+"\t\tThis page helps administrators maintain an organized and transparent "
+"education ecosystem."
+msgstr ""
+
+#: .\accounts\views.py:1086
+msgid "Add User Organization Role"
+msgstr ""
+
+#: .\accounts\views.py:1087
+msgid "Create a user admin role"
+msgstr ""
+
+#: .\base\models.py:42
+msgid "Created at"
+msgstr ""
+
+#: .\base\models.py:44
+msgid "Updated at"
+msgstr ""
+
+#: .\base\models.py:46
+msgid "Created by"
+msgstr ""
+
+#: .\base\models.py:48
+msgid "Updated by"
+msgstr ""
+
+#: .\base\models.py:281
+msgid "Related Organization"
+msgstr ""
+
+#: .\base\models.py:297 .\base\models.py:322
+msgid "Related Pharmacy"
+msgstr ""
+
+#: .\base\models.py:312 .\base\models.py:338
+msgid "Pharmacy must belong to the same organization."
+msgstr ""
+
+#: .\base\resources.py:52
+msgid "ID"
+msgstr ""
+
+#: .\base\templates\badges\_account_badge.html:43
+#: .\base\templates\badges\_status_badge.html:130
+msgid "Unknown"
+msgstr ""
+
+#: .\base\templates\badges\_activity_badge.html:13
+#: .\base\templates\badges\_status_badge.html:22
+#: .\organizations\templates\organization\detail.html:101
+#: .\organizations\templates\organization\employee\detail.html:48
+#: .\pharmacies\models.py:27
+#: .\pharmacies\templates\product\batch\detail.html:71
+#: .\pharmacies\templates\product\category\detail.html:71
+#: .\pharmacies\templates\product\detail.html:85
+#: .\pharmacies\templates\product\subcategory\detail.html:50
+msgid "Inactive"
+msgstr ""
+
+#: .\base\templates\badges\_gender_badge.html:7
+msgid "Masc."
+msgstr ""
+
+#: .\base\templates\badges\_gender_badge.html:13
+msgid "Fem."
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:10 .\pharmacies\models.py:26
+msgid "Suspended"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:14 .\pharmacies\models.py:28
+#: .\support\templates\support\ticket\detail.html:53
+#: .\support\templates\support\ticket\detail_htmx.html:51
+msgid "Archived"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:18
+msgid "Deactivated"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:26
+msgid "Unassigned"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:36 .\clinics\models.py:121
+#: .\clinics\models.py:454 .\pharmacies\models.py:947
+#: .\pharmacies\models.py:1104
+msgid "Completed"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:40 .\pharmacies\models.py:1805
+msgid "Validated"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:55
+msgid "Expiring"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:61 .\pharmacies\views.py:839
+msgid "Damaged"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:67
+msgid "Usable"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:74
+msgid "Out of stock"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:80
+msgid "Low stock"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:86
+msgid "In stock"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:92 .\finances\models.py:34
+msgid "Unpaid"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:96
+msgid "Partially Paid"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:100 .\finances\models.py:36
+msgid "Fully Paid"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:107 .\support\models.py:14
+msgid "Open"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:111 .\support\models.py:15
+msgid "Ongoing"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:115 .\support\models.py:16
+msgid "Resolved"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:119 .\pharmacies\models.py:1303
+#: .\support\models.py:17
+msgid "Closed"
+msgstr ""
+
+#: .\base\templates\badges\_status_badge.html:123 .\support\models.py:18
+#: .\support\views.py:72
+msgid "Escalated"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:7
+msgid "System Error"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:12
+msgid "Billing / Invoice Issue"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:17
+msgid "Account Access Issue"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:22 .\support\models.py:33
+msgid "Inventory Issue"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:27 .\support\models.py:35
+msgid "Prescription Issue"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:32
+msgid "Staff Issue"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:37 .\support\models.py:37
+#: .\support\templates\components\_ticket_type_badge.html:36
+msgid "Feature Request"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:42
+msgid "Incident Report"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:47
+msgid "General Inquiry"
+msgstr ""
+
+#: .\base\templates\badges\_ticket_badge.html:52 .\clinics\models.py:53
+#: .\finances\models.py:44 .\support\models.py:38
+#: .\support\templates\components\_ticket_type_badge.html:41
+msgid "Other"
+msgstr ""
+
+#: .\base\templates\base\home.html:15
+msgid "No organization selected"
+msgstr ""
+
+#: .\base\templates\base\home.html:26
+msgid "Create organization"
+msgstr ""
+
+#: .\base\templates\base\home.html:32
+msgid "View organizations"
+msgstr ""
+
+#: .\base\templates\base\home.html:45 .\organizations\models.py:252
+#: .\organizations\templates\organization\dashboard.html:68
+#: .\organizations\templates\organization\detail.html:70
+msgid "Customers"
+msgstr ""
+
+#: .\base\templates\base\home.html:60 .\organizations\models.py:327
+msgid "Suppliers"
+msgstr ""
+
+#: .\base\templates\base\home.html:74
+msgid "Warehouses"
+msgstr ""
+
+#: .\base\templates\base\home.html:88
+#: .\organizations\templates\organization\dashboard.html:108
+#: .\pharmacies\models.py:398
+#: .\pharmacies\templates\inventory\dashboard.html:102
+#: .\pharmacies\templates\pharmacy\dashboard.html:101
+#: .\pharmacies\templates\pharmacy\statistics.html:53
+#: .\pharmacies\templates\product\batch\detail.html:38
+#: .\pharmacies\templates\product\category\detail.html:38
+#: .\pharmacies\views.py:607
+msgid "Products"
+msgstr ""
+
+#: .\base\templates\base\home.html:102 .\pharmacies\models.py:1176
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:13
+#: .\pharmacies\templates\pharmacy\dashboard.html:147
+#: .\pharmacies\templates\pharmacy\statistics.html:63
+#: .\pharmacies\views.py:1325
+msgid "Sales"
+msgstr ""
+
+#: .\base\templates\base\home.html:116
+#: .\pharmacies\templates\pharmacy\statistics.html:68
+#: .\pharmacies\views.py:1829
+msgid "Purchases"
+msgstr ""
+
+#: .\base\templates\base\home.html:131
+#: .\pharmacies\templates\pharmacy\detail.html:307
+msgid "Low Stock"
+msgstr ""
+
+#: .\base\templates\base\home.html:146 .\pharmacies\views.py:840
+#: .\pharmacies\views.py:2448
+msgid "Expiring Soon"
+msgstr ""
+
+#: .\base\templates\base\home.html:161
+#: .\pharmacies\templates\pharmacy\analytics.html:131
+#: .\pharmacies\templates\pharmacy\detail.html:321 .\pharmacies\views.py:2484
+msgid "Expired Stock"
+msgstr ""
+
+#: .\base\templates\components\_activator.html:10
+msgid "Activate"
+msgstr ""
+
+#: .\base\templates\components\_activator.html:14
+msgid "Deactivate"
+msgstr ""
+
+#: .\base\templates\components\_archiver.html:9
+#: .\support\templates\support\ticket\detail.html:46
+#: .\support\templates\support\ticket\detail_htmx.html:44
+msgid "Archive"
+msgstr ""
+
+#: .\base\templates\components\_archiver.html:13
+msgid "Unarchive"
+msgstr ""
+
+#: .\base\templates\components\_drag_and_drop.html:18
+#: .\base\templates\components\_drag_and_drop.html:64
+msgid "Drag & drop file here or click to upload"
+msgstr ""
+
+#: .\base\templates\components\_export.html:40
+msgid "All Time"
+msgstr ""
+
+#: .\base\templates\components\_export.html:46
+msgid "Today"
+msgstr ""
+
+#: .\base\templates\components\_export.html:50
+msgid "Yesterday"
+msgstr ""
+
+#: .\base\templates\components\_export.html:54
+msgid "This Week"
+msgstr ""
+
+#: .\base\templates\components\_export.html:58
+msgid "Last Week"
+msgstr ""
+
+#: .\base\templates\components\_export.html:62
+#: .\pharmacies\templates\pharmacy\statistics.html:36
+msgid "This Month"
+msgstr ""
+
+#: .\base\templates\components\_export.html:66
+msgid "Last Month"
+msgstr ""
+
+#: .\base\templates\components\_export.html:70
+msgid "This Year"
+msgstr ""
+
+#: .\base\templates\components\_export.html:74
+msgid "Last Year"
+msgstr ""
+
+#: .\base\templates\components\_export.html:81
+msgid "This Hour"
+msgstr ""
+
+#: .\base\templates\components\_export.html:84
+msgid "Last Hour"
+msgstr ""
+
+#: .\base\templates\components\_export.html:87
+msgid "2 Hours Ago"
+msgstr ""
+
+#: .\base\templates\components\_export.html:90
+msgid "3 Hours Ago"
+msgstr ""
+
+#: .\base\templates\components\_export.html:93
+msgid "6 Hours Ago"
+msgstr ""
+
+#: .\base\templates\components\_export.html:96
+msgid "12 Hours Ago"
+msgstr ""
+
+#: .\base\templates\components\_export.html:99
+msgid "18 Hours Ago"
+msgstr ""
+
+#: .\base\templates\components\_export.html:102
+msgid "24 Hours Ago"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:19
+#: .\base\templates\components\_search_and_filters.html:52
+msgid "Filters"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:45
+msgid "All"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:55
+msgid "Any"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:68
+msgid "From"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:72
+msgid "To"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:93
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:320
+msgid "Clear"
+msgstr ""
+
+#: .\base\templates\components\_filters_dialog.html:97
+msgid "Apply Filters"
+msgstr ""
+
+#: .\base\templates\components\_import.html:12
+msgid "Import"
+msgstr ""
+
+#: .\base\templates\components\_import.html:25
+msgid "Choose a file in CSV format"
+msgstr ""
+
+#: .\base\templates\components\_import.html:37
+#: .\base\templates\generic\data_import_form.html:61
+msgid "Import Now"
+msgstr ""
+
+#: .\base\templates\components\_organization_switch.html:15
+msgid ""
+"You have no Organization under your management yet. Kindly click below to "
+"create one."
+msgstr ""
+
+#: .\base\templates\components\_organization_switch.html:21
+msgid "Create an Organization"
+msgstr ""
+
+#: .\base\templates\components\_organization_switch.html:60
+msgid "Choose an Organization"
+msgstr ""
+
+#: .\base\templates\components\_organization_switch.html:96
+msgid "No other organizations available."
+msgstr ""
+
+#: .\base\templates\components\_pharmacy_switch.html:24
+msgid "Choose pharmacy"
+msgstr ""
+
+#: .\base\templates\components\_pharmacy_switch.html:47
+msgid "No pharmacies available."
+msgstr ""
+
+#: .\base\templates\components\_search_and_filters.html:22
+#: .\pharmacies\templates\product\batch\detail.html:57
+#: .\pharmacies\templates\product\category\detail.html:57
+#: .\pharmacies\templates\product\subcategory\detail.html:36
+msgid "Type to search..."
+msgstr ""
+
+#: .\base\templates\components\_search_and_filters.html:60
+msgid "Synchronize Families"
+msgstr ""
+
+#: .\base\templates\components\_search_and_filters.html:68
+msgid "Generate Credentials"
+msgstr ""
+
+#: .\base\templates\components\_search_and_filters.html:75
+msgid "Export Credentials"
+msgstr ""
+
+#: .\base\templates\components\_theme_language.html:64
+msgid "Light Theme"
+msgstr ""
+
+#: .\base\templates\components\_theme_language.html:70
+msgid "Dark Theme"
+msgstr ""
+
+#: .\base\templates\components\_theme_language.html:76
+msgid "System Theme"
+msgstr ""
+
+#: .\base\templates\components\_verifier.html:8
+msgid "Verifiy"
+msgstr ""
+
+#: .\base\templates\components\_verifier.html:12
+msgid "Cancel Verification"
+msgstr ""
+
+#: .\base\templates\delete_confirmation.html:11
+msgid "Confirm Deletion"
+msgstr ""
+
+#: .\base\templates\delete_confirmation.html:14
+msgid ""
+"\n"
+"           Do you really want to delete the following item(s)?\n"
+"           "
+msgstr ""
+
+#: .\base\templates\delete_confirmation.html:31
+msgid "Discard"
+msgstr ""
+
+#: .\base\templates\delete_confirmation.html:39
+#, python-format
+msgid "You are about to delete <strong>%(objects_length)s</strong> item(s)."
+msgstr ""
+
+#: .\base\templates\delete_confirmation.html:54
+#: .\base\templates\generic\parent_child_form.html:85
+#: .\base\templates\main.html:1138
+#: .\pharmacies\templates\product\detail.html:144
+#: .\support\templates\support\response\_item.html:46
+msgid "Delete"
+msgstr ""
+
+#: .\base\templates\error_400.html:22 .\base\views.py:2302
+msgid "Page not found"
+msgstr ""
+
+#: .\base\templates\error_400.html:49
+msgid "Go to homepage"
+msgstr ""
+
+#: .\base\templates\error_500.html:4
+msgid "Erreur serveur - Kiza"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:11
+#, python-format
+msgid " No %(model_verbose_name)s was found "
+msgstr ""
+
+#: .\base\templates\generic\_list.html:44
+msgid "Details"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:46
+msgid "Action"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:164
+msgid "Suspend Pharmacy"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:175
+msgid "Activate Pharmacy"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:198
+msgid "Unarchive Pharmacy"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:209
+msgid "Archive Pharmacy"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:223
+#: .\base\templates\generic\_list.html:229
+#: .\base\templates\generic\detail.html:23
+#: .\support\templates\support\response\_item.html:39
+#: .\support\templates\support\ticket\detail.html:31
+#: .\support\templates\support\ticket\detail_htmx.html:29
+msgid "Edit"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:238
+msgid "Soft Delete"
+msgstr ""
+
+#: .\base\templates\generic\_list.html:242
+msgid "Hard Delete"
+msgstr ""
+
+#: .\base\templates\generic\data_import_form.html:32
+#: .\pharmacies\models.py:1663
+msgid "Movement Type"
+msgstr ""
+
+#: .\base\templates\generic\data_import_form.html:39
+#: .\pharmacies\models.py:1658
+msgid "Entry"
+msgstr ""
+
+#: .\base\templates\generic\data_import_form.html:40
+#: .\pharmacies\models.py:1659
+msgid "Exit"
+msgstr ""
+
+#: .\base\templates\generic\data_import_form.html:45
+msgid "Choose a CSV file"
+msgstr ""
+
+#: .\base\templates\generic\index.html:22
+msgid "Dashboard"
+msgstr ""
+
+#: .\base\templates\generic\index.html:38
+msgid "Synchronize Stock"
+msgstr ""
+
+#: .\base\templates\generic\index.html:69
+#: .\support\templates\support\ticket\index.html:34
+msgid "Count"
+msgstr ""
+
+#: .\base\templates\generic\parent_child_form.html:50
+msgid "Items"
+msgstr ""
+
+#: .\base\templates\generic\parent_child_form.html:115
+msgid "Add item"
+msgstr ""
+
+#: .\base\templates\generic\qr_scanner.html:5
+msgid "Scan QR Code"
+msgstr ""
+
+#: .\base\templates\generic\qr_scanner.html:25
+msgid "Align the QR code inside the frame"
+msgstr ""
+
+#: .\base\templates\main.html:1137
+msgid "Select Action"
+msgstr ""
+
+#: .\base\templates\main.html:1139
+msgid "Export"
+msgstr ""
+
+#: .\base\templates\main.html:1146
+msgid "Toggle Activity"
+msgstr ""
+
+#: .\base\templates\main.html:1153
+msgid "Toggle Verification"
+msgstr ""
+
+#: .\base\templates\main.html:1161
+msgid "Run"
+msgstr ""
+
+#: .\base\templates\pagination.html:21
+msgid "Page"
+msgstr ""
+
+#: .\base\templates\parameters\index.html:25
+#: .\base\templates\parameters\system.html:31 .\pharmadex\config\sidebar.py:195
+msgid "System Settings"
+msgstr ""
+
+#: .\base\templates\parameters\index.html:31
+#: .\base\templates\parameters\system.html:40
+msgid "Notifications & Alerts"
+msgstr ""
+
+#: .\base\templates\parameters\index.html:37
+#: .\base\templates\parameters\system.html:49
+msgid "Data Backup & Recovery"
+msgstr ""
+
+#: .\base\templates\parameters\index.html:43
+#: .\base\templates\parameters\system.html:58
+msgid "Reports & Analytics"
+msgstr ""
+
+#: .\base\templates\parameters\index.html:49
+#: .\base\templates\parameters\system.html:67
+msgid "Customizations"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:30
+#: .\base\templates\parameters\security.html:75
+msgid "Authentication & Password Policy"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:39
+#: .\base\templates\parameters\security.html:113
+msgid "Multi-Factor Authentication"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:48
+#: .\base\templates\parameters\security.html:137
+msgid "Session & Access Controls"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:57
+#: .\base\templates\parameters\security.html:169
+msgid "IP & Geographic Restrictions"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:66
+#: .\base\templates\parameters\security.html:194
+msgid "Account Lockout Rules"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:82
+msgid "Minimum Password Length"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:89
+msgid "Require Special Characters"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:99
+msgid "Password Expiration (days)"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:103
+msgid "Set 0 to disable expiration."
+msgstr ""
+
+#: .\base\templates\parameters\security.html:119
+msgid "Enable MFA for all users"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:124
+msgid "Allow SMS-based MFA"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:129
+msgid "Allow Authenticator App MFA"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:144
+msgid "Session Timeout (minutes)"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:151
+msgid "Maximum Concurrent Sessions"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:159
+msgid "Force logout on password change"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:175
+msgid "Enable IP Whitelisting"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:181
+msgid "Enter allowed IP ranges (e.g. 192.168.0.0/24)"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:186
+msgid "Block logins from high-risk countries"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:200
+msgid "Failed Login Attempts Allowed"
+msgstr ""
+
+#: .\base\templates\parameters\security.html:207
+msgid "Lockout Duration (minutes)"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:76
+msgid "System-Wide Settings"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:82
+msgid "Language"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:85 .\pharmadex\settings.py:272
+msgid "English"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:86
+msgid "French"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:87
+msgid "Spanish"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:93
+msgid "Timezone"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:100 .\finances\models.py:63
+#: .\finances\templates\financial_accounts\bank\detail.html:62
+#: .\finances\templates\financial_accounts\cash\detail.html:61
+#: .\finances\templates\financial_accounts\detail.html:61
+msgid "Currency"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:110
+msgid "Third-Party Integrations"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:116
+msgid "Payment Gateway"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:123
+msgid "External API"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:135
+msgid "Notification Preferences"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:141
+msgid "Enable Downtime Alerts"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:146
+msgid "Enable Platform Announcements"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:153
+msgid "Automated Alerts for Users"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:159
+msgid "Enable Low Balance Notifications"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:164
+msgid "Enable Negative Balance Alerts"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:174
+msgid "Backup Settings"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:180
+msgid "Backup Frequency"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:183
+msgid "Daily"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:184
+msgid "Weekly"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:185
+msgid "Monthly"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:191
+msgid "Backup Type"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:194
+msgid "Full"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:195
+msgid "Incremental"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:203
+msgid "Recovery Settings"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:209
+msgid "Repharmacy Points"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:220
+msgid "Recovery Type"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:223
+msgid "Full Recovery"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:224
+msgid "Partial Recovery"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:235
+msgid "Manage Reports"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:241
+msgid "Select Report Type"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:244
+msgid "Attendance Report"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:245
+msgid "Grades Report"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:247
+msgid "Performance Report"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:254
+msgid "Export Format"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:257
+msgid "CSV"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:258
+msgid "PDF"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:271
+msgid "Platform Branding"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:278
+msgid "Logo"
+msgstr ""
+
+#: .\base\templates\parameters\system.html:291
+msgid "Primary Color"
+msgstr ""
+
+#: .\base\templates\parameters\users.html:38
+msgid ""
+"View and manage all users in the system, including\n"
+"        creation, editing, and access control."
+msgstr ""
+
+#: .\base\templates\parameters\users.html:56
+msgid "User Permissions"
+msgstr ""
+
+#: .\base\templates\parameters\users.html:64
+msgid ""
+"Manage permissions assigned to users, including viewing,\n"
+"        adding, and removing access rights."
+msgstr ""
+
+#: .\base\templates\parameters\users.html:79
+msgid "User Analytics"
+msgstr ""
+
+#: .\base\templates\parameters\users.html:87
+msgid ""
+"View reports and analytics for user activity,\n"
+"        permissions, and user roles."
+msgstr ""
+
+#: .\base\templates\sidebar.html:44
+msgid "Export Pharma Data"
+msgstr ""
+
+#: .\base\templates\sidebar.html:57
+msgid "Enable Pharma Scope"
+msgstr ""
+
+#: .\base\templates\sidebar.html:59
+msgid "Disable Pharma Scope"
+msgstr ""
+
+#: .\base\templates\sidebar.html:136
+msgid "Rosetta Access"
+msgstr ""
+
+#: .\base\templates\sidebar.html:148
+msgid "Super Admin Access"
+msgstr ""
+
+#: .\base\templates\titlebar.html:181
+msgid "Profile"
+msgstr ""
+
+#: .\base\templates\titlebar.html:188
+msgid "Settings"
+msgstr ""
+
+#: .\base\templates\titlebar.html:197
+msgid "Change password"
+msgstr ""
+
+#: .\base\utils.py:30
+msgid "January"
+msgstr ""
+
+#: .\base\utils.py:31
+msgid "February"
+msgstr ""
+
+#: .\base\utils.py:32
+msgid "March"
+msgstr ""
+
+#: .\base\utils.py:33
+msgid "April"
+msgstr ""
+
+#: .\base\utils.py:34
+msgid "May"
+msgstr ""
+
+#: .\base\utils.py:35
+msgid "June"
+msgstr ""
+
+#: .\base\utils.py:36
+msgid "July"
+msgstr ""
+
+#: .\base\utils.py:37
+msgid "August"
+msgstr ""
+
+#: .\base\utils.py:38
+msgid "September"
+msgstr ""
+
+#: .\base\utils.py:39
+msgid "October"
+msgstr ""
+
+#: .\base\utils.py:40
+msgid "November"
+msgstr ""
+
+#: .\base\utils.py:41
+msgid "December"
+msgstr ""
+
+#: .\base\utils.py:52
+msgid "M"
+msgstr ""
+
+#: .\base\utils.py:53
+msgid "F"
+msgstr ""
+
+#: .\base\views.py:184 .\base\views.py:338
+msgid "Model not found."
+msgstr ""
+
+#: .\base\views.py:261
+msgid "Permanently Delete"
+msgstr ""
+
+#: .\base\views.py:262
+msgid "Delete Confirmation"
+msgstr ""
+
+#: .\base\views.py:265
+msgid ""
+"This will permanently erase these records and all their history. This cannot "
+"be undone."
+msgstr ""
+
+#: .\base\views.py:267
+msgid "Are you sure you want to delete these items?"
+msgstr ""
+
+#: .\base\views.py:288
+msgid "You do not have permission to delete any of the selected items."
+msgstr ""
+
+#: .\base\views.py:306
+msgid "{} object(s) deleted successfully."
+msgstr ""
+
+#: .\base\views.py:372
+msgid "No objects deleted."
+msgstr ""
+
+#: .\base\views.py:412
+msgid ""
+"Use this form to add a new record or update an existing one. \n"
+"                                         Fill in all required fields "
+"accurately and review optional information to ensure data completeness."
+msgstr ""
+
+#: .\base\views.py:426
+msgid "Object not found"
+msgstr ""
+
+#: .\base\views.py:433 .\base\views.py:1847
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: .\base\views.py:482
+msgid ""
+"No organization is set for your account. Please set your current "
+"organization first."
+msgstr ""
+
+#: .\base\views.py:513
+msgid "Save Successsful."
+msgstr ""
+
+#: .\base\views.py:529
+msgid "created"
+msgstr ""
+
+#: .\base\views.py:529
+msgid "updated"
+msgstr ""
+
+#: .\base\views.py:542
+msgid "Please correct the errors in the form."
+msgstr ""
+
+#: .\base\views.py:1003 .\base\views.py:1397
+msgid "You do not have permission to view this page."
+msgstr ""
+
+#: .\base\views.py:2303
+msgid "Error 404"
+msgstr ""
+
+#: .\base\views.py:2305
+msgid ""
+"The page you are trying to access does not exist, may have been moved, or "
+"you may not have the correct access rights."
+msgstr ""
+
+#: .\base\views.py:2316
+msgid "Platform Settings Page"
+msgstr ""
+
+#: .\base\views.py:2317
+msgid "Manage the platform's  parameters"
+msgstr ""
+
+#: .\base\views.py:2318
+msgid ""
+"The platform parameters section allows system administrators to configure\n"
+"                                    and manage the foundational settings of "
+"the SaaS environment — including user roles,\n"
+"                                    feature toggles, access levels, billing "
+"preferences, support settings, and system-wide\n"
+"                                    defaults. These configurations ensure "
+"that the platform operates efficiently, securely,\n"
+"                                    and is tailored to meet the business "
+"needs of different client organizations."
+msgstr ""
+
+#: .\base\views.py:2346 .\base\views.py:2363 .\pharmadex\config\sidebar.py:39
+msgid "Home"
+msgstr ""
+
+#: .\base\views.py:2347
+msgid "Select or create an organization to start"
+msgstr ""
+
+#: .\base\views.py:2348
+msgid ""
+"You can sign in even without an organization. Create one or ask an admin to "
+"invite you."
+msgstr ""
+
+#: .\base\views.py:2364
+msgid "Organization overview"
+msgstr ""
+
+#: .\base\views.py:2365
+msgid "Overview of your organization and pharmacy operations."
+msgstr ""
+
+#: .\base\views.py:2394
+msgid ""
+"The system parameters section allows administrators to configure core "
+"platform settings, including global preferences, integrations, feature "
+"controls, and operational defaults to ensure the SaaS environment runs "
+"efficiently and supports organizational needs."
+msgstr ""
+
+#: .\base\views.py:2402
+msgid "Platform System Parameters Page"
+msgstr ""
+
+#: .\base\views.py:2403
+msgid "Manage the platform's system parameters"
+msgstr ""
+
+#: .\base\views.py:2418
+msgid ""
+"The security parameters section enables administrators to define and manage "
+"critical security controls — including authentication policies, multi-factor "
+"requirements, session governance, IP restrictions, and account protection "
+"rules. These settings safeguard the platform and help maintain compliance."
+msgstr ""
+
+#: .\base\views.py:2426
+msgid "Platform Security Parameters Page"
+msgstr ""
+
+#: .\base\views.py:2427
+msgid "Manage the platform's security parameters"
+msgstr ""
+
+#: .\base\views.py:2442
+msgid ""
+"The user parameters section allows administrators to configure defaults and "
+"policies related to user accounts — including profile settings, user role "
+"behavior, permissions structure, and user experience configurations across "
+"the platform."
+msgstr ""
+
+#: .\clinics\models.py:19
+msgid "Opening Hours"
+msgstr ""
+
+#: .\clinics\models.py:25 .\clinics\models.py:251 .\clinics\models.py:314
+#: .\clinics\models.py:428 .\clinics\models.py:486 .\pharmacies\models.py:999
+#: .\pharmacies\models.py:1081 .\pharmacies\models.py:1348
+#: .\pharmacies\models.py:1489 .\pharmacies\models.py:1628
+#: .\pharmacies\templates\purchase\detail.html:68
+#: .\pharmacies\templates\sale\detail.html:82
+msgid "Notes"
+msgstr ""
+
+#: .\clinics\models.py:31 .\clinics\models.py:62 .\clinics\models.py:131
+msgid "Clinic"
+msgstr ""
+
+#: .\clinics\models.py:32
+msgid "Clinics"
+msgstr ""
+
+#: .\clinics\models.py:46
+msgid "Consultation"
+msgstr ""
+
+#: .\clinics\models.py:47 .\clinics\models.py:320 .\pharmacies\models.py:155
+msgid "Injection"
+msgstr ""
+
+#: .\clinics\models.py:48 .\clinics\models.py:393
+msgid "Procedure"
+msgstr ""
+
+#: .\clinics\models.py:49
+msgid "Minor Surgery (e.g. Suturing)"
+msgstr ""
+
+#: .\clinics\models.py:50
+msgid "Diagnostic Test"
+msgstr ""
+
+#: .\clinics\models.py:51
+msgid "Nursing Care"
+msgstr ""
+
+#: .\clinics\models.py:52 .\clinics\models.py:492
+msgid "Follow Up"
+msgstr ""
+
+#: .\clinics\models.py:67 .\organizations\models.py:22
+#: .\organizations\models.py:91 .\organizations\models.py:276
+msgid "Name"
+msgstr ""
+
+#: .\clinics\models.py:72 .\organizations\models.py:26
+#: .\organizations\models.py:96
+#: .\organizations\templates\organization\detail.html:89
+#: .\pharmacies\templates\product\detail.html:107
+msgid "Code"
+msgstr ""
+
+#: .\clinics\models.py:79
+msgid "Service Type"
+msgstr ""
+
+#: .\clinics\models.py:85 .\finances\templates\bill\detail.html:62
+#: .\finances\templates\finances\accounts\detail.html:48
+#: .\finances\templates\finances\operation\detail.html:48
+#: .\finances\templates\invoice\detail.html:62 .\pharmacies\models.py:112
+#: .\pharmacies\models.py:233 .\support\models.py:56
+#: .\support\templates\support\ticket\detail.html:196
+#: .\support\templates\support\ticket\detail_htmx.html:194
+msgid "Description"
+msgstr ""
+
+#: .\clinics\models.py:92 .\pharmacies\templates\purchase\detail.html:92
+#: .\pharmacies\templates\sale\detail.html:108
+msgid "Unit Price"
+msgstr ""
+
+#: .\clinics\models.py:103 .\clinics\models.py:376 .\finances\models.py:826
+msgid "Clinical Service"
+msgstr ""
+
+#: .\clinics\models.py:104
+msgid "Clinical Services"
+msgstr ""
+
+#: .\clinics\models.py:120 .\pharmacies\models.py:1804
+msgid "In Progress"
+msgstr ""
+
+#: .\clinics\models.py:122 .\clinics\models.py:456 .\pharmacies\models.py:948
+#: .\pharmacies\models.py:1106 .\pharmacies\models.py:1302
+#: .\pharmacies\models.py:1449 .\support\models.py:19
+msgid "Cancelled"
+msgstr ""
+
+#: .\clinics\models.py:137
+msgid "Encounter Number"
+msgstr ""
+
+#: .\clinics\models.py:144 .\pharmacies\models.py:982
+msgid "Patient"
+msgstr ""
+
+#: .\clinics\models.py:157
+msgid "Chief Complaint"
+msgstr ""
+
+#: .\clinics\models.py:163
+msgid "Clinical Notes"
+msgstr ""
+
+#: .\clinics\models.py:168
+msgid "Encounter Date"
+msgstr ""
+
+#: .\clinics\models.py:174 .\clinics\models.py:191 .\clinics\models.py:279
+#: .\clinics\models.py:337 .\clinics\models.py:369 .\clinics\models.py:410
+#: .\clinics\models.py:463
+msgid "Clinical Encounter"
+msgstr ""
+
+#: .\clinics\models.py:175
+msgid "Clinical Encounters"
+msgstr ""
+
+#: .\clinics\models.py:199
+msgid "Temperature (°C)"
+msgstr ""
+
+#: .\clinics\models.py:205
+msgid "Systolic Blood Pressure"
+msgstr ""
+
+#: .\clinics\models.py:211
+msgid "Diastolic Blood Pressure"
+msgstr ""
+
+#: .\clinics\models.py:217
+msgid "Pulse Rate"
+msgstr ""
+
+#: .\clinics\models.py:223
+msgid "Respiratory Rate"
+msgstr ""
+
+#: .\clinics\models.py:229
+msgid "Oxygen Saturation (%)"
+msgstr ""
+
+#: .\clinics\models.py:237
+msgid "Weight (kg)"
+msgstr ""
+
+#: .\clinics\models.py:245
+msgid "Height (cm)"
+msgstr ""
+
+#: .\clinics\models.py:256 .\clinics\models.py:346
+msgid "Recorded At"
+msgstr ""
+
+#: .\clinics\models.py:262
+msgid "Vital"
+msgstr ""
+
+#: .\clinics\models.py:263
+msgid "Vitals"
+msgstr ""
+
+#: .\clinics\models.py:286
+msgid "Medication"
+msgstr ""
+
+#: .\clinics\models.py:291
+msgid "Dosage"
+msgstr ""
+
+#: .\clinics\models.py:296
+msgid "Administration Route"
+msgstr ""
+
+#: .\clinics\models.py:303
+msgid "Injection Site"
+msgstr ""
+
+#: .\clinics\models.py:308
+msgid "Administered At"
+msgstr ""
+
+#: .\clinics\models.py:321
+msgid "Injections"
+msgstr ""
+
+#: .\clinics\models.py:341
+msgid "Note"
+msgstr ""
+
+#: .\clinics\models.py:352
+msgid "Nursing Note"
+msgstr ""
+
+#: .\clinics\models.py:353
+msgid "Nursing Notes"
+msgstr ""
+
+#: .\clinics\models.py:381
+msgid "Procedure Date"
+msgstr ""
+
+#: .\clinics\models.py:387
+msgid "Procedure Notes"
+msgstr ""
+
+#: .\clinics\models.py:394
+msgid "Procedures"
+msgstr ""
+
+#: .\clinics\models.py:415 .\clinics\models.py:439
+msgid "Diagnosis"
+msgstr ""
+
+#: .\clinics\models.py:422
+msgid "ICD Code"
+msgstr ""
+
+#: .\clinics\models.py:433
+msgid "Diagnosed At"
+msgstr ""
+
+#: .\clinics\models.py:440
+msgid "Diagnoses"
+msgstr ""
+
+#: .\clinics\models.py:453
+msgid "Scheduled"
+msgstr ""
+
+#: .\clinics\models.py:455
+msgid "Missed"
+msgstr ""
+
+#: .\clinics\models.py:467
+msgid "Follow Up Date"
+msgstr ""
+
+#: .\clinics\models.py:480
+#: .\pharmacies\templates\inventory\audit\detail.html:33
+#: .\pharmacies\templates\inventory\movement\detail.html:38
+msgid "Reason"
+msgstr ""
+
+#: .\clinics\models.py:493
+msgid "Follow Ups"
+msgstr ""
+
+#: .\finances\models.py:29 .\finances\models.py:195
+#: .\finances\templates\finances\dashboard.html:108
+msgid "Cash Desk"
+msgstr ""
+
+#: .\finances\models.py:30 .\finances\models.py:117 .\finances\models.py:308
+#: .\finances\models.py:856
+msgid "Bank Account"
+msgstr ""
+
+#: .\finances\models.py:35
+msgid "Partly Paid"
+msgstr ""
+
+#: .\finances\models.py:40
+msgid "Cash"
+msgstr ""
+
+#: .\finances\models.py:41
+msgid "Mobile Money"
+msgstr ""
+
+#: .\finances\models.py:42
+msgid "Bank Transfer"
+msgstr ""
+
+#: .\finances\models.py:43
+msgid "Cheque"
+msgstr ""
+
+#: .\finances\models.py:52
+msgid "Currency Name"
+msgstr ""
+
+#: .\finances\models.py:53
+msgid "Currency Code"
+msgstr ""
+
+#: .\finances\models.py:55
+msgid "Currency Symbol"
+msgstr ""
+
+#: .\finances\models.py:57
+msgid "Is Default Currency"
+msgstr ""
+
+#: .\finances\models.py:64 .\finances\views.py:352
+msgid "Currencies"
+msgstr ""
+
+#: .\finances\models.py:83
+msgid "Denomination Currency"
+msgstr ""
+
+#: .\finances\models.py:98
+msgid "Savings"
+msgstr ""
+
+#: .\finances\models.py:99
+msgid "Current"
+msgstr ""
+
+#: .\finances\models.py:100
+msgid "Fix Deposit"
+msgstr ""
+
+#: .\finances\models.py:102
+msgid "Bank Name"
+msgstr ""
+
+#: .\finances\models.py:104
+msgid "Account Name"
+msgstr ""
+
+#: .\finances\models.py:106
+#: .\finances\templates\financial_accounts\bank\detail.html:66
+#: .\finances\templates\financial_accounts\cash\detail.html:65
+#: .\finances\templates\financial_accounts\detail.html:65
+msgid "Account Number"
+msgstr ""
+
+#: .\finances\models.py:107
+#: .\finances\templates\financial_accounts\bank\detail.html:58
+#: .\finances\templates\financial_accounts\bank\detail.html:101
+#: .\finances\templates\financial_accounts\cash\detail.html:57
+#: .\finances\templates\financial_accounts\cash\detail.html:100
+#: .\finances\templates\financial_accounts\detail.html:57
+#: .\finances\templates\financial_accounts\detail.html:100
+msgid "Account Type"
+msgstr ""
+
+#: .\finances\models.py:110
+#: .\finances\templates\financial_accounts\bank\detail.html:91
+#: .\finances\templates\financial_accounts\cash\detail.html:90
+#: .\finances\templates\financial_accounts\detail.html:90
+msgid "Account Currency"
+msgstr ""
+
+#: .\finances\models.py:118 .\finances\templates\finances\dashboard.html:87
+#: .\finances\views.py:412
+msgid "Bank Accounts"
+msgstr ""
+
+#: .\finances\models.py:146
+msgid "Mobile Operator Name"
+msgstr ""
+
+#: .\finances\models.py:149
+msgid "Operator Service Alias (Name)"
+msgstr ""
+
+#: .\finances\models.py:155 .\finances\models.py:181
+msgid "Mobile Operator"
+msgstr ""
+
+#: .\finances\models.py:156 .\finances\views.py:503
+msgid "Mobile Operators"
+msgstr ""
+
+#: .\finances\models.py:171
+msgid "Electronic"
+msgstr ""
+
+#: .\finances\models.py:172
+msgid "Physical"
+msgstr ""
+
+#: .\finances\models.py:174
+msgid "Cash Account Name"
+msgstr ""
+
+#: .\finances\models.py:176
+msgid "Cash Account Code"
+msgstr ""
+
+#: .\finances\models.py:177
+msgid "Cash Account Type"
+msgstr ""
+
+#: .\finances\models.py:187
+msgid "Cash Account Currency"
+msgstr ""
+
+#: .\finances\models.py:196
+msgid "Cash Desks"
+msgstr ""
+
+#: .\finances\models.py:213
+msgid "An operator is required for an electronic cash_account."
+msgstr ""
+
+#: .\finances\models.py:216
+msgid "A phone number is required for an electronic cash_account."
+msgstr ""
+
+#: .\finances\models.py:309
+msgid "Cash Account"
+msgstr ""
+
+#: .\finances\models.py:340 .\finances\models.py:850
+msgid "Financial Account"
+msgstr ""
+
+#: .\finances\models.py:341
+msgid "Financial Accounts"
+msgstr ""
+
+#: .\finances\models.py:383
+msgid "Audit Batch"
+msgstr ""
+
+#: .\finances\models.py:384
+msgid "Audit Batches"
+msgstr ""
+
+#: .\finances\models.py:428 .\pharmacies\templates\pharmacy\analytics.html:260
+#: .\pharmacies\templates\pharmacy\statistics.html:88
+msgid "Revenue"
+msgstr ""
+
+#: .\finances\models.py:429
+msgid "Expense"
+msgstr ""
+
+#: .\finances\models.py:430
+msgid "Transfer"
+msgstr ""
+
+#: .\finances\models.py:431
+msgid "Financing"
+msgstr ""
+
+#: .\finances\models.py:436
+msgid "Product Sales"
+msgstr ""
+
+#: .\finances\models.py:437
+msgid "Consultation Fees"
+msgstr ""
+
+#: .\finances\models.py:438
+msgid "Insurance Reimbursement"
+msgstr ""
+
+#: .\finances\models.py:439
+msgid "Other Income"
+msgstr ""
+
+#: .\finances\models.py:442
+msgid "Product Purchase"
+msgstr ""
+
+#: .\finances\models.py:443
+msgid "Salary Expense"
+msgstr ""
+
+#: .\finances\models.py:444
+msgid "Rent"
+msgstr ""
+
+#: .\finances\models.py:445
+msgid "Utilities"
+msgstr ""
+
+#: .\finances\models.py:446
+msgid "Equipment Purchase"
+msgstr ""
+
+#: .\finances\models.py:447
+msgid "Other Expense"
+msgstr ""
+
+#: .\finances\models.py:450
+msgid "Cash Account → Cash Account"
+msgstr ""
+
+#: .\finances\models.py:451
+msgid "Cash Account → Bank"
+msgstr ""
+
+#: .\finances\models.py:452
+msgid "Bank → Cash Account"
+msgstr ""
+
+#: .\finances\models.py:453
+msgid "Bank → Bank"
+msgstr ""
+
+#: .\finances\models.py:456
+msgid "Owner Equity Injection"
+msgstr ""
+
+#: .\finances\models.py:457
+msgid "Owner Loan to Pharmacy"
+msgstr ""
+
+#: .\finances\models.py:458
+msgid "Loan Repayment"
+msgstr ""
+
+#: .\finances\models.py:459
+msgid "Owner Withdrawal"
+msgstr ""
+
+#: .\finances\models.py:471
+#: .\finances\templates\finances\accounts\detail.html:79
+#: .\finances\templates\finances\operation\detail.html:79
+msgid "Source Account"
+msgstr ""
+
+#: .\finances\models.py:480
+#: .\finances\templates\finances\accounts\detail.html:70
+#: .\finances\templates\finances\operation\detail.html:70
+msgid "Destination Account"
+msgstr ""
+
+#: .\finances\models.py:486
+msgid "Operation Label"
+msgstr ""
+
+#: .\finances\models.py:487
+msgid "Operation Description"
+msgstr ""
+
+#: .\finances\models.py:490
+msgid "Operation Type"
+msgstr ""
+
+#: .\finances\models.py:496
+msgid "Operation Subtype"
+msgstr ""
+
+#: .\finances\models.py:504 .\finances\models.py:847
+#: .\finances\templates\bill\detail.html:63
+#: .\finances\templates\finances\accounts\detail.html:51
+#: .\finances\templates\finances\operation\detail.html:51
+#: .\finances\templates\invoice\detail.html:63
+msgid "Amount"
+msgstr ""
+
+#: .\finances\models.py:509
+#: .\finances\templates\finances\accounts\detail.html:41
+#: .\finances\templates\finances\operation\detail.html:41
+msgid "Operation Date"
+msgstr ""
+
+#: .\finances\models.py:530 .\finances\models.py:661 .\finances\models.py:742
+#: .\support\models.py:76
+msgid "Proof File"
+msgstr ""
+
+#: .\finances\models.py:542 .\pharmacies\models.py:1324
+msgid "Reference"
+msgstr ""
+
+#: .\finances\models.py:551
+msgid "Financial Operation"
+msgstr ""
+
+#: .\finances\models.py:552 .\finances\templates\finances\dashboard.html:67
+#: .\finances\views.py:817
+msgid "Financial Operations"
+msgstr ""
+
+#: .\finances\models.py:567
+msgid "Amount must be greater than zero."
+msgstr ""
+
+#: .\finances\models.py:576
+msgid "Transfer must have both source and destination accounts."
+msgstr ""
+
+#: .\finances\models.py:581
+msgid "Source and destination accounts cannot be the same."
+msgstr ""
+
+#: .\finances\models.py:593
+msgid "Money In operations must have a destination account."
+msgstr ""
+
+#: .\finances\models.py:598
+msgid "Money In operations should not have a source account."
+msgstr ""
+
+#: .\finances\models.py:608
+msgid "Money Out operations must have a source account."
+msgstr ""
+
+#: .\finances\models.py:613
+msgid "Money Out operations should not have a destination account."
+msgstr ""
+
+#: .\finances\models.py:646
+msgid "Unique invoice identifier (e.g., INV-2025-001)"
+msgstr ""
+
+#: .\finances\models.py:669 .\finances\models.py:751 .\finances\models.py:839
+msgid "Related Object Type"
+msgstr ""
+
+#: .\finances\models.py:685 .\finances\models.py:822
+msgid "Invoice"
+msgstr ""
+
+#: .\finances\models.py:686 .\finances\templates\finances\dashboard.html:25
+#: .\finances\views.py:879
+msgid "Invoices"
+msgstr ""
+
+#: .\finances\models.py:727 .\finances\templates\bill\detail.html:55
+msgid "Bill Number"
+msgstr ""
+
+#: .\finances\models.py:730
+msgid "Title"
+msgstr ""
+
+#: .\finances\models.py:735 .\finances\templates\bill\detail.html:66
+#: .\finances\templates\invoice\detail.html:66
+msgid "Issue Date"
+msgstr ""
+
+#: .\finances\models.py:736 .\finances\templates\bill\detail.html:67
+#: .\finances\templates\invoice\detail.html:67 .\pharmacies\models.py:1608
+msgid "Due Date"
+msgstr ""
+
+#: .\finances\models.py:767 .\finances\models.py:823
+msgid "Bill"
+msgstr ""
+
+#: .\finances\models.py:768 .\finances\templates\finances\dashboard.html:44
+#: .\finances\views.py:944
+msgid "Bills"
+msgstr ""
+
+#: .\finances\models.py:815
+msgid "Incoming"
+msgstr ""
+
+#: .\finances\models.py:816
+msgid "Outgoing"
+msgstr ""
+
+#: .\finances\models.py:820 .\pharmacies\models.py:1175
+msgid "Sale"
+msgstr ""
+
+#: .\finances\models.py:821
+msgid "Purchase"
+msgstr ""
+
+#: .\finances\models.py:824
+msgid "Refund"
+msgstr ""
+
+#: .\finances\models.py:825
+msgid "Advance Payment"
+msgstr ""
+
+#: .\finances\models.py:831
+msgid "Payment Cause"
+msgstr ""
+
+#: .\finances\models.py:835
+msgid "Payment Direction"
+msgstr ""
+
+#: .\finances\models.py:842
+msgid "Related Object ID"
+msgstr ""
+
+#: .\finances\models.py:853
+msgid "CashAccount"
+msgstr ""
+
+#: .\finances\models.py:858
+msgid "Payment Date"
+msgstr ""
+
+#: .\finances\models.py:872
+msgid "Payment"
+msgstr ""
+
+#: .\finances\models.py:873 .\finances\views.py:662
+msgid "Payments"
+msgstr ""
+
+#: .\finances\models.py:879
+msgid "Cash Account is required for cash payments."
+msgstr ""
+
+#: .\finances\models.py:883
+msgid "Bank account is required for bank payments."
+msgstr ""
+
+#: .\finances\models.py:888
+msgid "Invalid payment cause."
+msgstr ""
+
+#: .\finances\models.py:893
+msgid "Payment cause does not match related document type."
+msgstr ""
+
+#: .\finances\models.py:899
+msgid "Sales and invoices must be incoming payments."
+msgstr ""
+
+#: .\finances\models.py:903
+msgid "Clinical service payments must be incoming."
+msgstr ""
+
+#: .\finances\models.py:908
+msgid "Purchases and bills must be outgoing payments."
+msgstr ""
+
+#: .\finances\models.py:933
+msgid "Date of Activity"
+msgstr ""
+
+#: .\finances\models.py:942
+msgid "Expected Balance"
+msgstr ""
+
+#: .\finances\models.py:944
+msgid "Counted Balance"
+msgstr ""
+
+#: .\finances\models.py:946
+msgid "Difference"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:13 .\finances\views.py:967
+msgid "Bill Details"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:26
+msgid "Pay Bill"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:35
+msgid "Delete Bill"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:64
+#: .\finances\templates\invoice\detail.html:64
+msgid "Total Paid"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:65
+#: .\finances\templates\invoice\detail.html:65
+msgid "Balance"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:86
+#: .\finances\templates\finances\accounts\detail.html:101
+#: .\finances\templates\finances\operation\detail.html:101
+msgid "Operation Proof File"
+msgstr ""
+
+#: .\finances\templates\bill\detail.html:135
+msgid "Payments made for this bill"
+msgstr ""
+
+#: .\finances\templates\finances\accounts\detail.html:13
+#: .\finances\templates\finances\operation\detail.html:13
+msgid "Operation Details"
+msgstr ""
+
+#: .\finances\templates\finances\accounts\detail.html:22
+#: .\finances\templates\finances\operation\detail.html:22
+msgid "Delete Operation"
+msgstr ""
+
+#: .\finances\templates\finances\accounts\detail.html:49
+#: .\finances\templates\finances\operation\detail.html:49
+#: .\pharmacies\templates\inventory\movement\detail.html:28
+msgid "Type"
+msgstr ""
+
+#: .\finances\templates\finances\accounts\detail.html:50
+#: .\finances\templates\finances\operation\detail.html:50
+msgid "Subtype"
+msgstr ""
+
+#: .\finances\templates\finances\accounts\detail.html:54
+#: .\finances\templates\finances\operation\detail.html:54
+msgid "Source"
+msgstr ""
+
+#: .\finances\templates\finances\accounts\detail.html:61
+#: .\finances\templates\finances\operation\detail.html:61
+msgid "Destination"
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:33
+msgid "Generate and manage invoices."
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:52
+msgid ""
+"Track expenses, due dates, and payable amounts.\n"
+"        <!--  -->\n"
+"        "
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:75
+msgid ""
+"Monitor all financial transactions including income and\n"
+"        expenses."
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:95
+msgid ""
+"Manage accounts, balances, and bank transactions.\n"
+"        <!--  -->\n"
+"        "
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:116
+msgid ""
+"Track daily cash flow and petty cash activities.\n"
+"        <!--  -->\n"
+"        "
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:129
+msgid "Financial Reports"
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:137
+msgid ""
+"Generate reports on income, expenses, and financial\n"
+"        performance."
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:152
+msgid "Cash Closing"
+msgstr ""
+
+#: .\finances\templates\finances\dashboard.html:160
+msgid ""
+" Perform end-of-day cash counting and reconciliation.\n"
+"        Record physical cash (notes and coins), compare with expected "
+"balance,\n"
+"        and track any differences for proper financial control.\n"
+"        <!--  -->\n"
+"        "
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:56
+msgid "Profit & Loss Report"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:61
+msgid "Summarizes revenue, expenses, and net income over a selected period."
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:75
+msgid "Cash Flow Report"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:80
+msgid "Tracks inflows and outflows to show cash availability and liquidity."
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:94
+msgid "Income Breakdown"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:99
+msgid "Shows revenue grouped by tuition, exams, donations, sales, and more."
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:113
+msgid "Expense Breakdown"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:118
+msgid ""
+"Breakdown of organization spending across salaries, utilities, supplies, "
+"maintenance, etc."
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:132
+msgid "Bank & CashAccount Balances"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:137
+msgid "Shows the current computed balance of every financial account."
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:151
+msgid "Salary & Payroll Report"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:156
+msgid ""
+"Full history of payroll payments, outstanding salaries, and cost trends."
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:170
+msgid "Outstanding Bill & Invoices"
+msgstr ""
+
+#: .\finances\templates\finances\reports\index.html:175
+msgid "List of unpaid and overdue payments owed to the organization."
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:111
+msgid "Bank"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:129
+#: .\finances\templates\financial_accounts\cash\detail.html:130
+#: .\finances\templates\financial_accounts\detail.html:130
+#, python-format
+msgid "Money In · %(incoming_stats.count)s transactions"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:167
+#: .\finances\templates\financial_accounts\cash\detail.html:168
+#: .\finances\templates\financial_accounts\detail.html:168
+msgid "Positive Balance"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:169
+#: .\finances\templates\financial_accounts\cash\detail.html:170
+#: .\finances\templates\financial_accounts\detail.html:170
+msgid "Negative Balance"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:171
+#: .\finances\templates\financial_accounts\cash\detail.html:172
+#: .\finances\templates\financial_accounts\detail.html:172
+msgid "No Balance Change"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:183
+#: .\finances\templates\financial_accounts\cash\detail.html:184
+#: .\finances\templates\financial_accounts\detail.html:184
+#, python-format
+msgid "Money Out · %(outgoing_stats.count)s transactions"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:192
+#: .\finances\templates\financial_accounts\cash\detail.html:192
+#: .\finances\templates\financial_accounts\detail.html:192
+msgid "Used In"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:197
+#: .\finances\templates\financial_accounts\cash\detail.html:197
+#: .\finances\templates\financial_accounts\detail.html:197
+#, python-format
+msgid "Bills (%(bill_stats.count)s)"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:203
+#: .\finances\templates\financial_accounts\cash\detail.html:203
+#: .\finances\templates\financial_accounts\detail.html:203
+#, python-format
+msgid "Invoices (%(invoice_stats.count)s)"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\bank\detail.html:216
+msgid "Financial Operations made via this bank account"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\cash\detail.html:111
+#: .\finances\templates\financial_accounts\detail.html:111
+msgid "Mobile Opwerator"
+msgstr ""
+
+#: .\finances\templates\financial_accounts\cash\detail.html:214
+#: .\finances\templates\financial_accounts\detail.html:214
+msgid "Financial Operations made via this cash desk"
+msgstr ""
+
+#: .\finances\templates\invoice\detail.html:13 .\finances\views.py:903
+msgid "Invoice Details"
+msgstr ""
+
+#: .\finances\templates\invoice\detail.html:26
+msgid "Pay Invoice"
+msgstr ""
+
+#: .\finances\templates\invoice\detail.html:35
+msgid "Delete Invoice"
+msgstr ""
+
+#: .\finances\templates\invoice\detail.html:55 .\pharmacies\models.py:1598
+msgid "Invoice Number"
+msgstr ""
+
+#: .\finances\templates\invoice\detail.html:86
+msgid "Invoice Proof File"
+msgstr ""
+
+#: .\finances\templates\invoice\detail.html:134
+msgid "Payments made for this invoice"
+msgstr ""
+
+#: .\finances\views.py:117 .\finances\views.py:274
+#: .\pharmacies\templates\pharmacy\analytics.html:15
+#: .\pharmacies\templates\pharmacy\statistics.html:26
+#: .\pharmacies\templates\product\analytics.html:28
+#: .\pharmacies\templates\sale\analytics.html:28
+msgid "Total Revenue"
+msgstr ""
+
+#: .\finances\views.py:118 .\finances\views.py:275
+msgid "Total Expenses"
+msgstr ""
+
+#: .\finances\views.py:119
+msgid "Net Balance"
+msgstr ""
+
+#: .\finances\views.py:120
+msgid "Pharmacy Fees Paid"
+msgstr ""
+
+#: .\finances\views.py:121 .\finances\views.py:278
+msgid "Salaries Paid"
+msgstr ""
+
+#: .\finances\views.py:122
+msgid "Net Monthly Growth"
+msgstr ""
+
+#: .\finances\views.py:159
+msgid "Pharmacy Finance Dashboard Page"
+msgstr ""
+
+#: .\finances\views.py:160
+msgid "View your pharmacy's finances here"
+msgstr ""
+
+#: .\finances\views.py:162
+msgid ""
+"\n"
+"            The management of pharmacy finances covers fee collection, staff "
+"Payroll Items,\n"
+"            and expense tracking — providing a clear view of the "
+"institution’s financial\n"
+"            health for better planning and transparency.\n"
+"            "
+msgstr ""
+
+#: .\finances\views.py:276
+msgid "Net Financial Balance"
+msgstr ""
+
+#: .\finances\views.py:277
+msgid "Fees Collected"
+msgstr ""
+
+#: .\finances\views.py:279
+msgid "Monthly Growth"
+msgstr ""
+
+#: .\finances\views.py:280
+msgid "Bank Account Balances"
+msgstr ""
+
+#: .\finances\views.py:281
+msgid "Cash-on-Hand (Liquid)"
+msgstr ""
+
+#: .\finances\views.py:282
+msgid "Mobile Money Balance"
+msgstr ""
+
+#: .\finances\views.py:327
+msgid "Pharmacy Financial Report Overview"
+msgstr ""
+
+#: .\finances\views.py:328
+msgid "A breakdown of all major financial metrics across the institution"
+msgstr ""
+
+#: .\finances\views.py:330
+msgid ""
+"\n"
+"            This financial report provides a complete breakdown of your "
+"pharmacy's income,\n"
+"            expenses, banking activity, cash handling, and mobile money "
+"transactions.\n"
+"            It supports data-driven decision-making and transparency in "
+"pharmacy operations.\n"
+"            "
+msgstr ""
+
+#: .\finances\views.py:354
+msgid "Manage available currencies used across all financial accounts"
+msgstr ""
+
+#: .\finances\views.py:356
+msgid ""
+"Manage the currencies used across all financial accounts and transactions\n"
+"        within the pharmacy. Configure currency names, symbols, and default "
+"settings\n"
+"        to ensure accurate billing, payments, reporting, and consistency "
+"across\n"
+"        all financial operations."
+msgstr ""
+
+#: .\finances\views.py:375
+msgid "Currency Details"
+msgstr ""
+
+#: .\finances\views.py:376
+msgid "View properties and usage for this currency"
+msgstr ""
+
+#: .\finances\views.py:391
+msgid "Add Currency"
+msgstr ""
+
+#: .\finances\views.py:392
+msgid "Register a new currency used in financial transactions"
+msgstr ""
+
+#: .\finances\views.py:399
+msgid "Edit Currency"
+msgstr ""
+
+#: .\finances\views.py:400
+msgid "Modify currency properties"
+msgstr ""
+
+#: .\finances\views.py:413
+msgid "Manage all registered bank accounts"
+msgstr ""
+
+#: .\finances\views.py:415
+msgid ""
+"\n"
+"    This page displays all bank accounts associated with the pharmacy. \n"
+"    You can review account details such as account numbers, currencies, \n"
+"    and activity status. Bank accounts are used for recording financial \n"
+"    transactions, receiving payments, and managing pharmacy funds securely.\n"
+"    "
+msgstr ""
+
+#: .\finances\views.py:457
+msgid "Bank Account Details"
+msgstr ""
+
+#: .\finances\views.py:458
+msgid "View transactions and balance for this bank account"
+msgstr ""
+
+#: .\finances\views.py:461
+msgid ""
+"\n"
+"                This bank account is used for receiving and sending funds.\n"
+"                All financial activity shown here is derived from recorded\n"
+"                financial operations linked to payments, invoices, bills,\n"
+"                sales, and purchases.\n"
+"                "
+msgstr ""
+
+#: .\finances\views.py:482
+msgid "Add Bank Account"
+msgstr ""
+
+#: .\finances\views.py:483
+msgid "Register a new bank account"
+msgstr ""
+
+#: .\finances\views.py:490
+msgid "Edit Bank Account"
+msgstr ""
+
+#: .\finances\views.py:491
+msgid "Modify details of this bank account"
+msgstr ""
+
+#: .\finances\views.py:504
+msgid "Manage mobile money service operators used by cash_accounts"
+msgstr ""
+
+#: .\finances\views.py:506
+msgid ""
+"\n"
+"    This page displays all mobile operators registered in the system. \n"
+"    These operators are used for processing mobile money payments, \n"
+"    sending notifications, and supporting communication features. \n"
+"    You can manage operator details, activation status, and integration \n"
+"    settings from this page.\n"
+"    "
+msgstr ""
+
+#: .\finances\views.py:528
+msgid "Mobile Operator Details"
+msgstr ""
+
+#: .\finances\views.py:529
+msgid "Full details of this mobile money operator"
+msgstr ""
+
+#: .\finances\views.py:544
+msgid "Add Mobile Operator"
+msgstr ""
+
+#: .\finances\views.py:545
+msgid "Register a new mobile money operator"
+msgstr ""
+
+#: .\finances\views.py:552
+msgid "Edit Mobile Operator"
+msgstr ""
+
+#: .\finances\views.py:553
+msgid "Modify operator information"
+msgstr ""
+
+#: .\finances\views.py:565
+msgid "CashAccounts"
+msgstr ""
+
+#: .\finances\views.py:567
+msgid "Manage physical and electronic cash_accounts used for transactions"
+msgstr ""
+
+#: .\finances\views.py:569
+msgid ""
+"\n"
+"    This page lists all cash desks used by the pharmacy for handling \n"
+"    on-site cash transactions. You can monitor cash desk activity, \n"
+"    track balances, assign responsible staff, and manage daily \n"
+"    cash operations efficiently.\n"
+"    "
+msgstr ""
+
+#: .\finances\views.py:612
+msgid "CashAccount Details"
+msgstr ""
+
+#: .\finances\views.py:613
+msgid "View transactions and balance for this cash_account"
+msgstr ""
+
+#: .\finances\views.py:616
+msgid ""
+"\n"
+"                This cash_account records all cash inflows and outflows.\n"
+"                The figures shown here are calculated from financial\n"
+"                operations linked to payments, sales, purchases,\n"
+"                invoices, and bills.\n"
+"                "
+msgstr ""
+
+#: .\finances\views.py:639
+msgid "Add CashAccount"
+msgstr ""
+
+#: .\finances\views.py:640
+msgid "Register a new cash_account for pharmacy transactions"
+msgstr ""
+
+#: .\finances\views.py:649
+msgid "Edit CashAccount"
+msgstr ""
+
+#: .\finances\views.py:650
+msgid "Update information for this cash_account"
+msgstr ""
+
+#: .\finances\views.py:663
+msgid "View and manage all recorded payments"
+msgstr ""
+
+#: .\finances\views.py:668
+msgid ""
+"\n"
+"        This page lists all payments recorded in the system.\n"
+"        You can review payment amounts, dates, sources, and\n"
+"        the users who recorded them.\n"
+"        "
+msgstr ""
+
+#: .\finances\views.py:693 .\hr\admin.py:115
+msgid "Payment Details"
+msgstr ""
+
+#: .\finances\views.py:694
+msgid "Full details of this payment"
+msgstr ""
+
+#: .\finances\views.py:697
+msgid ""
+"\n"
+"                This page shows complete details about the payment,\n"
+"                including the linked object, payment method,\n"
+"                amount, and the user who recorded it.\n"
+"                "
+msgstr ""
+
+#: .\finances\views.py:711
+msgid "Record Payment"
+msgstr ""
+
+#: .\finances\views.py:712
+msgid "Add a new payment for any financial object"
+msgstr ""
+
+#: .\finances\views.py:804
+msgid "Edit Payment"
+msgstr ""
+
+#: .\finances\views.py:805
+msgid "Update payment details"
+msgstr ""
+
+#: .\finances\views.py:818 .\finances\views.py:880
+msgid "View and manage all invoices issued by the pharmacy"
+msgstr ""
+
+#: .\finances\views.py:820
+msgid ""
+"This page lists all financial operations recorded by the pharmacy, \n"
+"    including payments, receipts, adjustments, and other monetary "
+"movements. \n"
+"    You can review each transaction, inspect its source document, and \n"
+"    monitor the financial audit trail.\n"
+"    "
+msgstr ""
+
+#: .\finances\views.py:842
+msgid "Financial Operation Details"
+msgstr ""
+
+#: .\finances\views.py:843
+msgid "Complete financial details of this operation"
+msgstr ""
+
+#: .\finances\views.py:858
+msgid "Add Financial Operation"
+msgstr ""
+
+#: .\finances\views.py:859
+msgid "Fill in the form to record a new financial operation"
+msgstr ""
+
+#: .\finances\views.py:866
+msgid "Edit Financial Operation"
+msgstr ""
+
+#: .\finances\views.py:867
+msgid "Fill in the form to update the financial operation"
+msgstr ""
+
+#: .\finances\views.py:882
+msgid ""
+"\n"
+"    This page provides an overview of all invoices issued by the pharmacy. \n"
+"    You can review invoice details such as amounts, due dates, payment \n"
+"    history, and status. You may also edit invoices, upload proof files, \n"
+"    or record payments here.\n"
+"    "
+msgstr ""
+
+#: .\finances\views.py:904
+msgid "Complete financial details of this invoice"
+msgstr ""
+
+#: .\finances\views.py:921
+msgid "Create Invoice"
+msgstr ""
+
+#: .\finances\views.py:922
+msgid "Record a new invoice issued by the pharmacy"
+msgstr ""
+
+#: .\finances\views.py:931
+msgid "Edit Invoice"
+msgstr ""
+
+#: .\finances\views.py:932
+msgid "Modify details of this invoice"
+msgstr ""
+
+#: .\finances\views.py:945
+msgid "View and manage all pharmacy bills and expenses"
+msgstr ""
+
+#: .\finances\views.py:949
+msgid ""
+"\n"
+"    This page displays all pharmacy bills and expense records. You can \n"
+"    track amounts, vendors, due dates, payment progress, and auditing \n"
+"    status. Bills can be edited, updated with attachments, or marked \n"
+"    as paid.\n"
+"    "
+msgstr ""
+
+#: .\finances\views.py:968
+msgid "Complete financial details of this bill"
+msgstr ""
+
+#: .\finances\views.py:987
+msgid "Create Bill"
+msgstr ""
+
+#: .\finances\views.py:988
+msgid "Record a new expense or vendor bill"
+msgstr ""
+
+#: .\finances\views.py:997
+msgid "Edit Bill"
+msgstr ""
+
+#: .\finances\views.py:998
+msgid "Update details of this bill"
+msgstr ""
+
+#: .\finances\views.py:1011
+msgid "Cash Closings"
+msgstr ""
+
+#: .\finances\views.py:1012
+msgid "End-of-day cash counts"
+msgstr ""
+
+#: .\finances\views.py:1013
+msgid "View and manage daily cash closing sessions."
+msgstr ""
+
+#: .\finances\views.py:1060
+msgid "Cash Closing Details"
+msgstr ""
+
+#: .\finances\views.py:1061
+msgid "View closing session"
+msgstr ""
+
+#: .\finances\views.py:1062
+msgid "This page displays detailed denomination counts."
+msgstr ""
+
+#: .\finances\views.py:1165
+msgid "Cash Closing Analytics"
+msgstr ""
+
+#: .\finances\views.py:1166
+msgid "Monitor daily cash balancing performance."
+msgstr ""
+
+#: .\hr\admin.py:35
+msgid "Staff Category"
+msgstr ""
+
+#: .\hr\admin.py:109
+msgid "Payroll Reference"
+msgstr ""
+
+#: .\hr\models.py:41
+#: .\organizations\templates\organization\customer\detail.html:34
+#: .\organizations\templates\organization\employee\detail.html:34
+msgid "Staff ID"
+msgstr ""
+
+#: .\hr\models.py:70
+msgid "Support Staff"
+msgstr ""
+
+#: .\hr\templates\hr\dashboard.html:11
+msgid "Salary Scale"
+msgstr ""
+
+#: .\hr\templates\hr\dashboard.html:16
+msgid "Define staff salary structures including allowances and deductions."
+msgstr ""
+
+#: .\hr\templates\hr\dashboard.html:26 .\hr\views.py:271
+msgid "Payroll Items"
+msgstr ""
+
+#: .\hr\templates\hr\dashboard.html:31
+msgid "Configure allowances, deductions, and payroll components."
+msgstr ""
+
+#: .\hr\templates\hr\dashboard.html:41 .\hr\views.py:329
+msgid "Payroll Transactions"
+msgstr ""
+
+#: .\hr\templates\hr\dashboard.html:46
+msgid "Process salaries, bonuses, and payroll records."
+msgstr ""
+
+#: .\hr\views.py:20
+msgid "Staff Page"
+msgstr ""
+
+#: .\hr\views.py:21
+msgid "Manage your staff here"
+msgstr ""
+
+#: .\hr\views.py:22
+msgid ""
+"\n"
+"        Manage and oversee all staff directly on the platform. Whether "
+"adding new staff, updating their profiles, or assigning roles and "
+"permissions, \n"
+"        the platform provides an intuitive interface to handle all staff-"
+"related tasks. Admins can easily view, update, and remove staff, \n"
+"        ensuring they have access to the right resources. his central hub "
+"allows for efficient staff management,\n"
+"        promoting a streamlined experience for all involved."
+msgstr ""
+
+#: .\hr\views.py:77
+msgid "Staff by Gender"
+msgstr ""
+
+#: .\hr\views.py:88
+msgid ""
+"\n"
+"        View staff profile details, including identity, contact information, "
+"and system access.\n"
+"        Manage updates, roles, and linked records from this centralized "
+"view.\n"
+"        "
+msgstr ""
+
+#: .\hr\views.py:103
+msgid "Staff Details"
+msgstr ""
+
+#: .\hr\views.py:104
+msgid "View staff details"
+msgstr ""
+
+#: .\hr\views.py:122
+msgid "Has User Account"
+msgstr ""
+
+#: .\hr\views.py:123
+msgid "Has Email"
+msgstr ""
+
+#: .\hr\views.py:124
+msgid "Has Phone"
+msgstr ""
+
+#: .\hr\views.py:144
+msgid "Payroll"
+msgstr ""
+
+#: .\hr\views.py:165
+msgid "Add Staff"
+msgstr ""
+
+#: .\hr\views.py:166 .\hr\views.py:167
+msgid "Fill the form to add a new staff"
+msgstr ""
+
+#: .\hr\views.py:176
+msgid "Edit Staff"
+msgstr ""
+
+#: .\hr\views.py:177
+msgid "Edit Staff Info"
+msgstr ""
+
+#: .\hr\views.py:178
+msgid "Edit a staff's info"
+msgstr ""
+
+#: .\hr\views.py:212
+msgid "Salary Scales"
+msgstr ""
+
+#: .\hr\views.py:213
+msgid "Manage and review your organization's salary structures"
+msgstr ""
+
+#: .\hr\views.py:215
+msgid ""
+"Payroll management ensures accurate and timely compensation for staff,\n"
+"        incorporating salary scales, approvals, and payment tracking — "
+"providing\n"
+"        administrators with clear insight into staff costs, consistency in "
+"pay\n"
+"        structures, and effective financial planning."
+msgstr ""
+
+#: .\hr\views.py:233
+msgid "Salary Scale Details"
+msgstr ""
+
+#: .\hr\views.py:234
+msgid "Detailed overview of this salary scale"
+msgstr ""
+
+#: .\hr\views.py:249
+msgid "Add Salary Scale"
+msgstr ""
+
+#: .\hr\views.py:250
+msgid "Create a new salary scale for staff payroll management"
+msgstr ""
+
+#: .\hr\views.py:258
+msgid "Edit Salary Scale"
+msgstr ""
+
+#: .\hr\views.py:259
+msgid "Update details of this salary scale"
+msgstr ""
+
+#: .\hr\views.py:272
+msgid "Track and manage all staff Payroll Items"
+msgstr ""
+
+#: .\hr\views.py:274
+msgid ""
+"Payroll management ensures accurate and timely compensation for staff,\n"
+"        covering salary computation, approvals, and payment tracking — "
+"providing\n"
+"        administrators with clear insight into staff costs, accountability,\n"
+"        and effective financial planning."
+msgstr ""
+
+#: .\hr\views.py:291
+msgid "Payroll Item Details"
+msgstr ""
+
+#: .\hr\views.py:292
+msgid "View complete details of this Payroll Item"
+msgstr ""
+
+#: .\hr\views.py:307
+msgid "Add Payroll Item"
+msgstr ""
+
+#: .\hr\views.py:308
+msgid "Record a new staff Payroll Item"
+msgstr ""
+
+#: .\hr\views.py:316
+msgid "Edit Payroll Item"
+msgstr ""
+
+#: .\hr\views.py:317
+msgid "Update details of this Payroll Item"
+msgstr ""
+
+#: .\hr\views.py:330
+msgid "View and manage all Payroll Transaction records"
+msgstr ""
+
+#: .\hr\views.py:332
+msgid ""
+"Payroll transactions record the actual disbursement of staff salaries,\n"
+"        capturing payment dates, methods, and references — ensuring "
+"traceability,\n"
+"        accountability, and accurate financial records for effective "
+"payroll\n"
+"        auditing and reporting."
+msgstr ""
+
+#: .\hr\views.py:349
+msgid "Payroll Transaction Details"
+msgstr ""
+
+#: .\hr\views.py:351
+msgid "Detailed information about this Payroll Transaction record"
+msgstr ""
+
+#: .\hr\views.py:366
+msgid "Add Payroll Transaction"
+msgstr ""
+
+#: .\hr\views.py:367
+msgid "Fill in the form to record a new Payroll Transaction"
+msgstr ""
+
+#: .\hr\views.py:375
+msgid "Edit Payroll Transaction"
+msgstr ""
+
+#: .\hr\views.py:376
+msgid "Update details for this Payroll Transaction record"
+msgstr ""
+
+#: .\organizations\models.py:27
+msgid "Short code used in identifiers and reports."
+msgstr ""
+
+#: .\organizations\models.py:30
+#: .\organizations\templates\organization\detail.html:94
+msgid "Slug"
+msgstr ""
+
+#: .\organizations\models.py:34
+#: .\organizations\templates\organization\customer\detail.html:73
+#: .\organizations\templates\organization\detail.html:62
+#: .\organizations\templates\organization\employee\detail.html:73
+msgid "Phone"
+msgstr ""
+
+#: .\organizations\models.py:36 .\organizations\models.py:114
+#: .\organizations\templates\organization\detail.html:54
+#: .\pharmacies\models.py:52
+msgid "Address"
+msgstr ""
+
+#: .\organizations\models.py:43
+#: .\organizations\templates\organization\detail.html:44
+#: .\organizations\templates\organization\employee\detail.html:42
+#: .\pharmacies\models.py:35 .\pharmadex\config\sidebar.py:43
+msgid "Organization"
+msgstr ""
+
+#: .\organizations\models.py:44 .\organizations\views.py:76
+msgid "Organizations"
+msgstr ""
+
+#: .\organizations\models.py:75
+msgid "Code must be 3 or 4 characters long."
+msgstr ""
+
+#: .\organizations\models.py:102
+msgid "Contact Email"
+msgstr ""
+
+#: .\organizations\models.py:108 .\organizations\models.py:282
+#: .\pharmacies\models.py:59
+msgid "Phone Number"
+msgstr ""
+
+#: .\organizations\models.py:120 .\organizations\models.py:142
+msgid "Insurer"
+msgstr ""
+
+#: .\organizations\models.py:121
+msgid "Insurers"
+msgstr ""
+
+#: .\organizations\models.py:145
+msgid "Policy Name"
+msgstr ""
+
+#: .\organizations\models.py:146
+msgid "Policy Code"
+msgstr ""
+
+#: .\organizations\models.py:150
+msgid "Coverage Percentage"
+msgstr ""
+
+#: .\organizations\models.py:156 .\pharmacies\models.py:1166
+msgid "Maximum Amount Covered"
+msgstr ""
+
+#: .\organizations\models.py:163
+msgid "Annual Coverage Limit"
+msgstr ""
+
+#: .\organizations\models.py:169 .\pharmacies\models.py:1150
+msgid "Insurance Policy"
+msgstr ""
+
+#: .\organizations\models.py:170
+msgid "Insurance Policies"
+msgstr ""
+
+#: .\organizations\models.py:193
+msgid "First Name"
+msgstr ""
+
+#: .\organizations\models.py:197
+msgid "Last Name"
+msgstr ""
+
+#: .\organizations\models.py:205 .\organizations\models.py:301
+msgid "City"
+msgstr ""
+
+#: .\organizations\models.py:212 .\organizations\models.py:308
+msgid "State / Region"
+msgstr ""
+
+#: .\organizations\models.py:216 .\organizations\models.py:315
+msgid "Country"
+msgstr ""
+
+#: .\organizations\models.py:229
+msgid "Date of Birth"
+msgstr ""
+
+#: .\organizations\models.py:233
+msgid "Has  Insurrance"
+msgstr ""
+
+#: .\organizations\models.py:251 .\pharmacies\models.py:1134
+#: .\pharmacies\templates\purchase\detail.html:29
+#: .\pharmacies\templates\sale\detail.html:47
+msgid "Customer"
+msgstr ""
+
+#: .\organizations\models.py:288
+msgid "Email Address"
+msgstr ""
+
+#: .\organizations\models.py:294
+msgid "Street Address"
+msgstr ""
+
+#: .\organizations\models.py:326 .\pharmacies\models.py:1317
+#: .\pharmacies\models.py:1577
+msgid "Supplier"
+msgstr ""
+
+#: .\organizations\templates\organization\analytics\customer.html:23
+msgid "Customer Distribution"
+msgstr ""
+
+#: .\organizations\templates\organization\analytics\customer.html:49
+msgid "Customer Growth (Last 30 Days)"
+msgstr ""
+
+#: .\organizations\templates\organization\analytics\customer.html:61
+msgid "Top Customers by Balance"
+msgstr ""
+
+#: .\organizations\templates\organization\analytics\customer.html:77
+msgid "Average (Top 10)"
+msgstr ""
+
+#: .\organizations\templates\organization\analytics\customer.html:94
+msgid "Total (Top 10)"
+msgstr ""
+
+#: .\organizations\templates\organization\customer\detail.html:13
+#: .\organizations\templates\organization\employee\detail.html:13
+msgid "Staff profile and account details."
+msgstr ""
+
+#: .\organizations\templates\organization\customer\detail.html:26
+#: .\organizations\templates\organization\employee\detail.html:26
+msgid "Full Name"
+msgstr ""
+
+#: .\organizations\templates\organization\customer\detail.html:42
+msgid "Department"
+msgstr ""
+
+#: .\organizations\templates\organization\customer\detail.html:50
+msgid "Card Account"
+msgstr ""
+
+#: .\organizations\templates\organization\customer\detail.html:58
+#: .\organizations\templates\organization\employee\detail.html:58
+msgid "Contact Information"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:31
+#: .\organizations\templates\organization\detail.html:137
+#: .\organizations\views.py:148
+msgid "Edit Organization"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:36
+msgid "Manage Pharmacies"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:49
+#: .\organizations\templates\organization\detail.html:66
+#: .\pharmacies\models.py:81 .\pharmacies\views.py:280
+#: .\pharmadex\config\sidebar.py:59
+msgid "Pharmacies"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:88
+msgid "Staff Members"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:128
+#: .\pharmacies\templates\pharmacy\detail.html:64
+msgid "Sales (30 Days)"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:136
+msgid "Total revenue generated"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:153
+#: .\pharmacies\templates\pharmacy\detail.html:81
+msgid "Purchases (30 Days)"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:161
+msgid "Total stock procurement cost"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:181
+#: .\pharmacies\templates\pharmacy\detail.html:169
+msgid "Quick Actions"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:199
+#: .\pharmacies\views.py:305
+msgid "Add Pharmacy"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:203
+msgid "Register a new pharmacy"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:223
+msgid "Invite Staff"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:227
+msgid "Invite organization users"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:242
+msgid "Analytics"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:245
+msgid "View organization metrics"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:257
+#: .\pharmacies\templates\pharmacy\detail.html:240
+msgid "Recent Activity"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:265
+msgid "New pharmacy created"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:269
+msgid "Main Branch Pharmacy"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:284
+msgid "Organization Information"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:290
+msgid "Organization Name"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:309
+msgid "System Status"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:315
+msgid "Organization Status"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:323
+msgid "Active Pharmacies"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:334
+msgid "Inactive Pharmacies"
+msgstr ""
+
+#: .\organizations\templates\organization\dashboard.html:345
+msgid "Suspended Pharmacies"
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:14
+msgid ""
+"Use this page to view organization details, operational settings, and key "
+"activity analytics."
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:41
+msgid "Unnamed Organization"
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:54
+#: .\organizations\templates\organization\detail.html:115
+msgid "No address provided"
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:76
+msgid "Min Balance Threshold"
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:118
+msgid "No pharmacy linked yet."
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:127
+msgid "About this Organization"
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:130
+msgid ""
+"This tenant contains the staff, customers, inventory, and sales data for a "
+"pharmacy organization."
+msgstr ""
+
+#: .\organizations\templates\organization\detail.html:143
+#: .\pharmacies\templates\pharmacy\detail.html:35 .\pharmacies\views.py:318
+msgid "Edit Pharmacy"
+msgstr ""
+
+#: .\organizations\views.py:55
+msgid "Organization Dashboard"
+msgstr ""
+
+#: .\organizations\views.py:56
+msgid "Overview"
+msgstr ""
+
+#: .\organizations\views.py:58
+msgid "Track high-level activity for the current organization."
+msgstr ""
+
+#: .\organizations\views.py:77
+msgid "Manage organizations"
+msgstr ""
+
+#: .\organizations\views.py:78
+msgid ""
+"\n"
+"        View and manage organizations (tenants) in the system.\n"
+"        You can filter and search organizations by name or status.\n"
+"    "
+msgstr ""
+
+#: .\organizations\views.py:104
+msgid "Active Organizations"
+msgstr ""
+
+#: .\organizations\views.py:106
+msgid "Inactive Organizations"
+msgstr ""
+
+#: .\organizations\views.py:122
+msgid "Organization Details"
+msgstr ""
+
+#: .\organizations\views.py:123
+msgid "View organization details"
+msgstr ""
+
+#: .\organizations\views.py:124
+msgid ""
+"            This page shows all details of the organization, including "
+"contact information and staff/customer statistics.\n"
+"        "
+msgstr ""
+
+#: .\organizations\views.py:138
+msgid "Add Organization"
+msgstr ""
+
+#: .\organizations\views.py:139
+msgid "Fill the form to add a new organization"
+msgstr ""
+
+#: .\organizations\views.py:141
+msgid ""
+"Create a new organization and configure basic contact and operational "
+"settings."
+msgstr ""
+
+#: .\organizations\views.py:149
+msgid "Edit details of an existing organization"
+msgstr ""
+
+#: .\organizations\views.py:151
+msgid "Update organization information and operational settings."
+msgstr ""
+
+#: .\pharmacies\forms.py:69 .\pharmacies\forms.py:260
+msgid "The same product cannot be added more than once."
+msgstr ""
+
+#: .\pharmacies\forms.py:268
+msgid "Quantity must be greater than zero."
+msgstr ""
+
+#: .\pharmacies\models.py:40
+msgid "Pharmacy Name"
+msgstr ""
+
+#: .\pharmacies\models.py:45
+msgid "Pharmacy Code"
+msgstr ""
+
+#: .\pharmacies\models.py:71
+msgid "Clinic Enabled"
+msgstr ""
+
+#: .\pharmacies\models.py:75
+msgid "Requires Cashier Validation"
+msgstr ""
+
+#: .\pharmacies\models.py:110
+msgid "Category Name"
+msgstr ""
+
+#: .\pharmacies\models.py:117
+msgid "Product Category"
+msgstr ""
+
+#: .\pharmacies\models.py:118 .\pharmacies\views.py:331
+msgid "Product Categories"
+msgstr ""
+
+#: .\pharmacies\models.py:127
+msgid "Subcategory Name"
+msgstr ""
+
+#: .\pharmacies\models.py:132
+msgid "Product Subcategory"
+msgstr ""
+
+#: .\pharmacies\models.py:133 .\pharmacies\views.py:485
+msgid "Product Subcategories"
+msgstr ""
+
+#: .\pharmacies\models.py:152
+msgid "Tablet"
+msgstr ""
+
+#: .\pharmacies\models.py:153
+msgid "Capsule"
+msgstr ""
+
+#: .\pharmacies\models.py:154
+msgid "Syrup"
+msgstr ""
+
+#: .\pharmacies\models.py:156
+msgid "Cream"
+msgstr ""
+
+#: .\pharmacies\models.py:157
+msgid "Ointment"
+msgstr ""
+
+#: .\pharmacies\models.py:158
+msgid "Drops"
+msgstr ""
+
+#: .\pharmacies\models.py:159
+msgid "Inhaler"
+msgstr ""
+
+#: .\pharmacies\models.py:160
+msgid "Suppository"
+msgstr ""
+
+#: .\pharmacies\models.py:161
+msgid "Powder"
+msgstr ""
+
+#: .\pharmacies\models.py:164
+msgid "Oral"
+msgstr ""
+
+#: .\pharmacies\models.py:165
+msgid "Intravenous"
+msgstr ""
+
+#: .\pharmacies\models.py:166
+msgid "Intramuscular"
+msgstr ""
+
+#: .\pharmacies\models.py:167
+msgid "Subcutaneous"
+msgstr ""
+
+#: .\pharmacies\models.py:168
+msgid "Topical"
+msgstr ""
+
+#: .\pharmacies\models.py:169
+msgid "Inhalation"
+msgstr ""
+
+#: .\pharmacies\models.py:170
+msgid "Rectal"
+msgstr ""
+
+#: .\pharmacies\models.py:171
+msgid "Ophthalmic"
+msgstr ""
+
+#: .\pharmacies\models.py:172
+msgid "Nasal"
+msgstr ""
+
+#: .\pharmacies\models.py:175
+msgid "Over The Counter"
+msgstr ""
+
+#: .\pharmacies\models.py:176 .\pharmacies\models.py:358
+msgid "Prescription Required"
+msgstr ""
+
+#: .\pharmacies\models.py:177 .\pharmacies\models.py:363
+msgid "Controlled Substance"
+msgstr ""
+
+#: .\pharmacies\models.py:180
+msgid "Room Temperature"
+msgstr ""
+
+#: .\pharmacies\models.py:181
+msgid "Refrigerated (2–8°C)"
+msgstr ""
+
+#: .\pharmacies\models.py:182
+msgid "Frozen"
+msgstr ""
+
+#: .\pharmacies\models.py:183
+msgid "Cool & Dry Place"
+msgstr ""
+
+#: .\pharmacies\models.py:184
+msgid "Protected from Light"
+msgstr ""
+
+#: .\pharmacies\models.py:193 .\pharmacies\templates\product\detail.html:101
+msgid "Subcategory"
+msgstr ""
+
+#: .\pharmacies\models.py:198
+msgid "Product Name"
+msgstr ""
+
+#: .\pharmacies\models.py:205
+msgid "Generic Name"
+msgstr ""
+
+#: .\pharmacies\models.py:212
+msgid "Brand"
+msgstr ""
+
+#: .\pharmacies\models.py:219
+msgid "Code Name"
+msgstr ""
+
+#: .\pharmacies\models.py:227
+msgid "Barcode"
+msgstr ""
+
+#: .\pharmacies\models.py:240
+msgid "Product Image"
+msgstr ""
+
+#: .\pharmacies\models.py:249
+msgid "Dosage Form"
+msgstr ""
+
+#: .\pharmacies\models.py:256
+msgid "Strength"
+msgstr ""
+
+#: .\pharmacies\models.py:263
+msgid "Route of Administration"
+msgstr ""
+
+#: .\pharmacies\models.py:270 .\pharmacies\models.py:276
+#: .\pharmacies\models.py:955
+msgid "Prescription Type"
+msgstr ""
+
+#: .\pharmacies\models.py:283
+msgid "Pack Size"
+msgstr ""
+
+#: .\pharmacies\models.py:292
+msgid "Indications"
+msgstr ""
+
+#: .\pharmacies\models.py:298
+msgid "Symptoms Treated"
+msgstr ""
+
+#: .\pharmacies\models.py:304
+msgid "Contraindications"
+msgstr ""
+
+#: .\pharmacies\models.py:310
+msgid "Side Effects"
+msgstr ""
+
+#: .\pharmacies\models.py:316
+msgid "Drug Interactions"
+msgstr ""
+
+#: .\pharmacies\models.py:322
+msgid "Precautions"
+msgstr ""
+
+#: .\pharmacies\models.py:328
+msgid "Storage Instructions"
+msgstr ""
+
+#: .\pharmacies\models.py:337
+msgid "Selling Price"
+msgstr ""
+
+#: .\pharmacies\models.py:345
+msgid "Cost Price"
+msgstr ""
+
+#: .\pharmacies\models.py:353
+msgid "Is Expirable"
+msgstr ""
+
+#: .\pharmacies\models.py:371
+msgid "Minimum Stock Level"
+msgstr ""
+
+#: .\pharmacies\models.py:376
+msgid "Maximum Stock Level"
+msgstr ""
+
+#: .\pharmacies\models.py:382
+msgid "Shelf Life (Days)"
+msgstr ""
+
+#: .\pharmacies\models.py:397 .\pharmacies\models.py:1405
+#: .\pharmacies\templates\inventory\audit\detail.html:65
+#: .\pharmacies\templates\inventory\movement\detail.html:74
+#: .\pharmacies\templates\pharmacy\statistics.html:86
+#: .\pharmacies\templates\purchase\detail.html:90
+#: .\pharmacies\templates\sale\detail.html:106
+msgid "Product"
+msgstr ""
+
+#: .\pharmacies\models.py:458
+msgid "Product Alternative"
+msgstr ""
+
+#: .\pharmacies\models.py:459
+msgid "Product Alternatives"
+msgstr ""
+
+#: .\pharmacies\models.py:505 .\pharmacies\models.py:1707
+msgid "Product Stock"
+msgstr ""
+
+#: .\pharmacies\models.py:506
+#: .\pharmacies\templates\pharmacy\dashboard.html:124 .\pharmacies\views.py:673
+msgid "Product Stocks"
+msgstr ""
+
+#: .\pharmacies\models.py:776
+msgid "Product Batch"
+msgstr ""
+
+#: .\pharmacies\models.py:777
+#: .\pharmacies\templates\inventory\dashboard.html:126
+msgid "Product Batches"
+msgstr ""
+
+#: .\pharmacies\models.py:904
+msgid "Batch quantity cannot be negative."
+msgstr ""
+
+#: .\pharmacies\models.py:914 .\pharmacies\models.py:924
+msgid "Quantity must be positive."
+msgstr ""
+
+#: .\pharmacies\models.py:917
+msgid "Insufficient batch stock."
+msgstr ""
+
+#: .\pharmacies\models.py:939
+msgid "Internal Prescription"
+msgstr ""
+
+#: .\pharmacies\models.py:940
+msgid "External Prescription"
+msgstr ""
+
+#: .\pharmacies\models.py:945
+msgid "Processing"
+msgstr ""
+
+#: .\pharmacies\models.py:946
+msgid "On Hold"
+msgstr ""
+
+#: .\pharmacies\models.py:968
+msgid "Prescription Number"
+msgstr ""
+
+#: .\pharmacies\models.py:975
+msgid "Prescription File"
+msgstr ""
+
+#: .\pharmacies\models.py:987
+msgid "Issued Date"
+msgstr ""
+
+#: .\pharmacies\models.py:993
+msgid "Valid Until"
+msgstr ""
+
+#: .\pharmacies\models.py:1005 .\pharmacies\models.py:1070
+msgid "Prescription"
+msgstr ""
+
+#: .\pharmacies\models.py:1006 .\pharmacies\views.py:1196
+#: .\pharmadex\config\sidebar.py:104
+msgid "Prescriptions"
+msgstr ""
+
+#: .\pharmacies\models.py:1015
+msgid "Valid until date cannot be before issued date."
+msgstr ""
+
+#: .\pharmacies\models.py:1052
+msgid "Prescription Item"
+msgstr ""
+
+#: .\pharmacies\models.py:1053
+msgid "Prescription Items"
+msgstr ""
+
+#: .\pharmacies\models.py:1075
+msgid "Dispensed At"
+msgstr ""
+
+#: .\pharmacies\models.py:1087
+msgid "Dispensation"
+msgstr ""
+
+#: .\pharmacies\models.py:1088
+msgid "Dispensations"
+msgstr ""
+
+#: .\pharmacies\models.py:1105
+msgid "Refunded"
+msgstr ""
+
+#: .\pharmacies\models.py:1158
+msgid "Percentage Covered"
+msgstr ""
+
+#: .\pharmacies\models.py:1170
+msgid "Insurrance Applied"
+msgstr ""
+
+#: .\pharmacies\models.py:1261
+msgid "Sale Item"
+msgstr ""
+
+#: .\pharmacies\models.py:1262
+msgid "Sale Items"
+msgstr ""
+
+#: .\pharmacies\models.py:1281
+msgid "Sale Validation Log"
+msgstr ""
+
+#: .\pharmacies\models.py:1282
+msgid "Sale Validation Logs"
+msgstr ""
+
+#: .\pharmacies\models.py:1298 .\pharmacies\models.py:1447
+msgid "Draft"
+msgstr ""
+
+#: .\pharmacies\models.py:1299
+msgid "Sent to Supplier"
+msgstr ""
+
+#: .\pharmacies\models.py:1300
+msgid "Partially Received"
+msgstr ""
+
+#: .\pharmacies\models.py:1301 .\pharmacies\models.py:1448
+msgid "Received"
+msgstr ""
+
+#: .\pharmacies\models.py:1329
+msgid "Order Date"
+msgstr ""
+
+#: .\pharmacies\models.py:1335
+msgid "Expected Delivery Date"
+msgstr ""
+
+#: .\pharmacies\models.py:1355
+msgid "Order File"
+msgstr ""
+
+#: .\pharmacies\models.py:1363
+msgid "Expected Total"
+msgstr ""
+
+#: .\pharmacies\models.py:1369 .\pharmacies\models.py:1398
+#: .\pharmacies\models.py:1463 .\pharmacies\models.py:1584
+msgid "Purchase Order"
+msgstr ""
+
+#: .\pharmacies\models.py:1370
+msgid "Purchase Orders"
+msgstr ""
+
+#: .\pharmacies\models.py:1409
+msgid "Quantity Ordered"
+msgstr ""
+
+#: .\pharmacies\models.py:1414
+msgid "Quantity Received"
+msgstr ""
+
+#: .\pharmacies\models.py:1422
+msgid "Expected Unit Cost"
+msgstr ""
+
+#: .\pharmacies\models.py:1426 .\pharmacies\models.py:1516
+msgid "Purchase Order Item"
+msgstr ""
+
+#: .\pharmacies\models.py:1427
+msgid "Purchase Order Items"
+msgstr ""
+
+#: .\pharmacies\models.py:1468
+msgid "Delivery Date"
+msgstr ""
+
+#: .\pharmacies\models.py:1483
+msgid "Delivery Proof"
+msgstr ""
+
+#: .\pharmacies\models.py:1495
+msgid "Purchase Delivery"
+msgstr ""
+
+#: .\pharmacies\models.py:1496
+msgid "Purchase Deliveries"
+msgstr ""
+
+#: .\pharmacies\models.py:1509
+msgid "Delivery"
+msgstr ""
+
+#: .\pharmacies\models.py:1521
+msgid "Batch Number"
+msgstr ""
+
+#: .\pharmacies\models.py:1525
+msgid "Expiry Date"
+msgstr ""
+
+#: .\pharmacies\models.py:1529
+msgid "Received Quantity"
+msgstr ""
+
+#: .\pharmacies\models.py:1535
+msgid "Received Unit Cost"
+msgstr ""
+
+#: .\pharmacies\models.py:1539
+msgid "Purchase Delivery Item"
+msgstr ""
+
+#: .\pharmacies\models.py:1540
+msgid "Purchase Delivery Items"
+msgstr ""
+
+#: .\pharmacies\models.py:1554
+msgid "Received quantity exceeds remaining ordered quantity."
+msgstr ""
+
+#: .\pharmacies\models.py:1593
+msgid "Related Delivery"
+msgstr ""
+
+#: .\pharmacies\models.py:1602
+msgid "Invoice Date"
+msgstr ""
+
+#: .\pharmacies\models.py:1615
+#: .\pharmacies\templates\pharmacy\sale_validation.html:101
+#: .\pharmacies\templates\purchase\detail.html:62
+#: .\pharmacies\templates\sale\detail.html:76
+msgid "Total Amount"
+msgstr ""
+
+#: .\pharmacies\models.py:1622
+msgid "Invoice File"
+msgstr ""
+
+#: .\pharmacies\models.py:1634
+msgid "Supplier Invoice"
+msgstr ""
+
+#: .\pharmacies\models.py:1635
+msgid "Supplier Invoices"
+msgstr ""
+
+#: .\pharmacies\models.py:1655
+msgid "External Reference"
+msgstr ""
+
+#: .\pharmacies\models.py:1666 .\pharmacies\models.py:1813
+msgid "Created By"
+msgstr ""
+
+#: .\pharmacies\models.py:1668
+msgid "Reason / Comment"
+msgstr ""
+
+#: .\pharmacies\models.py:1671 .\pharmacies\models.py:1824
+msgid "General Comments"
+msgstr ""
+
+#: .\pharmacies\models.py:1679 .\pharmacies\models.py:1699
+msgid "Inventory Movement"
+msgstr ""
+
+#: .\pharmacies\models.py:1680
+#: .\pharmacies\templates\inventory\dashboard.html:182
+#: .\pharmacies\templates\pharmacy\dashboard.html:173
+#: .\pharmacies\views.py:1999
+msgid "Inventory Movements"
+msgstr ""
+
+#: .\pharmacies\models.py:1711
+#: .\pharmacies\templates\inventory\movement\detail.html:75
+#: .\pharmacies\templates\product\stock\detail.html:54
+#: .\pharmacies\templates\purchase\detail.html:91
+#: .\pharmacies\templates\sale\detail.html:107
+msgid "Quantity"
+msgstr ""
+
+#: .\pharmacies\models.py:1721
+msgid "Inventory Movement Item"
+msgstr ""
+
+#: .\pharmacies\models.py:1722
+msgid "Inventory Movement Items"
+msgstr ""
+
+#: .\pharmacies\models.py:1806
+msgid "Unvalidated"
+msgstr ""
+
+#: .\pharmacies\models.py:1816
+#: .\pharmacies\templates\inventory\audit\detail.html:49
+msgid "Validated By"
+msgstr ""
+
+#: .\pharmacies\models.py:1819
+msgid "Validated At"
+msgstr ""
+
+#: .\pharmacies\models.py:1821
+msgid "Audit Reason"
+msgstr ""
+
+#: .\pharmacies\models.py:1827
+msgid "Stock Snapshot Time"
+msgstr ""
+
+#: .\pharmacies\models.py:1827
+msgid "Time at which expected quantities were captured."
+msgstr ""
+
+#: .\pharmacies\models.py:1833
+#: .\pharmacies\templates\inventory\dashboard.html:205
+#: .\pharmacies\templates\pharmacy\dashboard.html:199
+msgid "Inventory Audit"
+msgstr ""
+
+#: .\pharmacies\models.py:1834
+#: .\pharmacies\templates\inventory\stock_reconciliation.html:27
+#: .\pharmacies\views.py:2230
+msgid "Inventory Audits"
+msgstr ""
+
+#: .\pharmacies\models.py:1856
+msgid "A validated audit must have a validator."
+msgstr ""
+
+#: .\pharmacies\models.py:1861
+msgid ""
+"This audit cannot be validated because there are unresolved discrepancies."
+msgstr ""
+
+#: .\pharmacies\models.py:1908
+#, python-format
+msgid "Not enough stock in batches for %(product)s"
+msgstr ""
+
+#: .\pharmacies\models.py:1924
+msgid "Cannot validate audit with unresolved discrepancies."
+msgstr ""
+
+#: .\pharmacies\models.py:1977
+msgid "Inventory Audit Item"
+msgstr ""
+
+#: .\pharmacies\models.py:1978
+msgid "Inventory Audit Items"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:41
+msgid "Stock Snapshot Date"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:58
+msgid "Audit Items"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:66
+msgid "Expected Quantity"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:67
+msgid "Found Quantity"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:68
+msgid "Discrepancy"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:69
+#: .\pharmacies\templates\inventory\movement\detail.html:76
+msgid "Comment"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\audit\detail.html:88
+msgid "No items found in this audit."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:27
+#: .\pharmacies\templates\pharmacy\dashboard.html:27 .\pharmacies\views.py:1422
+#: .\pharmadex\config\sidebar.py:82
+msgid "Point of Sale"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:35
+msgid ""
+"Process sales for customers. Update stock and generate\n"
+"        receipts."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:53
+#: .\pharmacies\templates\pharmacy\dashboard.html:52
+#: .\pharmacies\templates\pharmacy\statistics.html:58
+msgid "Categories"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:61
+#: .\pharmacies\templates\pharmacy\dashboard.html:60
+msgid ""
+"Organize products into categories for easier management\n"
+"        and reporting."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:79
+#: .\pharmacies\templates\pharmacy\dashboard.html:78
+msgid "Sub-Categories"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:87
+#: .\pharmacies\templates\pharmacy\dashboard.html:86
+msgid ""
+" Organize products into sub-categories for better\n"
+"        structure, filtering, and reporting. "
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:110
+#: .\pharmacies\templates\pharmacy\dashboard.html:109
+#: .\pharmacies\templates\pharmacy\dashboard.html:132
+msgid ""
+"Manage all products in your pharmacy, including stock,\n"
+"        pricing, categories, and expiration dates."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:136
+msgid ""
+" Organize and monitor product batches, including\n"
+"        quantities, pricing, manufacturing details, and expiration tracking "
+"for\n"
+"        better inventory control. "
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:153
+msgid "Product Supplies"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:163
+msgid ""
+" Track incoming product supplies, manage suppliers,\n"
+"        monitor delivery status, and keep inventory updated with every "
+"restock\n"
+"        operation. "
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:190
+#: .\pharmacies\templates\pharmacy\dashboard.html:181
+msgid ""
+"Track all stock entries and exits, adjust quantities,\n"
+"        and monitor inventory levels."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:213
+#: .\pharmacies\templates\pharmacy\dashboard.html:207
+msgid ""
+" Review, verify, and reconcile stock levels to ensure\n"
+"        inventory accuracy. "
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:231
+msgid "Stock Reconciliations"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:239
+#: .\pharmacies\templates\pharmacy\dashboard.html:230
+msgid ""
+"View detailed reports of your pharmacy activities,\n"
+"        including sales, purchases, stock levels, and financial summaries "
+"for\n"
+"        accurate decision-making."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:258
+#: .\pharmacies\views.py:789
+msgid "Expiring Batches"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:266
+msgid ""
+"Monitor products that are approaching their expiry date.\n"
+"        Take action early to minimize waste, manage stock rotation, and "
+"ensure\n"
+"        safe dispensing."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:285
+#: .\pharmacies\views.py:798
+msgid "Expired Batches"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:293
+msgid ""
+"Review products that have passed their expiry date.\n"
+"        Remove or quarantine expired stock to maintain compliance and "
+"ensure\n"
+"        patient safety."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:309
+msgid "Stock Analytics"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\dashboard.html:318
+msgid ""
+"Analyze inventory trends, track stock movement, and\n"
+"        identify usage patterns across your pharmacy. Use data insights to\n"
+"        improve stock planning, reduce waste, and make informed decisions.\n"
+"        <!--  -->\n"
+"        "
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\analytics.html:22
+msgid "Total Stock Entries"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\analytics.html:27
+msgid "Total Stock Exits"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\analytics.html:40
+#: .\pharmacies\templates\pharmacy\analytics.html:177
+#: .\pharmacies\templates\product\analytics.html:83
+#: .\pharmacies\templates\sale\analytics.html:83
+msgid "Last 24 Hours"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\analytics.html:43
+#: .\pharmacies\templates\pharmacy\analytics.html:57
+msgid "Last 7 Days"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\analytics.html:46
+#: .\pharmacies\templates\pharmacy\analytics.html:78
+msgid "Last 30 Days"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\detail.html:48
+#: .\pharmacies\templates\purchase\detail.html:16
+#: .\pharmacies\templates\sale\detail.html:18
+msgid "Date"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\detail.html:58
+msgid "Initiator"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\detail.html:67
+msgid "Items Moved"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\movement\detail.html:91
+msgid "No items in this movement."
+msgstr ""
+
+#: .\pharmacies\templates\inventory\stock_reconciliation.html:21
+#: .\pharmacies\templates\pharmacy\detail.html:297
+#: .\pharmadex\config\sidebar.py:121
+msgid "Stock Overview"
+msgstr ""
+
+#: .\pharmacies\templates\inventory\stock_reconciliation.html:24
+msgid "Batch Inventory"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:36
+#: .\pharmacies\templates\product\analytics.html:39
+#: .\pharmacies\templates\sale\analytics.html:39
+msgid "Today Revenue"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:100
+msgid "Inventory Health"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:109
+msgid "Active Products"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:119
+msgid "Low Stock Items"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:143
+msgid "Damaged Stock"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:157
+msgid "Total Stock Quantity"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:184
+#: .\pharmacies\templates\product\analytics.html:90
+#: .\pharmacies\templates\sale\analytics.html:90
+msgid "Last 7 days"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:191
+#: .\pharmacies\templates\product\analytics.html:97
+#: .\pharmacies\templates\sale\analytics.html:97
+msgid "Last 30 days"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:197
+#: .\pharmacies\templates\product\analytics.html:102
+#: .\pharmacies\templates\sale\analytics.html:102
+msgid "Last 24 Hours Sales Trend"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:203
+#: .\pharmacies\templates\product\analytics.html:108
+#: .\pharmacies\templates\product\batch\analytics.html:50
+#: .\pharmacies\templates\product\category\analytics.html:50
+#: .\pharmacies\templates\product\subcategory\analytics.html:50
+#: .\pharmacies\templates\sale\analytics.html:108
+msgid "Weekly Sales Trend"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:209
+#: .\pharmacies\templates\product\analytics.html:114
+#: .\pharmacies\templates\sale\analytics.html:114
+msgid "Sales Trend (Last 30 Days)"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:222
+#: .\pharmacies\templates\product\analytics.html:123
+#: .\pharmacies\templates\sale\analytics.html:123
+msgid "Top Selling Products"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:250
+#: .\pharmacies\templates\pharmacy\statistics.html:87
+msgid "Quantity Sold"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:269
+#: .\pharmacies\templates\pharmacy\statistics.html:103
+#: .\pharmacies\templates\product\analytics.html:140
+#: .\pharmacies\templates\sale\analytics.html:140
+msgid "No sales data available."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\analytics.html:278
+msgid "Sales Distribution"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:21
+msgid "Services"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:34
+msgid " No pending sales "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:46
+#: .\pharmacies\templates\pharmacy\sale_validation.html:12
+msgid "Sale "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:58
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:101
+msgid "Items:"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\cashier_validation.html:77
+msgid " No pending services "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\dashboard.html:35
+msgid "Process sales for customers. Update stock and generate receipts."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\dashboard.html:155
+msgid ""
+"Track all sales transactions, monitor quantities, dates,\n"
+"        staff, and customer details."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\dashboard.html:222
+msgid "Inventory Reports"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:43
+msgid "Manage Stock Batches"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:51
+#: .\pharmacies\templates\pharmacy\reports.html:26 .\pharmacies\views.py:89
+#: .\pharmacies\views.py:233
+msgid "Pharmacy Analytics"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:98
+msgid "Profit (30 Days)"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:115
+msgid "Loss (30 Days)"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:132
+msgid "Stock Value"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:149
+msgid "Stock Lost"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:184
+msgid "New Sale"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:185
+msgid "Create invoice"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:198
+msgid "New Order"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:199
+msgid "Create an order"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:215
+msgid "New Audit"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:216
+msgid "Stock audit"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:226
+msgid "Last 30 Days Trend"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:233
+msgid "Chart goes here (Sales / Purchases / Profit)"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:246
+msgid "Sale completed"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:260
+msgid "Alerts"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:268
+msgid "products low on stock"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:274
+msgid "No low stock products"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:282
+msgid "medicines expiring soon"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:288
+msgid "No medicines expiring soon"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:302
+#: .\pharmacies\templates\purchase\detail.html:57
+#: .\pharmacies\templates\sale\detail.html:71
+msgid "Total Items"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\detail.html:314
+msgid "Expiring Stock"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:12
+msgid "Search products..."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:28
+msgid "All Categories"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:41
+msgid "All Subcategories"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:72
+msgid " No Product was found "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:189
+msgid "Current Customer"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:210
+msgid "Phone:"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:217
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:255
+msgid "Select customer"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:225
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:263
+msgid "Choose a customer…"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:247
+msgid "No client selected"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:249
+msgid "Select a customer to begin"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:278
+msgid "Insured customer (quick add)"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:282
+msgid "Insurance ID"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:289
+msgid ""
+"If no customer is selected and insured is off, checkout uses the generic "
+"Walk-in Customer."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:295
+msgid "Cart"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:306
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:432
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:519
+msgid "Cart is empty"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:314
+msgid "Total:"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:330
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:583
+msgid "Checkout"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:351
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:486
+msgid "Stock:"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:371
+msgid "Cannot add more than available stock."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:376
+msgid "This item is out of stock."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:393
+msgid "Cannot exceed available stock."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:492
+msgid "Cart is already empty."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:496
+msgid "Are you sure you want to clear the cart?"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:535
+msgid "Insurance ID is required."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:548
+msgid "Processing…"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:563
+msgid "Server error during checkout."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:571
+msgid "Sale completed!"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:574
+msgid "Error processing sale"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\point_of_sale.html:579
+msgid "Network or server error. Please try again."
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\prescription_queue.html:20
+msgid "Open POS"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\prescription_queue.html:23
+#: .\pharmadex\config\sidebar.py:97
+msgid "Sales History"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:32
+msgid ""
+"\n"
+"    Gain a complete overview of your pharmacy’s performance, including "
+"product trends,\n"
+"    category distribution, sales growth, revenue insights, and inventory "
+"efficiency —\n"
+"    all in one intelligent analytics dashboard.\n"
+"    "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:49 .\pharmacies\views.py:1047
+msgid "Product Analytics"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:55
+msgid ""
+"\n"
+"      Analyze product performance, best sellers, slow-moving items,\n"
+"      stock turnover, and revenue contribution.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:70 .\pharmacies\views.py:464
+msgid "Category Analytics"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:76
+msgid ""
+"\n"
+"      Monitor performance by category, compare revenue distribution,\n"
+"      and identify high-performing product groups.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:91
+msgid "Sub-Category Analytics"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:97
+msgid ""
+"\n"
+"      Drill down into sub-category trends, product distribution,\n"
+"      and demand patterns for detailed insights.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:112 .\pharmacies\views.py:1788
+msgid "Sales Analytics"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:118
+msgid ""
+"\n"
+"      Track daily, weekly, and monthly sales performance,\n"
+"      revenue growth, and transaction trends.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:133 .\pharmacies\views.py:1974
+#: .\pharmacies\views.py:2202
+msgid "Inventory Performance"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:139
+msgid ""
+"\n"
+"      Evaluate stock levels, turnover rates, shortages,\n"
+"      overstock risks, and inventory efficiency.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:154
+msgid "Stock Movement Analysis"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:160
+#: .\pharmacies\templates\pharmacy\reports.html:181
+msgid ""
+"\n"
+"      Analyze stock inflow and outflow trends,\n"
+"      identify anomalies, and optimize replenishment cycles.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:175
+msgid "Stock Audit Analysis"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:196
+msgid "Profit & Loss Reports"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\reports.html:202
+msgid ""
+"\n"
+"      View revenue breakdowns, profit margins,\n"
+"      cost analysis, and financial performance indicators.\n"
+"      "
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:15
+msgid "Customer:"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:20
+msgid "Vendor:"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:95
+msgid "Validation Summary"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:106
+msgid "Insurance Covered"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:114
+msgid "Patient Pays"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:124
+msgid "Insurance"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:130
+msgid "No insurance applied"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:148
+msgid "Validate"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:157
+msgid "Hold"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:163
+msgid "Reject"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:189
+msgid "Remove this item?"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:222
+msgid "Approve this sale?"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\sale_validation.html:235
+msgid "Reject this sale?"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\statistics.html:31
+msgid "Today's Revenue"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\statistics.html:41
+msgid "Low Stock Products"
+msgstr ""
+
+#: .\pharmacies\templates\pharmacy\statistics.html:79
+msgid "Top selling products"
+msgstr ""
+
+#: .\pharmacies\templates\product\analytics.html:50
+#: .\pharmacies\templates\sale\analytics.html:50
+msgid "Last 7 Days Revenue"
+msgstr ""
+
+#: .\pharmacies\templates\product\analytics.html:61
+#: .\pharmacies\templates\sale\analytics.html:61
+msgid "Inventory Losses"
+msgstr ""
+
+#: .\pharmacies\templates\product\analytics.html:156
+#: .\pharmacies\templates\sale\analytics.html:156
+msgid "Sales by Category"
+msgstr ""
+
+#: .\pharmacies\templates\product\analytics.html:164
+#: .\pharmacies\templates\product\batch\analytics.html:42
+#: .\pharmacies\templates\product\category\analytics.html:42
+#: .\pharmacies\templates\product\subcategory\analytics.html:42
+#: .\pharmacies\templates\sale\analytics.html:164
+msgid "Sales by Subcategory"
+msgstr ""
+
+#: .\pharmacies\templates\product\batch\analytics.html:26
+#: .\pharmacies\templates\product\batch\detail.html:20
+#: .\pharmacies\templates\product\category\analytics.html:26
+#: .\pharmacies\templates\product\category\detail.html:20
+#: .\pharmacies\templates\product\subcategory\analytics.html:26
+msgid "Total Subcategories"
+msgstr ""
+
+#: .\pharmacies\templates\product\batch\analytics.html:31
+#: .\pharmacies\templates\product\category\analytics.html:31
+#: .\pharmacies\templates\product\subcategory\analytics.html:31
+msgid "Active Subcategories"
+msgstr ""
+
+#: .\pharmacies\templates\product\batch\analytics.html:58
+#: .\pharmacies\templates\product\category\analytics.html:58
+#: .\pharmacies\templates\product\subcategory\analytics.html:58
+msgid "Monthly Sales Trend"
+msgstr ""
+
+#: .\pharmacies\templates\product\batch\detail.html:21
+#: .\pharmacies\templates\product\category\detail.html:21
+#: .\pharmacies\templates\product\subcategory\detail.html:21
+msgid "Total Products"
+msgstr ""
+
+#: .\pharmacies\templates\product\batch\detail.html:45
+#: .\pharmacies\templates\product\category\detail.html:45
+msgid "No subcategories found."
+msgstr ""
+
+#: .\pharmacies\templates\product\batch\detail.html:81
+#: .\pharmacies\templates\product\category\detail.html:81
+#: .\pharmacies\templates\product\subcategory\detail.html:60
+msgid "Reset"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:14
+msgid ""
+"Use this page to view product details, pricing, and activity related to this "
+"item."
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:49
+#: .\pharmacies\templates\product\stock\detail.html:41
+msgid "Brand:"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:62
+#: .\pharmacies\templates\product\stock\detail.html:61
+msgid "Price"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:69
+msgid "Cost"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:76
+msgid "Margin"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:95
+msgid "Category"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:109
+#: .\pharmacies\templates\product\stock\detail.html:92
+msgid "No code"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:120
+msgid "Product Description"
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:129
+msgid "No description provided for this product."
+msgstr ""
+
+#: .\pharmacies\templates\product\detail.html:138
+#: .\pharmacies\templates\product\stock\detail.html:100
+msgid "Restock Product"
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:14
+msgid ""
+"Use this page to view stock details, pricing, and quantity for this product."
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:70
+msgid "In Stock"
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:70
+msgid "Out of Stock"
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:81
+msgid "Category : "
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:86
+msgid "Subcategory : "
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:91
+msgid "Code : "
+msgstr ""
+
+#: .\pharmacies\templates\product\stock\detail.html:106
+msgid "Delete Stock"
+msgstr ""
+
+#: .\pharmacies\templates\product\subcategory\detail.html:22
+msgid "Total Stock"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\analytics.html:11
+msgid "Total Purchases"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\analytics.html:16
+msgid "Total Purchase Cost"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\detail.html:13
+#: .\pharmacies\templates\sale\detail.html:15
+msgid "Sale Receipt"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\detail.html:33
+#: .\pharmacies\templates\sale\detail.html:50
+msgid "Walk-in"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\detail.html:83
+#: .\pharmacies\templates\sale\detail.html:99
+msgid "Sold Items"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\detail.html:93
+#: .\pharmacies\templates\sale\detail.html:109
+msgid "Total Price"
+msgstr ""
+
+#: .\pharmacies\templates\purchase\detail.html:117
+#: .\pharmacies\templates\sale\detail.html:127
+msgid "No items in this sale."
+msgstr ""
+
+#: .\pharmacies\templates\sale\detail.html:33
+msgid "Validate Sale"
+msgstr ""
+
+#: .\pharmacies\views.py:39
+msgid ""
+"\n"
+"    Welcome to the pharmacy dashboard, where you can monitor and manage all "
+"aspects of the organization's pharmacy in one place.\n"
+"    From tracking inventory levels and reviewing sales performance to "
+"managing products and orders, this dashboard\n"
+"    provides a clear overview to help you make informed decisions and keep "
+"daily operations running smoothly.\n"
+msgstr ""
+
+#: .\pharmacies\views.py:49
+msgid "Pharmacy dashboard"
+msgstr ""
+
+#: .\pharmacies\views.py:50
+msgid "Overview of the pharmacy pharmacy"
+msgstr ""
+
+#: .\pharmacies\views.py:58
+msgid ""
+"\n"
+"    Welcome to the inventory dashboard. Monitor stock levels, track product "
+"availability,\n"
+"    and stay informed about batch quantities and expiries in real time. Use "
+"this space to\n"
+"    manage products efficiently, reduce stock issues, and support smooth day-"
+"to-day\n"
+"    pharmacy operations.\n"
+"    "
+msgstr ""
+
+#: .\pharmacies\views.py:69 .\pharmadex\config\sidebar.py:138
+msgid "Inventory Dashboard"
+msgstr ""
+
+#: .\pharmacies\views.py:70
+msgid "Stock overview and control"
+msgstr ""
+
+#: .\pharmacies\views.py:77
+msgid ""
+"\n"
+"    Welcome to the Pharmacy Analytics Center.\n"
+"    Access detailed insights into product performance, category trends,\n"
+"    sales growth, inventory efficiency, and revenue distribution.\n"
+"    This dashboard helps you monitor key metrics, identify opportunities,\n"
+"    and make data-driven decisions with confidence.\n"
+"    "
+msgstr ""
+
+#: .\pharmacies\views.py:90
+msgid "Product, Category & Sales Performance Insights"
+msgstr ""
+
+#: .\pharmacies\views.py:105
+msgid ""
+"Monitor real-time pharmacy performance: revenue trends, sales activity, "
+"inventory health, product demand, and losses."
+msgstr ""
+
+#: .\pharmacies\views.py:234
+msgid "Sales, Revenue, Inventory & Losses Overview"
+msgstr ""
+
+#: .\pharmacies\views.py:281
+msgid "Manage pharmacies (pharmacies)"
+msgstr ""
+
+#: .\pharmacies\views.py:283
+msgid "View and manage pharmacies under the current organization."
+msgstr ""
+
+#: .\pharmacies\views.py:295
+msgid "Pharmacy Details"
+msgstr ""
+
+#: .\pharmacies\views.py:296
+msgid "View pharmacy details"
+msgstr ""
+
+#: .\pharmacies\views.py:306
+msgid "Create a new pharmacy under the current organization"
+msgstr ""
+
+#: .\pharmacies\views.py:319
+msgid "Update pharmacy details"
+msgstr ""
+
+#: .\pharmacies\views.py:332
+msgid "Manage product categories"
+msgstr ""
+
+#: .\pharmacies\views.py:333
+msgid "View and manage all product categories."
+msgstr ""
+
+#: .\pharmacies\views.py:355
+msgid "Total Categories"
+msgstr ""
+
+#: .\pharmacies\views.py:361
+msgid "Active Categories"
+msgstr ""
+
+#: .\pharmacies\views.py:367
+msgid "Inactive Categories"
+msgstr ""
+
+#: .\pharmacies\views.py:373
+msgid "Out of stock Categories"
+msgstr ""
+
+#: .\pharmacies\views.py:395
+msgid "Category Details"
+msgstr ""
+
+#: .\pharmacies\views.py:396
+msgid "View category information"
+msgstr ""
+
+#: .\pharmacies\views.py:397
+msgid "This page displays category details."
+msgstr ""
+
+#: .\pharmacies\views.py:410
+msgid "Add Category"
+msgstr ""
+
+#: .\pharmacies\views.py:411
+msgid "Create a new product category"
+msgstr ""
+
+#: .\pharmacies\views.py:412
+msgid "Create a new category to group products."
+msgstr ""
+
+#: .\pharmacies\views.py:419
+msgid "Edit Category"
+msgstr ""
+
+#: .\pharmacies\views.py:420
+msgid "Edit category details"
+msgstr ""
+
+#: .\pharmacies\views.py:421
+msgid "Update the category information."
+msgstr ""
+
+#: .\pharmacies\views.py:465
+msgid "Sales performance and trends by category"
+msgstr ""
+
+#: .\pharmacies\views.py:486
+msgid "Manage subcategories"
+msgstr ""
+
+#: .\pharmacies\views.py:487
+msgid "View and manage all product subcategories."
+msgstr ""
+
+#: .\pharmacies\views.py:517
+msgid "Subcategory Details"
+msgstr ""
+
+#: .\pharmacies\views.py:518
+msgid "View subcategory information"
+msgstr ""
+
+#: .\pharmacies\views.py:519
+msgid "This page displays subcategory details."
+msgstr ""
+
+#: .\pharmacies\views.py:532
+msgid "Add Subcategory"
+msgstr ""
+
+#: .\pharmacies\views.py:533
+msgid "Create a new subcategory"
+msgstr ""
+
+#: .\pharmacies\views.py:534
+msgid "Create a new subcategory under a category."
+msgstr ""
+
+#: .\pharmacies\views.py:541
+msgid "Edit Subcategory"
+msgstr ""
+
+#: .\pharmacies\views.py:542
+msgid "Edit subcategory details"
+msgstr ""
+
+#: .\pharmacies\views.py:543
+msgid "Update the subcategory information."
+msgstr ""
+
+#: .\pharmacies\views.py:586
+msgid "Subcategory Analytics"
+msgstr ""
+
+#: .\pharmacies\views.py:587
+msgid "Sales performance and trends by subcategory"
+msgstr ""
+
+#: .\pharmacies\views.py:608
+msgid "Manage products"
+msgstr ""
+
+#: .\pharmacies\views.py:609
+msgid "View and manage all products."
+msgstr ""
+
+#: .\pharmacies\views.py:629
+msgid "Product Details"
+msgstr ""
+
+#: .\pharmacies\views.py:630
+msgid "View product information"
+msgstr ""
+
+#: .\pharmacies\views.py:631
+msgid "This page displays product details and pricing."
+msgstr ""
+
+#: .\pharmacies\views.py:647
+msgid "Add Product"
+msgstr ""
+
+#: .\pharmacies\views.py:648
+msgid "Create a new product"
+msgstr ""
+
+#: .\pharmacies\views.py:649
+msgid "Create a new product item."
+msgstr ""
+
+#: .\pharmacies\views.py:659
+msgid "Edit Product"
+msgstr ""
+
+#: .\pharmacies\views.py:660
+msgid "Edit product details"
+msgstr ""
+
+#: .\pharmacies\views.py:661
+msgid "Update the product information."
+msgstr ""
+
+#: .\pharmacies\views.py:674
+msgid "Manage product stock levels"
+msgstr ""
+
+#: .\pharmacies\views.py:675
+msgid "View and manage stock quantities for all products."
+msgstr ""
+
+#: .\pharmacies\views.py:704
+msgid "Product Stock Details"
+msgstr ""
+
+#: .\pharmacies\views.py:705
+msgid "View stock information"
+msgstr ""
+
+#: .\pharmacies\views.py:706
+msgid "This page shows stock information and quantity for the product."
+msgstr ""
+
+#: .\pharmacies\views.py:717
+msgid "Edit Product Stock"
+msgstr ""
+
+#: .\pharmacies\views.py:718
+msgid "Update stock details"
+msgstr ""
+
+#: .\pharmacies\views.py:720
+msgid ""
+"Edit the price or cost of the product stock. Quantity is managed "
+"automatically."
+msgstr ""
+
+#: .\pharmacies\views.py:733
+msgid "Batches Management (FEFO)"
+msgstr ""
+
+#: .\pharmacies\views.py:734
+msgid "Manage product batches"
+msgstr ""
+
+#: .\pharmacies\views.py:735
+msgid "View and manage all product batches."
+msgstr ""
+
+#: .\pharmacies\views.py:790 .\pharmacies\views.py:2449
+msgid "Batches nearing expiry"
+msgstr ""
+
+#: .\pharmacies\views.py:791
+msgid "Monitor batches that will expire soon."
+msgstr ""
+
+#: .\pharmacies\views.py:799 .\pharmacies\views.py:2485
+msgid "Batches past expiry"
+msgstr ""
+
+#: .\pharmacies\views.py:800
+msgid "Review and manage expired batches."
+msgstr ""
+
+#: .\pharmacies\views.py:807
+msgid "Stock Alerts"
+msgstr ""
+
+#: .\pharmacies\views.py:808
+msgid "Expiry risks and warnings"
+msgstr ""
+
+#: .\pharmacies\views.py:809
+msgid "View expired and near-expiry batches."
+msgstr ""
+
+#: .\pharmacies\views.py:838
+msgid "Usable Stock"
+msgstr ""
+
+#: .\pharmacies\views.py:856
+msgid "Batch Details"
+msgstr ""
+
+#: .\pharmacies\views.py:857
+msgid "View batch information"
+msgstr ""
+
+#: .\pharmacies\views.py:858
+msgid "This page displays batch details, stock, and expiry."
+msgstr ""
+
+#: .\pharmacies\views.py:878
+msgid "Add Batch"
+msgstr ""
+
+#: .\pharmacies\views.py:879
+msgid "Create a new batch"
+msgstr ""
+
+#: .\pharmacies\views.py:880
+msgid "Create a new product batch."
+msgstr ""
+
+#: .\pharmacies\views.py:894
+msgid "Edit Batch"
+msgstr ""
+
+#: .\pharmacies\views.py:895
+msgid "Edit batch details"
+msgstr ""
+
+#: .\pharmacies\views.py:896
+msgid "Update the batch information."
+msgstr ""
+
+#: .\pharmacies\views.py:1048
+msgid "Stock, Sales & Loss Performance"
+msgstr ""
+
+#: .\pharmacies\views.py:1050
+msgid ""
+"Understand product performance, inventory health, sales efficiency, and loss "
+"patterns."
+msgstr ""
+
+#: .\pharmacies\views.py:1197
+msgid "Manage prescriptions"
+msgstr ""
+
+#: .\pharmacies\views.py:1198
+msgid "View and manage prescriptions."
+msgstr ""
+
+#: .\pharmacies\views.py:1229
+msgid "Pending Prescriptions"
+msgstr ""
+
+#: .\pharmacies\views.py:1230
+msgid "Awaiting review"
+msgstr ""
+
+#: .\pharmacies\views.py:1231
+msgid "New prescriptions waiting to be processed."
+msgstr ""
+
+#: .\pharmacies\views.py:1236
+msgid "Processing Prescriptions"
+msgstr ""
+
+#: .\pharmacies\views.py:1237
+msgid "Currently being prepared"
+msgstr ""
+
+#: .\pharmacies\views.py:1238
+msgid "Prescriptions being filled and verified."
+msgstr ""
+
+#: .\pharmacies\views.py:1243
+msgid "Ready for Pickup"
+msgstr ""
+
+#: .\pharmacies\views.py:1244
+msgid "Awaiting collection"
+msgstr ""
+
+#: .\pharmacies\views.py:1245
+msgid "Completed prescriptions ready for patients."
+msgstr ""
+
+#: .\pharmacies\views.py:1250
+msgid "Completed Prescriptions"
+msgstr ""
+
+#: .\pharmacies\views.py:1251
+msgid "Dispensed records"
+msgstr ""
+
+#: .\pharmacies\views.py:1252
+msgid "All completed and dispensed prescriptions."
+msgstr ""
+
+#: .\pharmacies\views.py:1257
+msgid "On Hold Prescriptions"
+msgstr ""
+
+#: .\pharmacies\views.py:1258
+msgid "Requires attention"
+msgstr ""
+
+#: .\pharmacies\views.py:1259
+msgid "Prescriptions with issues or pending actions."
+msgstr ""
+
+#: .\pharmacies\views.py:1274
+msgid "Prescription Details"
+msgstr ""
+
+#: .\pharmacies\views.py:1275
+msgid "View prescription information"
+msgstr ""
+
+#: .\pharmacies\views.py:1276
+msgid ""
+"This page displays prescription details, prescribed items, and dispensing "
+"status."
+msgstr ""
+
+#: .\pharmacies\views.py:1292
+msgid "Create Prescription"
+msgstr ""
+
+#: .\pharmacies\views.py:1293
+msgid "Add a new prescription with multiple medications."
+msgstr ""
+
+#: .\pharmacies\views.py:1294
+msgid "Edit Prescription"
+msgstr ""
+
+#: .\pharmacies\views.py:1295
+msgid "Modify prescription details and items."
+msgstr ""
+
+#: .\pharmacies\views.py:1299
+msgid "Use this form to create and manage prescriptions and their items."
+msgstr ""
+
+#: .\pharmacies\views.py:1326
+msgid "Sales history"
+msgstr ""
+
+#: .\pharmacies\views.py:1327
+msgid "View recorded sales transactions."
+msgstr ""
+
+#: .\pharmacies\views.py:1357
+msgid "Sale Details"
+msgstr ""
+
+#: .\pharmacies\views.py:1358
+msgid "View sale information"
+msgstr ""
+
+#: .\pharmacies\views.py:1359
+msgid "This page displays sale transaction details."
+msgstr ""
+
+#: .\pharmacies\views.py:1413
+msgid ""
+"This page allows you to process sales at the point of sale. Select products, "
+"assign customers, confirm quantities, and complete transactions efficiently "
+"while keeping inventory levels automatically updated."
+msgstr ""
+
+#: .\pharmacies\views.py:1423
+msgid "Create and process sales quickly"
+msgstr ""
+
+#: .\pharmacies\views.py:1789
+msgid "Revenue, Trends & Product Performance"
+msgstr ""
+
+#: .\pharmacies\views.py:1791
+msgid ""
+"Analyze detailed sales performance, revenue trends, and best-selling "
+"products."
+msgstr ""
+
+#: .\pharmacies\views.py:1830
+msgid "Purchase history"
+msgstr ""
+
+#: .\pharmacies\views.py:1831
+msgid "View recorded purchase transactions."
+msgstr ""
+
+#: .\pharmacies\views.py:1861
+msgid "Purchase Details"
+msgstr ""
+
+#: .\pharmacies\views.py:1862
+msgid "View purchase information"
+msgstr ""
+
+#: .\pharmacies\views.py:1863
+msgid "This page displays purchase transaction details."
+msgstr ""
+
+#: .\pharmacies\views.py:1883
+msgid "Purchase Analytics"
+msgstr ""
+
+#: .\pharmacies\views.py:1885
+msgid "Review purchase activity, inventory costs, and supplier transactions."
+msgstr ""
+
+#: .\pharmacies\views.py:1975
+msgid "Track inventory entries and exits over time."
+msgstr ""
+
+#: .\pharmacies\views.py:2000
+msgid "Movement history (entries & exits)"
+msgstr ""
+
+#: .\pharmacies\views.py:2001
+msgid "View all recorded stock movements for products."
+msgstr ""
+
+#: .\pharmacies\views.py:2033
+msgid "Inventory Movement Details"
+msgstr ""
+
+#: .\pharmacies\views.py:2034
+msgid "View stock movement information"
+msgstr ""
+
+#: .\pharmacies\views.py:2035
+msgid "This page displays detailed information about the stock movement."
+msgstr ""
+
+#: .\pharmacies\views.py:2051
+msgid "Create Stock Movement"
+msgstr ""
+
+#: .\pharmacies\views.py:2052
+msgid "Add or remove stock from multiple products at once."
+msgstr ""
+
+#: .\pharmacies\views.py:2053
+msgid "Edit Stock Movement"
+msgstr ""
+
+#: .\pharmacies\views.py:2054
+msgid "Modify the items included in this movement."
+msgstr ""
+
+#: .\pharmacies\views.py:2058
+msgid "Use this form to adjust stock quantities for one or more products."
+msgstr ""
+
+#: .\pharmacies\views.py:2203
+msgid "Stock Entries vs Exits Over Time"
+msgstr ""
+
+#: .\pharmacies\views.py:2231
+msgid "Audit sessions"
+msgstr ""
+
+#: .\pharmacies\views.py:2232
+msgid "View inventory audit sessions."
+msgstr ""
+
+#: .\pharmacies\views.py:2261
+msgid "Inventory Audit Details"
+msgstr ""
+
+#: .\pharmacies\views.py:2262
+msgid "View audit session"
+msgstr ""
+
+#: .\pharmacies\views.py:2263
+msgid "This page displays inventory audit information."
+msgstr ""
+
+#: .\pharmacies\views.py:2376
+msgid "Inventory Audit Analytics"
+msgstr ""
+
+#: .\pharmacies\views.py:2377
+msgid "Monitor audit progress, discrepancies, and stock accuracy."
+msgstr ""
+
+#: .\pharmacies\views.py:2401
+msgid "Prescription Queue"
+msgstr ""
+
+#: .\pharmacies\views.py:2402
+msgid "Queue"
+msgstr ""
+
+#: .\pharmacies\views.py:2404
+msgid "Manage queued prescriptions for dispensing."
+msgstr ""
+
+#: .\pharmacies\views.py:2412
+msgid "Stock Entries (Purchases)"
+msgstr ""
+
+#: .\pharmacies\views.py:2413
+msgid "Entries history"
+msgstr ""
+
+#: .\pharmacies\views.py:2414
+msgid "View stock entries recorded in inventory movements."
+msgstr ""
+
+#: .\pharmacies\views.py:2428
+msgid "Stock Exits"
+msgstr ""
+
+#: .\pharmacies\views.py:2429
+msgid "Exits history"
+msgstr ""
+
+#: .\pharmacies\views.py:2430
+msgid "View stock exits recorded in inventory movements."
+msgstr ""
+
+#: .\pharmacies\views.py:2450
+msgid "View batches expiring soon."
+msgstr ""
+
+#: .\pharmacies\views.py:2486
+msgid "View expired batches still in stock."
+msgstr ""
+
+#: .\pharmacies\views.py:2513
+msgid "Stock Reconciliation"
+msgstr ""
+
+#: .\pharmacies\views.py:2514
+msgid "Reconcile and correct stock"
+msgstr ""
+
+#: .\pharmacies\views.py:2516
+msgid "Review batch quantities and reconcile inventory discrepancies."
+msgstr ""
+
+#: .\pharmadex\config\sidebar.py:90
+msgid "Cashier Validation"
+msgstr ""
+
+#: .\pharmadex\config\sidebar.py:169
+msgid "Users Management"
+msgstr ""
+
+#: .\pharmadex\config\sidebar.py:188
+msgid "Accounts Settings"
+msgstr ""
+
+#: .\pharmadex\settings.py:273
+msgid "Français"
+msgstr ""
+
+#: .\pharmadex\settings.py:274
+msgid "Espanol"
+msgstr ""
+
+#: .\pharmadex\settings.py:275
+msgid "Portugues"
+msgstr ""
+
+#: .\support\models.py:23
+msgid "Low"
+msgstr ""
+
+#: .\support\models.py:24
+msgid "Medium"
+msgstr ""
+
+#: .\support\models.py:25
+msgid "High"
+msgstr ""
+
+#: .\support\models.py:26
+msgid "Urgent"
+msgstr ""
+
+#: .\support\models.py:30
+#: .\support\templates\components\_ticket_type_badge.html:6
+msgid "Technical Issue"
+msgstr ""
+
+#: .\support\models.py:31
+msgid "Billing Issue"
+msgstr ""
+
+#: .\support\models.py:32
+msgid "Account Issue"
+msgstr ""
+
+#: .\support\models.py:34
+msgid "Sales/POS Issue"
+msgstr ""
+
+#: .\support\models.py:36
+msgid "Report Issue"
+msgstr ""
+
+#: .\support\models.py:47 .\support\models.py:112 .\support\models.py:123
+#: .\support\models.py:172
+msgid "Author"
+msgstr ""
+
+#: .\support\models.py:53
+msgid "Ticket Type"
+msgstr ""
+
+#: .\support\models.py:55
+msgid "Subject"
+msgstr ""
+
+#: .\support\models.py:64
+msgid "Priority"
+msgstr ""
+
+#: .\support\models.py:69
+msgid "Assigned To"
+msgstr ""
+
+#: .\support\models.py:71
+msgid "Is Escalated"
+msgstr ""
+
+#: .\support\models.py:72
+msgid "Is Archived"
+msgstr ""
+
+#: .\support\models.py:83 .\support\models.py:128
+msgid "Support Ticket"
+msgstr ""
+
+#: .\support\models.py:84
+msgid "Support Tickets"
+msgstr ""
+
+#: .\support\models.py:113
+msgid "Organization Admin"
+msgstr ""
+
+#: .\support\models.py:114
+msgid "Platform Admin"
+msgstr ""
+
+#: .\support\models.py:120
+msgid "Written By"
+msgstr ""
+
+#: .\support\models.py:131
+msgid "Message"
+msgstr ""
+
+#: .\support\models.py:132
+msgid "Written By Author"
+msgstr ""
+
+#: .\support\models.py:133
+msgid "Written By Campus Admin"
+msgstr ""
+
+#: .\support\models.py:134
+msgid "Written By Platform Admin"
+msgstr ""
+
+#: .\support\models.py:142
+msgid "Ticket Response"
+msgstr ""
+
+#: .\support\models.py:143
+msgid "Ticket Responses"
+msgstr ""
+
+#: .\support\models.py:174
+msgid "File"
+msgstr ""
+
+#: .\support\models.py:177
+msgid "Response"
+msgstr ""
+
+#: .\support\models.py:179
+msgid "Uploaded By"
+msgstr ""
+
+#: .\support\models.py:180
+msgid "Uploaded At"
+msgstr ""
+
+#: .\support\models.py:186
+msgid "Ticket Attachment"
+msgstr ""
+
+#: .\support\models.py:187
+msgid "Ticket Attachments"
+msgstr ""
+
+#: .\support\templates\components\_ticket_type_badge.html:11
+msgid "Billing or Payment"
+msgstr ""
+
+#: .\support\templates\components\_ticket_type_badge.html:16
+msgid "Account/Login Issue"
+msgstr ""
+
+#: .\support\templates\components\_ticket_type_badge.html:21
+msgid "Content Error"
+msgstr ""
+
+#: .\support\templates\components\_ticket_type_badge.html:26
+msgid "Missing or Wrong Data"
+msgstr ""
+
+#: .\support\templates\components\_ticket_type_badge.html:31
+msgid "AdministrativeStaff/Staff Issue"
+msgstr ""
+
+#: .\support\templates\support\response\_item.html:10
+msgid "Platform Support"
+msgstr ""
+
+#: .\support\templates\support\response\_item.html:12
+msgid "I.T Support"
+msgstr ""
+
+#: .\support\templates\support\response\_item.html:15
+msgid "You"
+msgstr ""
+
+#: .\support\templates\support\response\_item.html:15
+msgid "Ticket Author"
+msgstr ""
+
+#: .\support\templates\support\response\_item.html:43
+msgid "Are you sure you want to delete this item?"
+msgstr ""
+
+#: .\support\templates\support\response\_list.html:18
+msgid " No Ticekt Response Was Found "
+msgstr ""
+
+#: .\support\templates\support\ticket\_list.html:8
+#, python-format
+msgid " No %(model_verbose_name)s Was Found "
+msgstr ""
+
+#: .\support\templates\support\ticket\detail.html:85
+#: .\support\templates\support\ticket\detail_htmx.html:83
+msgid "Resolve"
+msgstr ""
+
+#: .\support\templates\support\ticket\detail.html:100
+#: .\support\templates\support\ticket\detail_htmx.html:98
+msgid "Close"
+msgstr ""
+
+#: .\support\templates\support\ticket\detail.html:115
+#: .\support\templates\support\ticket\detail_htmx.html:113
+msgid "Reopen"
+msgstr ""
+
+#: .\support\templates\support\ticket\detail.html:182
+#: .\support\templates\support\ticket\detail_htmx.html:180
+msgid "Attached File"
+msgstr ""
+
+#: .\support\templates\support\ticket\detail.html:236
+#: .\support\templates\support\ticket\detail_htmx.html:234
+msgid "Attach a file"
+msgstr ""
+
+#: .\support\templates\support\ticket\detail.html:255
+#: .\support\templates\support\ticket\detail_htmx.html:253
+msgid "Type your response..."
+msgstr ""
+
+#: .\support\templates\support\ticket\index.html:62
+msgid "New Ticket"
+msgstr ""
+
+#: .\support\templates\support\ticket\index.html:87
+msgid "Engage with the team on ticket issues"
+msgstr ""
+
+#: .\support\views.py:35
+msgid "Support Ticket Page"
+msgstr ""
+
+#: .\support\views.py:36
+msgid "Manage your user tickets here"
+msgstr ""
+
+#: .\support\views.py:38
+msgid ""
+"\n"
+"        Manage and oversee user tickets directly on the platform. Whether "
+"adding new user tickets, updating their profiles, or assigning roles and "
+"permissions, \n"
+"        the platform provides an intuitive interface to handle all user "
+"ticket-related tasks. Admins can easily view, update, and remove user "
+"tickets, \n"
+"        ensuring they have access to the right resources. This central hub "
+"allows for efficient user ticket management,\n"
+"        promoting a streamlined experience for all involved.\n"
+"        "
+msgstr ""
+
+#: .\support\views.py:69
+msgid "Open Tickets"
+msgstr ""
+
+#: .\support\views.py:70
+msgid "Ongoing Tickets"
+msgstr ""
+
+#: .\support\views.py:71
+msgid "Closed Tickets"
+msgstr ""
+
+#: .\support\views.py:109
+msgid "Support Ticket Details"
+msgstr ""
+
+#: .\support\views.py:110
+msgid "View user ticket details"
+msgstr ""
+
+#: .\support\views.py:119
+msgid "Add Support Ticket"
+msgstr ""
+
+#: .\support\views.py:120
+msgid "Fill the form to add a new user ticket"
+msgstr ""
+
+#: .\support\views.py:132
+msgid "Edit Support Ticket"
+msgstr ""
+
+#: .\support\views.py:133
+msgid "Edit the support ticket info"
+msgstr ""
+
+#: .\support\views.py:145
+msgid "This ticket has already been escalated."
+msgstr ""
+
+#: .\support\views.py:153
+msgid "Ticket escalated and sent to platform support."
+msgstr ""
+
+#: .\support\views.py:168
+msgid "This ticket has not been escalated."
+msgstr ""
+
+#: .\support\views.py:174
+msgid "Ticket de-escalated successfully."
+msgstr ""
+
+#: .\support\views.py:188
+msgid "This ticket is already archived."
+msgstr ""
+
+#: .\support\views.py:193
+msgid "Ticket archived successfully."
+msgstr ""
+
+#: .\support\views.py:208
+msgid "This ticket is not archived."
+msgstr ""
+
+#: .\support\views.py:213
+msgid "Ticket unarchived successfully."
+msgstr ""

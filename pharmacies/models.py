@@ -45,6 +45,20 @@ class Pharmacy(OrganizationModel):
         verbose_name=_("Pharmacy Code")
     )
 
+    state_or_region = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+        verbose_name=_("State / Region")
+    )
+
+    city = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name=_("City")
+    )
+
     address = models.CharField(
         max_length=255,
         blank=True,
@@ -65,6 +79,14 @@ class Pharmacy(OrganizationModel):
         default="active",
         verbose_name=_("Status")
     )
+
+    clinic_enabled = models.BooleanField(
+        default=False,
+        verbose_name=_("Clinic Enabled")
+    )
+
+    requires_cashier_validation = models.BooleanField(
+        default=False, verbose_name=_("Requires Cashier Validation"))
 
     model_icon = "fa-solid fa-staff-snake"
 
@@ -97,7 +119,16 @@ class Pharmacy(OrganizationModel):
 # -------------------------------
 # Product Categorization
 # -------------------------------
-class ProductCategory(ActivatableModel):
+class ProductCategory(OrganizationModel, ActivatableModel):
+
+    objects = TenantManager()
+    
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.PROTECT,
+        blank=True, null=True,
+        verbose_name=_("Organization"),
+    )
     name = models.CharField(max_length=100, unique=True,
                             verbose_name=_("Category Name"))
     description = models.TextField(
@@ -113,7 +144,17 @@ class ProductCategory(ActivatableModel):
         return self.name
 
 
-class ProductSubcategory(ActivatableModel):
+class ProductSubcategory(OrganizationModel, ActivatableModel):
+
+    objects = TenantManager()
+    
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.PROTECT,
+        blank=True, null=True,
+        verbose_name=_("Organization"),
+    )
+    
     category = models.ForeignKey(
         ProductCategory, on_delete=models.PROTECT, related_name="product_subcategories")
     name = models.CharField(max_length=100, verbose_name=_("Subcategory Name"))
@@ -447,6 +488,8 @@ class ProductAlternative(ActivatableModel, OrganizationModel):
     priority = models.PositiveIntegerField(default=1)
 
     class Meta:
+        verbose_name = _("Product Alternative")
+        verbose_name_plural = _("Product Alternatives")
         unique_together = ("product", "alternative")
 
     def clean(self):
@@ -492,6 +535,8 @@ class ProductStock(PharmacyModel):
     model_icon = "fa-solid fa-boxes-stacked"
 
     class Meta:
+        verbose_name = _("Product Stock")
+        verbose_name_plural = _("Product Stocks")
         constraints = [
             models.UniqueConstraint(
                 fields=["pharmacy", "product"],
@@ -504,6 +549,129 @@ class ProductStock(PharmacyModel):
 
     def __str__(self):
         return f"{self.pharmacy.name} - {self.product.name} Stock"
+    
+    # -----------------------------
+    # STOCK STATUS (derived from batches)
+    # -----------------------------
+
+    @property
+    def today(self):
+        return timezone.now().date()
+
+
+    @property
+    def expired_batches(self):
+        """
+        Batches already expired.
+        """
+        return self.batches.filter(
+            expiry_date__lt=self.today
+        )
+
+
+    @property
+    def expiring_batches(self):
+        """
+        Batches expiring within 30 days.
+        """
+        return self.batches.filter(
+            expiry_date__gte=self.today,
+            expiry_date__lte=self.today + timedelta(days=30)
+        )
+
+
+    @property
+    def damaged_batches(self):
+        """
+        Damaged batches.
+        """
+        return self.batches.filter(
+            is_damaged=True
+        )
+
+
+    @property
+    def usable_batches(self):
+        """
+        Batches safe for dispensing.
+        """
+        return self.batches.filter(
+            expiry_date__gt=self.today,
+            quantity__gt=0,
+            is_active=True,
+            is_damaged=False,
+        )
+
+
+    # -----------------------------
+    # BOOLEAN HELPERS
+    # -----------------------------
+
+    @property
+    def has_expired_stock(self):
+        return self.expired_batches.exists()
+
+
+    @property
+    def has_expiring_stock(self):
+        return self.expiring_batches.exists()
+
+
+    @property
+    def has_damaged_stock(self):
+        return self.damaged_batches.exists()
+
+
+    @property
+    def has_usable_stock(self):
+        return self.usable_batches.exists()
+
+
+    # -----------------------------
+    # STOCK STATUS
+    # -----------------------------
+
+    @property
+    def stock_status(self):
+        """
+        Overall stock usability status.
+
+        Priority:
+        out_of_stock > expired > damaged > expiring > usable
+        """
+
+        if self.quantity <= 0:
+            return "out_of_stock"
+
+        if self.has_expired_stock:
+            return "expired"
+
+        if self.has_damaged_stock:
+            return "damaged"
+
+        if self.has_expiring_stock:
+            return "expiring"
+
+        return "usable"
+
+
+    # -----------------------------
+    # QUANTITY STATUS
+    # -----------------------------
+
+    @property
+    def quantity_status(self):
+        """
+        Inventory quantity health.
+        """
+
+        if self.quantity <= 0:
+            return "out_of_stock"
+
+        if self.quantity <= 10:
+            return "low_stock"
+
+        return "in_stock"
 
     # -----------------------------
     # STOCK (derived from batches)
@@ -512,10 +680,21 @@ class ProductStock(PharmacyModel):
     @property
     def quantity(self):
         """
-        Total available stock across all batches.
+        Total usable stock across valid batches only.
+        Excludes:
+        - expired batches
+        - damaged batches
+        - inactive batches
         """
+
+        today = timezone.now().date()
+
         return (
-            self.batches.aggregate(
+            self.batches.filter(
+                expiry_date__gt=today,
+                is_damaged=False,
+                is_active=True,
+            ).aggregate(
                 total=Sum("quantity")
             )["total"] or 0
         )
@@ -574,7 +753,7 @@ class ProductStock(PharmacyModel):
             return sub.name
 
         return f"{cat.name} -> {sub.name}"
-
+    
 
 class ProductBatchQuerySet(models.QuerySet):
     def expired(self):
@@ -621,12 +800,14 @@ class ProductBatch(PharmacyModel):
     manufacturing_date = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
-    # ✅ attach custom manager
+    # attach custom manager
     objects = ProductBatchQuerySet.as_manager()
 
     model_icon = "fa-solid fa-cart-flatbed"
 
     class Meta:
+        verbose_name = _("Product Batch")
+        verbose_name_plural = _("Product Batches")
         constraints = [
             models.UniqueConstraint(
                 fields=["product_stock", "batch_number"],
@@ -661,13 +842,16 @@ class ProductBatch(PharmacyModel):
     # -----------------------------
     @property
     def usability_status(self):
+        if self.is_damaged:
+            return "damaged"
+
         if self.expiry_date < self.today:
-            return self.UsabilityStatus.EXPIRED
+            return "expired"
 
         if self.expiry_date <= self.today + timedelta(days=30):
-            return self.UsabilityStatus.EXPIRING
+            return "expiring"
 
-        return self.UsabilityStatus.USABLE
+        return "usable"
 
     @property
     def is_expired(self):
@@ -679,12 +863,12 @@ class ProductBatch(PharmacyModel):
     @property
     def quantity_status(self):
         if self.quantity <= 0:
-            return self.QuantityStatus.OUT_OF_STOCK
+            return "out_of_stock"
 
-        if self.quantity <= 10:  # 🔧 configurable threshold
-            return self.QuantityStatus.LOW_STOCK
+        if self.quantity <= 10:
+            return "low_stock"
 
-        return self.QuantityStatus.IN_STOCK
+        return "in_stock"
 
     @property
     def is_low_stock(self):
@@ -721,6 +905,11 @@ class ProductBatch(PharmacyModel):
     @property
     def quantity_label(self):
         return dict(self.QuantityStatus.CHOICES).get(self.quantity_status)
+    
+    
+    @property
+    def days_to_expiry_display(self):
+        return self.days_to_expiry
 
     @property
     def usability_color(self):
@@ -893,6 +1082,8 @@ class PrescriptionItem(PharmacyModel):
     model_icon = "fa-solid fa-prescription-bottle-medical"
 
     class Meta:
+        verbose_name = _("Prescription Item")
+        verbose_name_plural = _("Prescription Items")
         unique_together = ("prescription", "product")
 
     def __str__(self):
@@ -943,6 +1134,8 @@ class Sale(PharmacyModel, ArchivableModel):
 
     STATUS_CHOICES = [
         ("pending", _("Pending")),
+        ("backordered", _("Backordered")),
+        ("on_credit", _("On Credit")),
         ("completed", _("Completed")),
         ("refunded", _("Refunded")),
         ("cancelled", _("Cancelled")),
@@ -953,12 +1146,20 @@ class Sale(PharmacyModel, ArchivableModel):
         choices=STATUS_CHOICES,
         default="completed",
         blank=True, null=True,
-        verbose_name=_("Sale Status")
+        verbose_name=_("Status")
     )
     pharmacy = models.ForeignKey(
         "Pharmacy", on_delete=models.PROTECT, blank=True, null=True, related_name="sales")
     vendor = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sales")
+    cashier = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="validated_sales",
+        verbose_name=_("Cashier"),
+    )
     customer = models.ForeignKey(
         "organizations.Customer",
         on_delete=models.SET_NULL,
@@ -969,30 +1170,98 @@ class Sale(PharmacyModel, ArchivableModel):
     )
     total_amount = models.DecimalField(
         max_digits=12, decimal_places=2, default=0)
-    created_at = models.DateTimeField(default=timezone.now)
     notes = models.TextField(blank=True, null=True)
+    validated_at = models.DateTimeField(null=True, blank=True)
+
+    # -----------------------------
+    # INSURANCE SNAPSHOT (IMPORTANT)
+    # -----------------------------
+    insurance_policy = models.ForeignKey(
+        "organizations.InsurancePolicy",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="sales",
+        verbose_name=_("Insurance Policy"),
+    )
+
+    insurance_coverage_percent = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name=_("Percentage Covered"),
+    )
+
+    insurance_max_coverage_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name=_("Maximum Amount Covered"),
+    )
+
+    insurance_applied = models.BooleanField(default=False,
+        verbose_name=_("Insurrance Applied"),)
 
     model_icon = "fa-solid fa-cart-shopping"
 
     class Meta:
         verbose_name = _("Sale")
         verbose_name_plural = _("Sales")
+        
+    @property
+    def requires_cashier_validation(self):
+        return bool(
+            self.pharmacy and self.pharmacy.requires_cashier_validation
+        )
+
+    @property
+    def insurance_covered_amount(self):
+        if not self.insurance_applied or not self.insurance_policy:
+            return 0
+
+        coverage_percent = self.insurance_coverage_percent or 0
+        max_cover = self.insurance_max_coverage_amount
+
+        covered = (self.total_amount * coverage_percent) / 100
+
+        if max_cover is not None:
+            covered = min(covered, max_cover)
+
+        return min(covered, self.total_amount)
+    
+    @property
+    def patient_payable_amount(self):
+        return max(self.total_amount - self.insurance_covered_amount, 0)
+    
+    @property
+    def net_total_check(self):
+        return self.patient_payable_amount + self.insurance_covered_amount
 
     @property
     def total_items(self):
         return self.items.count()
 
     @property
-    def is_canceled(self):
-        if self.notes and ('ANNULE' in self.notes.upper() or 'ANNUL' in self.notes.upper()):
-            return True
-        return False
+    def is_cancelled(self):
+        return self.status == "cancelled"
+    
+    @property
+    def is_backordered(self):
+        return self.status == "backordered"
+    
+    @property
+    def total_profit(self):
+        return sum(
+            (item.unit_price - item.product_stock.cost) * item.quantity
+            for item in self.items.select_related("product_stock")
+        )
 
     def __str__(self):
         return f"Sale #{self.id} by {self.vendor}"
 
     def recalculate_total(self):
-
         total = sum(item.total_price for item in self.items.all())
 
         if self.total_amount != total:
@@ -1005,6 +1274,13 @@ class Sale(PharmacyModel, ArchivableModel):
             f"{item.product_stock.product.name} x{item.quantity} @ {item.unit_price:.2f} = {item.total_price:.2f}"
             for item in self.items.all()
         )
+        
+    def clean(self):
+        if self.status == "backordered" and not self.customer:
+            raise ValidationError("Backordered sales must have a customer.")
+
+        if self.insurance_applied and not self.customer:
+            raise ValidationError("Insured sales must have a customer.")
 
 
 class SaleItem(ArchivableModel):
@@ -1040,6 +1316,26 @@ class SaleItem(ArchivableModel):
 
     def __str__(self):
         return f"{self.quantity} x {self.product_stock.product.name}"
+
+
+class SaleValidationLog(PharmacyModel):
+    sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    action = models.CharField(max_length=50)  
+    # added_item, removed_item, qty_changed, approved, rejected
+
+    details = models.JSONField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    model_icon = "fa-solid fa-notes-medical"
+
+    class Meta:
+        verbose_name = _("Sale Validation Log")
+        verbose_name_plural = _("Sale Validation Logs")
+
+    def __str__(self):
+        return f"Sale: {self.sale} , validation log by user: {self.user}"
 
 
 # -------------------------------
@@ -1475,6 +1771,8 @@ class InventoryMovementItem(ArchivableModel):
     )
 
     class Meta:
+        verbose_name = _("Inventory Movement Item")
+        verbose_name_plural = _("Inventory Movement Items")
         constraints = [
             models.UniqueConstraint(
                 fields=["inventory_movement", "product_stock"],
@@ -1729,6 +2027,8 @@ class InventoryAuditItem(ArchivableModel):
     )
 
     class Meta:
+        verbose_name = _("Inventory Audit Item")
+        verbose_name_plural = _("Inventory Audit Items")
         ordering = ("product_stock__product__name",)
         constraints = [
             models.UniqueConstraint(

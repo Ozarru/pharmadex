@@ -1,9 +1,9 @@
 # -----------------------------------
 # Python Standard Library
 # -----------------------------------
+import math
+from django.db.models import Q, ForeignKey, F, Count, Sum,Max, ExpressionWrapper, DecimalField
 from django.template.loader import select_template
-from django.db.models import Q, ForeignKey
-import os
 from django.http import FileResponse
 from base import resources
 from base.services.data_export_cron import export_all_to_zip, export_and_email_data
@@ -68,7 +68,7 @@ from datetime import time
 # Local Apps
 # -----------------------------------
 from accounts.utils import user_has_permission
-from pharmacies.models import Product, ProductBatch, Sale
+from pharmacies.models import Product, ProductBatch, ProductStock, Sale, SaleItem
 from organizations.models import *
 from base.models import *
 from .utils import admin_list_display, admin_list_filter, admin_search_fields, model_admin, model_field_names, model_fields
@@ -94,7 +94,7 @@ User = get_user_model()
 @require_POST
 def set_language(request):
     lang_code = request.POST.get("language")
-    next_url = request.META.get("HTTP_REFERER", "/")
+    next_url = request.META.get("HTTP_REFERER", "base:home")
 
     if lang_code and lang_code in dict(settings.LANGUAGES):
         translation.activate(lang_code)
@@ -463,7 +463,7 @@ class BaseModelView(LoginRequiredMixin, ModelFormMixin, ProcessFormView):
         # Generate the permission string based on the model and action
         action = "add" if self.is_add else "change"
         return user_has_permission(action, user, self.model)
-    
+
     # -----------------------------
     # FORM VAIDATION
     # -----------------------------
@@ -496,7 +496,7 @@ class BaseModelView(LoginRequiredMixin, ModelFormMixin, ProcessFormView):
 
         if hasattr(form.instance, "updated_by"):
             form.instance.updated_by = self.request.user
-            
+
         self.object = form.save()
 
         # -----------------------------
@@ -511,7 +511,7 @@ class BaseModelView(LoginRequiredMixin, ModelFormMixin, ProcessFormView):
         if self.request.headers.get("HX-Request") == "true":
 
             message = _("Save Successsful.")
-            
+
             return HttpResponse(
                 "",
                 status=204,
@@ -821,12 +821,11 @@ class BaseListView(LoginRequiredMixin, ListView):
             param_name = getattr(f, "parameter_name",
                                  f.__name__) if callable(f) else f
 
-            value = request.GET.get(param_name)
-            if self._is_empty_param(value):
-                continue
-
             # Callable (Django-style) filter
             if callable(f):
+                value = request.GET.get(param_name)
+                if self._is_empty_param(value):
+                    continue
                 queryset = f(queryset, value)
                 continue
 
@@ -843,64 +842,82 @@ class BaseListView(LoginRequiredMixin, ListView):
 
             field_type = field_obj.get_internal_type()
 
-            if field_type == "BooleanField":
-                if value in {"1", "true", "True", "on"}:
-                    queryset = queryset.filter(**{f: True})
-                elif value in {"0", "false", "False", "off"}:
-                    queryset = queryset.filter(**{f: False})
-
-            elif field_type in ("DateField", "DateTimeField", "TimeField"):
+            if field_type in ("DateField", "DateTimeField", "TimeField"):
                 start = request.GET.get(f"{f}_start")
                 end = request.GET.get(f"{f}_end")
+                start_time_str = request.GET.get(f"{f}_start_time")
+                end_time_str = request.GET.get(f"{f}_end_time")
+
+                if self._is_empty_param(start) and self._is_empty_param(end) and self._is_empty_param(start_time_str) and self._is_empty_param(end_time_str):
+                    continue
 
                 if field_type == "DateField":
                     if start and not self._is_empty_param(start):
                         start_date = parse_date(start)
                         if start_date:
-                            queryset = queryset.filter(**{f"{f}__gte": start_date})
+                            queryset = queryset.filter(
+                                **{f"{f}__gte": start_date})
                     if end and not self._is_empty_param(end):
                         end_date = parse_date(end)
                         if end_date:
-                            queryset = queryset.filter(**{f"{f}__lte": end_date})
+                            queryset = queryset.filter(
+                                **{f"{f}__lte": end_date})
 
                 elif field_type == "TimeField":
                     if start and not self._is_empty_param(start):
                         start_time = parse_time(start)
                         if start_time:
-                            queryset = queryset.filter(**{f"{f}__gte": start_time})
+                            queryset = queryset.filter(
+                                **{f"{f}__gte": start_time})
                     if end and not self._is_empty_param(end):
                         end_time = parse_time(end)
                         if end_time:
-                            queryset = queryset.filter(**{f"{f}__lte": end_time})
+                            queryset = queryset.filter(
+                                **{f"{f}__lte": end_time})
 
                 else:
-                    start_time_str = request.GET.get(f"{f}_start_time")
-                    end_time_str = request.GET.get(f"{f}_end_time")
-
-                    start_dt = parse_datetime(start) if start and "T" in str(start) else None
-                    end_dt = parse_datetime(end) if end and "T" in str(end) else None
+                    start_dt = parse_datetime(
+                        start) if start and "T" in str(start) else None
+                    end_dt = parse_datetime(
+                        end) if end and "T" in str(end) else None
 
                     if not start_dt and start and not self._is_empty_param(start):
                         start_date = parse_date(start)
                         if start_date:
-                            start_t = parse_time(start_time_str) if start_time_str and not self._is_empty_param(start_time_str) else time.min
+                            start_t = parse_time(start_time_str) if start_time_str and not self._is_empty_param(
+                                start_time_str) else time.min
                             start_dt = datetime.combine(start_date, start_t)
 
                     if not end_dt and end and not self._is_empty_param(end):
                         end_date = parse_date(end)
                         if end_date:
-                            end_t = parse_time(end_time_str) if end_time_str and not self._is_empty_param(end_time_str) else time.max
+                            end_t = parse_time(end_time_str) if end_time_str and not self._is_empty_param(
+                                end_time_str) else time.max
                             end_dt = datetime.combine(end_date, end_t)
 
                     if start_dt and timezone.is_naive(start_dt) and settings.USE_TZ:
-                        start_dt = timezone.make_aware(start_dt, timezone.get_current_timezone())
+                        start_dt = timezone.make_aware(
+                            start_dt, timezone.get_current_timezone())
                     if end_dt and timezone.is_naive(end_dt) and settings.USE_TZ:
-                        end_dt = timezone.make_aware(end_dt, timezone.get_current_timezone())
+                        end_dt = timezone.make_aware(
+                            end_dt, timezone.get_current_timezone())
 
                     if start_dt:
                         queryset = queryset.filter(**{f"{f}__gte": start_dt})
                     if end_dt:
                         queryset = queryset.filter(**{f"{f}__lte": end_dt})
+
+                continue
+
+            value = request.GET.get(param_name)
+            if self._is_empty_param(value):
+                continue
+
+            if field_type == "BooleanField":
+                if value in {"1", "true", "True", "on"}:
+                    queryset = queryset.filter(**{f: True})
+                elif value in {"0", "false", "False", "off"}:
+                    queryset = queryset.filter(**{f: False})
 
             elif field_type in ("ForeignKey", "OneToOneField"):
                 queryset = queryset.filter(**{f: value})
@@ -1336,7 +1353,8 @@ class BaseListViewCached(LoginRequiredMixin, ListView):
             ftype = field["type"]
 
             if ftype == "BooleanField":
-                queryset = queryset.filter(**{f: value in ("1", "true", "True")})
+                queryset = queryset.filter(
+                    **{f: value in ("1", "true", "True")})
 
             elif ftype in ("DateField", "DateTimeField"):
                 start = request.GET.get(f"{f}_start")
@@ -1511,7 +1529,8 @@ class BaseParentChildFormView(View):
     # -------------------------------------------------
     # FLEXIBLE TENANT CONFIG
     # -------------------------------------------------
-    lookup_kwargs = None  # e.g. {"organization": lambda r: ..., "pharmacy": lambda r: ...}
+    # e.g. {"organization": lambda r: ..., "pharmacy": lambda r: ...}
+    lookup_kwargs = None
 
     # -------------------------------------------------
     # TENANT HELPERS
@@ -1671,7 +1690,8 @@ class BaseParentChildFormView(View):
 
                 # Save parent
                 parent_obj = form.save(commit=False)
-                parent_obj = self.set_parent_fields(request, parent_obj, is_create)
+                parent_obj = self.set_parent_fields(
+                    request, parent_obj, is_create)
                 parent_obj.save()
 
                 # Save children
@@ -1778,7 +1798,8 @@ def pharmacy_file_upload(request):
         return HttpResponse("", status=400)
 
     # -------------------- FILE SIZE LIMIT --------------------
-    max_bytes = getattr(settings, "PHARMACY_UPLOAD_MAX_BYTES", 10 * 1024 * 1024)
+    max_bytes = getattr(
+        settings, "PHARMACY_UPLOAD_MAX_BYTES", 10 * 1024 * 1024)
 
     if getattr(file, "size", 0) > max_bytes:
         return HttpResponse("", status=400, headers={
@@ -1788,7 +1809,8 @@ def pharmacy_file_upload(request):
 
     # -------------------- ORGANIZATION SCOPING --------------------
     qs = model._default_manager.all()
-    org = getattr(getattr(request.user, "profile", None), "current_organization", None)
+    org = getattr(getattr(request.user, "profile", None),
+                  "current_organization", None)
 
     try:
         model._meta.get_field("organization")
@@ -1838,7 +1860,7 @@ class CustomPermissionRequiredMixin:
         if not self.has_manage_permission(request.user, model):
             messages.error(request, _(
                 "You do not have permission to perform this action."))
-            return redirect(request.META.get("HTTP_REFERER", "/"))
+            return redirect(request.META.get("HTTP_REFERER", "base:home"))
         return None
 
 
@@ -1877,7 +1899,7 @@ class ToggleActivityView(CustomPermissionRequiredMixin, View):
         if request.headers.get("HX-Request"):
             return HttpResponse(status=204, headers={'HX-Trigger': 'server_response'})
         else:
-            return redirect(request.META.get("HTTP_REFERER", "/"))
+            return redirect(request.META.get("HTTP_REFERER", "base:home"))
 
 
 class BulkToggleActivityView(CustomPermissionRequiredMixin, View):
@@ -2192,7 +2214,7 @@ class BaseImportView(LoginRequiredMixin, FormView):
         return model, resource_class
 
     def get_success_url(self):
-        return self.request.META.get("HTTP_REFERER", "/")
+        return self.request.META.get("HTTP_REFERER", "base:home")
 
     def form_valid(self, form):
         import_file = form.cleaned_data["import_file"]
@@ -2322,16 +2344,23 @@ def app_parameters(request):
 # -------------------------------------------------------------------------
 # index
 # -------------------------------------------------------------------------
+
+
 @login_required(login_url='accounts:login')
 def home(request):
     user = request.user
     profile = getattr(user, "profile", None)
 
-    current_org = getattr(request, "current_organization", None) or getattr(profile, "current_organization", None)
-    current_pharmacy = getattr(request, "current_pharmacy", None) or getattr(profile, "current_pharmacy", None)
+    current_org = getattr(request, "current_organization", None) or getattr(
+        profile, "current_organization", None)
+    current_pharmacy = getattr(request, "current_pharmacy", None) or getattr(
+        profile, "current_pharmacy", None)
 
-    from organizations.models import Customer
-    from pharmacies.models import Pharmacy, Product, ProductBatch, Sale#, Purchase
+    from organizations.models import Customer, Supplier
+    # from hr.models import Staff
+    from pharmacies.models import Pharmacy, Product, ProductBatch, Sale, PurchaseOrder
+    from django.utils.timezone import now
+    from django.db.models import Sum, F
 
     if not current_org:
         return render(request, "base/home.html", {
@@ -2343,14 +2372,108 @@ def home(request):
             "current_organization": None,
         })
 
-    # 🔒 Scope data properly (IMPORTANT)
+    # -----------------------------
+    # SCOPE
+    # -----------------------------
     batches = ProductBatch.objects.all()
 
     if current_pharmacy:
         batches = batches.filter(product_stock__pharmacy=current_pharmacy)
+        pharmacy_filter = {"pharmacy": current_pharmacy}
     else:
-        batches = batches.filter(product_stock__pharmacy__organization=current_org)
+        batches = batches.filter(
+            product_stock__pharmacy__organization=current_org)
+        pharmacy_filter = {"pharmacy__organization": current_org}
 
+    # -----------------------------
+    # DATE FILTERS
+    # -----------------------------
+    today = now().date()
+
+    # -----------------------------
+    # CORE COUNTS
+    # -----------------------------
+    customers_count = Customer.objects.filter(organization=current_org).count()
+    suppliers_count = Supplier.objects.filter(organization=current_org).count()
+    # staff_count = Staff.objects.filter(organization=current_org).count()
+
+    pharmacies_count = Pharmacy.objects.filter(
+        organization=current_org).count()
+
+    products_count = Product.objects.filter(
+        is_active=True,
+        organization=current_org
+    ).count()
+
+    sales_qs = Sale.objects.filter(**pharmacy_filter)
+
+    sales_count = sales_qs.count()
+
+    purchase_orders_count = PurchaseOrder.objects.filter(
+        **pharmacy_filter).count()
+
+    # -----------------------------
+    # STOCK HEALTH (BATCH LOGIC)
+    # -----------------------------
+    expiring_count = batches.expiring().count()
+    expired_count = batches.expired().count()
+    damaged_count = batches.damaged().count()
+
+    low_stock_count = batches.filter(quantity__lte=F(
+        "product_stock__product__min_stock_threshold")).count()
+
+    cutoff_date = now() - timedelta(days=180)
+
+    dead_stock_count = ProductBatch.objects.annotate(
+        last_sale_date=Max("product_stock__sale_items__sale__created_at")
+    ).filter(
+        quantity__gt=0,   # only if ProductBatch HAS quantity field
+        last_sale_date__lt=cutoff_date
+    ).count()
+    
+    cutoff_date = now() - timedelta(days=30)
+
+    fast_moving_count = ProductBatch.objects.annotate(
+        sales_count=Count(
+            "product_stock__sale_items",
+            filter=models.Q(product_stock__sale_items__sale__created_at__gte=cutoff_date)
+        )
+    ).filter(
+        sales_count__gte=10,   # threshold = high frequency
+        quantity__gt=0
+    ).count()
+
+    overstocked_count = batches.filter(quantity__gt=F(
+        "product_stock__product__min_stock_threshold") * 3).count()
+
+    # -----------------------------
+    # FINANCE KPIs
+    # -----------------------------
+    today_sales = sales_qs.filter(created_at__date=today).aggregate(
+        total=Sum("total_amount")
+    )["total"] or 0
+
+    today_profit = SaleItem.objects.filter(
+        sale__pharmacy__organization=current_org,
+        sale__created_at__date=today
+    ).aggregate(
+        total=Sum(
+            ExpressionWrapper(
+                (F("unit_price") - F("product_stock__cost")) * F("quantity"),
+                output_field=DecimalField()
+            )
+        )
+    )["total"] or 0
+
+    today_profit = math.floor(today_profit)
+
+    outstanding_credit = sales_qs.filter(status="on_credit").aggregate(
+        total=Sum("total_amount")
+    )["total"] or 0
+
+    # -----------------------------
+    # CONTEXT
+    # -----------------------------
     context = {
         "active_page": "home_page",
         "title": _("Home"),
@@ -2361,17 +2484,28 @@ def home(request):
         "current_organization": current_org,
         "current_pharmacy": current_pharmacy,
 
-        "customers_count": Customer.objects.filter(organization=current_org).count(),
-        "pharmacies_count": Pharmacy.objects.filter(organization=current_org).count(),
-        "warehouses_count": Pharmacy.objects.filter(organization=current_org).count(),
-        "products_count": Product.objects.filter(is_active=True, organization=current_org).count(),
-        "sales_count": Sale.objects.filter(pharmacy__organization=current_org).count(),
-        # "purchases_count": Purchase.objects.filter(pharmacy__organization=current_org).count(),
+        # CORE
+        "customers_count": customers_count,
+        "suppliers_count": suppliers_count,
+        # "staff_count": staff_count,
+        "pharmacies_count": pharmacies_count,
+        "products_count": products_count,
+        "sales_count": sales_count,
+        "purchase_orders_count": purchase_orders_count,
 
-        # ✅ CLEAN + WORKING
-        "expiring_count": batches.expiring().count(),
-        "expired_count": batches.expired().count(),
-        "damaged_count": batches.damaged().count(),
+        # STOCK HEALTH
+        "expiring_products_count": expiring_count,
+        "expired_products_count": expired_count,
+        "damaged_stock_count": damaged_count,
+        "low_stock_count": low_stock_count,
+        "dead_stock_count": dead_stock_count,
+        "fast_moving_count": fast_moving_count,
+        "overstocked_count": overstocked_count,
+
+        # FINANCE
+        "today_sales": today_sales,
+        "today_profit": today_profit,
+        "outstanding_credit": outstanding_credit,
     }
 
     return render(request, "base/home.html", context)
@@ -2493,7 +2627,7 @@ def trigger_export_email(request):
 
         messages.error(request, f"Erreur lors de l'export : {e}")
 
-    return redirect(request.META.get("HTTP_REFERER", "/"))
+    return redirect(request.META.get("HTTP_REFERER", "base:home"))
 
 
 # =========================
@@ -2533,4 +2667,3 @@ def generate_exports(request):
     ]
 
     return JsonResponse({"files": files})
-

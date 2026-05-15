@@ -120,6 +120,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # ---------third party apps-----------
+    'rosetta',
     'phonenumber_field',
     'import_export',
     'simple_history',
@@ -140,9 +141,6 @@ INSTALLED_APPS = [
     # 'hr.apps.HrConfig',
     # 'notifications.apps.NotificationsConfig',
 ]
-
-if importlib.util.find_spec("rosetta"):
-    INSTALLED_APPS.append("rosetta")
 
 
 MIDDLEWARE = [
@@ -271,8 +269,10 @@ LANGUAGE_CODE = 'en'  # Default language
 
 # Add translation languages
 LANGUAGES = [
-    ('en', _('English')),   # English
-    ('fr', _('Français')),  # French
+    ('en', _('English')),
+    ('fr', _('Français')),
+    ('es', _('Espanol')),
+    ('po', _('Portugues')),
 ]
 
 # Path to pharmacy translations
@@ -292,7 +292,6 @@ USE_TZ = True
 # Email server setup
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # SMTP mailer
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #console mailer
-
 EMAIL_HOST = _cfg('EMAIL_HOST', default='')
 EMAIL_PORT = _cfg('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = _cfg('EMAIL_USE_TLS', default=True, cast=bool)

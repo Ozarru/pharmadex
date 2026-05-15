@@ -1,0 +1,80 @@
+{% extends 'main_plain.html' %} {% load static i18n %}
+<!--  -->
+{% block content %}
+
+<div
+  class="min-h-screen flex items-center justify-center px-4"
+>
+  <div
+    class="w-full max-w-lg bg-lightest rounded-2xl shadow-xl p-10 text-center animate-fade-in"
+  >
+    <!-- Icon -->
+    <div class="text-5xl mb-4">💔</div>
+
+    <!-- Title -->
+    <h1 class="text-2xl font-semibold text-slate-800 mb-2">
+      {% trans "Archive your account?" %}
+    </h1>
+
+    <!-- Warning -->
+    <p class="text-slate-600 leading-relaxed mb-2">
+      {% trans "This will deactivate your account and log you out immediately." %}
+    </p>
+
+    <p class="text-slate-500 mb-6">
+      {% trans "Your data will be preserved and can be restored later by support if you choose to return within the next 3 months." %}
+    </p>
+
+    <!-- Form -->
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <input
+        type="text"
+        name="confirm"
+        placeholder="Type ARCHIVE to confirm"
+        class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 outline-none"
+        required
+      />
+
+      <button
+        type="submit"
+        class="w-full px-5 py-3 rounded-full bg-red-600 text-white font-medium hover:bg-red-700 transition"
+      >
+        {% trans "Yes, archive my account" %}
+      </button>
+
+      <button
+        type="button"
+        onclick="history.back()"
+        class="block w-full px-5 py-3 rounded-full bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition"
+      >
+        {% trans "Cancel" %}
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <p class="text-xs text-slate-400 mt-8">
+      {% trans "We hope to see you again someday." %}
+    </p>
+  </div>
+</div>
+
+<!-- Animation -->
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+</style>
+
+{% endblock %}

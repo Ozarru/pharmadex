@@ -1,0 +1,259 @@
+{% extends 'main.html' %} {% load static i18n %} {% block content %}
+
+<div class="flex flex-col md:flex-row gap-4">
+  <!-- =========================
+       LEFT: SALE ITEMS (EDITABLE)
+  ========================== -->
+  <section class="w-full md:w-2/3">
+    <!-- CUSTOMER INFO -->
+    <div class="bg-lightest flex justify-between border rounded-xl p-4 mb-4">
+      <div class="flex-col">
+        <h2 class="text-lg font-semibold text-heading">
+          {% trans "Sale " %} #{{ sale.id|truncatechars:"10" }}
+        </h2>
+        <p class="text-sm text-body">
+          <span class="font-semibold">{% trans "Customer:" %}</span>
+          {{ sale.customer.full_name|default:"Walk-in Customer" }}
+        </p>
+
+        <p class="text-xs text-label mt-1">
+          {% trans "Vendor:" %} {{ sale.vendor }}
+        </p>
+      </div>
+      <span>
+        {% include "badges/_status_badge.html" with value=sale.status %}
+      </span>
+    </div>
+
+    <!-- ITEMS LIST -->
+    <div class="flex flex-col gap-3">
+      {% for item in sale.items.all %}
+      <div
+        class="flex items-center justify-between p-4 rounded-xl border bg-white shadow-sm"
+      >
+        <!-- PRODUCT INFO -->
+        <div class="flex flex-col">
+          <p class="font-medium text-heading">
+            {{ item.product_stock.product.name }}
+          </p>
+          <p class="text-xs text-label">
+            {{ item.product_stock.product.code_name }}
+          </p>
+        </div>
+
+        <!-- QUANTITY CONTROLS -->
+        <div class="flex items-center gap-2">
+          <button
+            class="btn btn-outlined px-2 py-1"
+            onclick="decreaseQty('{{ item.id }}')"
+          >
+            −
+          </button>
+
+          <input
+            id="qty-{{ item.id }}"
+            type="number"
+            value="{{ item.quantity }}"
+            class="form-field w-16 text-center"
+            min="1"
+          />
+
+          <button
+            class="btn btn-outlined px-2 py-1"
+            onclick="increaseQty('{{ item.id }}')"
+          >
+            +
+          </button>
+        </div>
+
+        <!-- PRICE -->
+        <div class="text-right">
+          <p class="font-semibold text-heading">{{ item.total_price }}</p>
+          <p class="text-xs text-label">{{ item.unit_price }} / unit</p>
+        </div>
+
+        <!-- REMOVE -->
+        <button
+          class="btn btn-outlined-danger px-2 py-1"
+          onclick="removeItem('{{ item.id }}')"
+        >
+          ×
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- =========================
+       RIGHT: SUMMARY PANEL
+  ========================== -->
+  <section class="w-full md:w-1/3">
+    <div
+      class="sticky top-0 bg-light border rounded-xl p-4 flex flex-col gap-4 shadow-lg"
+    >
+      <h3 class="text-lg font-semibold text-heading">
+        {% trans "Validation Summary" %}
+      </h3>
+
+      <!-- TOTALS -->
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-body">{% trans "Total Amount" %}</span>
+          <span class="font-semibold">{{ sale.total_amount }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-body">{% trans "Insurance Covered" %}</span>
+          <span class="text-green-600 font-semibold">
+            {{ sale.insurance_covered_amount }}
+          </span>
+        </div>
+
+        <div class="flex justify-between border-t pt-2">
+          <span class="text-body font-medium">
+            {% trans "Patient Pays" %}
+          </span>
+          <span class="font-bold text-primary">
+            {{ sale.patient_payable_amount }}
+          </span>
+        </div>
+      </div>
+
+      <!-- INSURANCE INFO -->
+      <div class="bg-white border rounded-lg p-3 text-xs text-body">
+        <p class="font-medium text-heading mb-1">{% trans "Insurance" %}</p>
+
+        {% if sale.insurance_policy %}
+        <p>{{ sale.insurance_policy.name }}</p>
+        <p>{{ sale.insurance_coverage_percent }}%</p>
+        {% else %}
+        <p class="text-label">{% trans "No insurance applied" %}</p>
+        {% endif %}
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="flex flex-col gap-2 pt-2 border-t">
+        {% if sale.status in "pending, backordered" %}
+        <form
+          class="w-full"
+          method="post"
+          action="{% url 'base:toggle-status' sale.model_name sale.id %}"
+        >
+          {% csrf_token %}
+
+          <input type="hidden" name="status" value="completed" />
+
+          <button type="submit" class="btn btn-primary w-full">
+            <i class="fa-solid fa-check-double"></i>
+            {% trans "Validate" %}
+          </button>
+        </form>
+        {% endif %}
+        <div class="flex gap-2">
+          <button
+            class="btn btn-outlined w-full"
+            onclick="holdSale('{{ sale.id }}')"
+          >
+            {% trans "Hold" %}
+          </button>
+          <button
+            class="btn btn-outlined-danger w-full"
+            onclick="rejectSale('{{ sale.id }}')"
+          >
+            {% trans "Reject" %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================
+     JS HOOKS (minimal)
+========================== -->
+<script>
+  function increaseQty(id) {
+    const input = document.getElementById(`qty-${id}`);
+    input.value = parseInt(input.value || 1) + 1;
+    updateSale(id);
+  }
+
+  function decreaseQty(id) {
+    const input = document.getElementById(`qty-${id}`);
+    const val = parseInt(input.value || 1);
+    if (val > 1) input.value = val - 1;
+    updateSale(id);
+  }
+
+  function removeItem(id) {
+    if (!confirm("{% trans 'Remove this item?' %}")) return;
+
+    fetch(`/sales/validation/{{ sale.id }}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({
+        action: "remove",
+        item_id: id,
+      }),
+    }).then(() => location.reload());
+  }
+
+  function updateSale(id) {
+    const qty = document.getElementById(`qty-${id}`).value;
+
+    fetch(`/sales/validation/{{ sale.id }}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({
+        action: "update",
+        item_id: id,
+        quantity: qty,
+      }),
+    });
+  }
+
+  function approveSale(id) {
+    if (!confirm("{% trans 'Approve this sale?' %}")) return;
+
+    fetch(`/sales/validation/${id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({ action: "approve" }),
+    }).then(() => (location.href = "/sales/"));
+  }
+
+  function rejectSale(id) {
+    if (!confirm("{% trans 'Reject this sale?' %}")) return;
+
+    fetch(`/sales/validation/${id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({ action: "reject" }),
+    }).then(() => (location.href = "/sales/"));
+  }
+
+  function holdSale(id) {
+    fetch(`/sales/validation/${id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({ action: "hold" }),
+    }).then(() => (location.href = "/sales/"));
+  }
+</script>
+
+{% endblock %}

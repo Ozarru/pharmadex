@@ -1,5 +1,5 @@
 {% extends 'main.html' %} {% load i18n %} {% block content %}
-<div class="flex flex-col gap-4">
+<div class="h-full flex flex-col gap-4">
   <header class="header-bar">
     <div class="flex items-center gap-4 w-full max-w-7xl">
       <span class="header-icon">
@@ -35,134 +35,204 @@
   </div>
   {% else %}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- CUSTOMERS -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-users text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Customers" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-users text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Customers" %}
+        </span>
       </div>
       <p class="text-sm text-body">{{ customers_count }}</p>
     </div>
 
     <!-- SUPPLIERS -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-truck-field text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Suppliers" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-truck-field text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Suppliers" %}
+        </span>
       </div>
       <p class="text-sm text-body">{{ suppliers_count }}</p>
     </div>
 
+    <!-- Staff -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-warehouse text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Warehouses" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-user-tie text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Staff" %}
+        </span>
       </div>
-      <p class="text-sm text-body">{{ warehouses_count }}</p>
+      <p class="text-sm text-body">{{ staff_count }}</p>
     </div>
 
+    <!-- PRODUCTS -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-prescription-bottle-medical text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Products" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-prescription-bottle-medical text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Products" %}
+        </span>
       </div>
       <p class="text-sm text-body">{{ products_count }}</p>
     </div>
 
+    <!-- SALES -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-receipt text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Sales" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-receipt text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Sales" %}
+        </span>
       </div>
       <p class="text-sm text-body">{{ sales_count }}</p>
     </div>
 
+    <!-- PURCHASES -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-truck-ramp-box text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Purchases" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-truck-ramp-box text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Purchase Orders" %}
+        </span>
       </div>
-      <p class="text-sm text-body">{{ purchases_count }}</p>
+      <p class="text-sm text-body">{{ purchase_orders_count }}</p>
+    </div>
+
+    <!-- FMS FAST MOVING STOCK (NEW) -->
+    <div class="cardbox group">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-angles-right text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Fast Moving Stock" %}
+        </span>
+      </div>
+      <p class="text-sm text-body">{{ fast_moving_count }}</p>
+    </div>
+
+    <!-- DEAD STOCK (NEW) -->
+    <div class="cardbox group">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-box-open text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Dead Stock" %}
+        </span>
+      </div>
+      <p class="text-sm text-body">{{ dead_stock_count }}</p>
+    </div>
+
+    <!-- DAMAGED STOCK (NEW) -->
+    <div class="cardbox group">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-house-crack text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Damaged Stock" %}
+        </span>
+      </div>
+      <p class="text-sm text-body">{{ dead_stock_count }}</p>
     </div>
 
     <!-- LOW STOCK -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon text-red-600">
-            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Low Stock" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon text-red-600">
+          <i class="fa-solid fa-triangle-exclamation text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Low Stock" %}
+        </span>
       </div>
       <p class="text-sm text-body">{{ low_stock_count }}</p>
     </div>
 
-    <!-- EXPIRING PRODUCTS -->
+    <!-- EXPIRING SOON -->
     <div class="cardbox group">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon text-amber-600">
-            <i class="fa-solid fa-calendar-xmark text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading">
-            {% trans "Expiring Soon" %}
-          </span>
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon text-amber-600">
+          <i class="fa-solid fa-calendar-xmark text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Expiring Soon" %}
+        </span>
       </div>
       <p class="text-sm text-body">{{ expiring_products_count }}</p>
     </div>
 
-    <!-- EXPIRED PRODUCTS -->
-    <div class="cardbox group border border-red-300 hover:border-red-500 hover-border-2">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon text-white bg-red-700">
-            <i class="fa-solid fa-skull-crossbones text-xl"></i>
-          </div>
-          <span class="text-lg font-semibold text-heading text-red-500">
-            {% trans "Expired Stock" %}
-          </span>
+    <!-- EXPIRED STOCK -->
+    <div class="cardbox group border border-red-300 hover:border-red-500">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon text-white bg-red-700">
+          <i class="fa-solid fa-skull-crossbones text-xl"></i>
         </div>
+        <span class="text-lg font-semibold text-red-500">
+          {% trans "Expired Stock" %}
+        </span>
       </div>
-      <p class="text-sm text-body">{{ expiring_products_count }}</p>
+      <p class="text-sm text-body">{{ expired_products_count }}</p>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <h3>Performance</h3>
+    
+
+    <!-- TODAY SALES (NEW) -->
+    <div class="cardbox group">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-circle-dollar-to-slot text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Today's Sales" %}
+        </span>
+      </div>
+      <p class="text-sm text-body">{{ today_sales }}</p>
+    </div>
+
+    <!-- TODAY PROFIT (NEW) -->
+    <div class="cardbox group">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-chart-line text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Today's Profit" %}
+        </span>
+      </div>
+      <p class="text-sm text-body">{{ today_profit }}</p>
+    </div>
+
+    <!-- OUTSTANDING CREDIT (NEW) -->
+    <div class="cardbox group">
+      <div class="flex items-center gap-3">
+        <div class="cardbox-icon">
+          <i class="fa-solid fa-hand-holding-dollar text-xl"></i>
+        </div>
+        <span class="text-lg font-semibold text-heading">
+          {% trans "Outstanding Credit" %}
+        </span>
+      </div>
+      <p class="text-sm text-body">{{ outstanding_credit }}</p>
     </div>
   </div>
   {% endif %}

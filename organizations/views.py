@@ -50,7 +50,7 @@ def organization_dashboard(request):
     customers_count = Customer.objects.filter(organization=org).count()
 
     context = {
-        "active_page": "organization_page",
+        "active_page": "organizations_page",
         "model_icon": "fa-solid fa-building",
         "title": _("Organization Dashboard"),
         "subtitle": _("Overview"),
@@ -118,7 +118,7 @@ class OrganizationDetailView(BaseDetailView):
         context = super().get_context_data(**kwargs)
         org = self.get_object()
 
-        context['active_page'] = 'organization_page'
+        context['active_page'] = 'organizations_page'
         context['title'] = _('Organization Details')
         context['subtitle'] = _('View organization details')
         context['header_paragraph'] = _("""\

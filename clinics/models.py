@@ -3,8 +3,37 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from pharmadex.tenant import TenantManager
-from base.models import PharmacyModel
+from base.models import PharmacyModel, SinglePharmacyModel
 
+
+class Clinic(SinglePharmacyModel):
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Active")
+    )
+
+    opening_hours = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Opening Hours")
+    )
+
+    notes = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Notes")
+    )
+
+    model_icon = "fa-solid fa-house-medical"
+
+    class Meta:
+        verbose_name = _("Clinic")
+        verbose_name_plural = _("Clinics")
+
+    def __str__(self):
+        return f"{self.pharmacy} Clinic"
+    
 
 class ClinicalService(PharmacyModel):
     """
@@ -23,6 +52,15 @@ class ClinicalService(PharmacyModel):
         ("follow_up", _("Follow Up")),
         ("other", _("Other")),
     ]
+    
+    clinic = models.ForeignKey(
+        "clinics.Clinic",
+        on_delete=models.CASCADE,
+        related_name="services",
+        blank=True,
+        null=True,
+        verbose_name=_("Clinic")
+    )
 
     name = models.CharField(
         max_length=255,
@@ -83,6 +121,15 @@ class ClinicalEncounter(PharmacyModel):
         ("completed", _("Completed")),
         ("cancelled", _("Cancelled")),
     ]
+    
+    clinic = models.ForeignKey(
+        "clinics.Clinic",
+        on_delete=models.CASCADE,
+        related_name="encounters",
+        blank=True,
+        null=True,
+        verbose_name=_("Clinic")
+    )
 
     encounter_number = models.CharField(
         max_length=50,
@@ -132,7 +179,7 @@ class ClinicalEncounter(PharmacyModel):
         return self.encounter_number
 
 
-class PatientVital(PharmacyModel):
+class ClinicalObservation(PharmacyModel):
     """
     Patient vital signs recorded during encounter.
     """
@@ -140,7 +187,7 @@ class PatientVital(PharmacyModel):
     encounter = models.ForeignKey(
         "ClinicalEncounter",
         on_delete=models.CASCADE,
-        related_name="patient_vitals",
+        related_name="clinical_observations",
         verbose_name=_("Clinical Encounter")
     )
 
