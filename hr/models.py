@@ -1,4 +1,5 @@
 
+from django.db.models import Max
 from django.db.models import Sum, Case, Q, When, F, DecimalField, Value
 from django.utils.translation import gettext_lazy as _
 from base.models import ActivatableModel, BaseModel, OrganizationModel, ArchivableModel
@@ -36,8 +37,8 @@ class Staff(OrganizationModel, ActivatableModel):
 
     staff_id = models.CharField(
         max_length=50,
-        unique=True,
         db_index=True,
+        blank=True, null=True,
         verbose_name=_("Staff ID")
     )
 
@@ -46,6 +47,7 @@ class Staff(OrganizationModel, ActivatableModel):
     class Meta:
         verbose_name = _("Staff")
         verbose_name_plural = _("Staff")
+        unique_together = ('organization', 'staff_id')
 
     @property
     def full_name(self):
@@ -78,8 +80,10 @@ class SalaryScale(OrganizationModel):
     base_salary = models.DecimalField(max_digits=12, decimal_places=2)
 
     # ---- Allowances (pharmacy-relevant) ----
-    housing_allowance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    transport_allowance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    housing_allowance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=0)
+    transport_allowance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=0)
 
     # Added pharmacy-specific allowances
     risk_allowance = models.DecimalField(  # exposure to meds / chemicals
@@ -88,7 +92,8 @@ class SalaryScale(OrganizationModel):
     shift_allowance = models.DecimalField(  # night / weekend shifts
         max_digits=12, decimal_places=2, default=0
     )
-    other_allowance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    other_allowance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=0)
 
     # ---- Deductions ----
     deductions = models.DecimalField(
@@ -153,7 +158,7 @@ class PayrollItem(ArchivableModel, OrganizationModel):
 
     approved_on = models.DateField(default=timezone.now)
 
-    # ✅ NEW: Payslip file
+    # NEW: Payslip file
     payslip_file = models.FileField(
         upload_to=payslip_upload_path,
         blank=True,
@@ -189,6 +194,11 @@ class PayrollItem(ArchivableModel, OrganizationModel):
         elif self.total_paid < self.amount:
             return "partial"
         return "fully_paid"
+    
+    def save(self, *args, **kwargs):
+        if not self.amount and self.salary_scale:
+            self.amount = self.salary_scale.net_salary
+        super().save(*args, **kwargs)
 
 
 # ---------------------------------------------------------
@@ -238,7 +248,7 @@ class PayrollTransaction(ArchivableModel):
     )
 
     financial_account = models.ForeignKey(
-        "finances.FinancialAccount",
+        "finances.OperationAccount",
         on_delete=models.PROTECT,
         related_name="transactions",
     )
@@ -255,9 +265,9 @@ class PayrollTransaction(ArchivableModel):
 
     reference = models.CharField(max_length=100, blank=True, null=True)
 
-    receipt_number = models.CharField(max_length=50, unique=True)
+    receipt_number = models.CharField(max_length=50, unique=True, blank=True)
 
-    # ✅ Improved proof file path
+    # Improved proof file path
     proof_file = models.FileField(
         upload_to=payroll_proof_upload_path,
         blank=True,
@@ -276,4 +286,25 @@ class PayrollTransaction(ArchivableModel):
         if not self.financial_account:
             raise ValidationError("Financial account is required.")
 
+    def save(self, *args, **kwargs):
+        if not self.receipt_number:
+            # Auto-generate: SAL-ORG_CODE-YYYY-XXXXX
+            org_code = self.payroll_item.organization.code if hasattr(
+                self.payroll_item, 'organization') else 'XXX'
+            year = timezone.now().year
+            prefix = f"SAL-{org_code}-{year}-"
 
+            # Get max sequence
+            last = PayrollTransaction.objects.filter(
+                receipt_number__startswith=prefix
+            ).aggregate(max_num=Max('receipt_number'))['max_num']
+
+            if last:
+                last_num = int(last.split('-')[-1])
+                next_num = last_num + 1
+            else:
+                next_num = 1
+
+            self.receipt_number = f"{prefix}{next_num:05d}"
+
+        super().save(*args, **kwargs)

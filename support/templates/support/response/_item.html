@@ -9,7 +9,7 @@
         {% if response.is_by_platform_admin %}
           <i class="fa-sharp fa-solid fa-terminal"></i> {% trans "Platform Support" %}
         {% elif response.is_by_organization_admin %}
-          <i class="fa-sharp fa-solid fa-school"></i> {% trans "I.T Support" %}
+          <i class="fa-sharp fa-solid fa-pharmacy"></i> {% trans "I.T Support" %}
         {% elif response.is_by_author %}
           <i class="fa-sharp fa-solid fa-user"></i>
           {% if response.support_ticket.author == request.user %} {% trans "You" %} {% else %} {% trans "Ticket Author" %} {% endif %}

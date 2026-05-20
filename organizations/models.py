@@ -32,8 +32,40 @@ class Organization(BaseModel):
     email = models.EmailField(blank=True, null=True, verbose_name=_("Email"))
     phone_number = models.CharField(
         max_length=32, blank=True, null=True, verbose_name=_("Phone"))
-    address = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("Address"))
+
+    address = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Address")
+    )
+
+    city = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+        verbose_name=_("City")
+    )
+
+    # local_gov_area = models.CharField(
+    #     max_length=120,
+    #     blank=True,
+    #     null=True,
+    #     verbose_name=_("Local Gov. Area")
+    # )
+
+    state_or_region = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+        verbose_name=_("State / Region")
+    )
+
+    country = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+        verbose_name=_("Country")
+    )
 
     is_active = models.BooleanField(default=True, verbose_name=_("Active"))
 
@@ -204,6 +236,13 @@ class Customer(OrganizationModel):
     city = models.CharField(
         max_length=120, blank=True, null=True, verbose_name=_("City")
     )
+
+    # local_gov_area = models.CharField(
+    #     max_length=120,
+    #     blank=True,
+    #     null=True,
+    #     verbose_name=_("Local Gov. Area")
+    # )
     
     state_or_region = models.CharField(
         max_length=120,
@@ -253,10 +292,10 @@ class Customer(OrganizationModel):
 
     @property
     def full_name(self):
-        return f"{self.last_name or ''} {self.first_name or ''}".strip()
+        return f"{self.first_name or ''} {self.last_name or ''}".strip()
 
     def __str__(self):
-        return f"Customer: {self.full_name}"
+        return f"{self.full_name}"
 
     def clean(self):
         if self.insurance_policy and not self.insurance_id:
@@ -291,7 +330,7 @@ class Supplier(OrganizationModel, ActivatableModel):
     address = models.TextField(
         blank=True,
         null=True,
-        verbose_name=_("Street Address")
+        verbose_name=_("Address")
     )
 
     city = models.CharField(
@@ -300,6 +339,13 @@ class Supplier(OrganizationModel, ActivatableModel):
         null=True,
         verbose_name=_("City")
     )
+
+    # local_gov_area = models.CharField(
+    #     max_length=120,
+    #     blank=True,
+    #     null=True,
+    #     verbose_name=_("Local Gov. Area")
+    # )
 
     state_or_region = models.CharField(
         max_length=120,

@@ -1,0 +1,647 @@
+{% extends 'website/shared/main.html' %} {% load static i18n %}
+<!--  -->
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+  {% load i18n static %}
+
+  <!-- ================= HERO ================= -->
+  <section class="relative py-28 lg:py-32 overflow-hidden">
+    <!-- glow -->
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-green-100 rounded-full blur-3xl opacity-40"
+    ></div>
+
+    <div
+      class="relative max-w-7xl mx-auto px-6 lg:px-8 text-center flex flex-col items-center gap-8"
+    >
+      <!-- badge -->
+      <div
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-100 text-primary text-sm font-semibold"
+      >
+        <i class="fas fa-tags"></i>
+        {% trans "Simple SaaS Pricing" %}
+      </div>
+
+      <!-- heading -->
+      <h1
+        class="text-5xl md:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05] max-w-5xl"
+      >
+        {% blocktrans %}
+        Pricing That
+        <span class="relative text-secondary inline-block">
+          Scales
+          <span
+            class="absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 rounded-full"
+          ></span>
+        </span>
+        With Your Pharmacy.
+        {% endblocktrans %}
+      </h1>
+
+      <!-- sub -->
+      <p class="text-lg md:text-xl text-gray-600 max-w-3xl leading-relaxed">
+        {% blocktrans %}
+        Choose a plan that fits your pharmacy today and upgrade as your
+        operations grow. No hidden fees. No long-term contracts.
+        {% endblocktrans %}
+      </p>
+
+      <!-- trust -->
+      <div
+        class="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500 pt-2"
+      >
+        <div class="flex items-center gap-2">
+          <i class="fas fa-check-circle text-primary"></i>
+          {% trans "Free onboarding support" %}
+        </div>
+
+        <div class="flex items-center gap-2">
+          <i class="fas fa-check-circle text-primary"></i>
+          {% trans "Cancel anytime" %}
+        </div>
+
+        <div class="flex items-center gap-2">
+          <i class="fas fa-check-circle text-primary"></i>
+          {% trans "Cloud hosting included" %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING ================= -->
+  <section class="relative pb-28">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+
+        <!-- ================= BASIC ================= -->
+        <div
+          class="bg-white border border-gray-200 rounded-[32px] p-10 shadow-lg hover:shadow-2xl transition flex flex-col"
+        >
+          <!-- top -->
+          <div class="mb-8">
+            <div
+              class="inline-flex px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-5"
+            >
+              {% trans "STARTER" %}
+            </div>
+
+            <h3 class="text-3xl font-black text-gray-900 mb-3">
+              {% trans "Basic" %}
+            </h3>
+
+            <p class="text-gray-500 leading-relaxed">
+              {% trans "For small pharmacies getting started with digital operations." %}
+            </p>
+          </div>
+
+          <!-- pricing -->
+          <div class="mb-10">
+            <div class="text-sm text-gray-400 line-through mb-1">
+              $149 / month
+            </div>
+
+            <div class="flex items-end gap-2">
+              <span class="text-6xl font-black text-gray-900">$99</span>
+
+              <span class="text-gray-500 pb-2">
+                {% trans "/month" %}
+              </span>
+            </div>
+
+            <p class="text-sm text-green-600 mt-2 font-medium">
+              {% trans "Save $50 monthly" %}
+            </p>
+          </div>
+
+          <!-- features -->
+          <ul class="space-y-4 text-gray-700 mb-10">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <span>{% trans "POS & Sales Management" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <span>{% trans "Inventory Tracking" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <span>{% trans "Basic Reporting" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <span>{% trans "Up to 5 Staff Accounts" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <span>{% trans "Email Support" %}</span>
+            </li>
+          </ul>
+
+          <!-- cta -->
+          <a
+            href="{% url 'base:home' %}"
+            class="btn btn-outlined w-full mt-auto py-4"
+          >
+            {% trans "Get Started" %}
+          </a>
+        </div>
+
+        <!-- ================= PRO ================= -->
+        <div
+          class="relative bg-primary text-white rounded-[36px] p-10 shadow-2xl flex flex-col md:scale-[1.03]"
+        >
+          <!-- badge -->
+          <div
+            class="absolute -top-4 left-1/2 -translate-x-1/2 bg-orange-400 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg"
+          >
+            {% trans "MOST POPULAR" %}
+          </div>
+
+          <!-- decorative -->
+          <div
+            class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl"
+          ></div>
+
+          <!-- top -->
+          <div class="relative z-10 mb-8">
+            <div
+              class="inline-flex px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold mb-5"
+            >
+              {% trans "GROWTH" %}
+            </div>
+
+            <h3 class="text-3xl font-black mb-3">
+              {% trans "Pro" %}
+            </h3>
+
+            <p class="text-white/80 leading-relaxed">
+              {% trans "Designed for growing pharmacies that need more visibility and control." %}
+            </p>
+          </div>
+
+          <!-- pricing -->
+          <div class="relative z-10 mb-10">
+            <div class="text-sm text-white/50 line-through mb-1">
+              $249 / month
+            </div>
+
+            <div class="flex items-end gap-2">
+              <span class="text-6xl font-black">$199</span>
+
+              <span class="text-white/70 pb-2">
+                {% trans "/month" %}
+              </span>
+            </div>
+
+            <p class="text-sm text-orange-300 mt-2 font-medium">
+              {% trans "Best value for operational teams" %}
+            </p>
+          </div>
+
+          <!-- features -->
+          <ul class="relative z-10 space-y-4 text-white/90 mb-10">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+              <span>{% trans "Everything in Basic" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+              <span>{% trans "Advanced Analytics & Reports" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+              <span>{% trans "Procurement Management" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+              <span>{% trans "Expiry & Batch Tracking" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+              <span>{% trans "Up to 20 Staff Accounts" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+              <span>{% trans "Priority Support" %}</span>
+            </li>
+          </ul>
+
+          <!-- cta -->
+          <a
+            href="{% url 'base:home' %}"
+            class="btn bg-white text-primary hover:bg-gray-100 w-full mt-auto py-4 font-semibold"
+          >
+            {% trans "Start Free Trial" %}
+          </a>
+        </div>
+
+        <!-- ================= ENTERPRISE ================= -->
+        <div
+          class="bg-gray-950 text-white rounded-[32px] p-10 shadow-xl hover:shadow-2xl transition flex flex-col"
+        >
+          <!-- top -->
+          <div class="mb-8">
+            <div
+              class="inline-flex px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold mb-5"
+            >
+              {% trans "ENTERPRISE" %}
+            </div>
+
+            <h3 class="text-3xl font-black mb-3">
+              {% trans "Premium" %}
+            </h3>
+
+            <p class="text-gray-400 leading-relaxed">
+              {% trans "For pharmacy chains and organizations with advanced operational needs." %}
+            </p>
+          </div>
+
+          <!-- pricing -->
+          <div class="mb-10">
+            <div class="text-sm text-gray-500 line-through mb-1">
+              $399 / month
+            </div>
+
+            <div class="flex items-end gap-2">
+              <span class="text-6xl font-black">$299</span>
+
+              <span class="text-gray-400 pb-2">
+                {% trans "/month" %}
+              </span>
+            </div>
+
+            <p class="text-sm text-green-400 mt-2 font-medium">
+              {% trans "Built for multi-branch operations" %}
+            </p>
+          </div>
+
+          <!-- features -->
+          <ul class="space-y-4 text-gray-300 mb-10">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-green-400 mt-1"></i>
+              <span>{% trans "Everything in Pro" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-green-400 mt-1"></i>
+              <span>{% trans "Multi-Branch Management" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-green-400 mt-1"></i>
+              <span>{% trans "Custom Roles & Permissions" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-green-400 mt-1"></i>
+              <span>{% trans "API Access & Integrations" %}</span>
+            </li>
+
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-green-400 mt-1"></i>
+              <span>{% trans "Dedicated Account Manager" %}</span>
+            </li>
+          </ul>
+
+          <!-- cta -->
+          <a
+            href="{% url 'website:contact' %}"
+            class="btn bg-white text-gray-900 hover:bg-gray-100 w-full mt-auto py-4"
+          >
+            {% trans "Contact Sales" %}
+          </a>
+        </div>
+      </div>
+
+      <!-- trust -->
+      <p class="mt-12 text-center text-sm text-gray-500">
+        {% trans "Transparent pricing • Cancel anytime • Secure cloud infrastructure" %}
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="py-28">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div
+        class="relative overflow-hidden rounded-[40px] bg-primary px-10 py-20 text-center"
+      >
+        <!-- glow -->
+        <div
+          class="absolute top-0 right-0 w-96 h-96 bg-green-400/20 rounded-full blur-3xl"
+        ></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto">
+          <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+            {% trans "Ready to Modernize Your Pharmacy?" %}
+          </h2>
+
+          <p class="text-xl text-white/80 mb-10">
+            {% blocktrans %}
+            Join pharmacies already using Pharmadex to simplify operations,
+            improve visibility, and grow faster.
+            {% endblocktrans %}
+          </p>
+
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="{% url 'base:home' %}"
+              class="btn bg-white text-primary hover:bg-orange-100 px-8 py-4 text-lg"
+            >
+              {% trans "Get Started for Free" %}
+            </a>
+
+            <a
+              href="{% url 'website:contact' %}"
+              class="btn btn-outlined border border-white  px-8 py-4 text-lg text-white bg-transparent"
+            >
+              {% trans "Talk to Sales" %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= IMPLEMENTATION SERVICES ================= -->
+  <section class="py-28">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <!-- Header -->
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <div
+          class="inline-flex px-4 py-2 rounded-full bg-orange-100 text-orange-600 font-semibold text-sm mb-6"
+        >
+          {% trans "IMPLEMENTATION & ONBOARDING" %}
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+          {% trans "We Help You Get Operational Faster." %}
+        </h2>
+
+        <p class="text-lg text-gray-600 leading-relaxed">
+          {% blocktrans %}
+          Beyond software access, Pharmadex offers onboarding and implementation
+          services to help pharmacies launch smoothly, train teams, and migrate
+          existing operational data.
+          {% endblocktrans %}
+        </p>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        <!-- Card -->
+        <div
+          class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-rocket text-primary text-2xl"></i>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3">
+            {% trans "Initial Setup" %}
+          </h3>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            {% trans "System configuration and deployment tailored to your pharmacy workflow." %}
+          </p>
+
+          <p class="text-2xl font-black text-primary">
+            $100 – $500
+          </p>
+        </div>
+
+        <!-- Card -->
+        <div
+          class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-database text-blue-500 text-2xl"></i>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3">
+            {% trans "Data Migration" %}
+          </h3>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            {% trans "Import inventory, customers, suppliers, and historical operational records." %}
+          </p>
+
+          <p class="text-2xl font-black text-gray-900">
+            {% trans "Custom" %}
+          </p>
+        </div>
+
+        <!-- Card -->
+        <div
+          class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-users text-orange-500 text-2xl"></i>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3">
+            {% trans "Staff Training" %}
+          </h3>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            {% trans "Hands-on onboarding sessions for cashiers, pharmacists, managers, and admins." %}
+          </p>
+
+          <p class="text-2xl font-black text-gray-900">
+            {% trans "Custom" %}
+          </p>
+        </div>
+
+        <!-- Card -->
+        <div
+          class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-chart-bar text-purple-500 text-2xl"></i>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3">
+            {% trans "Custom Reports" %}
+          </h3>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            {% trans "Tailored operational and financial reporting for your business needs." %}
+          </p>
+
+          <p class="text-2xl font-black text-gray-900">
+            {% trans "Custom" %}
+          </p>
+        </div>
+
+        <!-- Card -->
+        <!-- <div
+          class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-cash-register text-gray-700 text-2xl"></i>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3">
+            {% trans "POS & Hardware Setup" %}
+          </h3>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">
+            {% trans "Support for barcode scanners, receipt printers, POS terminals, and peripherals." %}
+          </p>
+
+          <p class="text-2xl font-black text-gray-900">
+            {% trans "Custom" %}
+          </p>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ANNUAL DISCOUNT ================= -->
+  <section class="py-28">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div
+        class="relative overflow-hidden rounded-[40px] bg-primary px-10 py-20"
+      >
+
+        <!-- glow -->
+        <div
+          class="absolute top-0 right-0 w-96 h-96 bg-green-400/20 rounded-full blur-3xl"
+        ></div>
+
+        <div
+          class="relative z-10 grid lg:grid-cols-2 gap-16 items-center"
+        >
+
+          <!-- Left -->
+          <div>
+            <div
+              class="inline-flex px-4 py-2 rounded-full bg-white/10 text-white text-sm font-semibold mb-6"
+            >
+              {% trans "SAVE WITH ANNUAL BILLING" %}
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+              {% trans "Reduce Costs With Annual Plans." %}
+            </h2>
+
+            <p class="text-lg text-white/80 leading-relaxed">
+              {% blocktrans %}
+              Annual billing helps pharmacies lower subscription costs while
+              ensuring uninterrupted access to the Pharmadex platform.
+              {% endblocktrans %}
+            </p>
+
+            <!-- benefits -->
+            <div class="space-y-4 mt-8">
+
+              <div class="flex items-start gap-4">
+                <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+                <p class="text-white/90">
+                  {% trans "Lower long-term subscription costs" %}
+                </p>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+                <p class="text-white/90">
+                  {% trans "Better operational budgeting and stability" %}
+                </p>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <i class="fas fa-check-circle text-orange-300 mt-1"></i>
+                <p class="text-white/90">
+                  {% trans "Priority onboarding and account support" %}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div
+            class="bg-white rounded-[32px] p-10 flex flex-col shadow-2xl"
+          >
+
+              <!-- Example -->
+              <div>
+                <p class="text-sm uppercase tracking-wide text-gray-500 font-semibold mb-3">
+                  {% trans "Example Annual Savings" %}
+                </p>
+
+                <div class="flex items-center justify-between py-4 border-b border-gray-100">
+                  <div>
+                    <h4 class="text-xl font-bold text-gray-900">
+                      {% trans "Pro Plan (Monthly)" %}
+                    </h4>
+
+                    <p class="text-sm text-gray-500">
+                      {% trans "Billed every month" %}
+                    </p>
+                  </div>
+
+                  <p class="text-2xl font-black text-gray-900">
+                    $199/mo
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between py-4">
+                  <div>
+                    <h4 class="text-xl font-bold text-primary">
+                      {% trans "Pro Plan (Annual)" %}
+                    </h4>
+
+                    <p class="text-sm text-gray-500">
+                      {% trans "Save with yearly billing" %}
+                    </p>
+                  </div>
+
+                  <div class="text-right">
+                    <p class="text-3xl font-black text-primary">
+                      $1,990
+                    </p>
+
+                    <p class="text-sm text-green-600 font-medium">
+                      {% trans "2 months free" %}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CTA -->
+              <a
+                href="{% url 'website:contact' %}"
+                class="btn btn-secondary w-full py-4 text-lg"
+              >
+                {% trans "Talk to Sales About Annual Plans" %}
+              </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

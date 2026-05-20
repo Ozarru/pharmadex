@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from base.models import ActivatableModel, BaseModel, OrganizationModel, ArchivableModel, PharmacyModel
+from finances.models import OperationAccount
 from pharmadex.tenant import TenantManager
 
 
@@ -87,7 +88,17 @@ class Pharmacy(OrganizationModel):
 
     requires_cashier_validation = models.BooleanField(
         default=False, verbose_name=_("Requires Cashier Validation"))
-
+    
+    currency = models.ForeignKey(
+            "finances.Currency",
+            on_delete=models.PROTECT,
+            null=True,
+            blank=True,
+            related_name="pharmacies",
+            verbose_name=_("Currency"),
+            help_text=_("Defaults to organization currency if not set."),
+        )
+    
     model_icon = "fa-solid fa-staff-snake"
 
     class Meta:
@@ -114,6 +125,30 @@ class Pharmacy(OrganizationModel):
     @property
     def is_archived(self):
         return self.status == "archived"
+    
+    def save(self, *args, **kwargs):
+        if not self.currency and self.organization_id:
+            # Set to org default currency
+            org_currency = self.organization.currencies.filter(
+                is_default=True,
+                is_active=True
+            ).select_related('currency').first()
+            if org_currency:
+                self.currency = org_currency.currency
+        
+        super().save(*args, **kwargs)
+        
+    def get_currency(self):
+        """Guaranteed currency fallback."""
+        if self.currency:
+            return self.currency
+        
+        org_currency = self.organization.currencies.filter(
+            is_default=True,
+            is_active=True
+        ).select_related('currency').first()
+        
+        return org_currency.currency if org_currency else None
 
 
 # -------------------------------
@@ -783,24 +818,45 @@ class ProductBatch(PharmacyModel):
     - Quantity = inventory dimension
     - Expiry = safety dimension
     - Active = business/system dimension
+    - Damaged = quality dimension
 
     These are independent.
     """
-    is_damaged = models.BooleanField(default=False)
 
+    # --- Status fields ---
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    is_damaged = models.BooleanField(default=False, verbose_name=_("Damaged"))
+
+    # --- Relationships ---
     product_stock = models.ForeignKey(
         "ProductStock",
         on_delete=models.CASCADE,
         related_name="batches"
     )
 
-    batch_number = models.CharField(max_length=50)
-    expiry_date = models.DateField()
-    quantity = models.PositiveIntegerField(default=0)
-    manufacturing_date = models.DateField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
+    # --- Batch identity ---
+    batch_number = models.CharField(
+        max_length=50,
+        verbose_name=_("Batch Number")
+    )
 
-    # attach custom manager
+    # --- Dates ---
+    manufacturing_date = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name=_("Manufacturing Date")
+    )
+    expiry_date = models.DateField(
+        verbose_name=_("Expiry Date")
+    )
+
+    # --- Quantity ---
+    quantity = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("Quantity")
+    )
+
+    # --- Custom manager ---
     objects = ProductBatchQuerySet.as_manager()
 
     model_icon = "fa-solid fa-cart-flatbed"
@@ -817,14 +873,16 @@ class ProductBatch(PharmacyModel):
         indexes = [
             models.Index(fields=["expiry_date"]),
             models.Index(fields=["batch_number"]),
+            models.Index(fields=["product_stock", "is_active"]),
         ]
 
     def __str__(self):
         return f"{self.product_stock.product.name} - Batch {self.batch_number}"
 
-    # -----------------------------
-    # CORE COMPUTATIONS
-    # -----------------------------
+    # ==========================================
+    # DATE / EXPIRY COMPUTATIONS
+    # ==========================================
+
     @property
     def today(self):
         return timezone.now().date()
@@ -833,121 +891,155 @@ class ProductBatch(PharmacyModel):
     def days_to_expiry(self):
         return (self.expiry_date - self.today).days
 
-    @property
-    def product_name(self):
-        return self.product_stock.product.name
+    # ==========================================
+    # USABILITY STATUS (expiry + damage)
+    # ==========================================
 
-    # -----------------------------
-    # USABILITY (expiry-based)
-    # -----------------------------
+    USABILITY_EXPIRED = "expired"
+    USABILITY_EXPIRING = "expiring"
+    USABILITY_DAMAGED = "damaged"
+    USABILITY_USABLE = "usable"
+
+    USABILITY_CHOICES = [
+        (USABILITY_EXPIRED, _("Expired")),
+        (USABILITY_EXPIRING, _("Expiring Soon")),
+        (USABILITY_DAMAGED, _("Damaged")),
+        (USABILITY_USABLE, _("Usable")),
+    ]
+
     @property
     def usability_status(self):
         if self.is_damaged:
-            return "damaged"
+            return self.USABILITY_DAMAGED
 
         if self.expiry_date < self.today:
-            return "expired"
+            return self.USABILITY_EXPIRED
 
         if self.expiry_date <= self.today + timedelta(days=30):
-            return "expiring"
+            return self.USABILITY_EXPIRING
 
-        return "usable"
+        return self.USABILITY_USABLE
 
     @property
     def is_expired(self):
-        return self.usability_status == self.UsabilityStatus.EXPIRED
-
-    # -----------------------------
-    # QUANTITY (inventory-based)
-    # -----------------------------
-    @property
-    def quantity_status(self):
-        if self.quantity <= 0:
-            return "out_of_stock"
-
-        if self.quantity <= 10:
-            return "low_stock"
-
-        return "in_stock"
+        return self.usability_status == self.USABILITY_EXPIRED
 
     @property
-    def is_low_stock(self):
-        return self.quantity_status == self.QuantityStatus.LOW_STOCK
+    def is_expiring(self):
+        return self.usability_status == self.USABILITY_EXPIRING
 
-    # -----------------------------
-    # COMBINED BUSINESS LOGIC
-    # -----------------------------
+    @property
+    def is_damaged_status(self):
+        return self.usability_status == self.USABILITY_DAMAGED
+
     @property
     def is_usable(self):
-        """
-        Can this batch be used for dispensing?
-        """
-        return (
-            self.is_active and
-            self.quantity > 0 and
-            not self.is_expired
-        )
+        return self.usability_status == self.USABILITY_USABLE
 
-    @property
-    def is_dispensable(self):
-        """
-        Alias for clarity in business logic.
-        """
-        return self.is_usable
-
-    # -----------------------------
-    # UI HELPERS (BADGES / COLORS)
-    # -----------------------------
     @property
     def usability_label(self):
-        return dict(self.UsabilityStatus.CHOICES).get(self.usability_status)
-
-    @property
-    def quantity_label(self):
-        return dict(self.QuantityStatus.CHOICES).get(self.quantity_status)
-    
-    
-    @property
-    def days_to_expiry_display(self):
-        return self.days_to_expiry
+        return dict(self.USABILITY_CHOICES).get(self.usability_status, _("Unknown"))
 
     @property
     def usability_color(self):
         return {
-            "expired": "red",
-            "expiring": "orange",
-            "usable": "green",
+            self.USABILITY_EXPIRED: "red",
+            self.USABILITY_EXPIRING: "orange",
+            self.USABILITY_DAMAGED: "purple",
+            self.USABILITY_USABLE: "green",
         }.get(self.usability_status, "gray")
+
+    # ==========================================
+    # QUANTITY STATUS
+    # ==========================================
+
+    QUANTITY_OUT = "out_of_stock"
+    QUANTITY_LOW = "low_stock"
+    QUANTITY_OK = "in_stock"
+
+    QUANTITY_CHOICES = [
+        (QUANTITY_OUT, _("Out of Stock")),
+        (QUANTITY_LOW, _("Low Stock")),
+        (QUANTITY_OK, _("In Stock")),
+    ]
+
+    @property
+    def quantity_status(self):
+        if self.quantity <= 0:
+            return self.QUANTITY_OUT
+
+        if self.quantity <= 10:
+            return self.QUANTITY_LOW
+
+        return self.QUANTITY_OK
+
+    @property
+    def is_out_of_stock(self):
+        return self.quantity_status == self.QUANTITY_OUT
+
+    @property
+    def is_low_stock(self):
+        return self.quantity_status == self.QUANTITY_LOW
+
+    @property
+    def quantity_label(self):
+        return dict(self.QUANTITY_CHOICES).get(self.quantity_status, _("Unknown"))
 
     @property
     def quantity_color(self):
         return {
-            "out_of_stock": "red",
-            "low_stock": "yellow",
-            "in_stock": "green",
+            self.QUANTITY_OUT: "red",
+            self.QUANTITY_LOW: "yellow",
+            self.QUANTITY_OK: "green",
         }.get(self.quantity_status, "gray")
 
-    # -----------------------------
+    # ==========================================
+    # COMBINED BUSINESS LOGIC
+    # ==========================================
+
+    @property
+    def is_dispensable(self):
+        """
+        Can this batch be used for dispensing?
+        Must be: active, non-empty, non-expired, non-damaged
+        """
+        return (
+            self.is_active and
+            self.quantity > 0 and
+            not self.is_expired and
+            not self.is_damaged
+        )
+
+    # ==========================================
     # VALIDATION
-    # -----------------------------
+    # ==========================================
+
     def clean(self):
         errors = {}
 
         if self.quantity < 0:
             errors["quantity"] = _("Batch quantity cannot be negative.")
 
+        if self.expiry_date and self.manufacturing_date:
+            if self.expiry_date <= self.manufacturing_date:
+                errors["expiry_date"] = _("Expiry date must be after manufacturing date.")
+
         if errors:
             raise ValidationError(errors)
 
-    # -----------------------------
-    # STOCK OPERATIONS
-    # -----------------------------
+    # ==========================================
+    # STOCK OPERATIONS (with transaction safety)
+    # ==========================================
+
     def decrease_stock(self, qty):
         if qty <= 0:
             raise ValidationError(_("Quantity must be positive."))
 
         if self.quantity < qty:
-            raise ValidationError(_("Insufficient batch stock."))
+            raise ValidationError(_("Insufficient batch stock. Available: %(available)s, Requested: %(requested)s") % {
+                "available": self.quantity,
+                "requested": qty
+            })
 
         self.quantity -= qty
         self.save(update_fields=["quantity"])
@@ -967,6 +1059,8 @@ class Prescription(PharmacyModel):
     """
     Represents a patient's prescription issued by a prescriber.
     """
+    TENANT_FILTER = "pharmacy__organization"
+    objects = TenantManager()
 
     OORIGIN_CHOICES = [
         ("internal", _("Internal Prescription")),
@@ -1053,6 +1147,8 @@ class PrescriptionItem(PharmacyModel):
     """
     Individual drug/item inside a prescription.
     """
+    TENANT_FILTER = "prescription__pharmacy__organization"
+    objects = TenantManager()
 
     prescription = models.ForeignKey(
         Prescription,
@@ -1095,6 +1191,8 @@ class Dispensation(PharmacyModel):
     Represents the actual dispensing of medication to a patient
     based on a prescription item.
     """
+    TENANT_FILTER = "pharmacy__organization"
+    objects = TenantManager()
 
     prescription = models.ForeignKey(
         "Prescription",
@@ -1129,13 +1227,12 @@ class Dispensation(PharmacyModel):
 # Product Sale
 # -------------------------------
 class Sale(PharmacyModel, ArchivableModel):
-
+    TENANT_FILTER = "pharmacy__organization"
     objects = TenantManager()
 
     STATUS_CHOICES = [
         ("pending", _("Pending")),
         ("backordered", _("Backordered")),
-        ("on_credit", _("On Credit")),
         ("completed", _("Completed")),
         ("refunded", _("Refunded")),
         ("cancelled", _("Cancelled")),
@@ -1160,6 +1257,12 @@ class Sale(PharmacyModel, ArchivableModel):
         related_name="validated_sales",
         verbose_name=_("Cashier"),
     )
+    cash_account = models.ForeignKey(
+        OperationAccount,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+    )
     customer = models.ForeignKey(
         "organizations.Customer",
         on_delete=models.SET_NULL,
@@ -1172,7 +1275,10 @@ class Sale(PharmacyModel, ArchivableModel):
         max_digits=12, decimal_places=2, default=0)
     notes = models.TextField(blank=True, null=True)
     validated_at = models.DateTimeField(null=True, blank=True)
-
+    is_on_credit = models.BooleanField(
+        default=False,
+        verbose_name=_("On Credit")
+    )
     # -----------------------------
     # INSURANCE SNAPSHOT (IMPORTANT)
     # -----------------------------
@@ -1253,10 +1359,11 @@ class Sale(PharmacyModel, ArchivableModel):
     
     @property
     def total_profit(self):
-        return sum(
-            (item.unit_price - item.product_stock.cost) * item.quantity
-            for item in self.items.select_related("product_stock")
-        )
+        total = Decimal('0.00')
+        for item in self.items.select_related("product_stock"):
+            if item.product_stock and item.product_stock.cost:
+                total += (item.unit_price - item.product_stock.cost) * item.quantity
+        return total
 
     def __str__(self):
         return f"Sale #{self.id} by {self.vendor}"
@@ -1303,11 +1410,9 @@ class SaleItem(ArchivableModel):
         if self.product_stock is None:
             raise ValueError("SaleItem must have a ProductStock assigned.")
         if self.unit_price is None:
-            raise ValueError(f"Unit price not set for {self.product_stock}")
-
-        # Use the effective_price fallback to avoid None errors
-        self.unit_price = self.product_stock.effective_price
-        self.total_price = self.unit_price * self.quantity
+            self.unit_price = self.product_stock.effective_price
+        if self.total_price is None:
+            self.total_price = self.unit_price * self.quantity
         super().save(*args, **kwargs)
 
     class Meta:
@@ -1637,15 +1742,6 @@ class SupplierInvoice(PharmacyModel, ArchivableModel):
         verbose_name=_("Purchase Order")
     )
 
-    delivery = models.ForeignKey(
-        "PurchaseDelivery",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="invoices",
-        verbose_name=_("Related Delivery")
-    )
-
     invoice_number = models.CharField(
         max_length=100,
         verbose_name=_("Invoice Number")
@@ -1789,43 +1885,53 @@ class InventoryMovementItem(ArchivableModel):
 
     def apply_movement(self):
         """
-        Applies stock movement using BATCHES (FEFO logic).
+        Applies stock movement using BATCHES (FEFO logic for exits).
+        For entries: creates new batch or adds to specified batch.
         """
         movement_type = self.inventory_movement.movement_type
 
-        batches = self.product_stock.batches.select_for_update().order_by("expiry_date")
-
-        remaining = self.quantity
-
         if movement_type == "exit":
             # FEFO: deduct from earliest expiry first
+            batches = self.product_stock.batches.select_for_update().filter(
+                expiry_date__gt=timezone.now().date(),
+                is_damaged=False,
+                is_active=True,
+                quantity__gt=0
+            ).order_by("expiry_date")
+
+            remaining = self.quantity
+
             for batch in batches:
                 if remaining <= 0:
                     break
 
-                if batch.quantity <= 0:
-                    continue
-
                 deduct = min(batch.quantity, remaining)
-                batch.quantity -= deduct
-                batch.save(update_fields=["quantity"])
+                batch.decrease_stock(deduct)  # uses validated method
                 remaining -= deduct
 
             if remaining > 0:
                 raise ValidationError(
-                    f"Not enough stock in batches for {self.product_stock.product.name}"
+                    f"Not enough usable stock in batches for {self.product_stock.product.name}. "
+                    f"Missing: {remaining}"
                 )
 
         else:
-            # entry → add to newest batch OR unspecified batch
-            # (you may refine later with batch selection rules)
-            batch = batches.last()
-
-            if not batch:
-                raise ValidationError("No batch exists for stock entry.")
-
-            batch.quantity += self.quantity
-            batch.save(update_fields=["quantity"])
+            # ENTRY: create new batch with movement reference
+            # In real use, you'd specify batch_number and expiry_date
+            # Here we create an "ADJUST" batch for unclassified entries
+            from datetime import timedelta
+            
+            adjust_batch, created = ProductBatch.objects.get_or_create(
+                product_stock=self.product_stock,
+                batch_number=f"ADJ-{self.inventory_movement.id}",
+                defaults={
+                    "organization": self.inventory_movement.organization,
+                    "pharmacy": self.inventory_movement.pharmacy,
+                    "expiry_date": timezone.now().date() + timedelta(days=365),
+                    "quantity": 0,
+                }
+            )
+            adjust_batch.increase_stock(self.quantity)
 
     def save(self, *args, **kwargs):
         with transaction.atomic():

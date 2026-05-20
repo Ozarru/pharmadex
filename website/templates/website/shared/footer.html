@@ -1,0 +1,283 @@
+{% load i18n %}
+
+<footer
+  class="py-6 w-full max-w-[1240px] mx-auto flex flex-col text-gray-500 gap-4"
+>
+  <div
+    class="relative p-8 bg-light w-full mx-auto rounded-2xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    <!-- Section 1: About -->
+    <div>
+      <h3 class="text-black font-semibold mb-6">{% trans "About" %}</h3>
+      <ul class="space-y-3 text-sm">
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Our Mission" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Team" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:post-list' %}?post_type=blog"
+            class="hover-text-secondary transition"
+            >{% trans "Blog" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:post-list' %}?post_type=updates"
+            class="hover-text-secondary transition"
+            >{% trans "Updates" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:contact' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Contact" %}</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 2: Quick Links -->
+    <div>
+      <h3 class="text-black font-semibold mb-6">{% trans "Quick Links" %}</h3>
+      <ul class="space-y-3 text-sm">
+        {% if not request.user.is_authenticated %}
+        <li>
+          <a
+            href="{% url 'accounts:signup' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Sign Up" %}</a
+          >
+        </li>
+        {% endif %}
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Features" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:pricing' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Pricing" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Demo" %}</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Support -->
+    <div>
+      <h3 class="text-black font-semibold mb-6">{% trans "Support" %}</h3>
+      <ul class="space-y-3 text-sm">
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Help Center" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "FAQ" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Feedback" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Testimonials" %}</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 4: Legal -->
+    <div>
+      <h3 class="text-black font-semibold mb-6">{% trans "Legal" %}</h3>
+      <ul class="space-y-3 text-sm">
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Terms & Conditions" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Privacy Policy" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Security Policy" %}</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'website:home' %}"
+            class="hover-text-secondary transition"
+            >{% trans "Cookie Policy" %}</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Footer Bottom -->
+  <div
+    class="p-8 w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
+  >
+    <div class="text-center text-sm flex gap-2 flex-wrap">
+      <span>&copy; {{ now.year }} Pharmadex</span>
+      <span class="hidden sm:inline">•</span>
+      <span>{% trans "All rights reserved" %}</span>
+      <span class="hidden sm:inline">•</span>
+      <a href="{% url 'website:home' %}" class="hover-text-secondary transition"
+        >{% trans "Terms of Use" %}</a
+      >
+    </div>
+
+    <div class="text-center text-sm flex gap-4">
+      <div class="relative flex fex-col items-center">
+        <button
+          onclick="toggleMenu(this, 'themeMenu')"
+          aria-label="Theme menu"
+          class="hover-text-secondary transition text-gray-500"
+        >
+          <i class="fa-solid fa-display mr-2"></i>{% trans "Theme" %}
+        
+        </button>
+        <div
+          id="themeMenu"
+          class="hidden absolute right-0 bottom-6 bg-lighter border divider-y rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden"
+          role="menu"
+          aria-orientation="vertical"
+        >
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('light')"
+          >
+            <i class="fa-regular fa-sun"></i> Light Theme
+          </button>
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('dark')"
+          >
+            <i class="fa-solid fa-moon"></i> Dark Theme
+          </button>
+          <button
+            class="px-4 py-2 hover-bg-lightest hover-text-primary text-body flex items-center gap-2"
+            onclick="setTheme('system')"
+          >
+            <i class="fa-solid fa-display"></i> System Theme
+          </button>
+        </div>
+      </div>
+      <div class="relative flex fex-col items-center">
+        <button
+          onclick="toggleMenu(this, 'languageMenu')"
+          aria-label="Language menu"
+          class="hover-text-secondary transition text-gray-500"
+        >
+          <i class="fa-solid fa-globe mr-2"></i>{% trans "English (EN)" %}
+        </button>
+        <div
+          id="languageMenu"
+          class="hidden absolute right-0 bottom-6 bg-lighter border divider-y rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden"
+          role="menu"
+          aria-orientation="vertical"
+        >
+          <form action="{% url 'base:set-language' %}" method="post">
+            {% csrf_token %}
+            <input
+              type="hidden"
+              name="next"
+              value="{{ request.get_full_path }}"
+            />
+            <input type="hidden" name="language" value="en" />
+
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+            >
+              <i class="fa-solid fa-globe"></i> English (en)
+            </button>
+          </form>
+
+          <form action="{% url 'base:set-language' %}" method="post">
+            {% csrf_token %}
+            <input
+              type="hidden"
+              name="next"
+              value="{{ request.get_full_path }}"
+            />
+            <input type="hidden" name="language" value="fr" />
+
+            <button
+              type="submit"
+              class="w-full text-left px-4 py-2.5 hover-bg-lightest hover-text-primary flex items-center gap-2"
+            >
+              <i class="fa-solid fa-globe"></i> Français (fr)
+            </button>
+          </form>
+        </div>
+      </div>
+      <a
+        target="_blank"
+        href="#"
+        class="hover-text-secondary transition text-gray-500"
+        ><i class="fa-brands fa-facebook"></i
+      ></a>
+      <a
+        target="_blank"
+        href="#"
+        class="hover-text-secondary transition text-gray-500"
+        ><i class="fa-brands fa-instagram"></i
+      ></a>
+      <a
+        target="_blank"
+        href="#"
+        class="hover-text-secondary transition text-gray-500"
+        ><i class="fa-brands fa-linkedin"></i
+      ></a>
+      <a
+        target="_blank"
+        href="#"
+        class="hover-text-secondary transition text-gray-500"
+        ><i class="fa-brands fa-x-twitter"></i
+      ></a>
+    </div>
+  </div>
+</footer>

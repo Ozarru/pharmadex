@@ -1,0 +1,217 @@
+{% load i18n %}
+
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-gray-900 text-white pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      
+      <!-- Top Section -->
+      <div class="grid lg:grid-cols-4 gap-12 mb-16">
+        
+        <!-- Brand Column -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <i class="fas fa-shield-virus text-white text-lg"></i>
+            </div>
+            <span class="text-2xl font-black">Pharmadex</span>
+          </div>
+          
+          <p class="text-gray-400 leading-relaxed">
+            {% blocktrans %}
+            Modern pharmacy management platform built for scale. Inventory, POS, prescriptions, and compliance — all in one place.
+            {% endblocktrans %}
+          </p>
+          
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary flex items-center justify-center transition" aria-label="{% trans 'Twitter' %}">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary flex items-center justify-center transition" aria-label="{% trans 'LinkedIn' %}">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary flex items-center justify-center transition" aria-label="{% trans 'Facebook' %}">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Support Links -->
+        <div class="space-y-6">
+          <h4 class="text-lg font-bold">{% trans "Support" %}</h4>
+          <ul class="space-y-3">
+            <li>
+              <a href="{% url 'website:help_center' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Help Center" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'website:faq' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "FAQ" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'website:feedback' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Feedback" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'website:testimonials' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Testimonials" %}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Legal Links -->
+        <div class="space-y-6">
+          <h4 class="text-lg font-bold">{% trans "Legal" %}</h4>
+          <ul class="space-y-3">
+            <li>
+              <a href="{% url 'website:terms_and_conditions' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Terms & Conditions" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'website:privacy_policy' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Privacy Policy" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'website:security_policy' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Security Policy" %}
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'website:cookies_policy' %}" class="text-gray-400 hover:text-white transition">
+                {% trans "Cookie Policy" %}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="space-y-6">
+          <h4 class="text-lg font-bold">{% trans "Stay Updated" %}</h4>
+          <p class="text-gray-400">
+            {% trans "Get the latest updates on pharmacy management and compliance." %}
+          </p>
+          
+          <form class="flex gap-2" method="post" action="{% url 'website:newsletter_subscribe' %}">
+            {% csrf_token %}
+            <input 
+              type="email" 
+              name="email"
+              placeholder="{% trans 'Enter your email' %}" 
+              class="flex-1 px-4 py-3 rounded-xl bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-primary"
+              required
+            />
+            <button type="submit" class="px-5 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold transition">
+              {% trans "Subscribe" %}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          
+          <!-- Copyright -->
+           <div class="flex flex-col">
+             <p class="text-gray-400 text-sm">
+               {% blocktrans with year=now|date:"Y" %}
+               © {{ year }} Pharmadex. All rights reserved.
+               {% endblocktrans %}
+             </p>
+             <p class="text-gray-400 text-sm">
+               Brought to you by <a target="_blank" href="https://zenheit.com" class="text-secondary hover:underline">Zenheit</a> 
+             </p>
+           </div>
+
+          <!-- Language Selector -->
+          <div class="flex items-center gap-3">
+            <span class="text-gray-500 text-sm">{% trans "Language:" %}</span>
+            <form action="{% url 'set_language' %}" method="post" class="flex items-center">
+              {% csrf_token %}
+              <input name="next" type="hidden" value="{{ request.path }}">
+              <select 
+                name="language" 
+                onchange="this.form.submit()"
+                class="bg-gray-800 border border-gray-700 text-gray-300 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-primary cursor-pointer"
+              >
+                {% get_available_languages as LANGUAGES %}
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                  <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                    {{ lang_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </div>
+
+          <!-- Theme Toggle -->
+          <div class="relative flex flex-col items-center">
+            <button
+              onclick="toggleMenu(this, 'themeMenu')"
+              aria-label="{% trans 'Theme menu' %}"
+              class="hover-text-secondary transition text-gray-500 flex items-center gap-2"
+            >
+              <i id="themeIcon" class="fa-solid fa-display"></i>
+              <span id="themeLabel">{% trans "Theme" %}</span>
+            </button>
+            
+            <div
+              id="themeMenu"
+              class="hidden absolute right-0 bottom-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg w-44 flex flex-col text-sm z-50 overflow-hidden"
+              role="menu"
+              aria-orientation="vertical"
+            >
+              <button
+                class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center gap-3 transition-colors"
+                onclick="setTheme('light')"
+                role="menuitem"
+              >
+                <i class="fa-regular fa-sun w-4 text-center"></i>
+                <span>{% trans "Light" %}</span>
+                <i class="fa-solid fa-check ml-auto text-primary opacity-0 check-icon" data-theme="light"></i>
+              </button>
+              
+              <button
+                class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center gap-3 transition-colors"
+                onclick="setTheme('dark')"
+                role="menuitem"
+              >
+                <i class="fa-solid fa-moon w-4 text-center"></i>
+                <span>{% trans "Dark" %}</span>
+                <i class="fa-solid fa-check ml-auto text-primary opacity-0 check-icon" data-theme="dark"></i>
+              </button>
+              
+              <button
+                class="px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 flex items-center gap-3 transition-colors"
+                onclick="setTheme('system')"
+                role="menuitem"
+              >
+                <i class="fa-solid fa-display w-4 text-center"></i>
+                <span>{% trans "System" %}</span>
+                <i class="fa-solid fa-check ml-auto text-primary opacity-0 check-icon" data-theme="system"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Back to Top -->
+          <button 
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="w-10 h-10 rounded-full bg-gray-800 hover:bg-primary flex items-center justify-center transition"
+            aria-label="{% trans 'Back to top' %}"
+          >
+            <i class="fas fa-arrow-up text-sm"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>

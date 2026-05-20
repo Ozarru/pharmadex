@@ -68,12 +68,12 @@
     <!-- loop through liks and pass arguments if they exist -->
     {% if link.url_args|length == 1 %}
     <a
-      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-lg {% if link.active_class == active_page %}active{% endif %}"
       href="{% url link.url link.url_args.0 %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
-        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
       ></span>
 
       <i class="{{ link.icon }} text-sm"></i>
@@ -81,12 +81,12 @@
     </a>
     {% elif link.url_args|length == 2 %}
     <a
-      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-lg {% if link.active_class == active_page %}active{% endif %}"
       href="{% url link.url link.url_args.0 link.url_args.1 %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
-        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
       ></span>
 
       <i class="{{ link.icon }} text-sm"></i>
@@ -94,12 +94,12 @@
     </a>
     {% elif link.url_args|length == 3 %}
     <a
-      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-lg {% if link.active_class == active_page %}active{% endif %}"
       href="{% url link.url link.url_args.0 link.url_args.1 link.url_args.2 %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
-        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
       ></span>
 
       <i class="{{ link.icon }} text-sm"></i>
@@ -107,12 +107,12 @@
     </a>
     {% else %}
     <a
-      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-md {% if link.active_class == active_page %}active{% endif %}"
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text transition duration-200 w-full rounded-lg {% if link.active_class == active_page %}active{% endif %}"
       href="{% url link.url %}?{{link.get_params}}"
       data-click-default="true"
     >
       <span
-        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
       ></span>
 
       <i class="{{ link.icon }} text-sm"></i>
@@ -124,24 +124,36 @@
     <!--  -->
     {% if user.is_superuser %}
     <a
-      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-md"
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-lg"
       target="_blank"
-       href="/rosetta/"
+      href="{% url 'website:home' %}"
     >
       <span
-        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
+      ></span>
+
+      <i class="fa-solid fa-globe text-sm"></i>
+      <span class="dynamic-text">{% trans "Website" %}</span>
+    </a>
+    <a
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-lg"
+      target="_blank"
+      href="/rosetta/"
+    >
+      <span
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
       ></span>
 
       <i class="fa-solid fa-language text-sm"></i>
       <span class="dynamic-text">{% trans "Rosetta Access" %}</span>
     </a>
     <a
-      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-md"
+      class="relative px-4 py-2 flex lg:justify-center items-center gap-2 dynamic-text hover:bg-red-700 hover:text-white transition duration-200 w-full rounded-lg"
       target="_blank"
       href="{% url 'admin:index' %}"
     >
       <span
-        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-md absolute left-1 top-2"
+        class="sidebar-indicator w-1.5 h-6 bg-primary rounded-lg absolute left-1 top-2"
       ></span>
 
       <i class="fa-solid fa-user-secret text-sm"></i>

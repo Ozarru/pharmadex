@@ -1,0 +1,412 @@
+{% extends 'website/shared/main.html' %} {% load static i18n %}
+<!--  -->
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+  <!-- ================= HERO ================= -->
+  <section class="relative py-28">
+    <!-- background glow -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div
+        class="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-primary/5 rounded-full blur-3xl"
+      ></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-20 items-center">
+        <!-- LEFT -->
+        <div>
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-8"
+          >
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            {% trans "Pharmacy ERP & POS Platform" %}
+          </div>
+
+          <h1
+            class="text-5xl md:text-6xl font-black leading-tight text-gray-900"
+          >
+            {% blocktrans %} Talk to the team behind
+            <span class="relative text-secondary">
+              Pharmadex
+              <span
+                class="absolute left-0 -bottom-1 w-full h-3 bg-orange-400/20 rounded-full"
+              ></span>
+            </span>
+            . {% endblocktrans %}
+          </h1>
+
+          <p class="mt-8 text-xl text-gray-600 leading-relaxed max-w-2xl">
+            {% blocktrans %} Whether you're launching a new pharmacy, replacing
+            outdated software, or scaling operations across multiple locations,
+            our team is ready to help. {% endblocktrans %}
+          </p>
+
+          <!-- actions -->
+          <div class="flex flex-wrap gap-4 mt-10">
+            <a
+              href="{% url 'base:home' %}"
+              class="btn btn-primary px-8 py-4 shadow-xl hover:shadow-2xl transition"
+            >
+              {% trans "Book a Demo" %}
+            </a>
+
+            <a href="#contact-form" class="btn btn-outlined bg-transparent shadow-md px-8 py-4 text-lg">
+              {% trans "Contact Sales" %}
+            </a>
+          </div>
+
+          <!-- trust -->
+          <div class="flex flex-wrap gap-8 mt-12">
+            <div>
+              <p class="text-3xl font-black text-gray-900">24h</p>
+              <p class="text-sm text-gray-500">
+                {% trans "Average response time" %}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-3xl font-black text-gray-900">99.9%</p>
+              <p class="text-sm text-gray-500">{% trans "Platform uptime" %}</p>
+            </div>
+
+            <div>
+              <p class="text-3xl font-black text-gray-900">100+</p>
+              <p class="text-sm text-gray-500">
+                {% trans "Pharmacies onboarded" %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="relative">
+          <div
+            class="absolute -top-6 -left-6 w-24 h-24 bg-teal-400/20 rounded-2xl rotate-12"
+          ></div>
+          <div
+            class="absolute -bottom-6 -right-6 w-28 h-28 bg-orange-400/20 rounded-2xl -rotate-12"
+          ></div>
+
+          <div
+            class="relative bg-white rounded-[32px] shadow-2xl border border-gray-100 overflow-hidden"
+          >
+            <!-- top -->
+            <div class="p-8 border-b border-gray-100">
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                {% trans "Speak With Our Team" %}
+              </h3>
+
+              <p class="text-gray-500">
+                {% blocktrans %}
+                Get pricing, onboarding guidance, or a live
+                walkthrough.
+                {% endblocktrans %}
+              </p>
+            </div>
+
+            <!-- cards -->
+            <div class="p-8 space-y-5">
+              <div class="flex items-start gap-4 p-5 rounded-2xl bg-lightest">
+                <div
+                  class="w-12 h-12 rounded-xl bg-accent flex items-center justify-center"
+                >
+                  <i class="fas fa-phone text-primary"></i>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-gray-900 mb-1">
+                    {% trans "Phone" %}
+                  </p>
+
+                  <span class="text-gray-600">+228 97 99 86 21</span>
+                  /
+                  <span class="text-gray-600">+234 807 611 8894</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-5 rounded-2xl bg-lightest">
+                <div
+                  class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center"
+                >
+                  <i class="fas fa-envelope text-orange-500"></i>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-gray-900 mb-1">
+                    {% trans "Email" %}
+                  </p>
+
+                  <p class="text-gray-600">zenheit.co@gmail.com</p>
+                  <!-- <p class="text-gray-600">contact@pharmadex.com</p> -->
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-5 rounded-2xl bg-lightest">
+                <div
+                  class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center"
+                >
+                  <i class="fa-brands fa-whatsapp text-green-600"></i>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-gray-900 mb-1">
+                    {% trans "WhatsApp" %}
+                  </p>
+
+                  <p class="text-gray-600">
+                    {% trans "Fastest way to reach us for demos & support." %}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT FORM ================= -->
+  <section id="contact-form" class="py-28 bg-lightest">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- left -->
+        <div>
+          <div
+            class="inline-flex px-4 py-2 rounded-full bg-secondary/10 text-secondary font-semibold text-sm mb-6"
+          >
+            {% trans "CONTACT SALES" %}
+          </div>
+
+          <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+            {% trans "Tell us about your pharmacy." %}
+          </h2>
+
+          <p class="text-lg text-gray-600 leading-relaxed mb-10">
+            {% blocktrans %} We’ll help you choose the right setup, estimate
+            onboarding costs, and answer any questions about pricing,
+            implementation, or integrations. {% endblocktrans %}
+          </p>
+
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <p class="text-gray-700">
+                {% trans "Multi-branch pharmacy support" %}
+              </p>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <p class="text-gray-700">
+                {% trans "POS & inventory onboarding assistance" %}
+              </p>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <i class="fas fa-check-circle text-primary mt-1"></i>
+              <p class="text-gray-700">
+                {% trans "Migration from spreadsheets or legacy systems" %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- form -->
+        <div class="relative">
+          <div
+            class="absolute -top-5 -left-5 w-20 h-20 rounded-2xl bg-primary/10 rotate-12"
+          ></div>
+          <div
+            class="absolute -bottom-5 -right-5 w-20 h-20 rounded-2xl bg-orange-400/10 -rotate-12"
+          ></div>
+
+          <div class="relative bg-white rounded-[32px] p-10 shadow-2xl">
+            <form class="space-y-6">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                  {% trans "Full Name" %}
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="{% trans 'John Doe' %}"
+                  class="form-field"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                  {% trans "Business Email" %}
+                </label>
+
+                <input
+                  type="email"
+                  placeholder="{% trans 'name@pharmacy.com' %}"
+                  class="form-field"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                  {% trans "Pharmacy / Organization Name" %}
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="{% trans 'Your pharmacy name' %}"
+                  class="form-field"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                  {% trans "How can we help?" %}
+                </label>
+
+                <textarea
+                  rows="5"
+                  placeholder="{% trans 'Tell us about your needs...' %}"
+                  class="form-field"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary w-full py-4 text-lg shadow-xl hover:shadow-2xl transition"
+              >
+                {% trans "Send Message" %}
+              </button>
+
+              <p class="text-xs text-center text-gray-500">
+                {% trans "We typically reply within one business day." %}
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OFFICE ================= -->
+  <section class="py-28">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-20 items-center">
+        <!-- left -->
+        <div>
+          <div
+            class="inline-flex px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-6"
+          >
+            {% trans "OUR OFFICE" %}
+          </div>
+
+          <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+            {% trans "Built in Africa. Designed for modern pharmacies." %}
+          </h2>
+
+          <p class="text-lg text-gray-600 leading-relaxed mb-10">
+            {% blocktrans %} Pharmadex is focused on helping pharmacies digitize
+            operations with reliable, scalable, and locally adaptable ERP
+            technology. {% endblocktrans %}
+          </p>
+
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div class="bg-lightest rounded-3xl p-8 shadow-lg">
+              <p
+                class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3"
+              >
+                {% trans "Office Address" %}
+              </p>
+
+              <p class="text-lg font-semibold text-gray-900">
+                247 Salvation Road
+              </p>
+            </div>
+
+            <div class="bg-lightest rounded-3xl p-8 shadow-lg">
+              <p
+                class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3"
+              >
+                {% trans "Working Hours" %}
+              </p>
+
+              <p class="text-lg font-semibold text-gray-900">
+                {% trans "Mon – Fri • 9am – 6pm" %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- map -->
+        <div class="relative">
+          <div
+            class="absolute -top-6 -left-6 w-24 h-24 bg-teal-400/20 rounded-2xl rotate-12"
+          ></div>
+          <div
+            class="absolute -bottom-6 -right-6 w-24 h-24 bg-orange-400/20 rounded-2xl -rotate-12"
+          ></div>
+
+          <div
+            class="relative rounded-[32px] overflow-hidden shadow-2xl border border-gray-100 h-[500px]"
+          >
+            <iframe
+              class="w-full h-full border-0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Lome,Togo&output=embed"
+              title="{% trans 'Office location map' %}"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="py-28">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div
+        class="relative overflow-hidden rounded-[40px] bg-primary px-10 py-20 text-center"
+      >
+        <div
+          class="absolute top-0 right-0 w-96 h-96 bg-green-400/20 rounded-full blur-3xl"
+        ></div>
+
+        <div class="relative z-10">
+          <div
+            class="inline-flex px-4 py-2 rounded-full bg-white/10 text-white text-sm font-semibold mb-6"
+          >
+            {% trans "READY TO GET STARTED?" %}
+          </div>
+
+          <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
+            {% trans "Modernize your pharmacy operations." %}
+          </h2>
+
+          <p class="text-xl text-white/80 max-w-3xl mx-auto mb-10">
+            {% blocktrans %} Join pharmacies already using Pharmadex to simplify
+            inventory, sales, reporting, and day-to-day operations.
+            <!--  -->
+            {% endblocktrans %}
+          </p>
+
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="{% url 'base:home' %}"
+              class="btn btn-secondary px-8 py-4 text-lg"
+            >
+              {% trans "Start Free Trial" %}
+            </a>
+
+            <a
+              href="#contact-form"
+              class="btn bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg"
+            >
+              {% trans "Talk to Sales" %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

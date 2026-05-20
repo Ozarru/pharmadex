@@ -154,7 +154,7 @@ With a strong focus on:
 
 ## 🧠 Pharmacy Ops (Why This Matters)
 
-Pharmacies are not typical retail systems.
+Pharmacies  are not typical retail systems.
 
 They require:
 

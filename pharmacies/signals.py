@@ -8,6 +8,10 @@ from .models import *
 @receiver(post_save, sender=SaleItem)
 def sync_stock_movement_for_sale(sender, instance, created, **kwargs):
 
+    # Only sync stock when sale is completed
+    if instance.sale.status in ["pending", "backordered", "cancelled"]:
+        return
+
     sale_id_short = str(instance.sale.id)[:8]
 
     movement, _ = InventoryMovement.objects.get_or_create(
@@ -16,8 +20,7 @@ def sync_stock_movement_for_sale(sender, instance, created, **kwargs):
         pharmacy=instance.sale.pharmacy,
         defaults={
             "movement_type": "exit",
-            "reason": f"Automatique Stock Exit — Sale #{sale_id_short}",
-            "pharmacy": instance.sale.pharmacy,
+            "reason": f"Automatic Stock Exit — Sale #{sale_id_short}",
             "created_by": instance.sale.vendor,
         }
     )
@@ -30,7 +33,7 @@ def sync_stock_movement_for_sale(sender, instance, created, **kwargs):
         }
     )
 
-    # If item already exists → update it
+    # Update existing movement item
     if not movement_created:
         movement_item.quantity = instance.quantity
         movement_item.product_stock = instance.product_stock
@@ -85,3 +88,4 @@ def create_or_update_product_stock(sender, instance, created, **kwargs):
                 for field, value in updated_fields.items():
                     setattr(stock, field, value)
                 stock.save(update_fields=list(updated_fields.keys()))
+

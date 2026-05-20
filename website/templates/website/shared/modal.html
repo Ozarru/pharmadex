@@ -1,0 +1,251 @@
+{% load static i18n permission_tags custom_tags %}
+<!-----------------------------------------------------  modal ------------------------------------------------------>
+<div id="modal">
+  <div
+    id="modal_dialog"
+    class="bg-lightest w-full max-w-[600px] max-h-[calc(100vh-fullpx)] rounded-xl p-4 md:p-6 border overflow-y-auto"
+    hx-target="this"
+  >
+    <p
+      class="h-[400px] w-full flex justify-center items-center text-secondary p-4"
+    >
+      <i class="m-auto fa-solid fa-circle-notch text-3xl animate-spin"></i>
+    </p>
+  </div>
+
+  {% include 'components/_filters_dialog.html' %}
+</div>
+
+<style>
+  /* The Modal (background) */
+  #modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+  }
+
+  /* Modal dialog */
+  #modal_dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    width: 90%;
+    border-radius: 0.75rem; /* roughly rounded-xl */
+    padding: 1.5rem; /* some padding */
+  }
+</style>
+
+<script>
+  let currentModalType = "default";
+  let lastClickedAmount = null;
+
+  /* =====================================================
+     CORE EVENTS
+  ===================================================== */
+  // 🔥 CLOSE MODAL WHEN DB CHANGES (HX-Trigger)
+  document.body.addEventListener("db_changed", function () {
+    close_modal();
+  });
+
+  // 🔁 Rebind modal events after HTMX swaps
+  document.body.addEventListener("htmx:afterSwap", function (event) {
+    bindModalEvents();
+
+    // Auto-close modal if main container refreshed
+    const target = event.detail.target;
+    if (target && target.id === "{{ model_container }}") {
+      close_modal();
+    }
+
+    // Handle form initial values
+    if (target && target.id === "modal_dialog") {
+      setTimeout(() => {
+        const form = document.querySelector("#modal_dialog #modal_form");
+        captureInitialFormState(form);
+      }, 50);
+    }
+  });
+
+  // Initial binding
+  document.addEventListener("DOMContentLoaded", function () {
+    bindModalEvents();
+    bindFilterEvents();
+  });
+
+  /* =====================================================
+     MODAL BINDINGS
+  ===================================================== */
+  function bindModalEvents() {
+    // Modal openers
+    document.querySelectorAll(".modal_opener").forEach((btn) => {
+      btn.onclick = function () {
+        open_modal(btn.dataset.dialogType || "default");
+      };
+    });
+
+    // Modal closers
+    document.querySelectorAll(".modal_closer").forEach((btn) => {
+      btn.onclick = close_modal;
+    });
+
+    // Background click
+    const modal = document.getElementById("modal");
+    if (modal) {
+      modal.onclick = closeModalOnBackgroundClick;
+    }
+  }
+
+  function bindFilterEvents() {
+    const applyBtn = document.getElementById("apply_filters");
+    const clearBtn = document.getElementById("clear_filters");
+    const filtersForm = document.getElementById("filters_form");
+
+    if (applyBtn && filtersForm) {
+      applyBtn.onclick = function () {
+        htmx.trigger(filtersForm, "submit");
+        close_modal();
+      };
+    }
+
+    if (clearBtn && filtersForm) {
+      clearBtn.onclick = function () {
+        filtersForm.reset();
+        htmx.trigger(filtersForm, "submit");
+        close_modal();
+      };
+    }
+  }
+
+  /* =====================================================
+     MODAL CONTROL
+  ===================================================== */
+  function captureInitialFormState(form) {
+    if (!form) return;
+
+    const fields = form.querySelectorAll("input, textarea, select");
+
+    fields.forEach((field) => {
+      if (field.disabled) return;
+
+      if (field.type === "checkbox" || field.type === "radio") {
+        field.dataset.initialValue = field.checked ? "1" : "0";
+      } else if (field.type === "file") {
+        field.dataset.initialValue = ""; // files are always empty initially
+      } else {
+        field.dataset.initialValue = field.value ?? "";
+      }
+    });
+  }
+
+  function formHasData(form) {
+    if (!form) return false;
+
+    const fields = form.querySelectorAll("input, textarea, select");
+
+    for (const field of fields) {
+      if (field.disabled) continue;
+
+      const initial = field.dataset.initialValue ?? "";
+
+      // Checkboxes / radios
+      if (field.type === "checkbox" || field.type === "radio") {
+        const current = field.checked ? "1" : "0";
+        if (current !== initial) return true;
+        continue;
+      }
+
+      // File inputs
+      if (field.type === "file") {
+        if (field.files.length > 0) return true;
+        continue;
+      }
+
+      // Text, select, number, etc.
+      const current = field.value ?? "";
+      if (current !== initial) return true;
+    }
+
+    return false;
+  }
+
+  function open_modal(type = "default") {
+    currentModalType = type;
+
+    const modal = document.getElementById("modal");
+    const modalDialog = document.getElementById("modal_dialog");
+    const filtersDialog = document.getElementById("filters_dialog");
+
+    if (!modal || !modalDialog || !filtersDialog) return;
+
+    modalDialog.classList.add("hidden");
+    filtersDialog.classList.add("hidden");
+
+    if (type === "filter") {
+      modal.className =
+        "w-full z-50 fixed inset-0 bg-black/40 flex justify-end";
+      filtersDialog.classList.remove("hidden");
+    } else {
+      modal.className =
+        "z-50 fixed inset-0 bg-dark bg-opacity-60 flex items-center justify-center";
+      modalDialog.classList.remove("hidden");
+    }
+
+    modal.style.display = "flex";
+  }
+
+  function close_modal() {
+    const modal = document.getElementById("modal");
+    const modalDialog = document.getElementById("modal_dialog");
+    const filtersDialog = document.getElementById("filters_dialog");
+
+    if (!modal || !modalDialog || !filtersDialog) return;
+
+    modal.style.display = "none";
+    modalDialog.classList.add("hidden");
+    filtersDialog.classList.add("hidden");
+  }
+
+  /* =====================================================
+     SAFETY / UX
+  ===================================================== */
+  function isVisible(el) {
+    return el && !el.classList.contains("hidden") && el.offsetParent !== null;
+  }
+
+  function closeModalOnBackgroundClick(event) {
+    const modal = document.getElementById("modal");
+    if (event.target !== modal) return;
+
+    const modalDialog = document.getElementById("modal_dialog");
+    const modalForm = modalDialog?.querySelector("#modal_form");
+
+    // Only confirm if form actually has data
+    const shouldConfirm = formHasData(modalForm);
+
+    if (shouldConfirm) {
+      const confirmed = confirm(
+        "Are you sure you want to close the modal? Unsaved changes may be lost.",
+      );
+      if (!confirmed) return;
+    }
+
+    close_modal();
+  }
+
+  /* =====================================================
+     CAPTURE DATA FOR MODALS
+  ===================================================== */
+  document.addEventListener("click", function (e) {
+    const trigger = e.target.closest(".modal_opener");
+    if (trigger) {
+      lastClickedAmount = trigger.dataset.amount || null;
+    }
+  });
+</script>

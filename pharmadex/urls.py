@@ -29,9 +29,12 @@ urlpatterns = [
     path('finances/', include(('finances.urls', 'finances'), namespace='finances')),
     path('support/', include(('support.urls', 'support'), namespace='support')),
     # path('hr/', include(('hr.urls', 'hr'), namespace='hr')),
-    path('api/v1/', include('api.urls')),
+    path('api/v1/', include(('api.urls', 'api'), namespace='api')),
     path('rosetta/', include('rosetta.urls')),
     path("i18n/", include("django.conf.urls.i18n")),
+    
+    path('website/', include(('website.urls', 'website'), namespace='website')),
+
 
 ]
 
@@ -40,5 +43,8 @@ if settings.DEBUG:
                           document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+# Production static/media fallback (whitenoise handles static, but media needs this)
+else:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'base.views.not_found'

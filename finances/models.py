@@ -21,14 +21,10 @@ from base.models import ActivatableModel, ArchivableModel, BaseModel, Organizati
 from django.contrib.auth import get_user_model
 from clinics.models import ClinicalService
 from pharmadex import settings
+from pharmadex.config.constants import CountryPreset, CurrencyPreset
 from pharmadex.tenant import TenantManager
-from pharmacies.models import PurchaseDelivery, Sale #Purchase,
 User = get_user_model()
 
-FINANCIAL_ACCOUNT_CHOICES = [
-    ("cash_account", _("Cash Desk")),
-    ("bank_account", _("Bank Account")),
-]
 
 PAYMENT_STATUS_CHOICES = [
     ("unpaid", _("Unpaid")),
@@ -48,33 +44,72 @@ PAYMENT_METHOD_CHOICES = [
 #  ---------------------------------------------------------
 # Financial Parameters Models
 #  ---------------------------------------------------------
-class Currency(ActivatableModel, OrganizationModel):
-    name = models.CharField(verbose_name=_("Currency Name"), max_length=100)
-    code = models.CharField(verbose_name=_("Currency Code"), max_length=100)
-    symbol = models.CharField(verbose_name=_(
-        "Currency Symbol"), max_length=100)
-    is_default = models.BooleanField(
-        default=False, verbose_name=_("Is Default Currency"))
+class Currency(BaseModel):
+    """
+    Global currencies, pre-seeded by you. Organizations pick from list.
+    No per-org setup needed.
+    """
 
-    model_icon = 'fa-solid fa-dollar-sign'
+    preset = models.CharField(
+        max_length=3,
+        choices=CurrencyPreset.choices(),
+        unique=True,
+        verbose_name=_("Currency"),
+        blank=True, null=True,
+        help_text=_("ISO 4217 code. Locked after creation.")
+    )
+
+    country = models.CharField(
+        max_length=2,
+        choices=CountryPreset.choices(),
+        verbose_name=_("Primary Country"),
+        blank=True, null=True,
+        help_text=_("Main market for this currency entry.")
+    )
+
+    # Auto-populated from preset
+    name = models.CharField(max_length=100, editable=False)
+    code = models.CharField(max_length=3, editable=False)
+    symbol = models.CharField(max_length=10, editable=False)
+    decimal_places = models.PositiveSmallIntegerField(default=2, editable=False)
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Active"),
+        help_text=_("Inactive currencies are hidden from selection.")
+    )
+    
+    is_default_for_country = models.BooleanField(
+        default=False,
+        verbose_name=_("Default for Country"),
+        help_text=_("Auto-selected when organization picks this country."),
+    )
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-is_active', '-is_default_for_country', 'name')
         verbose_name = _("Currency")
         verbose_name_plural = _("Currencies")
-        permissions = [
-            ("import_currency", "Can import currency"),
-            ("export_currency", "Can export currency"),
-            ("manage_currencie", "Can manage all currencies"),
-        ]
 
     def __str__(self):
-        return f'{self.code}-({self.symbol})'
+        mark = " ★" if self.is_default_for_country else ""
+        return f"{self.name} ({self.code}) — {self.symbol}{mark}"
 
-        return self.__class__.__name__
+    def save(self, *args, **kwargs):
+        data = CurrencyPreset.get_data(self.preset)
+        if data:
+            self.name = data["name"]
+            self.code = data["code"]
+            self.symbol = data["symbol"]
+            self.decimal_places = data["decimal_places"]
+        super().save(*args, **kwargs)
+
+    def format_amount(self, amount):
+        if self.decimal_places == 0:
+            return f"{self.symbol}{int(amount):,}"
+        return f"{self.symbol}{amount:,.{self.decimal_places}f}"
 
 
-class CurrencyDenomination(OrganizationModel):
+class CurrencyDenomination(BaseModel):
     """
     Pharmacies available currency denominations (notes/coins).
     """
@@ -82,15 +117,87 @@ class CurrencyDenomination(OrganizationModel):
         Currency, on_delete=models.PROTECT, verbose_name=_(
             "Denomination Currency"),
     )
-    value = models.PositiveIntegerField(unique=True)
+    value = models.DecimalField(max_digits=12, decimal_places=2)
     label = models.CharField(max_length=50)
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ["-value"]
+        ordering = ["-value",]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["currency", "value"],
+                name="unique_currency_denomination"
+            )
+        ]
 
     def __str__(self):
         return self.label
+
+
+class OrganizationCurrency(BaseModel):
+    """
+    Which currencies an organization operates in.
+    One default for reporting. Others for local operations.
+    """
+
+    organization = models.ForeignKey(
+        "organizations.Organization",
+        on_delete=models.CASCADE,
+        related_name="currencies",
+    )
+
+    currency = models.ForeignKey(
+        Currency,
+        on_delete=models.PROTECT,
+        related_name="organization_links",
+    )
+
+    is_default = models.BooleanField(
+        default=False,
+        verbose_name=_("Default Reporting Currency"),
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Active"),
+    )
+
+    display_symbol_first = models.BooleanField(
+        default=True,
+        verbose_name=_("Symbol Before Amount"),
+        help_text=_("₦500 vs 500 ₦"),
+    )
+
+    class Meta:
+        unique_together = [("organization", "currency")]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["organization"],
+                condition=models.Q(is_default=True, is_active=True),
+                name="one_active_default_per_org",
+            ),
+        ]
+
+    def __str__(self):
+        mark = " [DEFAULT]" if self.is_default else ""
+        return f"{self.organization.name} → {self.currency.code}{mark}"
+
+    def clean(self):
+        if self.is_default and not self.is_active:
+            raise ValidationError(_("Default currency must be active."))
+
+    def save(self, *args, **kwargs):
+        # First currency for org = auto-default
+        if not self.pk and not self.organization.currencies.filter(is_default=True).exists():
+            self.is_default = True
+
+        # Unset other defaults if this becomes default
+        if self.is_default:
+            self.organization.currencies.filter(
+                is_default=True
+            ).exclude(pk=self.pk).update(is_default=False)
+
+        super().save(*args, **kwargs)
 
 
 class BankAccount(ActivatableModel, OrganizationModel):
@@ -99,6 +206,9 @@ class BankAccount(ActivatableModel, OrganizationModel):
         ('current', _("Current")),
         ('fix_deposit', _("Fix Deposit")),
     ]
+    currency = models.ForeignKey(
+        Currency, on_delete=models.PROTECT, verbose_name=_("Account Currency"),
+    )
     bank_name = models.CharField(verbose_name=_("Bank Name"), max_length=255)
     account_name = models.CharField(
         verbose_name=_("Account Name"), max_length=255)
@@ -106,8 +216,11 @@ class BankAccount(ActivatableModel, OrganizationModel):
         verbose_name=_("Account Number"), max_length=255)
     account_type = models.CharField(verbose_name=_("Account Type"),
                                     max_length=20, default="current", choices=ACCOUNT_TYPE_CHOICES)
-    currency = models.ForeignKey(
-        Currency, on_delete=models.PROTECT, verbose_name=_("Account Currency"),
+    current_balance = models.DecimalField(
+        max_digits=14,
+        decimal_places=2,
+        default=0,
+        verbose_name=_("Current Balance"),
     )
 
     model_icon = 'fa-solid fa-university'
@@ -127,10 +240,9 @@ class BankAccount(ActivatableModel, OrganizationModel):
         self.save()
 
     def __str__(self):
-        return f"{self.bank_name} {self.name} ({self.account_number})"
+        return f"{self.bank_name} - {self.account_name} ({self.account_number})"
 
     def get_balance(self):
-        from finances.models import FinancialOperation
         money_in = FinancialOperation.objects.filter(
             destination_bank=self
         ).aggregate(total=Sum("amount"))["total"] or 0
@@ -168,27 +280,33 @@ class MobileOperator(ActivatableModel, OrganizationModel):
 
 class CashAccount(ActivatableModel, PharmacyModel):
     ACCOUNT_TYPE_CHOICES = [
-        ('electronic', _("Electronic")),
-        ('physical', _("Physical")),
+        ('cash_drawer', _("Cash Drawer")),
+        ('mobile_money', _("Mobile Money")),
     ]
-    name = models.CharField(verbose_name=_("Cash Account Name"), max_length=100)
+    currency = models.ForeignKey(
+        Currency, on_delete=models.PROTECT, verbose_name=_(
+            "Cash Account Currency"),
+    )
+    name = models.CharField(verbose_name=_(
+        "Cash Account Name"), max_length=100)
     code = models.CharField(
         _("Cash Account Code"), blank=True, null=True, max_length=100)
-    account_type = models.CharField(verbose_name=_("Cash Account Type"),
-                                     max_length=20, choices=ACCOUNT_TYPE_CHOICES)
+    account_type = models.CharField(
+        max_length=20, choices=ACCOUNT_TYPE_CHOICES, verbose_name=_("Cash Account Type"))
     mobile_operator = models.ForeignKey(
         MobileOperator, on_delete=models.SET_NULL, null=True, blank=True,
         verbose_name=_("Mobile Operator"),
     )
     phone_number = PhoneNumberField(blank=True, null=True, verbose_name=_("Phone number")
                                     )
-    currency = models.ForeignKey(
-        Currency, on_delete=models.PROTECT, verbose_name=_(
-            "Cash Account Currency"),
+    current_balance = models.DecimalField(
+        max_digits=14,
+        decimal_places=2,
+        default=0,
+        verbose_name=_("Current Balance"),
     )
-
     model_icon = 'fa-solid fa-cash-register'
-    model_icon_alt = 'fa-solid fa-cash-register'
+    model_icon_alt = 'fa-solid fa-mobile-retro'
 
     class Meta:
         ordering = ('name',)
@@ -207,13 +325,13 @@ class CashAccount(ActivatableModel, PharmacyModel):
         ]
 
     def clean(self):
-        if self.account_type == 'electronic':
-            if not self.operator:
+        if self.account_type == 'mobile_money':
+            if not self.mobile_operator:
                 raise ValidationError(
-                    _("An operator is required for an electronic cash_account."))
-            if not self.phone:
+                    _("A mobile operator is required for an mobile money account."))
+            if not self.phone_number:
                 raise ValidationError(
-                    _("A phone number is required for an electronic cash_account."))
+                    _("A phone number is required for an mobile money account."))
 
     def __str__(self):
         return f"{self.name} ({self.get_account_type_display()})"
@@ -222,7 +340,6 @@ class CashAccount(ActivatableModel, PharmacyModel):
     # Updated Cash Account properties
     # ---------------------------------------------------------
     def get_balance(self):
-        from finances.models import FinancialOperation
         money_in = FinancialOperation.objects.filter(
             pharmacy=self.pharmacy,
             destination_cash_account=self
@@ -302,11 +419,11 @@ class CashAccount(ActivatableModel, PharmacyModel):
         return self.total_revenue - self.total_expenses
 
 
-class FinancialAccount(ActivatableModel, OrganizationModel):
+class OperationAccount(ActivatableModel, OrganizationModel):
 
     ACCOUNT_TYPE_CHOICES = [
         ("bank", _("Bank Account")),
-        ("cash", _("Cash Account")),
+        ("cash_drawer", _("Cash Drawer")),
     ]
 
     pharmacy = models.ForeignKey(
@@ -315,48 +432,72 @@ class FinancialAccount(ActivatableModel, OrganizationModel):
         null=True,
         blank=True,
         related_name="financial_accounts",
-        verbose_name=_("Pharmacy")
+        verbose_name=_("Pharmacy"),
     )
 
     account_type = models.CharField(
-        max_length=20,
-        choices=ACCOUNT_TYPE_CHOICES
+        max_length=40,
+        choices=ACCOUNT_TYPE_CHOICES,
+        verbose_name=_("Account Type"),
     )
 
-    # Generic relation → BankAccount OR CashAccount
-    content_type = models.ForeignKey(
-        ContentType,
-        on_delete=models.CASCADE
+    # -----------------------------
+    # LINKS TO OPERATIONAL ACCOUNTS
+    # -----------------------------
+    cash_account = models.OneToOneField(
+        "finances.CashAccount",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="financial_account",
+        verbose_name=_("Cash Account"),
     )
-    object_id = models.CharField(max_length=36)
-    account_object = GenericForeignKey("content_type", "object_id")
 
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
+    bank_account = models.OneToOneField(
+        "finances.BankAccount",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="financial_account",
+        verbose_name=_("Bank Account"),
+    )
 
     class Meta:
-        unique_together = ("content_type", "object_id")
         verbose_name = _("Financial Account")
         verbose_name_plural = _("Financial Accounts")
 
     def __str__(self):
-        return f"{self.get_account_type_display()} - {self.account_object}"
+        return f"{self.get_account_type_display()}"
 
-    # ---------------------------------------------------------
-    # BALANCE (unified)
-    # ---------------------------------------------------------
-    def get_balance(self):
+    def clean(self):
+        if self.account_type == "cash_drawer":
+            if not self.cash_account:
+                raise ValidationError(
+                    _("Cash account is required for cash drawers."))
+            if self.bank_account:
+                raise ValidationError(
+                    _("Cash drawers cannot have bank accounts."))
 
-        money_in = FinancialOperation.objects.filter(
-            destination_account=self
-        ).aggregate(total=Sum("amount"))["total"] or 0
+        if self.account_type == "bank":
+            if not self.bank_account:
+                raise ValidationError(
+                    _("Bank account is required for bank accounts."))
+            if self.cash_account:
+                raise ValidationError(
+                    _("Bank accounts cannot have cash accounts."))
 
-        money_out = FinancialOperation.objects.filter(
-            source_account=self
-        ).aggregate(total=Sum("amount"))["total"] or 0
+        if not self.cash_account and not self.bank_account:
+            raise ValidationError(
+                _("A financial account must be linked to either cash or bank."))
 
-        return money_in - money_out
+    @property
+    def account_object(self):
+        """Returns the actual CashAccount or BankAccount instance"""
+        if self.account_type == "cash_drawer" and self.cash_account:
+            return self.cash_account
+        elif self.account_type == "bank" and self.bank_account:
+            return self.bank_account
+        return None
 
 
 # ----------------------------------------------------------
@@ -463,7 +604,7 @@ class FinancialOperation(PharmacyModel, ArchivableModel):
     # UNIFIED ACCOUNTS
     # ---------------------------------------------------------
     source_account = models.ForeignKey(
-        "finances.FinancialAccount",
+        "finances.OperationAccount",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -472,7 +613,7 @@ class FinancialOperation(PharmacyModel, ArchivableModel):
     )
 
     destination_account = models.ForeignKey(
-        "finances.FinancialAccount",
+        "finances.OperationAccount",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -567,6 +708,23 @@ class FinancialOperation(PharmacyModel, ArchivableModel):
             raise ValidationError(_("Amount must be greater than zero."))
 
         # -----------------------------
+        # FINANCING
+        # -----------------------------
+        if self.operation_type == "financing":
+
+            if not self.destination_account:
+                raise ValidationError(
+                    _("FIancing must have a destination account.")
+                )
+
+            if self.source_account:
+                raise ValidationError(
+                    _("Financing cannot have an internal source account.")
+                )
+
+            return
+
+        # -----------------------------
         # TRANSFER
         # -----------------------------
         if self.operation_type == "transfer":
@@ -586,7 +744,7 @@ class FinancialOperation(PharmacyModel, ArchivableModel):
         # -----------------------------
         # INFLOW (money coming in)
         # -----------------------------
-        if self.operation_type == "inflow":
+        if self.operation_type == "revenue":
 
             if not self.destination_account:
                 raise ValidationError(
@@ -601,7 +759,7 @@ class FinancialOperation(PharmacyModel, ArchivableModel):
         # -----------------------------
         # OUTFLOW (money going out)
         # -----------------------------
-        if self.operation_type == "outflow":
+        if self.operation_type == "expense":
 
             if not self.source_account:
                 raise ValidationError(
@@ -617,16 +775,20 @@ class FinancialOperation(PharmacyModel, ArchivableModel):
     # CONVENIENCE
     # ---------------------------------------------------------
     @property
+    def is_financing(self):
+        return self.operation_type == "financing"
+
+    @property
     def is_transfer(self):
         return self.operation_type == "transfer"
 
     @property
-    def is_inflow(self):
-        return self.operation_type == "inflow"
+    def is_revenue(self):
+        return self.operation_type == "revenue"
 
     @property
-    def is_outflow(self):
-        return self.operation_type == "outflow"
+    def is_expense(self):
+        return self.operation_type == "expense"
 
     @property
     def source(self):
@@ -706,15 +868,18 @@ class Invoice(PharmacyModel, ArchivableModel):
     def balance(self):
         return self.amount - self.total_paid
 
-    def save(self, *args, **kwargs):
-        # Set status automatically on save
-        if self.total_paid <= 0:
-            self.status = "unpaid"
-        elif self.total_paid > 0 and self.total_paid < self.amount:
-            self.status = "partially_paid"
+    @property
+    def computed_status(self):
+        paid = self.total_paid
+        if paid <= 0:
+            return "unpaid"
+        elif paid < self.amount:
+            return "partially_paid"
         else:
-            self.status = "fully_paid"
+            return "fully_paid"
 
+    def save(self, *args, **kwargs):
+        # Don't touch status here
         super().save(*args, **kwargs)
 
 
@@ -788,25 +953,19 @@ class Bill(PharmacyModel, ArchivableModel):
     def balance(self):
         return self.amount - self.total_paid
 
-    def save(self, *args, **kwargs):
-        # Set status automatically on save
-        if self.total_paid <= 0:
-            self.status = "unpaid"
-        elif self.total_paid > 0 and self.total_paid < self.amount:
-            self.status = "partially_paid"
+    @property
+    def computed_status(self):
+        paid = self.total_paid
+        if paid <= 0:
+            return "unpaid"
+        elif paid < self.amount:
+            return "partially_paid"
         else:
-            self.status = "fully_paid"
+            return "fully_paid"
 
+    def save(self, *args, **kwargs):
+        # Don't touch status here
         super().save(*args, **kwargs)
-
-
-ALLOWED_PAYMENT_MODELS = {
-    "sale": Sale,
-    "purchase": PurchaseDelivery,
-    "service": ClinicalService,
-    "invoice": Invoice,
-    "bill": Bill,
-}
 
 
 class Payment(PharmacyModel, ArchivableModel):
@@ -826,100 +985,153 @@ class Payment(PharmacyModel, ArchivableModel):
         ("clinical_service", _("Clinical Service")),
     )
 
-    # Semantic meaning (WHY this payment exists)
+    # -----------------------------------
+    # BUSINESS MEANING
+    # -----------------------------------
     payment_cause = models.CharField(
-        max_length=32, choices=PAYMENT_CAUSE_CHOICES, verbose_name=_("Payment Cause"))
+        max_length=32,
+        choices=PAYMENT_CAUSE_CHOICES,
+        verbose_name=_("Payment Cause"),
+    )
 
-    # Direction of money
     direction = models.CharField(
-        max_length=3, choices=PAYMENT_DIRECTION_CHOICES, verbose_name=_("Payment Direction"))
+        max_length=3,
+        choices=PAYMENT_DIRECTION_CHOICES,
+        verbose_name=_("Payment Direction"),
+    )
 
-    # Generic link to payable / receivable object
+    # -----------------------------------
+    # LINK TO BUSINESS OBJECT
+    # -----------------------------------
     content_type = models.ForeignKey(
-        ContentType, on_delete=models.PROTECT, verbose_name=_("Related Object Type"))
+        ContentType,
+        on_delete=models.PROTECT,
+        verbose_name=_("Related Object Type"),
+    )
 
     object_id = models.CharField(
-        max_length=36, verbose_name=_("Related Object ID"))
+        max_length=36,
+        verbose_name=_("Related Object ID"),
+    )
 
     content_object = GenericForeignKey("content_type", "object_id")
 
+    # -----------------------------------
+    # CORE FINANCIAL DATA
+    # -----------------------------------
     amount = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Amount"))
+        max_digits=12,
+        decimal_places=2,
+        verbose_name=_("Amount"),
+    )
 
-    financial_account = models.CharField(
-        max_length=50, choices=FINANCIAL_ACCOUNT_CHOICES, default="cash_account", verbose_name=_("Financial Account"))
+    operation_account = models.ForeignKey(
+        "finances.OperationAccount",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        verbose_name=_("Operation Account"),
+    )
 
-    cash_account = models.ForeignKey("finances.CashAccount", on_delete=models.SET_NULL,
-                                 null=True, blank=True, related_name="payments", verbose_name=_("CashAccount"))
+    date = models.DateField(
+        verbose_name=_("Payment Date"),
+    )
 
-    bank_account = models.ForeignKey("finances.BankAccount", on_delete=models.SET_NULL,
-                                     null=True, blank=True, related_name="payments", verbose_name=_("Bank Account"))
-
-    date = models.DateField(verbose_name=_("Payment Date"))
-
-    notes = models.TextField(blank=True, null=True)
+    notes = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Notes"),
+    )
 
     proof_file = models.FileField(
         upload_to="finances/payments/proof_files",
         blank=True,
-        null=True
+        null=True,
+        verbose_name=_("Proof File"),
     )
 
-    model_icon = 'fa-solid fa-hand-holding-dollar'
+    model_icon = "fa-solid fa-hand-holding-dollar"
 
     class Meta:
         ordering = ("-date",)
         verbose_name = _("Payment")
         verbose_name_plural = _("Payments")
 
+    def __str__(self):
+        return f"{self.payment_cause} - {self.amount} ({self.date})"
+
+    # -----------------------------------
+    # VALIDATION
+    # -----------------------------------
     def clean(self):
-        # Validate payment source
-        if self.financial_account == "cash_account" and not self.cash_account:
-            raise ValidationError(verbose_name=_(
-                "Cash Account is required for cash payments."))
+        if self.amount <= 0:
+            raise ValidationError(_("Amount must be greater than zero."))
 
-        if self.financial_account == "bank_account" and not self.bank_account:
-            raise ValidationError(
-                _("Bank account is required for bank payments."))
+        if not self.operation_account:
+            raise ValidationError(_("Operation account is required."))
 
-        # Validate cause ↔ model consistency
-        model = ALLOWED_PAYMENT_MODELS.get(self.payment_cause)
-        if not model:
-            raise ValidationError(verbose_name=_("Invalid payment cause."))
-
-        expected_ct = ContentType.objects.get_for_model(model)
-        if self.content_type != expected_ct:
+        if self.payment_cause in ("sale", "invoice", "clinical_service") and self.direction != "in":
             raise ValidationError(
-                _("Payment cause does not match related document type.")
-            )
-
-        # Validate direction
-        if self.payment_cause in ("sale", "invoice") and self.direction != "in":
-            raise ValidationError(
-                _("Sales and invoices must be incoming payments."))
-            
-        if self.payment_cause == "clinical_service" and self.direction != "in":
-            raise ValidationError(
-                _("Clinical service payments must be incoming.")
+                _("This payment type must be incoming.")
             )
 
         if self.payment_cause in ("purchase", "bill") and self.direction != "out":
             raise ValidationError(
-                _("Purchases and bills must be outgoing payments."))
+                _("This payment type must be outgoing.")
+            )
+
+    # -----------------------------------
+    # SAVE → GENERATE LEDGER ENTRY
+    # -----------------------------------
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if FinancialOperation.objects.filter(content_object=self).exists():
+            return
+
+        # Determine operation type from payment cause
+        op_type = {
+            "sale": "revenue",
+            "invoice": "revenue",
+            "clinical_service": "revenue",
+            "purchase": "expense",
+            "bill": "expense",
+            "refund": "expense",  # or revenue depending on direction
+            "advance": "financing",
+        }.get(self.payment_cause, "revenue")
+
+        # Get pharmacy/org from operation_account
+        pharmacy = self.operation_account.pharmacy if self.operation_account else None
+        org = self.operation_account.organization if self.operation_account else None
+
+        FinancialOperation.objects.create(
+            label=f"Payment - {self.payment_cause}",
+            amount=self.amount,
+            date=self.date,
+            content_object=self,
+            operation_type=op_type,
+            operation_subtype=f"{self.payment_cause}_{self.direction}",
+            source_account=None if self.direction == "in" else self.operation_account,
+            destination_account=self.operation_account if self.direction == "in" else None,
+            pharmacy=pharmacy,
+            organization=org,
+            reference=f"PAY-{self.id}",
+        )
+
+    # -----------------------------------
+    # DISPLAY HELPERS
+    # -----------------------------------
+    @property
+    def display_operation_account(self):
+        return str(self.operation_account)
 
     @property
-    def display_financial_account(self):
-        """
-        Combines financial_account with bank or cash_account info.
-        """
-        fin_info = ""
-        if self.financial_account:
-            if self.bank_account:
-                fin_info = f"Bank Account | {self.bank_account}"
-            elif self.cash_account:
-                fin_info = f"Cash Account | {self.cash_account}"
-            return fin_info
-        return "—"
+    def is_incoming(self):
+        return self.direction == "in"
+
+    @property
+    def is_outgoing(self):
+        return self.direction == "out"
 
 
 # -------------------------------

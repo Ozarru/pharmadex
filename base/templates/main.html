@@ -1439,7 +1439,7 @@
     // -----------------------------------------------------------------------------
     // CashAccount / Bank Account toggle (Destination & Source)
     // -----------------------------------------------------------------------------
-    function initFinancialAccountToggle(root = document) {
+    function initOperationAccountToggle(root = document) {
       const paymentSource = root.querySelector("#id_financial_account");
       if (!paymentSource) return;
 
@@ -1593,7 +1593,7 @@
       makeTablesResponsive();
       enableTableRowAndCardClicks("table tbody tr");
       enableTableRowAndCardClicks(".responsive-card-view > div");
-      initFinancialAccountToggle(e.target);
+      initOperationAccountToggle(e.target);
       initMobileOperatorToggle(e.target);
 
       // Initialize pagination for all tables
@@ -1621,7 +1621,7 @@
       makeTablesResponsive();
       enableTableRowAndCardClicks("table tbody tr");
       enableTableRowAndCardClicks(".responsive-card-view > div");
-      initFinancialAccountToggle(e.target);
+      initOperationAccountToggle(e.target);
       initMobileOperatorToggle(e.target);
 
       // Initialize pagination only for tables inside the updated scope

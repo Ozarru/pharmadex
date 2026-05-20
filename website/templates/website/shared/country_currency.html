@@ -1,0 +1,26 @@
+<!-- templates/website/pricing.html -->
+<select name="country" id="country-select">
+    {% for code, name in COUNTRY_CHOICES %}
+    <option value="{{ code }}" data-currency="{{ code|country_to_currency }}">
+        {{ name }}
+    </option>
+    {% endfor %}
+</select>
+
+<div id="price-display" data-ngn="₦25,000" data-xof="₣15,000">
+    <!-- JS switches based on country selection -->
+</div>
+
+<script>
+const countryCurrencyMap = {
+    "NG": { code: "NGN", symbol: "₦", name: "Naira" },
+    "TG": { code: "XOF", symbol: "₣", name: "CFA Franc" },
+    "GH": { code: "GHS", symbol: "₵", name: "Cedi" },
+    // ... etc
+};
+
+document.getElementById('country-select').addEventListener('change', function() {
+    const currency = countryCurrencyMap[this.value];
+    updatePricing(currency);
+});
+</script>

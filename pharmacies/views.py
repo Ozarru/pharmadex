@@ -455,14 +455,14 @@ def pharmacy_monthly_trend(request, pk):
         "profit": data.get("profit", []),
     }
 
-    print("\n========== MONTHLY TREND ==========")
-    print("PHARMACY:", pharmacy.name)
-    print("LABELS:", context["labels"])
-    print("SALES:", context["sales"])
-    print("EXPENDITURES:", context["expenditures"])
-    print("LOSSES:", context["losses"])
-    print("PROFIT:", context["profit"])
-    print("===================================\n")
+    # print("\n========== MONTHLY TREND ==========")
+    # print("PHARMACY:", pharmacy.name)
+    # print("LABELS:", context["labels"])
+    # print("SALES:", context["sales"])
+    # print("EXPENDITURES:", context["expenditures"])
+    # print("LOSSES:", context["losses"])
+    # print("PROFIT:", context["profit"])
+    # print("===================================\n")
 
     return JsonResponse(data)
 

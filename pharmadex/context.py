@@ -1,5 +1,7 @@
 import threading
 
+from pharmadex.config.constants import CountryPreset, CurrencyPreset, MobileOperatorPreset
+
 _thread_locals = threading.local()
 
 # -------------------------------------------------
@@ -187,3 +189,18 @@ def clear_context():
     ]:
         if hasattr(_thread_locals, key):
             delattr(_thread_locals, key)
+
+
+# -------------------------------------------------
+# Cleanup (VERY IMPORTANT)
+# -------------------------------------------------
+def market_context(request):
+    """
+    Add to TEMPLATES['OPTIONS']['context_processors']
+    Makes constants available in all templates.
+    """
+    return {
+        "COUNTRY_CHOICES": CountryPreset.choices(),
+        "CURRENCY_CHOICES": CurrencyPreset.choices(),
+        "MOBILE_OPERATORS": MobileOperatorPreset.choices(),
+    }

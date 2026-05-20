@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: pharmadex
+    env: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn pharmadex.wsgi:application
+    envVars:
+      - key: ENVIRONMENT
+        value: prod
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: 3.11.4
+
+databases:
+  - name: pharmadex-db
+    plan: free
+    ipAllowList: []

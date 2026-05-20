@@ -1,4 +1,4 @@
-from finances.models import FinancialAccount, FinancialOperation
+from finances.models import OperationAccount, FinancialOperation
 from django.db.models import Sum, Q
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -10,7 +10,7 @@ def sync_financial_account(instance, account_type):
 
     content_type = ContentType.objects.get_for_model(instance)
 
-    account, created = FinancialAccount.objects.update_or_create(
+    account, created = OperationAccount.objects.update_or_create(
         content_type=content_type,
         object_id=instance.pk,
         defaults={
@@ -30,11 +30,11 @@ def get_financial_account(obj):
     content_type = ContentType.objects.get_for_model(obj)
 
     try:
-        return FinancialAccount.objects.get(
+        return OperationAccount.objects.get(
             content_type=content_type,
             object_id=obj.pk
         )
-    except FinancialAccount.DoesNotExist:
+    except OperationAccount.DoesNotExist:
         return None
 
 

@@ -1,0 +1,423 @@
+{% load static i18n %}
+
+<!-- ================= COUNTRY PICKER ================= -->
+<div class="relative flex flex-col items-center">
+  <button
+    onclick="toggleMenu(this, 'countryMenu')"
+    aria-label="{% trans 'Select country' %}"
+    class="hover-text-secondary transition text-gray-500 flex items-center gap-2"
+  >
+    <img 
+      id="countryFlag" 
+      src="https://flagcdn.com/w20/sn.png" 
+      alt="" 
+      class="w-5 h-3.5 rounded-sm object-cover shadow-sm"
+    />
+    <span id="countryCode" class="text-sm font-medium">SN</span>
+    <i class="fas fa-chevron-down text-[10px] text-gray-400"></i>
+  </button>
+  
+  <div
+    id="countryMenu"
+    class="hidden absolute right-0 bottom-10 bg-white border border-gray-200 rounded-2xl shadow-2xl w-64 flex flex-col text-sm z-50 overflow-hidden max-h-80"
+    role="menu"
+    aria-orientation="vertical"
+  >
+    <!-- Search -->
+    <div class="p-3 border-b border-gray-100">
+      <div class="relative">
+        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+        <input 
+          type="text" 
+          id="countrySearch"
+          placeholder="{% trans 'Search country...' %}"
+          class="w-full pl-8 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20"
+          oninput="filterCountries(this.value)"
+        />
+      </div>
+    </div>
+    
+    <!-- Country List -->
+    <div id="countryList" class="overflow-y-auto flex-1 py-1">
+      <!-- Benin -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('BJ', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Benin"
+        data-code="BJ"
+      >
+        <img src="https://flagcdn.com/w20/bj.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Benin" %}</span>
+          <span class="text-xs text-gray-400 ml-1">BJ</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- Burkina Faso -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('BF', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Burkina Faso"
+        data-code="BF"
+      >
+        <img src="https://flagcdn.com/w20/bf.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Burkina Faso" %}</span>
+          <span class="text-xs text-gray-400 ml-1">BF</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- Cabo Verde -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('CV', 'CVE', '$')"
+        role="menuitem"
+        data-country="Cabo Verde"
+        data-code="CV"
+      >
+        <img src="https://flagcdn.com/w20/cv.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Cabo Verde" %}</span>
+          <span class="text-xs text-gray-400 ml-1">CV</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">CVE</span>
+      </button>
+      
+      <!-- Côte d'Ivoire -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('CI', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Côte d'Ivoire"
+        data-code="CI"
+      >
+        <img src="https://flagcdn.com/w20/ci.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Côte d'Ivoire" %}</span>
+          <span class="text-xs text-gray-400 ml-1">CI</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- The Gambia -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('GM', 'GMD', 'D')"
+        role="menuitem"
+        data-country="Gambia"
+        data-code="GM"
+      >
+        <img src="https://flagcdn.com/w20/gm.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "The Gambia" %}</span>
+          <span class="text-xs text-gray-400 ml-1">GM</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">GMD</span>
+      </button>
+      
+      <!-- Ghana -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('GH', 'GHS', '₵')"
+        role="menuitem"
+        data-country="Ghana"
+        data-code="GH"
+      >
+        <img src="https://flagcdn.com/w20/gh.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Ghana" %}</span>
+          <span class="text-xs text-gray-400 ml-1">GH</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">GHS</span>
+      </button>
+      
+      <!-- Guinea -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('GN', 'GNF', 'Fr')"
+        role="menuitem"
+        data-country="Guinea"
+        data-code="GN"
+      >
+        <img src="https://flagcdn.com/w20/gn.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Guinea" %}</span>
+          <span class="text-xs text-gray-400 ml-1">GN</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">GNF</span>
+      </button>
+      
+      <!-- Guinea-Bissau -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('GW', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Guinea-Bissau"
+        data-code="GW"
+      >
+        <img src="https://flagcdn.com/w20/gw.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Guinea-Bissau" %}</span>
+          <span class="text-xs text-gray-400 ml-1">GW</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- Liberia -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('LR', 'LRD', '$')"
+        role="menuitem"
+        data-country="Liberia"
+        data-code="LR"
+      >
+        <img src="https://flagcdn.com/w20/lr.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Liberia" %}</span>
+          <span class="text-xs text-gray-400 ml-1">LR</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">LRD</span>
+      </button>
+      
+      <!-- Mali -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('ML', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Mali"
+        data-code="ML"
+      >
+        <img src="https://flagcdn.com/w20/ml.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Mali" %}</span>
+          <span class="text-xs text-gray-400 ml-1">ML</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- Niger -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('NE', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Niger"
+        data-code="NE"
+      >
+        <img src="https://flagcdn.com/w20/ne.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Niger" %}</span>
+          <span class="text-xs text-gray-400 ml-1">NE</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- Nigeria -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('NG', 'NGN', '₦')"
+        role="menuitem"
+        data-country="Nigeria"
+        data-code="NG"
+      >
+        <img src="https://flagcdn.com/w20/ng.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Nigeria" %}</span>
+          <span class="text-xs text-gray-400 ml-1">NG</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">NGN</span>
+      </button>
+      
+      <!-- Senegal -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('SN', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Senegal"
+        data-code="SN"
+      >
+        <img src="https://flagcdn.com/w20/sn.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Senegal" %}</span>
+          <span class="text-xs text-gray-400 ml-1">SN</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+      
+      <!-- Sierra Leone -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('SL', 'SLE', 'Le')"
+        role="menuitem"
+        data-country="Sierra Leone"
+        data-code="SL"
+      >
+        <img src="https://flagcdn.com/w20/sl.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Sierra Leone" %}</span>
+          <span class="text-xs text-gray-400 ml-1">SL</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">SLE</span>
+      </button>
+      
+      <!-- Togo -->
+      <button
+        class="w-full px-4 py-2.5 hover:bg-gray-50 text-gray-700 flex items-center gap-3 transition-colors text-left"
+        onclick="setCountry('TG', 'XOF', 'Fr')"
+        role="menuitem"
+        data-country="Togo"
+        data-code="TG"
+      >
+        <img src="https://flagcdn.com/w20/tg.png" alt="" class="w-5 h-3.5 rounded-sm object-cover shadow-sm" />
+        <div class="flex-1">
+          <span class="font-medium">{% trans "Togo" %}</span>
+          <span class="text-xs text-gray-400 ml-1">TG</span>
+        </div>
+        <span class="text-xs text-gray-500 font-mono">XOF</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+    (function() {
+  'use strict';
+
+  const COUNTRY_STORAGE_KEY = 'pharmadex-country';
+  const CURRENCY_STORAGE_KEY = 'pharmadex-currency';
+
+  // ── Country Data (West Africa) ────────────────────────────
+  const countryData = {
+    'BJ': { name: 'Benin', currency: 'XOF', symbol: 'Fr', flag: 'bj' },
+    'BF': { name: 'Burkina Faso', currency: 'XOF', symbol: 'Fr', flag: 'bf' },
+    'CV': { name: 'Cabo Verde', currency: 'CVE', symbol: '$', flag: 'cv' },
+    'CI': { name: "Côte d'Ivoire", currency: 'XOF', symbol: 'Fr', flag: 'ci' },
+    'GM': { name: 'The Gambia', currency: 'GMD', symbol: 'D', flag: 'gm' },
+    'GH': { name: 'Ghana', currency: 'GHS', symbol: '₵', flag: 'gh' },
+    'GN': { name: 'Guinea', currency: 'GNF', symbol: 'Fr', flag: 'gn' },
+    'GW': { name: 'Guinea-Bissau', currency: 'XOF', symbol: 'Fr', flag: 'gw' },
+    'LR': { name: 'Liberia', currency: 'LRD', symbol: '$', flag: 'lr' },
+    'ML': { name: 'Mali', currency: 'XOF', symbol: 'Fr', flag: 'ml' },
+    'NE': { name: 'Niger', currency: 'XOF', symbol: 'Fr', flag: 'ne' },
+    'NG': { name: 'Nigeria', currency: 'NGN', symbol: '₦', flag: 'ng' },
+    'SN': { name: 'Senegal', currency: 'XOF', symbol: 'Fr', flag: 'sn' },
+    'SL': { name: 'Sierra Leone', currency: 'SLE', symbol: 'Le', flag: 'sl' },
+    'TG': { name: 'Togo', currency: 'XOF', symbol: 'Fr', flag: 'tg' }
+  };
+
+  // ── Helpers ─────────────────────────────────────────────────
+  const getStoredCountry = () => localStorage.getItem(COUNTRY_STORAGE_KEY) || 'SN';
+  const setStoredCountry = (code) => localStorage.setItem(COUNTRY_STORAGE_KEY, code);
+  const getStoredCurrency = () => localStorage.getItem(CURRENCY_STORAGE_KEY) || 'XOF';
+  const setStoredCurrency = (code) => localStorage.setItem(CURRENCY_STORAGE_KEY, code);
+
+  // ── Apply Country ───────────────────────────────────────────
+  window.setCountry = function(code, currency, symbol) {
+    const data = countryData[code];
+    if (!data) return;
+
+    setStoredCountry(code);
+    setStoredCurrency(currency);
+
+    // Update UI
+    const flagEl = document.getElementById('countryFlag');
+    const codeEl = document.getElementById('countryCode');
+    
+    if (flagEl) {
+      flagEl.src = `https://flagcdn.com/w20/${data.flag}.png`;
+      flagEl.alt = data.name;
+    }
+    if (codeEl) {
+      codeEl.textContent = code;
+    }
+
+    // Close menu
+    const menu = document.getElementById('countryMenu');
+    if (menu) menu.classList.add('hidden');
+
+    // Dispatch event for other components
+    window.dispatchEvent(new CustomEvent('countrychange', {
+      detail: { 
+        code, 
+        currency, 
+        symbol, 
+        name: data.name,
+        flag: data.flag 
+      }
+    }));
+
+    // Optional: sync with server via AJAX
+    syncWithServer(code, currency);
+  };
+
+  // ── Filter Countries ────────────────────────────────────────
+  window.filterCountries = function(query) {
+    const items = document.querySelectorAll('#countryList [role="menuitem"]');
+    const lowerQuery = query.toLowerCase().trim();
+    
+    items.forEach(item => {
+      const countryName = item.dataset.country.toLowerCase();
+      const countryCode = item.dataset.code.toLowerCase();
+      const match = countryName.includes(lowerQuery) || countryCode.includes(lowerQuery);
+      item.style.display = match ? 'flex' : 'none';
+    });
+  };
+
+  // ── Sync with Server ────────────────────────────────────────
+  function syncWithServer(countryCode, currencyCode) {
+    // Optional: send to Django backend
+    fetch('/api/set-country/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: JSON.stringify({ country: countryCode, currency: currencyCode })
+    }).catch(() => {}); // Silent fail
+  }
+
+  // ── Get Cookie Helper ───────────────────────────────────────
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  // ── Initialize ──────────────────────────────────────────────
+  function initCountry() {
+    const stored = getStoredCountry();
+    const data = countryData[stored];
+    if (data) {
+      const flagEl = document.getElementById('countryFlag');
+      const codeEl = document.getElementById('countryCode');
+      if (flagEl) {
+        flagEl.src = `https://flagcdn.com/w20/${data.flag}.png`;
+        flagEl.alt = data.name;
+      }
+      if (codeEl) {
+        codeEl.textContent = stored;
+      }
+    }
+  }
+
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCountry);
+  } else {
+    initCountry();
+  }
+
+})();
+</script>

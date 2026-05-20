@@ -1,0 +1,379 @@
+{% load static i18n %}
+
+<!-- ---------------------- NAVBAR ---------------------- -->
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div
+      class="backdrop-blur-xl bg-lightest border border-gray-200/60 shadow-md rounded-2xl px-6 lg:px-8 h-[78px] flex items-center justify-between"
+    >
+      <!-- ================= LOGO ================= -->
+      <a href="{% url 'website:home' %}" class="flex items-center gap-3 group">
+        <div
+          class="w-11 h-11 rounded-2xl flex items-center justify-center overflow-hidden"
+        >
+          <img
+            class="h-7 w-7 object-contain"
+            src="{% static 'imgs/brand/icon.png' %}"
+            alt="Pharmadex Logo"
+          />
+        </div>
+
+        <div class="flex flex-col leading-none">
+          <span
+            class="font-black text-xl tracking-tight text-heading group-hover:text-primary transition"
+          >
+            Pharmadex
+          </span>
+
+          <span class="text-[11px] text-gray-500 font-medium tracking-wide">
+            {% trans "PHARMACY ERP PLATFORM" %}
+          </span>
+        </div>
+      </a>
+
+      <!-- ================= DESKTOP NAV ================= -->
+      <div class="hidden lg:flex items-center gap-6">
+        <a
+          href="{% url 'website:home' %}"
+          class="nav-pill {% if active_page == 'home_page' %}nav-pill-active{% endif %}"
+        >
+          {% trans "Home" %}
+        </a>
+
+        <a
+          href="{% url 'website:about' %}"
+          class="nav-pill {% if active_page == 'about_page' %}nav-pill-active{% endif %}"
+        >
+          {% trans "About" %}
+        </a>
+
+        <a
+          href="{% url 'website:pricing' %}"
+          class="nav-pill {% if active_page == 'pricing_page' %}nav-pill-active{% endif %}"
+        >
+          {% trans "Pricing" %}
+        </a>
+
+        <a
+          href="{% url 'website:contact' %}"
+          class="nav-pill {% if active_page == 'contact_page' %}nav-pill-active{% endif %}"
+        >
+          {% trans "Contact" %}
+        </a>
+
+        <!-- Optional dropdown -->
+        <div class="relative group hidden">
+          <button type="button" class="nav-pill flex items-center gap-2">
+            {% trans "Resources" %}
+            <i class="fas fa-chevron-down text-[10px]"></i>
+          </button>
+
+          <div
+            class="absolute top-14 left-0 w-60 bg-white border border-gray-100 rounded-2xl shadow-2xl opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 overflow-hidden"
+          >
+            <a
+              href="{% url 'website:post-list' %}"
+              class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50 transition"
+            >
+              <i class="fas fa-newspaper text-primary"></i>
+
+              <div>
+                <p class="font-semibold text-gray-900">{% trans "Blog" %}</p>
+
+                <p class="text-sm text-gray-500">
+                  {% trans "Product news & insights" %}
+                </p>
+              </div>
+            </a>
+
+            <a
+              href="{% url 'website:post-list' %}"
+              class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50 transition"
+            >
+              <i class="fas fa-bolt text-orange-400"></i>
+
+              <div>
+                <p class="font-semibold text-gray-900">{% trans "Updates" %}</p>
+
+                <p class="text-sm text-gray-500">
+                  {% trans "Latest releases & features" %}
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= CTA ================= -->
+      {% if not user.is_authenticated %}
+      <div class="hidden lg:flex items-center gap-3">
+        <a
+          href="{% url 'accounts:login' %}"
+          class="px-5 py-2.5 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition"
+        >
+          {% trans "Sign in" %}
+        </a>
+
+        <a
+          href="{% url 'base:home' %}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition"
+        >
+          {% trans "Start Free Trial" %}
+        </a>
+      </div>
+      {% endif %}
+
+      <!-- ================= MOBILE BUTTON ================= -->
+      <button
+        onclick="toggleBurgerMenu()"
+        class="lg:hidden w-11 h-11 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
+        aria-label="Toggle mobile menu"
+      >
+        <i
+          id="burgerIcon"
+          class="fa-solid fa-bars text-lg transition-all duration-300"
+        ></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MOBILE OVERLAY ================= -->
+  <div
+    id="menuOverlay"
+    class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden lg:hidden z-40"
+    onclick="toggleBurgerMenu()"
+  ></div>
+
+  <!-- ================= MOBILE MENU ================= -->
+  <div
+    id="mobileMenu"
+    class="translate-x-full fixed top-0 right-0 h-full w-[88%] max-w-sm bg-white z-50 shadow-2xl transition-transform duration-300 lg:hidden flex flex-col"
+  >
+    <!-- top -->
+    <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-11 h-11 rounded-2xl bg-primary/10 flex items-center justify-center"
+        >
+          <img
+            class="h-6"
+            src="{% static 'imgs/brand/icon.png' %}"
+            alt="Pharmadex"
+          />
+        </div>
+
+        <div>
+          <p class="font-black text-gray-900">Pharmadex</p>
+
+          <p class="text-xs text-gray-500">{% trans "Pharmacy ERP" %}</p>
+        </div>
+      </div>
+
+      <button
+        onclick="toggleBurgerMenu()"
+        class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition flex items-center justify-center"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- links -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <div class="flex flex-col gap-4">
+        <a
+          href="{% url 'website:home' %}"
+          class="mobile-nav-link {% if active_page == 'home_page' %}mobile-nav-link-active{% endif %}"
+        >
+          <i class="fas fa-house text-primary"></i>
+          <span>{% trans "Home" %}</span>
+        </a>
+
+        <a
+          href="{% url 'website:about' %}"
+          class="mobile-nav-link {% if active_page == 'about_page' %}mobile-nav-link-active{% endif %}"
+        >
+          <i class="fas fa-circle-info text-primary"></i>
+          <span>{% trans "About" %}</span>
+        </a>
+
+        <a
+          href="{% url 'website:pricing' %}"
+          class="mobile-nav-link {% if active_page == 'pricing_page' %}mobile-nav-link-active{% endif %}"
+        >
+          <i class="fas fa-tags text-primary"></i>
+          <span>{% trans "Pricing" %}</span>
+        </a>
+
+        <a
+          href="{% url 'website:contact' %}"
+          class="mobile-nav-link {% if active_page == 'contact_page' %}mobile-nav-link-active{% endif %}"
+        >
+          <i class="fas fa-envelope text-primary"></i>
+          <span>{% trans "Contact" %}</span>
+        </a>
+      </div>
+
+      <!-- divider -->
+      <div class="my-8 border-t border-gray-100"></div>
+
+      <!-- support card -->
+      <div
+        class="rounded-3xl bg-primary p-6 text-white relative overflow-hidden"
+      >
+        <div
+          class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl"
+        ></div>
+
+        <div class="relative z-10">
+          <p class="text-sm text-white/70 mb-2">{% trans "Need help?" %}</p>
+
+          <h3 class="text-2xl font-black mb-3">{% trans "Talk to Sales" %}</h3>
+
+          <p class="text-sm text-white/80 mb-6">
+            {% trans "Get onboarding guidance and setup support." %}
+          </p>
+
+          <a
+            href="{% url 'website:contact' %}"
+            class="inline-flex items-center gap-2 bg-white text-primary px-5 py-3 rounded-xl font-semibold"
+          >
+            {% trans "Contact Team" %}
+            <i class="fas fa-arrow-right text-sm"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom -->
+    {% if not user.is_authenticated %}
+    <div class="p-6 border-t border-gray-100 space-y-3">
+      <a
+        href="{% url 'base:home' %}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary w-full py-4 rounded-2xl text-center"
+      >
+        {% trans "Start Free Trial" %}
+      </a>
+
+      <a
+        href="{% url 'accounts:login' %}"
+        class="w-full py-4 rounded-2xl border border-gray-200 flex items-center justify-center font-medium hover:bg-gray-50 transition"
+      >
+        {% trans "Sign in" %}
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+
+<!-- ================= EXTRA STYLES ================= -->
+<style>
+  .nav-pill {
+    padding: 0.625rem 1.25rem; /* px-5 py-2.5 */
+    border-radius: 0.75rem; /* rounded-xl */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    color: #4b5563; /* text-gray-600 */
+    transition: all 0.2s ease;
+  }
+
+  .nav-pill:hover {
+    color: var(--color-primary);
+    background-color: rgba(var(--primary-rgb), 0.05);
+  }
+
+  .nav-pill-active {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .nav-pill-active:hover {
+    color: white;
+    background-color: var(--color-primary);
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* gap-4 */
+    padding: 1rem 1.25rem; /* px-5 py-4 */
+    border-radius: 1rem; /* rounded-2xl */
+    color: #374151; /* text-gray-700 */
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-link:hover {
+    background-color: #f9fafb; /* hover:bg-gray-50 */
+  }
+
+  .mobile-nav-link-active {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .mobile-nav-link-active:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .mobile-nav-link-active i {
+    color: white !important;
+  }
+</style>
+
+<!-- ---------------------- JS ---------------------- -->
+<script>
+  // Burger menu toggle
+  function toggleBurgerMenu() {
+    const menu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("menuOverlay");
+    const burgerIcon = document.getElementById("burgerIcon");
+
+    const isOpen = menu.classList.contains("translate-x-0");
+
+    menu.classList.toggle("translate-x-0", !isOpen);
+    menu.classList.toggle("translate-x-full", isOpen);
+
+    overlay.classList.toggle("hidden", isOpen);
+
+    burgerIcon.classList.toggle("fa-bars", isOpen);
+    burgerIcon.classList.toggle("fa-times", !isOpen);
+
+    menu.setAttribute("aria-hidden", isOpen);
+    document.body.style.overflow = !isOpen ? "hidden" : "auto";
+  }
+
+  // Mobile dropdown toggle
+  function toggleMobileDropdown(el) {
+    const menu = el.querySelector(".mobile-dropdown-menu");
+    const icon = el.querySelector("span");
+
+    if (menu.classList.contains("hidden")) {
+      menu.classList.remove("hidden");
+      icon.style.transform = "rotate(180deg)";
+    } else {
+      menu.classList.add("hidden");
+      icon.style.transform = "rotate(0deg)";
+    }
+  }
+
+  // Desktop dropdown hover
+  document.querySelectorAll(".dropdown").forEach((drop) => {
+    const link = drop.querySelector(".nav-link");
+    const menu = drop.querySelector(".dropdown-menu");
+
+    drop.addEventListener("mouseenter", () => {
+      menu.classList.remove("hidden");
+    });
+    drop.addEventListener("mouseleave", () => {
+      menu.classList.add("hidden");
+    });
+  });
+</script>

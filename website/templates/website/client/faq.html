@@ -1,0 +1,43 @@
+{% extends 'website/shared/main.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- Header -->
+  <section class="relative py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-4">{{ title }}</h1>
+      <p class="text-xl text-gray-600">{% trans "Find answers to common questions about Pharmadex" %}</p>
+    </div>
+  </section>
+
+  <!-- FAQ Content -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 space-y-12">
+      {% for category in faqs %}
+      <div>
+        <h2 class="text-2xl font-bold mb-6 text-primary">{{ category.category }}</h2>
+        <div class="space-y-4">
+          {% for item in category.questions %}
+          <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden" x-data="{ open: false }">
+            <button 
+              @click="open = !open"
+              class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 transition"
+            >
+              <span class="font-semibold text-lg">{{ item.q }}</span>
+              <i class="fas fa-chevron-down text-gray-400 transition-transform" :class="{ 'rotate-180': open }"></i>
+            </button>
+            <div x-show="open" x-collapse class="px-6 pb-5">
+              <p class="text-gray-600 leading-relaxed">{{ item.a }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'website/shared/main.html' %}
+{% load static i18n %}
+<!--  -->
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- Header -->
+  <section class="relative py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-4">{{ title }}</h1>
+      <p class="text-xl text-gray-600 mb-12">{{ description }}</p>
+      
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+        <div>
+          <h3 class="text-3xl font-black text-primary">{{ stats.pharmacies }}</h3>
+          <p class="text-gray-600">{% trans "Pharmacies" %}</p>
+        </div>
+        <div>
+          <h3 class="text-3xl font-black text-primary">{{ stats.countries }}</h3>
+          <p class="text-gray-600">{% trans "Countries" %}</p>
+        </div>
+        <div>
+          <h3 class="text-3xl font-black text-primary">{{ stats.satisfaction }}</h3>
+          <p class="text-gray-600">{% trans "Satisfaction" %}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Grid -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for testimonial in testimonials %}
+        <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+          <div class="flex items-center gap-1 mb-4">
+            {% for i in "12345"|make_list %}
+            <i class="fas fa-star {% if forloop.counter <= testimonial.rating %}text-orange-400{% else %}text-gray-300{% endif %}"></i>
+            {% endfor %}
+          </div>
+          <p class="text-gray-700 mb-6 leading-relaxed">"{{ testimonial.content }}"</p>
+          <div class="flex items-center gap-4">
+            {% if testimonial.avatar %}
+            <img src="{{ testimonial.avatar.url }}" alt="{{ testimonial.name }}" class="w-12 h-12 rounded-full object-cover" />
+            {% else %}
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <span class="text-primary font-bold text-lg">{{ testimonial.name|first }}</span>
+            </div>
+            {% endif %}
+            <div>
+              <p class="font-bold">{{ testimonial.name }}</p>
+              <p class="text-sm text-gray-500">{{ testimonial.role }}, {{ testimonial.company }}</p>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center py-12">
+          <p class="text-gray-500">{% trans "No testimonials yet. Be the first to share your experience!" %}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-20 bg-primary">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-6">
+        {% trans "Ready to experience the difference?" %}
+      </h2>
+      <p class="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+        {% trans "Join thousands of pharmacies worldwide who trust our platform for their daily operations." %}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="{% url 'website:contact' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-colors">
+          {% trans "Get Started" %}
+        </a>
+        <a href="{% url 'website:about' %}" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition-colors">
+          {% trans "Learn More" %}
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

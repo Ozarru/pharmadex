@@ -85,7 +85,7 @@ def get_sidebar_links(user, current_organization=None):
             "pos_page"
         )
         
-        if current_pharma.requires_cashier_validation:
+        if current_pharma and current_pharma.requires_cashier_validation:
             add_link(
                 _("Cashier Validation"),
                 "pharmacies:cashier-validation",
@@ -145,7 +145,7 @@ def get_sidebar_links(user, current_organization=None):
         # CLINIC LINKS
         # ------------------------------
         
-        # if current_pharma.clinic_enabled:
+        # if current_pharma and current_pharma.clinic_enabled:
         #     add_link(
         #         _("Clinic Dashboard"),
         #         "clinics:clinic-dashboard",

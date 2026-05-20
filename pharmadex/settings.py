@@ -60,45 +60,66 @@ if ENVIRONMENT in ('local', 'local_prod'):
         '.ngrok-free.app',
     ]
 else:
-    ALLOWED_HOSTS = []
+    # Production: allow Render domain + any configured SITE_URL
+    ALLOWED_HOSTS = [
+        'localhost',  # fallback
+    ]
 
-ALLOWED_HOSTS.append(SITE_URL)
+# Add SITE_URL if configured
+if SITE_URL and SITE_URL != 'localhost:8000':
+    ALLOWED_HOSTS.append(SITE_URL)
+    ALLOWED_HOSTS.append(f'.{SITE_URL}')  # allow subdomains
+
+# Render auto-injects RENDER_EXTERNAL_HOSTNAME
+RENDER_HOST = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_HOST:
+    ALLOWED_HOSTS.append(RENDER_HOST)
+
+# Also allow wildcard for Render previews (remove this once stable)
+if ENVIRONMENT == 'stage':
+    ALLOWED_HOSTS.append('*')
 
 
 # --------------------------------------------------
 # CORS
 # --------------------------------------------------
+CORS_ALLOWED_ORIGINS = []
+
 if ENVIRONMENT in ('local', 'local_prod'):
-    CORS_ALLOWED_ORIGINS = [
-        f'http://{SITE_URL}',
+    CORS_ALLOWED_ORIGINS.extend([
         'http://localhost:8000',
         'http://127.0.0.1:8000',
-    ]
-else:
-    CORS_ALLOWED_ORIGINS = []
+    ])
+    if SITE_URL and SITE_URL != 'localhost:8000':
+        CORS_ALLOWED_ORIGINS.append(f'http://{SITE_URL}')
 
 if ENVIRONMENT in ('stage', 'prod'):
-    CORS_ALLOWED_ORIGINS.append(f'https://{SITE_URL}')
+    if SITE_URL and SITE_URL != 'localhost:8000':
+        CORS_ALLOWED_ORIGINS.append(f'https://{SITE_URL}')
+    # Allow Render preview URLs
+    if RENDER_HOST:
+        CORS_ALLOWED_ORIGINS.append(f'https://{RENDER_HOST}')
 
 
 # --------------------------------------------------
 # CSRF
 # --------------------------------------------------
+CSRF_TRUSTED_ORIGINS = []
+
 if ENVIRONMENT in ('local', 'local_prod'):
-    CSRF_TRUSTED_ORIGINS = [
-        f'http://{SITE_URL}',
-        f'https://{SITE_URL}',
-    ]
+    CSRF_TRUSTED_ORIGINS.extend([
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+    ])
+    if SITE_URL and SITE_URL != 'localhost:8000':
+        CSRF_TRUSTED_ORIGINS.append(f'http://{SITE_URL}')
+        CSRF_TRUSTED_ORIGINS.append(f'https://{SITE_URL}')
 
 if ENVIRONMENT in ('stage', 'prod'):
-    CSRF_TRUSTED_ORIGINS.append(f'https://{SITE_URL}')
-
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "pharmadex",
-    }
-}
+    if SITE_URL and SITE_URL != 'localhost:8000':
+        CSRF_TRUSTED_ORIGINS.append(f'https://{SITE_URL}')
+    if RENDER_HOST:
+        CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_HOST}')
 
 
 # --------------------------------------------------
@@ -138,12 +159,14 @@ INSTALLED_APPS = [
     'finances.apps.FinancesConfig',
     'support.apps.SupportConfig',
     'api.apps.ApiConfig',
+    'website.apps.WebsiteConfig',
     # 'hr.apps.HrConfig',
     # 'notifications.apps.NotificationsConfig',
 ]
 
 
 MIDDLEWARE = [
+    # 'pharmadex.middleware.router.HostRoutingMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -158,7 +181,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pharmadex.middleware.accounts.ForcePasswordChangeMiddleware',
-    'pharmadex.middleware.organization_police.CurrentOrganizationMiddleware',
+    'pharmadex.middleware.redirector.CurrentOrganizationMiddleware',
     # 'pharmadex.middleware.session_police.RequireSessionKeyMiddleware',
 ]
 
@@ -175,6 +198,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'pharmadex.config.sidebar.sidebar_context',
+                'website.context_processors.country_currency',
             ],
             'builtins': ['django.templatetags.i18n'],
         },
@@ -234,7 +258,7 @@ DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'pharmadex_db',
-#         'USER': 'escale_africaine',
+#         'USER': 'pharmadex',
 #         'PASSWORD': 'password',
 #         'HOST': 'localhost',
 #         'PORT': '5432',
@@ -304,18 +328,25 @@ TEST_RECIPIENT_EMAIL = _cfg('TEST_RECIPIENT_EMAIL', default='')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# Media files - use persistent disk path on Render, local otherwise
 if ENVIRONMENT == 'prod':
-    MEDIA_URL = '/media/'  # always a URL
-    MEDIA_ROOT = '/var/data/media'  # direct absolute path
+    # Render disk mount point (you'll create this in dashboard)
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.environ.get('RENDER_DISK_PATH', '/var/data/media')
 else:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use simpler storage for Render free tier (avoid manifest issues)
+if ENVIRONMENT == 'prod':
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Default primary key field type

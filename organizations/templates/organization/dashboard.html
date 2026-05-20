@@ -6,11 +6,11 @@
     <div
       class="p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
     >
-      <div class="flex items-start gap-4">
+      <div class="w-full max-w-lg flex items-center gap-4">
         <div
-          class="w-24 h-24 rounded-2xl bg-accent flex items-center justify-center text-primary text-2xl"
+          class="w-24 h-24 rounded-full bg-lighter flex items-center justify-center text-primary text-3xl shadow-md"
         >
-          <i class="{{ model_icon }}"></i>
+          <i class="{{ organization.model_icon }}"></i>
         </div>
 
         <div>
@@ -19,7 +19,7 @@
           </h1>
 
           {% if header_paragraph %}
-          <p class="text-sm text-body mt-3 max-w-3xl">{{ header_paragraph }}</p>
+          <p class="text-sm text-label">{{ header_paragraph }}</p>
           {% endif %}
         </div>
       </div>
@@ -33,7 +33,7 @@
 
         <a href="{% url 'pharmacies:pharmacy-list' %}" class="btn btn-primary">
           <i class="fa-solid fa-staff-snake mr-2"></i>
-          {% trans "Manage Pharmacies" %}
+          {% trans "Manage Pharmacies " %}
         </a>
       </div>
     </div>
@@ -41,12 +41,12 @@
 
   <!-- KPI CARDS -->
   <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-    <!-- Pharmacies -->
+    <!-- Pharmacies  -->
     <div
       class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
     >
       <div>
-        <p class="text-xs uppercase tracking-wide">{% trans "Pharmacies" %}</p>
+        <p class="text-xs uppercase tracking-wide">{% trans "Pharmacies " %}</p>
 
         <h2 class="text-3xl font-bold text-heading mt-2">
           {{ pharmacies_count }}
@@ -320,7 +320,7 @@
 
           <div class="flex items-center justify-between">
             <span class="text-sm text-body">
-              {% trans "Active Pharmacies" %}
+              {% trans "Active Pharmacies " %}
             </span>
 
             <span class="px-4 py-1 bg-green-100 text-green-600 rounded-lg font-semibold text-heading">
@@ -331,7 +331,7 @@
 
           <div class="flex items-center justify-between">
             <span class="text-sm text-body">
-              {% trans "Inactive Pharmacies" %}
+              {% trans "Inactive Pharmacies " %}
             </span>
 
             <span class="px-4 py-1 bg-gray-100 text-gray-600 rounded-lg font-semibold text-heading">
@@ -342,7 +342,7 @@
 
           <div class="flex items-center justify-between">
             <span class="text-sm text-body">
-              {% trans "Suspended Pharmacies" %}
+              {% trans "Suspended Pharmacies " %}
             </span>
 
             <span class="px-4 py-1 bg-red-100 text-red-600 rounded-lg font-semibold text-heading">

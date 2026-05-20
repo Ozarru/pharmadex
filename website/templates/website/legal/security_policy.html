@@ -1,0 +1,85 @@
+{% extends 'website/shared/main.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- Header -->
+  <section class="relative py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-4">{{ title|default:_("Security Policy") }}</h1>
+      <p class="text-xl text-gray-600 mb-4">{{ description|default:_("We are committed to protecting your data with industry-leading security practices.") }}</p>
+      {% if last_updated %}
+      <p class="text-sm text-gray-500">{% trans "Last updated:" %} {{ last_updated|date:"F j, Y" }}</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none text-gray-700">
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "1. Our Security Commitment" %}</h2>
+        <p class="mb-6">{% trans "We take the security of your data seriously. This Security Policy outlines the measures we implement to protect your information and maintain the integrity of our systems." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "2. Data Encryption" %}</h2>
+        <p class="mb-4">{% trans "We employ strong encryption standards to protect your data:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "All data in transit is protected using TLS 1.3 encryption;" %}</li>
+          <li>{% trans "Sensitive data at rest is encrypted using AES-256 encryption;" %}</li>
+          <li>{% trans "Encryption keys are managed through a secure key management system;" %}</li>
+          <li>{% trans "End-to-end encryption is available for sensitive communications." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "3. Access Controls" %}</h2>
+        <p class="mb-4">{% trans "We implement strict access controls to ensure only authorized personnel can access your data:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "Role-based access control (RBAC) for all systems;" %}</li>
+          <li>{% trans "Multi-factor authentication (MFA) required for all administrative access;" %}</li>
+          <li>{% trans "Principle of least privilege — users only have access to what they need;" %}</li>
+          <li>{% trans "Regular access reviews and audits;" %}</li>
+          <li>{% trans "Immediate revocation of access upon termination or role change." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "4. Infrastructure Security" %}</h2>
+        <p class="mb-4">{% trans "Our infrastructure is designed with security at its core:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "Cloud infrastructure hosted in SOC 2 Type II certified data centers;" %}</li>
+          <li>{% trans "Network segmentation and firewall protection;" %}</li>
+          <li>{% trans "DDoS protection and intrusion detection systems;" %}</li>
+          <li>{% trans "Regular security patching and vulnerability management;" %}</li>
+          <li>{% trans "Automated backup and disaster recovery procedures." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "5. Monitoring and Incident Response" %}</h2>
+        <p class="mb-4">{% trans "We maintain continuous monitoring and have established incident response procedures:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "24/7 security monitoring and alerting;" %}</li>
+          <li>{% trans "Automated threat detection and response;" %}</li>
+          <li>{% trans "Defined incident response plan with clear escalation paths;" %}</li>
+          <li>{% trans "Regular security incident drills and tabletop exercises;" %}</li>
+          <li>{% trans "Mandatory incident reporting and documentation." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "6. Compliance and Audits" %}</h2>
+        <p class="mb-6">{% trans "We undergo regular security assessments and maintain compliance with relevant standards including GDPR, HIPAA (where applicable), and industry-specific regulations. Third-party security audits are conducted annually." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "7. Employee Security" %}</h2>
+        <p class="mb-4">{% trans "Our employees are an integral part of our security posture:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "Background checks for all employees with data access;" %}</li>
+          <li>{% trans "Mandatory security awareness training upon hire and annually;" %}</li>
+          <li>{% trans "Strict confidentiality agreements;" %}</li>
+          <li>{% trans "Phishing simulation exercises and security best practice training." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "8. Reporting Security Issues" %}</h2>
+        <p class="mb-6">{% trans "If you discover a security vulnerability or have concerns about our security practices, please contact our security team immediately. We have a responsible disclosure policy and appreciate your assistance in keeping our platform secure." %}</p>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

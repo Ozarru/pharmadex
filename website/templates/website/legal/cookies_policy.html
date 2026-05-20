@@ -1,0 +1,110 @@
+{% extends 'website/shared/main.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- Header -->
+  <section class="relative py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-4">{{ title|default:_("Cookies Policy") }}</h1>
+      <p class="text-xl text-gray-600 mb-4">{{ description|default:_("This policy explains how we use cookies and similar technologies on our website.") }}</p>
+      {% if last_updated %}
+      <p class="text-sm text-gray-500">{% trans "Last updated:" %} {{ last_updated|date:"F j, Y" }}</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none text-gray-700">
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "1. What Are Cookies" %}</h2>
+        <p class="mb-6">{% trans "Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work more efficiently and provide information to the website owners. Cookies can be 'persistent' or 'session' cookies." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "2. How We Use Cookies" %}</h2>
+        <p class="mb-4">{% trans "We use cookies for the following purposes:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "<strong>Essential cookies:</strong> Necessary for the website to function properly. These cannot be disabled." %}</li>
+          <li>{% trans "<strong>Performance cookies:</strong> Help us understand how visitors interact with our website by collecting and reporting information anonymously." %}</li>
+          <li>{% trans "<strong>Functionality cookies:</strong> Enable the website to provide enhanced functionality and personalization." %}</li>
+          <li>{% trans "<strong>Targeting cookies:</strong> Used to deliver advertisements more relevant to you and your interests." %}</li>
+          <li>{% trans "<strong>Analytics cookies:</strong> Help us analyze traffic and improve our services." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "3. Types of Cookies We Use" %}</h2>
+        
+        <div class="overflow-x-auto mb-8">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b-2 border-gray-200">
+                <th class="py-3 pr-4 font-bold text-gray-900">{% trans "Cookie Name" %}</th>
+                <th class="py-3 pr-4 font-bold text-gray-900">{% trans "Type" %}</th>
+                <th class="py-3 pr-4 font-bold text-gray-900">{% trans "Purpose" %}</th>
+                <th class="py-3 font-bold text-gray-900">{% trans "Duration" %}</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-700">
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-mono text-sm">sessionid</td>
+                <td class="py-3 pr-4">{% trans "Essential" %}</td>
+                <td class="py-3 pr-4">{% trans "Maintains your session state" %}</td>
+                <td class="py-3">{% trans "Session" %}</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-mono text-sm">csrftoken</td>
+                <td class="py-3 pr-4">{% trans "Essential" %}</td>
+                <td class="py-3 pr-4">{% trans "Security token for form submissions" %}</td>
+                <td class="py-3">{% trans "1 year" %}</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-mono text-sm">_ga</td>
+                <td class="py-3 pr-4">{% trans "Analytics" %}</td>
+                <td class="py-3 pr-4">{% trans "Google Analytics - distinguishes users" %}</td>
+                <td class="py-3">{% trans "2 years" %}</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-mono text-sm">_gid</td>
+                <td class="py-3 pr-4">{% trans "Analytics" %}</td>
+                <td class="py-3 pr-4">{% trans "Google Analytics - distinguishes users" %}</td>
+                <td class="py-3">{% trans "24 hours" %}</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-3 pr-4 font-mono text-sm">cookie_consent</td>
+                <td class="py-3 pr-4">{% trans "Functionality" %}</td>
+                <td class="py-3 pr-4">{% trans "Stores your cookie preferences" %}</td>
+                <td class="py-3">{% trans "1 year" %}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "4. Third-Party Cookies" %}</h2>
+        <p class="mb-6">{% trans "In addition to our own cookies, we may also use various third-party cookies to report usage statistics, deliver advertisements, and improve our services. These include cookies from Google Analytics, social media platforms, and payment processors." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "5. Managing Cookies" %}</h2>
+        <p class="mb-4">{% trans "Most web browsers allow you to control cookies through their settings preferences. You can:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "Delete cookies from your device;" %}</li>
+          <li>{% trans "Block cookies by activating the setting on your browser;" %}</li>
+          <li>{% trans "Set your browser to notify you when you receive a cookie;" %}</li>
+          <li>{% trans "Use our cookie consent banner to manage your preferences." %}</li>
+        </ul>
+        <p class="mb-6">{% trans "Please note that disabling certain cookies may affect the functionality of this website and your user experience." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "6. Cookie Consent" %}</h2>
+        <p class="mb-6">{% trans "When you first visit our website, you will see a cookie banner requesting your consent to place non-essential cookies on your device. You can change your preferences at any time by clicking the 'Cookie Settings' link in the footer." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "7. Changes to This Policy" %}</h2>
+        <p class="mb-6">{% trans "We may update this Cookies Policy from time to time to reflect changes in technology, legislation, or our data practices. We encourage you to review this policy periodically." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "8. Contact Us" %}</h2>
+        <p class="mb-6">{% trans "If you have any questions about our use of cookies, please contact us." %}</p>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

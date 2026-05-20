@@ -1,0 +1,72 @@
+{% extends 'website/shared/main.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- Header -->
+  <section class="relative py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-4">{{ title|default:_("Privacy Policy") }}</h1>
+      <p class="text-xl text-gray-600 mb-4">{{ description|default:_("Your privacy is important to us. This policy explains how we collect, use, and protect your information.") }}</p>
+      {% if last_updated %}
+      <p class="text-sm text-gray-500">{% trans "Last updated:" %} {{ last_updated|date:"F j, Y" }}</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none text-gray-700">
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "1. Information We Collect" %}</h2>
+        <p class="mb-4">{% trans "We collect several types of information from and about users of our website, including:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "Personal identifiers such as name, email address, phone number, and postal address;" %}</li>
+          <li>{% trans "Professional information such as pharmacy license numbers and business details;" %}</li>
+          <li>{% trans "Usage data including IP address, browser type, pages visited, and time spent on pages;" %}</li>
+          <li>{% trans "Device information including hardware model, operating system, and unique device identifiers." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "2. How We Use Your Information" %}</h2>
+        <p class="mb-4">{% trans "We use the information we collect to:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "Provide, maintain, and improve our services;" %}</li>
+          <li>{% trans "Process transactions and send related information;" %}</li>
+          <li>{% trans "Send administrative information, updates, and security alerts;" %}</li>
+          <li>{% trans "Respond to your comments, questions, and requests;" %}</li>
+          <li>{% trans "Personalize your experience and deliver content relevant to your interests." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "3. Information Sharing" %}</h2>
+        <p class="mb-6">{% trans "We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties except as described in this policy. We may share information with trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "4. Data Security" %}</h2>
+        <p class="mb-6">{% trans "We implement a variety of security measures to maintain the safety of your personal information. All sensitive information is transmitted via Secure Socket Layer (SSL) technology and encrypted into our database." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "5. Your Rights" %}</h2>
+        <p class="mb-4">{% trans "Depending on your location, you may have the following rights regarding your personal data:" %}</p>
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+          <li>{% trans "The right to access and receive a copy of your data;" %}</li>
+          <li>{% trans "The right to rectify or update inaccurate information;" %}</li>
+          <li>{% trans "The right to request deletion of your personal data;" %}</li>
+          <li>{% trans "The right to restrict or object to processing;" %}</li>
+          <li>{% trans "The right to data portability." %}</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "6. Cookies and Tracking" %}</h2>
+        <p class="mb-6">{% trans "We use cookies and similar tracking technologies to track activity on our website and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "7. Changes to This Policy" %}</h2>
+        <p class="mb-6">{% trans "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last updated' date." %}</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">{% trans "8. Contact Us" %}</h2>
+        <p class="mb-6">{% trans "If you have any questions about this Privacy Policy, please contact our Data Protection Officer." %}</p>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

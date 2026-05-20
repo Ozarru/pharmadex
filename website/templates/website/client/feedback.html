@@ -1,0 +1,55 @@
+{% extends 'website/shared/main.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="relative flex flex-col overflow-hidden">
+
+  <!-- Header -->
+  <section class="relative py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-4">{{ title }}</h1>
+      <p class="text-xl text-gray-600">{% trans "We value your input. Help us improve Pharmadex." %}</p>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section class="py-20">
+    <div class="max-w-2xl mx-auto px-6 lg:px-8">
+      <form method="post" class="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100 space-y-6">
+        {% csrf_token %}
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold mb-2">{% trans "Your Name" %}</label>
+            <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-2">{% trans "Email Address" %}</label>
+            <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold mb-2">{% trans "Feedback Type" %}</label>
+          <select name="feedback_type" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary bg-white">
+            <option value="">{% trans "Select type..." %}</option>
+            {% for value, label in feedback_types %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold mb-2">{% trans "Your Message" %}</label>
+          <textarea name="message" rows="5" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary resize-none"></textarea>
+        </div>
+
+        <button type="submit" class="w-full btn btn-primary py-4 text-lg font-semibold">
+          {% trans "Submit Feedback" %}
+        </button>
+      </form>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
