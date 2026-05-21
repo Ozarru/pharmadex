@@ -134,7 +134,7 @@ class CurrencyDenomination(BaseModel):
         return self.label
 
 
-class OrganizationCurrency(BaseModel):
+class OrganizationCurrency(OrganizationModel):
     """
     Which currencies an organization operates in.
     One default for reporting. Others for local operations.
