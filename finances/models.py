@@ -328,10 +328,10 @@ class CashAccount(ActivatableModel, PharmacyModel):
         if self.account_type == 'mobile_money':
             if not self.mobile_operator:
                 raise ValidationError(
-                    _("A mobile operator is required for an mobile money account."))
+                    _("A mobile operator is required for a mobile money account."))
             if not self.phone_number:
                 raise ValidationError(
-                    _("A phone number is required for an mobile money account."))
+                    _("A phone number is required for a mobile money account."))
 
     def __str__(self):
         return f"{self.name} ({self.get_account_type_display()})"

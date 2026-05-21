@@ -29,21 +29,19 @@
           <h1
             class="text-5xl md:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05]"
           >
-            {% blocktrans %}
-            Built for
+            {% trans "Built for" %}
             <span class="text-secondary relative inline-block">
-              Pharmacies
+              {% trans "Pharmacies" %}
               <span
                 class="absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 rounded-full"
               ></span>
             </span>.
             <br />
-            Designed for Scale.
-            {% endblocktrans %}
+            {% trans "Designed for Scale." %}
           </h1>
 
           <p class="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed">
-            {% blocktrans %}
+            {% blocktrans trimmed %}
             Pharmadex helps pharmacies manage inventory, POS, prescriptions,
             procurement, accounting, reporting, and compliance — all from one
             powerful cloud platform.
@@ -62,7 +60,7 @@
 
           <a
             href="{% url 'website:contact' %}"
-            class="btn btn-outlined px-8 py-4 text-lg"
+            class="btn btn-outlined bg-transparent shadow-md px-8 py-4 text-lg"
           >
             {% trans "Book a Demo" %}
           </a>
@@ -84,6 +82,11 @@
             <i class="fas fa-check-circle text-primary"></i>
             {% trans "Real-Time Reporting" %}
           </div>
+
+          <div class="flex items-center gap-2">
+            <i class="fas fa-check-circle text-primary"></i>
+            {% trans "Full Data Isolation" %}
+          </div>
         </div>
       </div>
 
@@ -94,7 +97,7 @@
           class="absolute -top-6 -left-6 bg-white shadow-2xl rounded-2xl p-4 z-20"
         >
           <p class="text-sm text-gray-500">{% trans "Today's Sales" %}</p>
-          <h4 class="text-2xl font-bold text-gray-900">₦1,250,000</h4>
+          <h4 class="text-2xl font-bold text-gray-900" id="dummy-daily-total">256,000</h4>
           <p class="text-primary text-sm">+12.5%</p>
         </div>
 
@@ -102,7 +105,7 @@
           class="absolute -bottom-6 -right-6 bg-white shadow-2xl rounded-2xl p-4 z-20"
         >
           <p class="text-sm text-gray-500">{% trans "Low Stock Items" %}</p>
-          <h4 class="text-2xl font-bold text-orange-500">23</h4>
+          <h4 class="text-2xl font-bold text-orange-500">52</h4>
         </div>
 
         <!-- Dashboard -->
@@ -172,7 +175,7 @@
         </h2>
 
         <p class="text-lg text-gray-600 leading-relaxed">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           Replace spreadsheets, disconnected software, and manual processes with
           a centralized ERP built specifically for pharmacies.
           {% endblocktrans %}
@@ -241,7 +244,7 @@
         </h2>
 
         <p class="text-lg text-gray-600">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           Manage daily operations, improve visibility, and scale confidently
           with tools designed specifically for modern pharmacies.
           {% endblocktrans %}
@@ -327,7 +330,7 @@
           </h2>
 
           <p class="text-xl text-white/80 mb-10">
-            {% blocktrans %}
+            {% blocktrans trimmed %}
             Join forward-thinking pharmacies already using Pharmadex to reduce
             errors, improve efficiency, and grow faster.
             {% endblocktrans %}

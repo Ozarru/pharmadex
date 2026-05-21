@@ -152,7 +152,7 @@ def get_sidebar_links(user, current_organization=None):
     if user.is_superuser or user.is_platform_admin() or current_role_type == "platform_admin":
 
         add_link(
-            _("Fiannce Dashboard"),
+            _("Finance Dashboard"),
             "finances:finances-dashboard",
             "fa-solid fa-coins",
             "finances_page"

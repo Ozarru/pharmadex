@@ -19,7 +19,7 @@
           </div>
           
           <p class="text-gray-400 leading-relaxed">
-            {% blocktrans %}
+            {% blocktrans trimmed %}
             Modern pharmacy management platform built for scale. Inventory, POS, prescriptions, and compliance — all in one place.
             {% endblocktrans %}
           </p>
@@ -98,7 +98,7 @@
             {% trans "Get the latest updates on pharmacy management and compliance." %}
           </p>
           
-          <form class="flex gap-2" method="post" action="{% url 'website:newsletter_subscribe' %}">
+          <form class="flex flex-col 2xl:flex-row gap-2" method="post" action="{% url 'website:newsletter_subscribe' %}">
             {% csrf_token %}
             <input 
               type="email" 

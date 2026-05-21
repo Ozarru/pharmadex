@@ -8,15 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 12:39+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2026-05-21 18:59+0000\n"
+"PO-Revision-Date: 2026-05-21 18:50+0000\n"
+"Last-Translator: Zen Dev <zenheit.co@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.3\n"
 
 #: .\accounts\admin.py:110
 msgid "Identity"
@@ -291,7 +292,7 @@ msgstr "Caissier"
 
 #: .\accounts\models.py:226 .\accounts\models.py:305
 msgid "Nurse"
-msgstr ""
+msgstr "Infirmier"
 
 #: .\accounts\models.py:227 .\accounts\models.py:306
 #: .\accounts\templates\accounts\user\detail.html:44
@@ -306,22 +307,16 @@ msgid "Doctor"
 msgstr "Médecin"
 
 #: .\accounts\models.py:229 .\accounts\models.py:308
-#, fuzzy
-#| msgid "Audit Reason"
 msgid "Auditor"
-msgstr "Raison d'audit"
+msgstr "Auditeur"
 
 #: .\accounts\models.py:230 .\accounts\models.py:309
-#, fuzzy
-#| msgid "Account Name"
 msgid "Accountant"
-msgstr "Nom du compte"
+msgstr "Comptable"
 
 #: .\accounts\models.py:231 .\accounts\models.py:310
-#, fuzzy
-#| msgid "Financing"
 msgid "Finance Manager"
-msgstr "Financement"
+msgstr "Gestionaire des Finances "
 
 #: .\accounts\models.py:232 .\accounts\models.py:311
 #: .\accounts\templates\accounts\user\detail.html:50
@@ -506,9 +501,6 @@ msgid "Join Now"
 msgstr "Rejoindre maintenant"
 
 #: .\accounts\templates\accounts\emails\user_invitation.html:68
-#, fuzzy
-#| msgid ""
-#| "If you didn't request this invitation, you can safely ignore this email."
 msgid ""
 "If you didn’t request this invitation, you can safely ignore this email."
 msgstr ""
@@ -602,10 +594,6 @@ msgid "Did you forget your password?"
 msgstr "Avez-vous oublié votre mot de passe ?"
 
 #: .\accounts\templates\accounts\password_reset\request.html:45
-#, fuzzy
-#| msgid ""
-#| "Kindly enter your email below and we'll send you a link to reset your "
-#| "password."
 msgid ""
 "Kindly enter your email below and we’ll send you a link to reset your "
 "password."
@@ -618,8 +606,6 @@ msgid "Send Reset Link"
 msgstr "Envoyer le lien de réinitialisation"
 
 #: .\accounts\templates\accounts\password_reset\request.html:86
-#, fuzzy
-#| msgid "Don't have an account?"
 msgid "Don’t have an account?"
 msgstr "Vous n'avez pas de compte ?"
 
@@ -802,8 +788,6 @@ msgid "You must type ARCHIVE to confirm."
 msgstr "Vous devez taper ARCHIVE pour confirmer."
 
 #: .\accounts\views.py:306
-#, fuzzy
-#| msgid "Your account has been archived. We're sad to see you go 💔"
 msgid "Your account has been archived. We’re sad to see you go 💔"
 msgstr "Votre compte a été archivé. Nous sommes tristes de vous voir partir 💔"
 
@@ -831,12 +815,12 @@ msgstr ""
 "soit pour ajouter de nouveaux utilisateurs, mettre à jour leurs profils, ou "
 "attribuer des rôles et des permissions, la plateforme fournit une interface "
 "intuitive pour gérer toutes les tâches liées aux utilisateurs.\n"
-"                                             Les administrateurs peuvent "
-"facilement consulter, mettre à jour, et supprimer des utilisateurs, en "
-"s'assurant que les bonnes personnes ont accès aux bonnes ressources.\n"
-"                                             Ce hub central permet une "
-"gestion efficace des utilisateurs, favorisant une expérience simplifiée pour "
-"tous les acteurs de la plateforme."
+"                                   Les administrateurs peuvent facilement "
+"consulter, mettre à jour, et supprimer des utilisateurs, en s'assurant que "
+"les bonnes personnes ont accès aux bonnes ressources.\n"
+"                                   Ce hub central permet une gestion "
+"efficace des utilisateurs, favorisant une expérience simplifiée pour tous "
+"les acteurs de la plateforme."
 
 #: .\accounts\views.py:525 .\accounts\views.py:574
 msgid "Vendors"
@@ -855,10 +839,8 @@ msgid "Doctors"
 msgstr "Médecins"
 
 #: .\accounts\views.py:529 .\accounts\views.py:578
-#, fuzzy
-#| msgid "Nursing Notes"
 msgid "Nurses"
-msgstr "Notes de soins"
+msgstr "Infirmier(e)"
 
 #: .\accounts\views.py:530 .\base\templates\base\home.html:58
 #: .\organizations\models.py:373
@@ -1135,7 +1117,7 @@ msgstr "Non attribué"
 
 #: .\base\templates\badges\_status_badge.html:37 .\pharmacies\models.py:1235
 msgid "Backordered"
-msgstr ""
+msgstr "Rupture de stock"
 
 #: .\base\templates\badges\_status_badge.html:41 .\clinics\models.py:121
 #: .\clinics\models.py:454 .\pharmacies\models.py:1074
@@ -1304,17 +1286,13 @@ msgstr "Bons de commande"
 
 #: .\base\templates\base\home.html:123
 #: .\pharmacies\templates\pharmacy\analytics.html:216
-#, fuzzy
-#| msgid "Out of Stock"
 msgid "Fast Moving Stock"
-msgstr "Rupture de stock"
+msgstr "Stok en Demande"
 
 #: .\base\templates\base\home.html:136
 #: .\pharmacies\templates\pharmacy\analytics.html:240
-#, fuzzy
-#| msgid "Damaged Stock"
 msgid "Dead Stock"
-msgstr "Stock endommagé"
+msgstr "Stock non Désiré "
 
 #: .\base\templates\base\home.html:149
 #: .\pharmacies\templates\pharmacy\analytics.html:204
@@ -1339,21 +1317,17 @@ msgid "Expired Stock"
 msgstr "Stock expiré"
 
 #: .\base\templates\base\home.html:204
-#: .\website\templates\website\index.html:96
-#, fuzzy
-#| msgid "Today's Revenue"
+#: .\website\templates\website\index.html:99
 msgid "Today's Sales"
-msgstr "Revenu du jour"
+msgstr "Ventes du jour"
 
 #: .\base\templates\base\home.html:217
 msgid "Today's Profit"
-msgstr ""
+msgstr "Bénéfice d'aujourd'hui"
 
 #: .\base\templates\base\home.html:230
-#, fuzzy
-#| msgid "Nursing Care"
 msgid "Outstanding Credit"
-msgstr "Soins infirmiers"
+msgstr "Crédit en attente"
 
 #: .\base\templates\components\_activator.html:10
 msgid "Activate"
@@ -1568,8 +1542,8 @@ msgid ""
 "           "
 msgstr ""
 "\n"
-"           Voulez-vous vraiment supprimer le(s) élément(s) suivant(s) ?\n"
-"           "
+" Voulez-vous vraiment supprimer le(s) élément(s) suivant(s) ?\n"
+" "
 
 #: .\base\templates\delete_confirmation.html:31
 msgid "Discard"
@@ -1608,7 +1582,7 @@ msgstr "Erreur serveur - Kiza"
 
 #: .\base\templates\generic\_list.html:11
 #, python-format
-msgid " No %(model_verbose_name)s was found "
+msgid "No %(model_verbose_name)s was found"
 msgstr " Aucun %(model_verbose_name)s trouvé "
 
 #: .\base\templates\generic\_list.html:44
@@ -2007,8 +1981,8 @@ msgstr "Couleur principale"
 
 #: .\base\templates\parameters\users.html:38
 msgid ""
-"View and manage all users in the system, including\n"
-"        creation, editing, and access control."
+"View and manage all users in the system, including creation, editing, and "
+"access control."
 msgstr ""
 "Afficher et gérer tous les utilisateurs du système, y compris\n"
 "        la création, la modification et le contrôle d'accès."
@@ -2019,8 +1993,8 @@ msgstr "Permissions utilisateurs"
 
 #: .\base\templates\parameters\users.html:64
 msgid ""
-"Manage permissions assigned to users, including viewing,\n"
-"        adding, and removing access rights."
+"Manage permissions assigned to users, including viewing, adding, and "
+"removing access rights."
 msgstr ""
 "Gérer les permissions attribuées aux utilisateurs, y compris l'affichage,\n"
 "        l'ajout et la suppression des droits d'accès."
@@ -2031,8 +2005,7 @@ msgstr "Analyses utilisateurs"
 
 #: .\base\templates\parameters\users.html:87
 msgid ""
-"View reports and analytics for user activity,\n"
-"        permissions, and user roles."
+"View reports and analytics for user activity, permissions, and user roles."
 msgstr ""
 "Afficher les rapports et analyses pour l'activité des utilisateurs,\n"
 "        les permissions et les rôles utilisateurs."
@@ -2173,9 +2146,9 @@ msgid ""
 msgstr ""
 "Utilisez ce formulaire pour ajouter un nouvel enregistrement ou mettre à "
 "jour un existant. \n"
-"                                         Remplissez tous les champs "
-"obligatoires avec précision et vérifiez les informations optionnelles pour "
-"assurer l'exhaustivité des données."
+"                               Remplissez tous les champs obligatoires avec "
+"précision et vérifiez les informations optionnelles pour assurer "
+"l'exhaustivité des données."
 
 #: .\base\views.py:426
 msgid "Object not found"
@@ -2247,16 +2220,16 @@ msgid ""
 msgstr ""
 "La section des paramètres de la plateforme permet aux administrateurs "
 "système de configurer\n"
-"                                    et de gérer les paramètres fondamentaux "
-"de l'environnement SaaS — y compris les rôles utilisateurs,\n"
-"                                    les bascules de fonctionnalités, les "
-"niveaux d'accès, les préférences de facturation,\n"
-"                                    les paramètres de support et les valeurs "
-"par défaut\n"
-"                                    système. Ces configurations garantissent "
-"que la plateforme fonctionne efficacement, de manière sécurisée,\n"
-"                                    et est adaptée aux besoins commerciaux "
-"des différentes organisations clientes."
+"                          et de gérer les paramètres fondamentaux de "
+"l'environnement SaaS — y compris les rôles utilisateurs,\n"
+"                          les bascules de fonctionnalités, les niveaux "
+"d'accès, les préférences de facturation,\n"
+"                          les paramètres de support et les valeurs par "
+"défaut\n"
+"                          système. Ces configurations garantissent que la "
+"plateforme fonctionne efficacement, de manière sécurisée,\n"
+"                          et est adaptée aux besoins commerciaux des "
+"différentes organisations clientes."
 
 #: .\base\views.py:2368 .\base\views.py:2479 .\pharmadex\config\sidebar.py:39
 #: .\website\templates\website\shared\navbar.html:43
@@ -2616,31 +2589,27 @@ msgstr "Chèque"
 
 #: .\finances\models.py:59
 msgid "ISO 4217 code. Locked after creation."
-msgstr ""
+msgstr "Code ISO 4217. Verrouillé après création."
 
 #: .\finances\models.py:65
-#, fuzzy
-#| msgid "Primary Color"
 msgid "Primary Country"
-msgstr "Couleur principale"
+msgstr "Pays principal"
 
 #: .\finances\models.py:67
 msgid "Main market for this currency entry."
-msgstr ""
+msgstr "Marché principal pour cette devise."
 
 #: .\finances\models.py:79
 msgid "Inactive currencies are hidden from selection."
-msgstr ""
+msgstr "Les devises inactives sont masquées lors de la sélection."
 
 #: .\finances\models.py:84
-#, fuzzy
-#| msgid "Is Default Currency"
 msgid "Default for Country"
-msgstr "Est la devise par défaut"
+msgstr "Par défaut pour le pays"
 
 #: .\finances\models.py:85
 msgid "Auto-selected when organization picks this country."
-msgstr ""
+msgstr "Sélection automatique lorsque l'organisation choisit ce pays."
 
 #: .\finances\models.py:91 .\finances\views.py:352
 msgid "Currencies"
@@ -2651,22 +2620,20 @@ msgid "Denomination Currency"
 msgstr "Devise de dénomination"
 
 #: .\finances\models.py:157
-#, fuzzy
-#| msgid "Is Default Currency"
 msgid "Default Reporting Currency"
-msgstr "Est la devise par défaut"
+msgstr "Devise de déclaration par défaut"
 
 #: .\finances\models.py:167
 msgid "Symbol Before Amount"
-msgstr ""
+msgstr "Symbole avant le montant"
 
 #: .\finances\models.py:168
 msgid "₦500 vs 500 ₦"
-msgstr ""
+msgstr "₦500 vs 500 ₦"
 
 #: .\finances\models.py:187
 msgid "Default currency must be active."
-msgstr ""
+msgstr "La devise par défaut doit être active."
 
 #: .\finances\models.py:205
 msgid "Savings"
@@ -2713,10 +2680,8 @@ msgid "Account Type"
 msgstr "Type de compte"
 
 #: .\finances\models.py:223 .\finances\models.py:306
-#, fuzzy
-#| msgid "Counted Balance"
 msgid "Current Balance"
-msgstr "Solde compté"
+msgstr "Solde actuel"
 
 #: .\finances\models.py:230 .\finances\models.py:425 .\finances\models.py:462
 msgid "Bank Account"
@@ -2744,8 +2709,6 @@ msgid "Mobile Operators"
 msgstr "Opérateurs mobiles"
 
 #: .\finances\models.py:283 .\finances\models.py:426
-#, fuzzy
-#| msgid "Cash Desk"
 msgid "Cash Drawer"
 msgstr "Caisse"
 
@@ -2774,17 +2737,13 @@ msgid "Cash Desks"
 msgstr "Caisses"
 
 #: .\finances\models.py:331
-#, fuzzy
-#| msgid "An operator is required for an electronic cash_account."
-msgid "A mobile operator is required for an mobile money account."
-msgstr "Un opérateur est requis pour un compte de caisse électronique."
+msgid "A mobile operator is required for a mobile money account."
+msgstr ""
+"Un opérateur mobile est nécessaire pour ouvrir un compte de paiement mobile."
 
 #: .\finances\models.py:334
-#, fuzzy
-#| msgid "A phone number is required for an electronic cash_account."
-msgid "A phone number is required for an mobile money account."
-msgstr ""
-"Un numéro de téléphone est requis pour un compte de caisse électronique."
+msgid "A phone number is required for a mobile money account."
+msgstr "Un numéro de téléphone est requis pour un compte de paiement mobile."
 
 #: .\finances\models.py:453
 msgid "Cash Account"
@@ -2799,30 +2758,26 @@ msgid "Financial Accounts"
 msgstr "Comptes financiers"
 
 #: .\finances\models.py:476
-#, fuzzy
-#| msgid "Cash Account is required for cash payments."
 msgid "Cash account is required for cash drawers."
-msgstr "Un compte de caisse est requis pour les paiements en espèces."
+msgstr "Un compte de caisse est requis pour les tiroirs-caisses."
 
 #: .\finances\models.py:479
-#, fuzzy
-#| msgid "Register a new bank account"
 msgid "Cash drawers cannot have bank accounts."
-msgstr "Enregistrer un nouveau compte bancaire"
+msgstr "Les caisses ne peuvent pas avoir de comptes bancaires."
 
 #: .\finances\models.py:484
-#, fuzzy
-#| msgid "Bank account is required for bank payments."
 msgid "Bank account is required for bank accounts."
-msgstr "Un compte bancaire est requis pour les paiements bancaires."
+msgstr "Un compte bancaire est requis pour les comptes bancaires."
 
 #: .\finances\models.py:487
 msgid "Bank accounts cannot have cash accounts."
-msgstr ""
+msgstr "Un compte bancaire ne peut pas être associé à un compte de trésorerie."
 
 #: .\finances\models.py:491
 msgid "A financial account must be linked to either cash or bank."
 msgstr ""
+"Un compte financier doit être lié à un compte bancaire ou à un compte de "
+"trésorerie."
 
 #: .\finances\models.py:524
 msgid "Audit Batch"
@@ -2987,18 +2942,12 @@ msgid "Amount must be greater than zero."
 msgstr "Le montant doit être supérieur à zéro."
 
 #: .\finances\models.py:717
-#, fuzzy
-#| msgid "Money In operations must have a destination account."
 msgid "FIancing must have a destination account."
-msgstr ""
-"Les opérations d'entrée d'argent doivent avoir un compte de destination."
+msgstr "Le financement doit avoir un compte de destination."
 
 #: .\finances\models.py:722
-#, fuzzy
-#| msgid "Money In operations should not have a source account."
 msgid "Financing cannot have an internal source account."
-msgstr ""
-"Les opérations d'entrée d'argent ne doivent pas avoir de compte source."
+msgstr "Le financement ne peut pas avoir de compte source interne."
 
 #: .\finances\models.py:734
 msgid "Transfer must have both source and destination accounts."
@@ -3111,10 +3060,8 @@ msgid "Related Object ID"
 msgstr "ID de l'objet lié"
 
 #: .\finances\models.py:1033
-#, fuzzy
-#| msgid "Destination Account"
 msgid "Operation Account"
-msgstr "Compte de destination"
+msgstr "Compte d'opération"
 
 #: .\finances\models.py:1037
 msgid "Payment Date"
@@ -3129,22 +3076,16 @@ msgid "Payments"
 msgstr "Paiements"
 
 #: .\finances\models.py:1071
-#, fuzzy
-#| msgid "Bank account is required for bank payments."
 msgid "Operation account is required."
-msgstr "Un compte bancaire est requis pour les paiements bancaires."
+msgstr "Un compte d'opération est requis."
 
 #: .\finances\models.py:1075
-#, fuzzy
-#| msgid "Clinical service payments must be incoming."
 msgid "This payment type must be incoming."
-msgstr "Les paiements de services cliniques doivent être entrants."
+msgstr "Ce type de paiement doit être entrant."
 
 #: .\finances\models.py:1080
-#, fuzzy
-#| msgid "Clinical service payments must be incoming."
 msgid "This payment type must be outgoing."
-msgstr "Les paiements de services cliniques doivent être entrants."
+msgstr "Ce type de paiement doit être sortant."
 
 #: .\finances\models.py:1145
 msgid "Date of Activity"
@@ -3228,30 +3169,24 @@ msgid "Destination"
 msgstr "Destination"
 
 #: .\finances\templates\finances\dashboard.html:35
-msgid ""
-"Manage accounts, balances, and bank transactions.\n"
-"        <!--  -->\n"
-"        "
+#, fuzzy
+#| msgid "Manage accounts, balances, and bank transactions."
+msgid "Manage accounts, balances, and bank transactions. <!--  -->"
 msgstr ""
 "Gérer les comptes, les soldes et les transactions bancaires.\n"
-"        <!--  -->\n"
 "        "
 
 #: .\finances\templates\finances\dashboard.html:48
-#, fuzzy
-#| msgid "Cash Account"
 msgid "Cash Accounts"
-msgstr "Compte de caisse"
+msgstr "Caisse"
 
 #: .\finances\templates\finances\dashboard.html:56
 #: .\finances\templates\finances\dashboard.html:77
-msgid ""
-"Track daily cash flow and petty cash activities.\n"
-"        <!--  -->\n"
-"        "
+#, fuzzy
+#| msgid "Track daily cash flow and petty cash activities."
+msgid "Track daily cash flow and petty cash activities. <!--  -->"
 msgstr ""
 "Suivre les flux de trésorerie quotidiens et les activités de petite caisse.\n"
-"        <!--  -->\n"
 "        "
 
 #: .\finances\templates\finances\dashboard.html:98
@@ -3259,19 +3194,13 @@ msgid "Generate and manage invoices."
 msgstr "Générer et gérer les factures."
 
 #: .\finances\templates\finances\dashboard.html:117
-msgid ""
-"Track expenses, due dates, and payable amounts.\n"
-"        <!--  -->\n"
-"        "
-msgstr ""
-"Suivre les dépenses, les dates d'échéance et les montants payables.\n"
-"        <!--  -->\n"
-"        "
+#, fuzzy
+#| msgid "Track expenses, due dates, and payable amounts."
+msgid "Track expenses, due dates, and payable amounts. <!--  -->"
+msgstr "Suivre les dépenses, les dates d'échéance et les montants payables."
 
 #: .\finances\templates\finances\dashboard.html:141
-msgid ""
-"Monitor all financial transactions including income and\n"
-"        expenses."
+msgid "Monitor all financial transactions including income and expenses."
 msgstr ""
 "Surveiller toutes les transactions financières, y compris les revenus et\n"
 "        les dépenses."
@@ -3281,9 +3210,7 @@ msgid "Financial Reports"
 msgstr "Rapports financiers"
 
 #: .\finances\templates\finances\dashboard.html:161
-msgid ""
-"Generate reports on income, expenses, and financial\n"
-"        performance."
+msgid "Generate reports on income, expenses, and financial performance."
 msgstr ""
 "Générer des rapports sur les revenus, les dépenses et la\n"
 "        performance financière."
@@ -3293,20 +3220,20 @@ msgid "Cash Closing"
 msgstr "Fermeture de caisse"
 
 #: .\finances\templates\finances\dashboard.html:184
+#, fuzzy
+#| msgid ""
+#| "Perform end-of-day cash counting and reconciliation. Record physical cash "
+#| "(notes and coins), compare with expected balance, and track any "
+#| "differences for proper financial control."
 msgid ""
-" Perform end-of-day cash counting and reconciliation.\n"
-"        Record physical cash (notes and coins), compare with expected "
-"balance,\n"
-"        and track any differences for proper financial control.\n"
-"        <!--  -->\n"
-"        "
+"Perform end-of-day cash counting and reconciliation. Record physical cash "
+"(notes and coins), compare with expected balance, and track any differences "
+"for proper financial control. <!--  -->"
 msgstr ""
 " Effectuer le comptage et le rapprochement de caisse en fin de journée.\n"
 "        Enregistrer l'argent physique (billets et pièces), comparer avec le "
 "solde attendu,\n"
-"        et suivre les écarts pour un contrôle financier approprié.\n"
-"        <!--  -->\n"
-"        "
+"        et suivre les écarts pour un contrôle financier approprié."
 
 #: .\finances\templates\finances\reports\index.html:56
 msgid "Profit & Loss Report"
@@ -3520,12 +3447,11 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"            La gestion des finances de la pharmacie couvre la collecte des "
-"frais, les éléments de paie du personnel,\n"
-"            et le suivi des dépenses — offrant une vision claire de la santé "
+"  La gestion des finances de la pharmacie couvre la collecte des frais, les "
+"éléments de paie du personnel,\n"
+"  et le suivi des dépenses — offrant une vision claire de la santé "
 "financière de l'institution\n"
-"            pour une meilleure planification et transparence.\n"
-"            "
+"  pour une meilleure planification et transparence."
 
 #: .\finances\views.py:276
 msgid "Net Financial Balance"
@@ -3573,13 +3499,12 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"            Ce rapport financier fournit une ventilation complète des "
-"revenus de votre pharmacie,\n"
-"            des dépenses, de l'activité bancaire, de la gestion de la caisse "
-"et des transactions Mobile Money.\n"
-"            Il soutient la prise de décision basée sur les données et la "
-"transparence dans les opérations de la pharmacie.\n"
-"            "
+"  Ce rapport financier fournit une ventilation complète des revenus de votre "
+"pharmacie,\n"
+"  des dépenses, de l'activité bancaire, de la gestion de la caisse et des "
+"transactions Mobile Money.\n"
+"  Il soutient la prise de décision basée sur les données et la transparence "
+"dans les opérations de la pharmacie."
 
 #: .\finances\views.py:354
 msgid "Manage available currencies used across all financial accounts"
@@ -3669,13 +3594,11 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                Ce compte bancaire est utilisé pour recevoir et envoyer des "
-"fonds.\n"
-"                Toute l'activité financière affichée ici est dérivée des "
-"opérations financières enregistrées\n"
-"                liées aux paiements, factures, notes, \n"
-"                ventes et achats.\n"
-"                "
+"      Ce compte bancaire est utilisé pour recevoir et envoyer des fonds.\n"
+"      Toute l'activité financière affichée ici est dérivée des opérations "
+"financières enregistrées\n"
+"      liées aux paiements, factures, notes, \n"
+"      ventes et achats."
 
 #: .\finances\views.py:482
 msgid "Add Bank Account"
@@ -3791,13 +3714,12 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                Ce compte de caisse enregistre toutes les entrées et sorties "
-"de fonds.\n"
-"                Les chiffres affichés ici sont calculés à partir des "
-"opérations financières\n"
-"                liées aux paiements, ventes, achats, \n"
-"                factures et notes.\n"
-"                "
+"      Ce compte de caisse enregistre toutes les entrées et sorties de "
+"fonds.\n"
+"      Les chiffres affichés ici sont calculés à partir des opérations "
+"financières\n"
+"      liées aux paiements, ventes, achats, \n"
+"      factures et notes."
 
 #: .\finances\views.py:639
 msgid "Add CashAccount"
@@ -3852,10 +3774,9 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                Cette page affiche les détails complets du paiement, \n"
-"                y compris l'objet lié, le mode de paiement,\n"
-"                le montant et l'utilisateur qui l'a enregistré.\n"
-"                "
+"      Cette page affiche les détails complets du paiement, \n"
+"      y compris l'objet lié, le mode de paiement,\n"
+"      le montant et l'utilisateur qui l'a enregistré."
 
 #: .\finances\views.py:711
 msgid "Record Payment"
@@ -4501,8 +4422,6 @@ msgid "Edit Organization"
 msgstr "Modifier l'organisation"
 
 #: .\organizations\templates\organization\dashboard.html:38
-#, fuzzy
-#| msgid "Manage Pharmacies"
 msgid "Manage Pharmacies "
 msgstr "Gérer les pharmacies"
 
@@ -4510,6 +4429,7 @@ msgstr "Gérer les pharmacies"
 #: .\pharmacies\models.py:106 .\pharmacies\views.py:330
 #: .\pharmadex\config\sidebar.py:59
 #: .\website\templates\website\client\testimonials.html:17
+#: .\website\templates\website\index.html:34
 msgid "Pharmacies"
 msgstr "Pharmacies"
 
@@ -4566,22 +4486,16 @@ msgid "View organization metrics"
 msgstr "Voir les métriques de l'organisation"
 
 #: .\organizations\templates\organization\dashboard.html:262
-#, fuzzy
-#| msgid "Customers"
 msgid "View customers"
-msgstr "Clients"
+msgstr "Voir les clients"
 
 #: .\organizations\templates\organization\dashboard.html:281
-#, fuzzy
-#| msgid "Suppliers"
 msgid "View suppliers"
-msgstr "Fournisseurs"
+msgstr "Voir les fournisseurs"
 
 #: .\organizations\templates\organization\dashboard.html:300
-#, fuzzy
-#| msgid "Insurers"
 msgid "View insurers"
-msgstr "Assureurs"
+msgstr "Voir les  assureurs"
 
 #: .\organizations\templates\organization\dashboard.html:311
 #: .\pharmacies\templates\pharmacy\detail.html:236
@@ -4613,20 +4527,14 @@ msgid "Organization Status"
 msgstr "Statut de l'organisation"
 
 #: .\organizations\templates\organization\dashboard.html:377
-#, fuzzy
-#| msgid "Active Pharmacies"
 msgid "Active Pharmacies "
 msgstr "Pharmacies actives"
 
 #: .\organizations\templates\organization\dashboard.html:390
-#, fuzzy
-#| msgid "Inactive Pharmacies"
 msgid "Inactive Pharmacies "
 msgstr "Pharmacies inactives"
 
 #: .\organizations\templates\organization\dashboard.html:403
-#, fuzzy
-#| msgid "Suspended Pharmacies"
 msgid "Suspended Pharmacies "
 msgstr "Pharmacies suspendues"
 
@@ -4648,8 +4556,6 @@ msgid "No address provided"
 msgstr "Aucune adresse fournie"
 
 #: .\organizations\templates\organization\detail.html:66
-#, fuzzy
-#| msgid "Pharmacies"
 msgid "Pharmacies "
 msgstr "Pharmacies"
 
@@ -4729,9 +4635,8 @@ msgid ""
 "contact information and staff/customer statistics.\n"
 "        "
 msgstr ""
-"            Cette page affiche tous les détails de l'organisation, y compris "
-"les informations de contact et les statistiques du personnel/clients.\n"
-"        "
+"  Cette page affiche tous les détails de l'organisation, y compris les "
+"informations de contact et les statistiques du personnel/clients."
 
 #: .\organizations\views.py:146
 msgid "Add Organization"
@@ -4760,10 +4665,8 @@ msgstr ""
 "opérationnels."
 
 #: .\organizations\views.py:172
-#, fuzzy
-#| msgid "Manage subcategories"
 msgid "Manage insurance providers"
-msgstr "Gérer les sous-catégories"
+msgstr "Gérer les assureurs"
 
 #: .\organizations\views.py:173
 msgid ""
@@ -4772,91 +4675,65 @@ msgid ""
 "status.\n"
 "    "
 msgstr ""
+"\n"
+"Consultez et gérez les assureurs. Filtrez par nom, code ou statut."
 
 #: .\organizations\views.py:199
-#, fuzzy
-#| msgid "Insurers"
 msgid "Active Insurers"
-msgstr "Assureurs"
+msgstr "Assureurs actifs"
 
 #: .\organizations\views.py:201
-#, fuzzy
-#| msgid "Inactive Pharmacies"
 msgid "Inactive Insurers"
-msgstr "Pharmacies inactives"
+msgstr "Assureurs inactifs"
 
 #: .\organizations\views.py:216
-#, fuzzy
-#| msgid "Invoice Details"
 msgid "Insurer Details"
-msgstr "Détails de la facture"
+msgstr "Détails de l'assurreur"
 
 #: .\organizations\views.py:217
-#, fuzzy
-#| msgid "View sale information"
 msgid "View insurer and policy information"
-msgstr "Voir les informations de la vente"
+msgstr "Consultez les informations sur l'assureur et la police d'assurance."
 
 #: .\organizations\views.py:218
-#, fuzzy
-#| msgid ""
-#| "            This page shows all details of the organization, including "
-#| "contact information and staff/customer statistics.\n"
-#| "        "
 msgid ""
 "\n"
 "            Details of the insurance provider, including contact information "
 "and associated policies.\n"
 "        "
 msgstr ""
-"            Cette page affiche tous les détails de l'organisation, y compris "
-"les informations de contact et les statistiques du personnel/clients.\n"
-"        "
+"\n"
+"Détails de l'assureur, y compris ses coordonnées et les polices d'assurance "
+"associées.        "
 
 #: .\organizations\views.py:232
-#, fuzzy
-#| msgid "Insurer"
 msgid "Add Insurer"
-msgstr "Assureur"
+msgstr "Ajouter un assureur"
 
 #: .\organizations\views.py:233
-#, fuzzy
-#| msgid "Create a new subcategory"
 msgid "Create a new insurance provider"
-msgstr "Créer une nouvelle sous-catégorie"
+msgstr "Créer un nouveau fournisseur d'assurance"
 
 #: .\organizations\views.py:235
-#, fuzzy
-#| msgid "Register a new currency used in financial transactions"
 msgid "Register a new insurer with contact details and activation status."
 msgstr ""
-"Enregistrer une nouvelle devise utilisée dans les transactions financières"
+"Enregistrez un nouvel assureur en indiquant ses coordonnées ainsi que son "
+"statut d'activation."
 
 #: .\organizations\views.py:242
-#, fuzzy
-#| msgid "Insurer"
 msgid "Edit Insurer"
-msgstr "Assureur"
+msgstr "Modifier l'assureur"
 
 #: .\organizations\views.py:243
-#, fuzzy
-#| msgid "Update the role details"
 msgid "Update insurance provider details"
-msgstr "Mettre à jour les détails du rôle"
+msgstr "Mettre à jour les informations de l'assureur"
 
 #: .\organizations\views.py:244
-#, fuzzy
-#| msgid "Update organization information and operational settings."
 msgid "Modify insurer information and contact settings."
-msgstr ""
-"Mettre à jour les informations de l'organisation et les paramètres "
-"opérationnels."
+msgstr "Modifier les informations de l'assureur et les paramètres de contact."
 
 #: .\organizations\views.py:257
-#, fuzzy
-#| msgid "No insurance applied"
 msgid "Manage insurance plans"
-msgstr "Aucune assurance appliquée"
+msgstr "Gérer les plans d'assurance"
 
 #: .\organizations\views.py:258
 msgid ""
@@ -4865,30 +4742,25 @@ msgid ""
 "status.\n"
 "    "
 msgstr ""
+"\n"
+"Consultez et gérez les polices d'assurance. Filtrez par assureur, couverture "
+"ou statut."
 
 #: .\organizations\views.py:284
-#, fuzzy
-#| msgid "Active Pharmacies"
 msgid "Active Policies"
-msgstr "Pharmacies actives"
+msgstr "Polices en vigueur"
 
 #: .\organizations\views.py:286
-#, fuzzy
-#| msgid "Insurance Policies"
 msgid "Inactive Policies"
-msgstr "Polices d'assurance"
+msgstr "Polices inactives"
 
 #: .\organizations\views.py:302
-#, fuzzy
-#| msgid "Invoice Details"
 msgid "Policy Details"
-msgstr "Détails de la facture"
+msgstr "Détails de la police"
 
 #: .\organizations\views.py:303
-#, fuzzy
-#| msgid "Insurance Covered"
 msgid "View insurance plan coverage"
-msgstr "Couvert par l'assurance"
+msgstr "Consultez la couverture de votre régime d'assurance."
 
 #: .\organizations\views.py:304
 msgid ""
@@ -4897,44 +4769,39 @@ msgid ""
 "policy.\n"
 "        "
 msgstr ""
+"\n"
+"Détails de la couverture, limites et informations sur l'assureur pour cette "
+"police."
 
 #: .\organizations\views.py:319
-#, fuzzy
-#| msgid "Insurance Policy"
 msgid "Add Insurance Policy"
-msgstr "Police d'assurance"
+msgstr "Ajouter une police d'assurance"
 
 #: .\organizations\views.py:320
-#, fuzzy
-#| msgid "Create a new subcategory"
 msgid "Create a new insurance plan"
-msgstr "Créer une nouvelle sous-catégorie"
+msgstr "Créer un nouveau régime d'assurance"
 
 #: .\organizations\views.py:322
 msgid "Define coverage percentage, limits, and link to an insurer."
 msgstr ""
+"Définissez le pourcentage de couverture, les limites et liez-vous à un "
+"assureur."
 
 #: .\organizations\views.py:330
-#, fuzzy
-#| msgid "Insurance Policy"
 msgid "Edit Insurance Policy"
-msgstr "Police d'assurance"
+msgstr "Modifier la police d'assurance"
 
 #: .\organizations\views.py:331
-#, fuzzy
-#| msgid "Update payment details"
 msgid "Update insurance plan details"
-msgstr "Mettre à jour les détails du paiement"
+msgstr "Mettre à jour les détails du régime d'assurance"
 
 #: .\organizations\views.py:333
 msgid "Modify coverage terms, limits, and insurer association."
-msgstr ""
+msgstr "Modifiez les conditions de couverture, les limites et l'assureur."
 
 #: .\organizations\views.py:346
-#, fuzzy
-#| msgid "Manage pharmacies (pharmacies)"
 msgid "Manage patients and clients"
-msgstr "Gérer les pharmacies"
+msgstr "Gérer les patients et les clients"
 
 #: .\organizations\views.py:347
 msgid ""
@@ -4943,30 +4810,25 @@ msgid ""
 "location.\n"
 "    "
 msgstr ""
+"\n"
+"Consultez et gérez les clients. Recherchez par nom, téléphone, assurance ou "
+"lieu."
 
 #: .\organizations\views.py:379
-#, fuzzy
-#| msgid "Current Customer"
 msgid "Insured Customers"
-msgstr "Client actuel"
+msgstr "Clients assurés"
 
 #: .\organizations\views.py:381
-#, fuzzy
-#| msgid "Current Customer"
 msgid "Uninsured Customers"
-msgstr "Client actuel"
+msgstr "Clients non assurés"
 
 #: .\organizations\views.py:397
-#, fuzzy
-#| msgid "Category Details"
 msgid "Customer Details"
-msgstr "Détails de la catégorie"
+msgstr "Détails du client"
 
 #: .\organizations\views.py:398
-#, fuzzy
-#| msgid "View sale information"
 msgid "View patient information and history"
-msgstr "Voir les informations de la vente"
+msgstr "Consulter les informations et l'historique du patient"
 
 #: .\organizations\views.py:399
 msgid ""
@@ -4975,44 +4837,38 @@ msgid ""
 "purchase history.\n"
 "        "
 msgstr ""
+"\n"
+"Profil client, coordonnées, couverture d'assurance et historique d'achats."
 
 #: .\organizations\views.py:417
-#, fuzzy
-#| msgid "Customer"
 msgid "Add Customer"
-msgstr "Client"
+msgstr "Ajouter un client"
 
 #: .\organizations\views.py:418
-#, fuzzy
-#| msgid "Register a new pharmacy"
 msgid "Register a new patient"
-msgstr "Enregistrer une nouvelle pharmacie"
+msgstr "Inscrire un nouveau patient"
 
 #: .\organizations\views.py:420
 msgid "Create a customer profile with contact and insurance details."
 msgstr ""
+"Création d'un profil client avec les coordonnées et les informations "
+"d'assurance."
 
 #: .\organizations\views.py:431
-#, fuzzy
-#| msgid "Customer"
 msgid "Edit Customer"
-msgstr "Client"
+msgstr "Modifier le client"
 
 #: .\organizations\views.py:432
-#, fuzzy
-#| msgid "Update the batch information."
 msgid "Update patient information"
-msgstr "Mettre à jour les informations du lot."
+msgstr "Mise à jour des informations patient"
 
 #: .\organizations\views.py:434
 msgid "Modify customer details, insurance, and contact information."
-msgstr ""
+msgstr "Modifier les informations client, l'assurance et les coordonnées."
 
 #: .\organizations\views.py:447
-#, fuzzy
-#| msgid "Manage products"
 msgid "Manage product vendors"
-msgstr "Gérer les produits"
+msgstr "Gérer les fournisseurs de produits"
 
 #: .\organizations\views.py:448
 msgid ""
@@ -5020,30 +4876,24 @@ msgid ""
 "        View and manage suppliers. Filter by name, location, or status.\n"
 "    "
 msgstr ""
+"\n"
+"Consulter et gérer les fournisseurs. Filtrer par nom, localisation ou statut."
 
 #: .\organizations\views.py:474
-#, fuzzy
-#| msgid "Suppliers"
 msgid "Active Suppliers"
-msgstr "Fournisseurs"
+msgstr "Fournisseurs Actifs"
 
 #: .\organizations\views.py:476
-#, fuzzy
-#| msgid "Suppliers"
 msgid "Inactive Suppliers"
-msgstr "Fournisseurs"
+msgstr "Fournisseurs Inactifs"
 
 #: .\organizations\views.py:491
-#, fuzzy
-#| msgid "Sale Details"
 msgid "Supplier Details"
-msgstr "Détails de la vente"
+msgstr "Détails du fournisseur"
 
 #: .\organizations\views.py:492
-#, fuzzy
-#| msgid "View category information"
 msgid "View vendor information and orders"
-msgstr "Voir les informations de la catégorie"
+msgstr "Consulter les informations du fournisseur et les commandes"
 
 #: .\organizations\views.py:493
 msgid ""
@@ -5051,40 +4901,33 @@ msgid ""
 "            Supplier profile, contact details, and purchase order history.\n"
 "        "
 msgstr ""
+"\n"
+"Profil du fournisseur, coordonnées et historique des commandes."
 
 #: .\organizations\views.py:509
-#, fuzzy
-#| msgid "Supplier"
 msgid "Add Supplier"
-msgstr "Fournisseur"
+msgstr "Ajouter un fournisseur"
 
 #: .\organizations\views.py:510
-#, fuzzy
-#| msgid "Register a new pharmacy"
 msgid "Register a new vendor"
-msgstr "Enregistrer une nouvelle pharmacie"
+msgstr "Enregistrer un nouveau vendeur"
 
 #: .\organizations\views.py:512
 msgid "Create a supplier with contact and location details."
-msgstr ""
+msgstr "Créer un fournisseur avec ses coordonnées et sa localisation."
 
 #: .\organizations\views.py:520
-#, fuzzy
-#| msgid "Supplier"
 msgid "Edit Supplier"
-msgstr "Fournisseur"
+msgstr "Modifier le fournisseur"
 
 #: .\organizations\views.py:521
-#, fuzzy
-#| msgid "Update the category information."
 msgid "Update vendor information"
-msgstr "Mettre à jour les informations de la catégorie."
+msgstr "Mettre à jour les informations du vendeur"
 
 #: .\organizations\views.py:523
-#, fuzzy
-#| msgid "Modify prescription details and items."
 msgid "Modify supplier contact details and activation status."
-msgstr "Modifier les détails et les articles de l'ordonnance."
+msgstr ""
+"Modifier les coordonnées du fournisseur ainsi que le statut d'activation."
 
 #: .\pharmacies\forms.py:69 .\pharmacies\forms.py:260
 msgid "The same product cannot be added more than once."
@@ -5095,17 +4938,14 @@ msgid "Quantity must be greater than zero."
 msgstr "La quantité doit être supérieure à zéro."
 
 #: .\pharmacies\forms.py:340
-#, fuzzy
-#| msgid "The same product cannot be added more than once."
 msgid "The same product cannot be ordered more than once."
-msgstr "Le même produit ne peut pas être ajouté plus d'une fois."
+msgstr "Il est impossible de commander un même produit plus d'une fois."
 
 #: .\pharmacies\forms.py:413
-#, fuzzy
-#| msgid "The same product cannot be added more than once."
 msgid ""
 "The same purchase order item cannot be received more than once per delivery."
-msgstr "Le même produit ne peut pas être ajouté plus d'une fois."
+msgstr ""
+"Un même article de commande ne peut être reçu plus d'une fois par livraison."
 
 #: .\pharmacies\forms.py:422
 #, python-format
@@ -5113,17 +4953,18 @@ msgid ""
 "Received quantity (%(received)s) exceeds pending quantity (%(pending)s) for "
 "%(product)s."
 msgstr ""
+"La quantité reçue (%(received)s) est supérieure à la quantité en attente "
+"(%(pending)s) pour %(product)s."
 
 #: .\pharmacies\forms.py:454
-#, fuzzy
-#| msgid "No items in this sale."
 msgid "Optional notes for this sale..."
-msgstr "Aucun article dans cette vente."
+msgstr "Remarques facultatives concernant cette vente..."
 
 #: .\pharmacies\forms.py:505
 #, python-format
 msgid "%(product)s appears multiple times. Combine or remove duplicates."
 msgstr ""
+"%(product)s apparaît plusieurs fois. Fusionner ou supprimer les doublons."
 
 #: .\pharmacies\models.py:41
 msgid "Pharmacy Name"
@@ -5144,6 +4985,7 @@ msgstr "Nécessite la validation du caissier"
 #: .\pharmacies\models.py:99
 msgid "Defaults to organization currency if not set."
 msgstr ""
+"La devise par défaut est celle de l'organisation si elle n'est pas définie."
 
 #: .\pharmacies\models.py:168
 msgid "Category Name"
@@ -5406,7 +5248,7 @@ msgstr "Numéro de lot"
 
 #: .\pharmacies\models.py:847
 msgid "Manufacturing Date"
-msgstr ""
+msgstr "Date de fabrication"
 
 #: .\pharmacies\models.py:850 .\pharmacies\models.py:1683
 msgid "Expiry Date"
@@ -5445,7 +5287,7 @@ msgstr "La quantité du lot ne peut pas être négative."
 
 #: .\pharmacies\models.py:1025
 msgid "Expiry date must be after manufacturing date."
-msgstr ""
+msgstr "La date de péremption doit être postérieure à la date de fabrication."
 
 #: .\pharmacies\models.py:1036 .\pharmacies\models.py:1049
 msgid "Quantity must be positive."
@@ -5456,6 +5298,8 @@ msgstr "La quantité doit être positive."
 msgid ""
 "Insufficient batch stock. Available: %(available)s, Requested: %(requested)s"
 msgstr ""
+"Stock insuffisant. Disponible : %(disponible)s, Quantité demandée : "
+"%(demandée)s"
 
 #: .\pharmacies\models.py:1066
 msgid "Internal Prescription"
@@ -5528,7 +5372,7 @@ msgstr "Remboursé"
 
 #: .\pharmacies\models.py:1280
 msgid "On Credit"
-msgstr ""
+msgstr "Paiements à crédit"
 
 #: .\pharmacies\models.py:1299
 msgid "Percentage Covered"
@@ -5815,12 +5659,11 @@ msgid "Point of Sale"
 msgstr "Point de vente"
 
 #: .\pharmacies\templates\inventory\dashboard.html:35
-msgid ""
-"Process sales for customers. Update stock and generate\n"
-"        receipts."
+#: .\pharmacies\templates\pharmacy\dashboard.html:35
+msgid "Process sales for customers. Update stock and generate receipts."
 msgstr ""
-"Traiter les ventes pour les clients. Mettre à jour le stock et générer\n"
-"        les reçus."
+"Traiter les ventes pour les clients. Mettre à jour le stock et générer des "
+"reçus."
 
 #: .\pharmacies\templates\inventory\dashboard.html:53
 #: .\pharmacies\templates\pharmacy\dashboard.html:52
@@ -5830,9 +5673,7 @@ msgstr "Catégories"
 
 #: .\pharmacies\templates\inventory\dashboard.html:61
 #: .\pharmacies\templates\pharmacy\dashboard.html:60
-msgid ""
-"Organize products into categories for easier management\n"
-"        and reporting."
+msgid "Organize products into categories for easier management and reporting."
 msgstr ""
 "Organiser les produits en catégories pour une gestion\n"
 "        et des rapports plus faciles."
@@ -5845,8 +5686,8 @@ msgstr "Sous-catégories"
 #: .\pharmacies\templates\inventory\dashboard.html:87
 #: .\pharmacies\templates\pharmacy\dashboard.html:86
 msgid ""
-" Organize products into sub-categories for better\n"
-"        structure, filtering, and reporting. "
+"Organize products into sub-categories for better structure, filtering, and "
+"reporting."
 msgstr ""
 " Organiser les produits en sous-catégories pour une meilleure\n"
 "        structure, filtration et rapports. "
@@ -5855,18 +5696,16 @@ msgstr ""
 #: .\pharmacies\templates\pharmacy\dashboard.html:109
 #: .\pharmacies\templates\pharmacy\dashboard.html:132
 msgid ""
-"Manage all products in your pharmacy, including stock,\n"
-"        pricing, categories, and expiration dates."
+"Manage all products in your pharmacy, including stock, pricing, categories, "
+"and expiration dates."
 msgstr ""
 "Gérer tous les produits de votre pharmacie, y compris le stock,\n"
 "        les prix, les catégories et les dates d'expiration."
 
 #: .\pharmacies\templates\inventory\dashboard.html:136
 msgid ""
-" Organize and monitor product batches, including\n"
-"        quantities, pricing, manufacturing details, and expiration tracking "
-"for\n"
-"        better inventory control. "
+"Organize and monitor product batches, including quantities, pricing, "
+"manufacturing details, and expiration tracking for better inventory control."
 msgstr ""
 " Organiser et surveiller les lots de produits, y compris\n"
 "        les quantités, les prix, les détails de fabrication et le suivi des "
@@ -5875,17 +5714,13 @@ msgstr ""
 
 #: .\pharmacies\templates\inventory\dashboard.html:153
 #: .\pharmadex\config\sidebar.py:132
-#, fuzzy
-#| msgid "Total stock procurement cost"
 msgid "Stock Procurement"
-msgstr "Coût total d'approvisionnement des stocks"
+msgstr "Approvisionnement en stocks"
 
 #: .\pharmacies\templates\inventory\dashboard.html:163
 msgid ""
-" Track incoming product supplies, manage suppliers,\n"
-"        monitor delivery status, and keep inventory updated with every "
-"restock\n"
-"        operation. "
+"Track incoming product supplies, manage suppliers, monitor delivery status, "
+"and keep inventory updated with every restock operation."
 msgstr ""
 " Suivre les approvisionnements entrants, gérer les fournisseurs,\n"
 "        surveiller l'état des livraisons et maintenir l'inventaire à jour à "
@@ -5895,8 +5730,8 @@ msgstr ""
 #: .\pharmacies\templates\inventory\dashboard.html:190
 #: .\pharmacies\templates\pharmacy\dashboard.html:181
 msgid ""
-"Track all stock entries and exits, adjust quantities,\n"
-"        and monitor inventory levels."
+"Track all stock entries and exits, adjust quantities, and monitor inventory "
+"levels."
 msgstr ""
 "Suivre toutes les entrées et sorties de stock, ajuster les quantités\n"
 "        et surveiller les niveaux d'inventaire."
@@ -5904,8 +5739,7 @@ msgstr ""
 #: .\pharmacies\templates\inventory\dashboard.html:213
 #: .\pharmacies\templates\pharmacy\dashboard.html:207
 msgid ""
-" Review, verify, and reconcile stock levels to ensure\n"
-"        inventory accuracy. "
+"Review, verify, and reconcile stock levels to ensure inventory accuracy."
 msgstr ""
 " Réviser, vérifier et réconcilier les niveaux de stock pour assurer\n"
 "        la précision de l'inventaire. "
@@ -5917,10 +5751,9 @@ msgstr "Rapprochements de stock"
 #: .\pharmacies\templates\inventory\dashboard.html:239
 #: .\pharmacies\templates\pharmacy\dashboard.html:230
 msgid ""
-"View detailed reports of your pharmacy activities,\n"
-"        including sales, purchases, stock levels, and financial summaries "
-"for\n"
-"        accurate decision-making."
+"View detailed reports of your pharmacy activities, including sales, "
+"purchases, stock levels, and financial summaries for accurate decision-"
+"making."
 msgstr ""
 "Consulter des rapports détaillés des activités de votre pharmacie,\n"
 "        y compris les ventes, les achats, les niveaux de stock et les "
@@ -5934,10 +5767,8 @@ msgstr "Lots en expiration"
 
 #: .\pharmacies\templates\inventory\dashboard.html:266
 msgid ""
-"Monitor products that are approaching their expiry date.\n"
-"        Take action early to minimize waste, manage stock rotation, and "
-"ensure\n"
-"        safe dispensing."
+"Monitor products that are approaching their expiry date. Take action early "
+"to minimize waste, manage stock rotation, and ensure safe dispensing."
 msgstr ""
 "Surveiller les produits qui approchent de leur date d'expiration.\n"
 "        Agir tôt pour minimiser le gaspillage, gérer la rotation des stocks "
@@ -5951,10 +5782,8 @@ msgstr "Lots expirés"
 
 #: .\pharmacies\templates\inventory\dashboard.html:293
 msgid ""
-"Review products that have passed their expiry date.\n"
-"        Remove or quarantine expired stock to maintain compliance and "
-"ensure\n"
-"        patient safety."
+"Review products that have passed their expiry date. Remove or quarantine "
+"expired stock to maintain compliance and ensure patient safety."
 msgstr ""
 "Réviser les produits qui ont dépassé leur date d'expiration.\n"
 "        Retirer ou mettre en quarantaine le stock expiré pour maintenir la "
@@ -5966,19 +5795,21 @@ msgid "Stock Analytics"
 msgstr "Analyses de stock"
 
 #: .\pharmacies\templates\inventory\dashboard.html:318
+#, fuzzy
+#| msgid ""
+#| "Analyze inventory trends, track stock movement, and identify usage "
+#| "patterns across your pharmacy. Use data insights to improve stock "
+#| "planning, reduce waste, and make informed decisions."
 msgid ""
-"Analyze inventory trends, track stock movement, and\n"
-"        identify usage patterns across your pharmacy. Use data insights to\n"
-"        improve stock planning, reduce waste, and make informed decisions.\n"
-"        <!--  -->\n"
-"        "
+"Analyze inventory trends, track stock movement, and identify usage patterns "
+"across your pharmacy. Use data insights to improve stock planning, reduce "
+"waste, and make informed decisions. <!--  -->"
 msgstr ""
 "Analyser les tendances d'inventaire, suivre les mouvements de stock et\n"
 "        identifier les modèles d'utilisation dans votre pharmacie. Utiliser "
 "les données pour\n"
 "        améliorer la planification des stocks, réduire le gaspillage et "
 "prendre des décisions éclairées.\n"
-"        <!--  -->\n"
 "        "
 
 #: .\pharmacies\templates\inventory\movement\analytics.html:22
@@ -6059,25 +5890,19 @@ msgid "Active Products"
 msgstr "Produits actifs"
 
 #: .\pharmacies\templates\pharmacy\analytics.html:132
-#, fuzzy
-#| msgid "Active Products"
 msgid "Inactive Products"
-msgstr "Produits actifs"
+msgstr "Produits inactifs"
 
 #: .\pharmacies\templates\pharmacy\analytics.html:144
-#, fuzzy
-#| msgid "Add Product"
 msgid "Backordered Products"
-msgstr "Ajouter un produit"
+msgstr "Produits commandés mais en rupture de stock"
 
 #: .\pharmacies\templates\pharmacy\analytics.html:156
-#, fuzzy
-#| msgid "Low Stock Products"
 msgid "Out of Stock Products"
-msgstr "Produits en stock faible"
+msgstr "Produits en rupture de stock"
 
 #: .\pharmacies\templates\pharmacy\analytics.html:168
-#: .\website\templates\website\index.html:104
+#: .\website\templates\website\index.html:107
 msgid "Low Stock Items"
 msgstr "Articles en stock faible"
 
@@ -6087,10 +5912,8 @@ msgid "Expiring Stock"
 msgstr "Stock en expiration"
 
 #: .\pharmacies\templates\pharmacy\analytics.html:228
-#, fuzzy
-#| msgid "Low Stock"
 msgid "Slow Moving Stock"
-msgstr "Stock faible"
+msgstr "Stocks à rotation lente"
 
 #: .\pharmacies\templates\pharmacy\analytics.html:267
 #: .\pharmacies\templates\product\analytics.html:90
@@ -6148,7 +5971,7 @@ msgid "Sales Distribution"
 msgstr "Répartition des ventes"
 
 #: .\pharmacies\templates\pharmacy\cashier_validation.html:34
-msgid " No pending sales "
+msgid "No pending sales"
 msgstr " Aucune vente en attente "
 
 #: .\pharmacies\templates\pharmacy\cashier_validation.html:45
@@ -6162,19 +5985,13 @@ msgid "Items:"
 msgstr "Éléments :"
 
 #: .\pharmacies\templates\pharmacy\cashier_validation.html:77
-msgid " No pending services "
+msgid "No pending services"
 msgstr " Aucun service en attente "
-
-#: .\pharmacies\templates\pharmacy\dashboard.html:35
-msgid "Process sales for customers. Update stock and generate receipts."
-msgstr ""
-"Traiter les ventes pour les clients. Mettre à jour le stock et générer des "
-"reçus."
 
 #: .\pharmacies\templates\pharmacy\dashboard.html:155
 msgid ""
-"Track all sales transactions, monitor quantities, dates,\n"
-"        staff, and customer details."
+"Track all sales transactions, monitor quantities, dates, staff, and customer "
+"details."
 msgstr ""
 "Suivre toutes les transactions de vente, surveiller les quantités, dates,\n"
 "        personnel et détails des clients."
@@ -6218,10 +6035,8 @@ msgid "Stock audit"
 msgstr "Audit de stock"
 
 #: .\pharmacies\templates\pharmacy\detail.html:209
-#, fuzzy
-#| msgid "Last 30 Days Trend"
 msgid "30 Day Trend Analysis"
-msgstr "Tendance des 30 derniers jours"
+msgstr "Analyse de tendance sur 30 jours"
 
 #: .\pharmacies\templates\pharmacy\detail.html:286
 #: .\pharmacies\templates\procurement\detail.html:57
@@ -6230,10 +6045,8 @@ msgid "Total Items"
 msgstr "Total des éléments"
 
 #: .\pharmacies\templates\pharmacy\detail.html:303
-#, fuzzy
-#| msgid "Active Products"
 msgid "Active Stock"
-msgstr "Produits actifs"
+msgstr "Stock actifs"
 
 #: .\pharmacies\templates\pharmacy\prescription_queue.html:20
 msgid "Open POS"
@@ -6245,31 +6058,16 @@ msgid "Sales History"
 msgstr "Historique des ventes"
 
 #: .\pharmacies\templates\pharmacy\reports.html:32
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "    Gain a complete overview of your pharmacy's performance, including "
-#| "product trends,\n"
-#| "    category distribution, sales growth, revenue insights, and inventory "
-#| "efficiency —\n"
-#| "    all in one intelligent analytics dashboard.\n"
-#| "    "
 msgid ""
-"\n"
-"    Gain a complete overview of your pharmacy’s performance, including "
-"product trends,\n"
-"    category distribution, sales growth, revenue insights, and inventory "
-"efficiency —\n"
-"    all in one intelligent analytics dashboard.\n"
-"    "
+"Gain a complete overview of your pharmacy’s performance, including product "
+"trends, category distribution, sales growth, revenue insights, and inventory "
+"efficiency — all in one intelligent analytics dashboard."
 msgstr ""
-"\n"
-"    Obtenez une vue d'ensemble complète des performances de votre pharmacie, "
-"y compris les tendances de produits,\n"
-"    la répartition par catégorie, la croissance des ventes, les perspectives "
-"de revenus et l'efficacité de l'inventaire —\n"
-"    le tout dans un tableau de bord d'analyses intelligent.\n"
-"    "
+"Obtenez une vue d'ensemble complète des performances de votre pharmacie, "
+"incluant les tendances produits,\n"
+"la répartition par catégorie, la croissance des ventes, les informations sur "
+"les revenus et l'efficacité des stocks —\n"
+"le tout dans un seul tableau de bord analytique intelligent."
 
 #: .\pharmacies\templates\pharmacy\reports.html:49 .\pharmacies\views.py:1217
 msgid "Product Analytics"
@@ -6277,12 +6075,9 @@ msgstr "Analyses de produits"
 
 #: .\pharmacies\templates\pharmacy\reports.html:55
 msgid ""
-"\n"
-"      Analyze product performance, best sellers, slow-moving items,\n"
-"      stock turnover, and revenue contribution.\n"
-"      "
+"Analyze product performance, best sellers, slow-moving items, stock "
+"turnover, and revenue contribution."
 msgstr ""
-"\n"
 "      Analyser les performances des produits, les meilleures ventes, les "
 "articles à rotation lente,\n"
 "      le renouvellement des stocks et la contribution aux revenus.\n"
@@ -6294,12 +6089,9 @@ msgstr "Analyses par catégorie"
 
 #: .\pharmacies\templates\pharmacy\reports.html:76
 msgid ""
-"\n"
-"      Monitor performance by category, compare revenue distribution,\n"
-"      and identify high-performing product groups.\n"
-"      "
+"Monitor performance by category, compare revenue distribution, and identify "
+"high-performing product groups."
 msgstr ""
-"\n"
 "      Surveiller les performances par catégorie, comparer la répartition des "
 "revenus,\n"
 "      et identifier les groupes de produits performants.\n"
@@ -6311,12 +6103,9 @@ msgstr "Analyses par sous-catégorie"
 
 #: .\pharmacies\templates\pharmacy\reports.html:97
 msgid ""
-"\n"
-"      Drill down into sub-category trends, product distribution,\n"
-"      and demand patterns for detailed insights.\n"
-"      "
+"Drill down into sub-category trends, product distribution, and demand "
+"patterns for detailed insights."
 msgstr ""
-"\n"
 "      Approfondir les tendances des sous-catégories, la distribution des "
 "produits,\n"
 "      et les modèles de demande pour des analyses détaillées.\n"
@@ -6328,12 +6117,9 @@ msgstr "Analyses des ventes"
 
 #: .\pharmacies\templates\pharmacy\reports.html:118
 msgid ""
-"\n"
-"      Track daily, weekly, and monthly sales performance,\n"
-"      revenue growth, and transaction trends.\n"
-"      "
+"Track daily, weekly, and monthly sales performance, revenue growth, and "
+"transaction trends."
 msgstr ""
-"\n"
 "      Suivre les performances des ventes quotidiennes, hebdomadaires et "
 "mensuelles,\n"
 "      la croissance des revenus et les tendances des transactions.\n"
@@ -6346,12 +6132,9 @@ msgstr "Performance de l'inventaire"
 
 #: .\pharmacies\templates\pharmacy\reports.html:139
 msgid ""
-"\n"
-"      Evaluate stock levels, turnover rates, shortages,\n"
-"      overstock risks, and inventory efficiency.\n"
-"      "
+"Evaluate stock levels, turnover rates, shortages, overstock risks, and "
+"inventory efficiency."
 msgstr ""
-"\n"
 "      Évaluer les niveaux de stock, les taux de rotation, les pénuries,\n"
 "      les risques de surstockage et l'efficacité de l'inventaire.\n"
 "      "
@@ -6363,12 +6146,9 @@ msgstr "Analyse des mouvements de stock"
 #: .\pharmacies\templates\pharmacy\reports.html:160
 #: .\pharmacies\templates\pharmacy\reports.html:181
 msgid ""
-"\n"
-"      Analyze stock inflow and outflow trends,\n"
-"      identify anomalies, and optimize replenishment cycles.\n"
-"      "
+"Analyze stock inflow and outflow trends, identify anomalies, and optimize "
+"replenishment cycles."
 msgstr ""
-"\n"
 "      Analyser les tendances d'entrée et de sortie de stock,\n"
 "      identifier les anomalies et optimiser les cycles de "
 "réapprovisionnement.\n"
@@ -6384,12 +6164,9 @@ msgstr "Rapports de profits et pertes"
 
 #: .\pharmacies\templates\pharmacy\reports.html:202
 msgid ""
-"\n"
-"      View revenue breakdowns, profit margins,\n"
-"      cost analysis, and financial performance indicators.\n"
-"      "
+"View revenue breakdowns, profit margins, cost analysis, and financial "
+"performance indicators."
 msgstr ""
-"\n"
 "      Consulter les ventilations de revenus, les marges bénéficiaires,\n"
 "      l'analyse des coûts et les indicateurs de performance financière.\n"
 "      "
@@ -6419,98 +6196,98 @@ msgid "Total Purchase Cost"
 msgstr "Coût total d'achat"
 
 #: .\pharmacies\templates\procurement\dashboard.html:28
-#, fuzzy
-#| msgid "Purchase Orders"
 msgid "Total Purchase Orders"
-msgstr "Bons de commande"
+msgstr "Total des bons de commande"
 
 #: .\pharmacies\templates\procurement\dashboard.html:30
-#, fuzzy
-#| msgid "Pending"
 msgid "pending"
 msgstr "En attente"
 
 #: .\pharmacies\templates\procurement\dashboard.html:46
-#, fuzzy
-#| msgid "Total Revenue"
 msgid "Total Deliveries"
-msgstr "Revenu total"
+msgstr "Livraisons totales"
 
 #: .\pharmacies\templates\procurement\dashboard.html:48
-#, fuzzy
-#| msgid "Pending Prescriptions"
 msgid "pending receipt"
-msgstr "Ordonnances en attente"
+msgstr "en attente de réception"
 
 #: .\pharmacies\templates\procurement\dashboard.html:66
 msgid "Track payments & due dates"
-msgstr ""
+msgstr "Suivi des paiements et des échéances"
 
 #: .\pharmacies\templates\procurement\dashboard.html:80
-#, fuzzy
-#| msgid "Purchase Order"
 msgid "New Purchase Order"
-msgstr "Bon de commande"
+msgstr "Nouvelle commande"
 
 #: .\pharmacies\templates\procurement\dashboard.html:82
-#, fuzzy
-#| msgid "Create an order"
 msgid "Create an order now"
-msgstr "Créer une commande"
+msgstr "Passez une commande maintenant"
 
 #: .\pharmacies\templates\procurement\dashboard.html:107
 msgid ""
-"Create and manage purchase orders sent to suppliers.\n"
-"        Track order status from draft to received."
+"Create and manage purchase orders sent to suppliers. Track order status from "
+"draft to received."
 msgstr ""
+"Création et gestion des bons de commande envoyés aux fournisseurs. Suivi de "
+"l'état des commandes, de la création à la réception."
 
 #: .\pharmacies\templates\procurement\dashboard.html:133
 msgid ""
-"Record incoming deliveries with batch numbers and expiry\n"
-"        dates. Update stock automatically on receipt."
+"Record incoming deliveries with batch numbers and expiry dates. Update stock "
+"automatically on receipt."
 msgstr ""
+"Enregistrement des livraisons entrantes avec les numéros de lot et les dates "
+"de péremption. Mise à jour automatique du stock à réception."
 
 #: .\pharmacies\templates\procurement\dashboard.html:159
 msgid ""
-"Record and track supplier invoices linked to purchase\n"
-"        orders. Manage payments and due dates."
+"Record and track supplier invoices linked to purchase orders. Manage "
+"payments and due dates."
 msgstr ""
+"Enregistrement et suivi des factures fournisseurs liées aux bons de "
+"commande. Gestion des paiements et des échéances."
 
 #: .\pharmacies\templates\procurement\dashboard.html:174
 msgid "Procurement Lifecycles"
-msgstr ""
+msgstr "Cycle de vie des achats"
 
 #: .\pharmacies\templates\procurement\dashboard.html:182
 msgid ""
-"Track the full lifecycle from order to delivery. Monitor\n"
-"        pending, received, and cancelled procurements."
+"Track the full lifecycle from order to delivery. Monitor pending, received, "
+"and cancelled procurements."
 msgstr ""
+"Suivi du cycle de vie complet, de la commande à la livraison. Surveillez les "
+"commandes en attente, reçues et annulées."
 
 #: .\pharmacies\templates\procurement\dashboard.html:197
-#, fuzzy
-#| msgid "Product Analytics"
 msgid "Procurement Analytics"
-msgstr "Analyses de produits"
+msgstr "Analyse des achats"
 
 #: .\pharmacies\templates\procurement\dashboard.html:205
 msgid ""
-"Analyze procurement trends, supplier performance, and\n"
-"        cost patterns across your pharmacy network."
+"Analyze procurement trends, supplier performance, and cost patterns across "
+"your pharmacy network."
 msgstr ""
+"Analysez les tendances d'approvisionnement, les performances des "
+"fournisseurs et\n"
+"les structures de coûts de votre réseau de pharmacies."
 
 #: .\pharmacies\templates\procurement\dashboard.html:220
-#, fuzzy
-#| msgid "Performance Report"
 msgid "Procurement Reports"
-msgstr "Rapport de performance"
+msgstr "Rapports sur les achats"
 
 #: .\pharmacies\templates\procurement\dashboard.html:228
+#, fuzzy
+#| msgid ""
+#| "Generate detailed reports on orders, deliveries, invoices, and supplier "
+#| "activity for audits and planning."
 msgid ""
-"Generate detailed reports on orders, deliveries,\n"
-"        invoices, and supplier activity for audits and planning.\n"
-"        <!--  -->\n"
-"        "
+"Generate detailed reports on orders, deliveries, invoices, and supplier "
+"activity for audits and planning. <!--  -->"
 msgstr ""
+"Générez des rapports détaillés sur les commandes, les livraisons, les "
+"factures et l'activité des fournisseurs à des fins d'audit et de "
+"planification."
 
 #: .\pharmacies\templates\procurement\detail.html:13
 #: .\pharmacies\templates\sale\detail.html:15
@@ -6672,13 +6449,11 @@ msgstr "Valider la vente"
 
 #: .\pharmacies\templates\sale\detail.html:38
 msgid "Backorder"
-msgstr ""
+msgstr "Rupture Anticipée"
 
 #: .\pharmacies\templates\sale\detail.html:48
-#, fuzzy
-#| msgid "Cancelled"
 msgid "Cancel Sale"
-msgstr "Annulé"
+msgstr "Annuler de la vente"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:12
 msgid "Search products..."
@@ -6693,52 +6468,42 @@ msgid "All Subcategories"
 msgstr "Toutes les sous-catégories"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:72
-msgid " No Product was found "
+msgid "No Product was found"
 msgstr " Aucun produit trouvé "
 
 #: .\pharmacies\templates\sale\point_of_sale.html:190
-#, fuzzy
-#| msgid "Customizations"
 msgid "Customer & Sale Options"
-msgstr "Personnalisations"
+msgstr "Options client et vente"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:201
-#, fuzzy
-#| msgid "Select customer"
 msgid "Select Customer"
-msgstr "Sélectionner un client"
+msgstr "Sélectionner le client"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:203
-#, fuzzy
-#| msgid "Customer"
 msgid "Walk-in Customer"
-msgstr "Client"
+msgstr "Client sans rendez-vous"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:220
-#, fuzzy
-#| msgid "Create an order"
 msgid "Create new customer"
-msgstr "Créer une commande"
+msgstr "Créer un nouveau client"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:225
 msgid "Backorder sale"
-msgstr ""
+msgstr "Vente en attente"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:230
-#, fuzzy
-#| msgid "Insurance"
 msgid "Apply insurance"
-msgstr "Assurance"
+msgstr "Appliquer une assurance"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:250
-#, fuzzy
-#| msgid "Select Report Type"
 msgid "Select policy"
-msgstr "Sélectionner le type de rapport"
+msgstr "Sélectionner une police d'assurance"
 
 #: .\pharmacies\templates\sale\point_of_sale.html:261
 msgid "Backorder enabled: stock will NOT be deducted until sale is completed."
 msgstr ""
+"Commande en attente activée : le stock ne sera PAS déduit tant que la vente "
+"n'est pas finalisée."
 
 #: .\pharmacies\templates\sale\point_of_sale.html:268
 msgid "Cart"
@@ -7388,7 +7153,7 @@ msgstr "Cette page affiche les détails de la transaction de vente."
 
 #: .\pharmacies\views.py:1594
 msgid "At least one product is required in every sale."
-msgstr ""
+msgstr "Au moins un produit est requis pour chaque vente."
 
 #: .\pharmacies\views.py:1659
 msgid ""
@@ -7428,148 +7193,111 @@ msgid ""
 "replenishment.\n"
 "    "
 msgstr ""
+"\n"
+"Bienvenue sur le tableau de bord des achats. Gérez les bons de commande, "
+"suivez les factures fournisseurs et surveillez les livraisons, de la "
+"commande à la réception. Utilisez cet espace pour superviser le processus "
+"d'approvisionnement de votre pharmacie, maîtriser les coûts et garantir un "
+"réapprovisionnement rapide des stocks."
 
 #: .\pharmacies\views.py:2130
-#, fuzzy
-#| msgid "Inventory Dashboard"
 msgid "Procurement Dashboard"
-msgstr "Tableau de bord de l'inventaire"
+msgstr "Approvisionnement "
 
 #: .\pharmacies\views.py:2131
 msgid "Purchase overview and supplier management"
-msgstr ""
+msgstr "Aperçu des achats et gestion des fournisseurs"
 
 #: .\pharmacies\views.py:2153
-#, fuzzy
-#| msgid "Supplier Invoices"
 msgid "Supplier orders"
-msgstr "Factures fournisseurs"
+msgstr "Commandes des fournisseurs"
 
 #: .\pharmacies\views.py:2154
-#, fuzzy
-#| msgid "View and manage user user roles here"
 msgid "View and manage purchase orders sent to suppliers."
-msgstr "Voir et gérer les rôles utilisateurs ici"
+msgstr "Consultez et gérez les bons de commande envoyés aux fournisseurs."
 
 #: .\pharmacies\views.py:2183
-#, fuzzy
-#| msgid "Purchase Details"
 msgid "Purchase Order Details"
-msgstr "Détails de l'achat"
+msgstr "Détails du bon de commande"
 
 #: .\pharmacies\views.py:2184
-#, fuzzy
-#| msgid "View sale information"
 msgid "View order information"
-msgstr "Voir les informations de la vente"
+msgstr "Afficher les informations de la commande"
 
 #: .\pharmacies\views.py:2185
-#, fuzzy
-#| msgid ""
-#| "This page displays prescription details, prescribed items, and dispensing "
-#| "status."
 msgid "This page displays purchase order details, items, and delivery status."
 msgstr ""
-"Cette page affiche les détails de l'ordonnance, les articles prescrits et le "
-"statut de délivrance."
+"Cette page affiche les détails de la commande, les articles et l'état de la "
+"livraison."
 
 #: .\pharmacies\views.py:2247
-#, fuzzy
-#| msgid "Is Archived"
 msgid "Goods received"
-msgstr "Est archivé"
+msgstr "Marchandises reçues"
 
 #: .\pharmacies\views.py:2248
-#, fuzzy
-#| msgid "View and manage prescriptions."
 msgid "View and manage goods received from suppliers."
-msgstr "Voir et gérer les ordonnances."
+msgstr "Consultez et gérez les marchandises reçues des fournisseurs."
 
 #: .\pharmacies\views.py:2277
-#, fuzzy
-#| msgid "Delivery Date"
 msgid "Delivery Details"
-msgstr "Date de livraison"
+msgstr "Détails de livraison"
 
 #: .\pharmacies\views.py:2278
 msgid "View received goods"
-msgstr ""
+msgstr "Afficher les marchandises reçues"
 
 #: .\pharmacies\views.py:2279
-#, fuzzy
-#| msgid ""
-#| "This page displays prescription details, prescribed items, and dispensing "
-#| "status."
 msgid ""
 "This page displays delivery details, batch numbers, expiry dates, and "
 "received quantities."
 msgstr ""
-"Cette page affiche les détails de l'ordonnance, les articles prescrits et le "
-"statut de délivrance."
+"Cette page affiche les détails de livraison, les numéros de lot, les dates "
+"de péremption et les quantités reçues."
 
 #: .\pharmacies\views.py:2341
-#, fuzzy
-#| msgid "Invoice Details"
 msgid "Invoice tracking"
-msgstr "Détails de la facture"
+msgstr "Suivi des factures"
 
 #: .\pharmacies\views.py:2343
 msgid "View and track supplier invoices linked to purchase orders."
 msgstr ""
+"Afficher et suivre les factures fournisseurs liées aux bons de commande."
 
 #: .\pharmacies\views.py:2373
-#, fuzzy
-#| msgid "Supplier Invoice"
 msgid "View supplier invoice"
-msgstr "Facture fournisseur"
+msgstr "Consulter la facture du fournisseur"
 
 #: .\pharmacies\views.py:2374
-#, fuzzy
-#| msgid ""
-#| "This page displays prescription details, prescribed items, and dispensing "
-#| "status."
 msgid ""
 "This page displays invoice details, linked purchase order, and payment "
 "status."
 msgstr ""
-"Cette page affiche les détails de l'ordonnance, les articles prescrits et le "
-"statut de délivrance."
+"Cette page affiche les détails de la facture, le bon de commande associé et "
+"le statut du paiement."
 
 #: .\pharmacies\views.py:2393
-#, fuzzy
-#| msgid "Supplier Invoice"
 msgid "Add Supplier Invoice"
-msgstr "Facture fournisseur"
+msgstr "Ajouter la facture du fournisseur"
 
 #: .\pharmacies\views.py:2394
-#, fuzzy
-#| msgid "Create a new user invitation"
 msgid "Create a new supplier invoice"
-msgstr "Créer une nouvelle invitation utilisateur"
+msgstr "Créer une nouvelle facture fournisseur"
 
 #: .\pharmacies\views.py:2395
-#, fuzzy
-#| msgid "Create a new subcategory under a category."
 msgid "Create a new invoice linked to a purchase order."
-msgstr "Créer une nouvelle sous-catégorie sous une catégorie."
+msgstr "Créer une nouvelle facture liée à un bon de commande."
 
 #: .\pharmacies\views.py:2412
-#, fuzzy
-#| msgid "Supplier Invoice"
 msgid "Edit Supplier Invoice"
-msgstr "Facture fournisseur"
+msgstr "Modifier la facture du fournisseur"
 
 #: .\pharmacies\views.py:2413
-#, fuzzy
-#| msgid "Edit product details"
 msgid "Edit invoice details"
-msgstr "Modifier les détails du produit"
+msgstr "Modifier les détails de la facture"
 
 #: .\pharmacies\views.py:2414
-#, fuzzy
-#| msgid "Update the product information."
 msgid "Update the supplier invoice information."
-msgstr "Mettre à jour les informations du produit."
+msgstr "Mettre à jour les informations de la facture du fournisseur."
 
 #: .\pharmacies\views.py:2428
 msgid "Purchase Analytics"
@@ -7794,10 +7522,8 @@ msgid "Nigeria"
 msgstr "Nigeria"
 
 #: .\pharmadex\config\constants.py:35
-#, fuzzy
-#| msgid "State / Region"
 msgid "Other / Regional"
-msgstr "État / Région"
+msgstr "Autres / Régional"
 
 #: .\pharmadex\config\constants.py:77
 msgid "West African CFA Franc"
@@ -7832,36 +7558,28 @@ msgid "Orange Money"
 msgstr "Orange Money"
 
 #: .\pharmadex\config\constants.py:135
-#, fuzzy
-#| msgid "Mobile Money"
 msgid "Moov Money"
-msgstr "Mobile Money"
+msgstr "Moov Money"
 
 #: .\pharmadex\config\constants.py:136
-#, fuzzy
-#| msgid "Mobile Money"
 msgid "MTN Mobile Money"
-msgstr "Mobile Money"
+msgstr "MTN Mobile Money"
 
 #: .\pharmadex\config\constants.py:137
 msgid "Wave"
 msgstr "Wave"
 
 #: .\pharmadex\config\constants.py:138
-#, fuzzy
-#| msgid "Mobile Money"
 msgid "Free Money"
-msgstr "Mobile Money"
+msgstr "Free Money"
 
 #: .\pharmadex\config\constants.py:141
 msgid "MTN MoMo Nigeria"
 msgstr "MTN MoMo Nigeria"
 
 #: .\pharmadex\config\constants.py:142
-#, fuzzy
-#| msgid "Mobile Money"
 msgid "Airtel Money"
-msgstr "Mobile Money"
+msgstr "Airtel Money"
 
 #: .\pharmadex\config\constants.py:143
 msgid "OPay"
@@ -7876,20 +7594,16 @@ msgid "Kuda"
 msgstr "Kuda"
 
 #: .\pharmadex\config\constants.py:148
-#, fuzzy
-#| msgid "Mobile Money"
 msgid "Africell Money"
-msgstr "Mobile Money"
+msgstr "Africell Money"
 
 #: .\pharmadex\config\sidebar.py:90
 msgid "Cashier Validation"
 msgstr "Validation du caissier"
 
 #: .\pharmadex\config\sidebar.py:155
-#, fuzzy
-#| msgid "Dashboard"
-msgid "Fiannce Dashboard"
-msgstr "Tableau de bord"
+msgid "Finance Dashboard"
+msgstr "Tableau de bord des Finances "
 
 #: .\pharmadex\config\sidebar.py:169
 msgid "Users Management"
@@ -8086,18 +7800,18 @@ msgid "Are you sure you want to delete this item?"
 msgstr "Êtes-vous sûr de vouloir supprimer cet élément ?"
 
 #: .\support\templates\support\response\_list.html:18
-msgid " No Ticekt Response Was Found "
+msgid "No Ticekt Response Was Found"
 msgstr " Aucune réponse au ticket trouvée "
 
 #: .\support\templates\support\ticket\_list.html:8
 #, python-format
-msgid " No %(model_verbose_name)s Was Found "
+msgid "No %(model_verbose_name)s Was Found"
 msgstr " Aucun %(model_verbose_name)s trouvé "
 
 #: .\support\templates\support\ticket\detail.html:71
 #: .\support\templates\support\ticket\detail_htmx.html:69
 msgid "Handle"
-msgstr ""
+msgstr "Résoudre "
 
 #: .\support\templates\support\ticket\detail.html:86
 #: .\support\templates\support\ticket\detail_htmx.html:84
@@ -8130,10 +7844,8 @@ msgid "Type your response..."
 msgstr "Tapez votre réponse..."
 
 #: .\support\templates\support\ticket\detail_htmx.html:133
-#, fuzzy
-#| msgid "Escalated"
 msgid "Deescalate"
-msgstr "Escaladé"
+msgstr "Désamorcer la situation"
 
 #: .\support\templates\support\ticket\index.html:62
 msgid "New Ticket"
@@ -8360,255 +8072,203 @@ msgid "About Pharmadex ERP"
 msgstr "À propos de Pharmadex ERP"
 
 #: .\website\templates\website\about.html:30
-msgid ""
-"            Helping Pharmacies
-"
-"            <span class=\"relative text-secondary inline-block\">
-"
-"              Operate Smarter
-"
-"              <span
-"
-"                class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
-"orange-300/40 rounded-full\"
-"
-"              ></span>
-"
-"            </span>
-"
-"            Every Day.
-"
-"            "
-msgstr ""
-"            Aider les pharmacies
-"
-"            <span class=\"relative text-secondary inline-block\">
-"
-"              à opérer plus intelligemment
-"
-"              <span
-"
-"                class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
-"orange-300/40 rounded-full\"
-"
-"              ></span>
-"
-"            </span>
-"
-"            chaque jour.
-"
-"            "
+msgid " Helping Pharmacies"
+msgstr "Gérer les pharmacies"
 
-#: .\website\templates\website\about.html:43
-msgid ""
-"            Pharmadex is a modern pharmacy ERP built to simplify "
-"operations,
-"
-"            improve inventory visibility, streamline sales, and help "
-"pharmacy
-"
-"            teams work more efficiently.
-"
-"            "
-msgstr ""
-"            Pharmadex est un ERP pharmaceutique moderne conçu pour simplifier "
-"les opérations,
-"
-"            améliorer la visibilité des stocks, rationaliser les ventes et aider "
-"les équipes
-"
-"            pharmaceutiques à travailler plus efficacement.
-"
-"            "
+#: .\website\templates\website\about.html:32
+msgid "Operate Smarter"
+msgstr "Date de l'opération"
 
-#: .\website\templates\website\about.html:57
+#: .\website\templates\website\about.html:37
+msgid "Every Day."
+msgstr "Date de livraison"
+
+#: .\website\templates\website\about.html:41
+msgid ""
+"Pharmadex is a modern pharmacy ERP built to simplify operations, improve "
+"inventory visibility, streamline sales, and help pharmacy teams work more "
+"efficiently."
+msgstr ""
+"  Pharmadex est un ERP pharmaceutique moderne conçu pour simplifier les "
+"opérations  améliorer la visibilité des stocks, rationaliser les ventes et "
+"aider les équipe  pharmaceutiques à travailler plus efficacement"
+
+#: .\website\templates\website\about.html:55
 msgid "Explore the Platform"
 msgstr "Explorer la plateforme"
 
-#: .\website\templates\website\about.html:64
+#: .\website\templates\website\about.html:62
 #: .\website\templates\website\contact.html:404
-#: .\website\templates\website\index.html:348
-#: .\website\templates\website\pricing.html:119
+#: .\website\templates\website\index.html:351
+#: .\website\templates\website\pricing.html:117
 #: .\website\templates\website\shared\navbar.html:235
 msgid "Talk to Sales"
 msgstr "Parler aux ventes"
 
-#: .\website\templates\website\about.html:72
-#: .\website\templates\website\index.html:75
+#: .\website\templates\website\about.html:70
+#: .\website\templates\website\index.html:73
 msgid "Cloud-Based"
 msgstr "Basé sur le cloud"
 
-#: .\website\templates\website\about.html:77
-msgid "Multi-Branch Ready"
-msgstr "Prêt pour multi-sites"
+#: .\website\templates\website\about.html:75
+msgid "Ideal for Multiple-Branches"
+msgstr "Idéal pour multiple branches"
 
-#: .\website\templates\website\about.html:82
-#: .\website\templates\website\index.html:85
+#: .\website\templates\website\about.html:80
+#: .\website\templates\website\index.html:83
 msgid "Real-Time Reporting"
 msgstr "Rapports en temps réel"
 
-#: .\website\templates\website\about.html:95
-#: .\website\templates\website\index.html:221
+#: .\website\templates\website\about.html:85
+msgid "Multi-Scoped Security"
+msgstr "Sécurité à plusieurs niveaux"
+
+#: .\website\templates\website\about.html:98
+#: .\website\templates\website\index.html:224
 msgid "Pharmacy operations"
 msgstr "Opérations pharmaceutiques"
 
-#: .\website\templates\website\about.html:110
+#: .\website\templates\website\about.html:113
 #: .\website\templates\website\contact.html:75
-#: .\website\templates\website\index.html:130
+#: .\website\templates\website\index.html:133
 msgid "Pharmacies onboarded"
 msgstr "Pharmacies intégrées"
 
-#: .\website\templates\website\about.html:117
-#: .\website\templates\website\index.html:137
+#: .\website\templates\website\about.html:120
+#: .\website\templates\website\index.html:140
 msgid "Countries using Pharmadex"
 msgstr "Pays utilisant Pharmadex"
 
-#: .\website\templates\website\about.html:124
+#: .\website\templates\website\about.html:127
 msgid "Reliable uptime"
 msgstr "Disponibilité fiable"
 
-#: .\website\templates\website\about.html:131
-#: .\website\templates\website\index.html:151
+#: .\website\templates\website\about.html:134
+#: .\website\templates\website\index.html:154
 msgid "Transactions processed monthly"
 msgstr "Transactions traitées mensuellement"
 
-#: .\website\templates\website\about.html:147
+#: .\website\templates\website\about.html:150
 msgid "WHY WE BUILT PHARMADEX"
 msgstr "POURQUOI NOUS AVONS CRÉÉ PHARMADEX"
 
-#: .\website\templates\website\about.html:151
+#: .\website\templates\website\about.html:154
 msgid "Pharmacy Management Shouldn't Be Complicated."
 msgstr "La gestion pharmaceutique ne devrait pas être compliquée."
 
-#: .\website\templates\website\about.html:155
+#: .\website\templates\website\about.html:158
 msgid ""
-"          Many pharmacies still rely on spreadsheets, disconnected systems,
-"
-"          and manual workflows that slow operations down and increase risk.
-"
-"          "
+"Many pharmacies still rely on spreadsheets, disconnected systems, and manual "
+"workflows that slow operations down and increase risk."
 msgstr ""
-"          De nombreuses pharmacies dépendent encore de feuilles de calcul, de systèmes
-"
-"          déconnectés et de flux de travail manuels qui ralentissent les opérations
-"
-"          et augmentent les risques.
-"
-"          "
+"De nombreuses pharmacies dépendent encore de feuilles de calcul, de "
+"systèmedéconnectés et de flux de travail manuels qui ralentissent les "
+"opérationet augmentent les risques"
 
-#: .\website\templates\website\about.html:162
+#: .\website\templates\website\about.html:165
 msgid ""
-"          Pharmadex was built to centralize inventory, sales, procurement,
-"
-"          reporting, and operational oversight into one reliable platform.
-"
-"          "
+"Pharmadex was built to centralize inventory, sales, procurement, reporting, "
+"and operational oversight into one reliable platform."
 msgstr ""
-"          Pharmadex a été conçu pour centraliser l'inventaire, les ventes, les achats,
-"
-"          les rapports et la supervision opérationnelle dans une plateforme fiable.
-"
-"          "
+"Pharmadex a été conçu pour centraliser l'inventaire, les ventes, les "
+"achatsles rapports et la supervision opérationnelle dans une plateforme "
+"fiable"
 
-#: .\website\templates\website\about.html:173
+#: .\website\templates\website\about.html:176
 msgid "Reduce stock losses and expiry issues"
 msgstr "Réduire les pertes de stock et les problèmes d'expiration"
 
-#: .\website\templates\website\about.html:180
+#: .\website\templates\website\about.html:183
 msgid "Improve visibility across pharmacy operations"
 msgstr "Améliorer la visibilité des opérations pharmaceutiques"
 
-#: .\website\templates\website\about.html:187
+#: .\website\templates\website\about.html:190
 msgid "Enable smarter decisions with real-time reporting"
-msgstr "Permettre des décisions plus intelligentes grâce aux rapports en temps réel"
+msgstr ""
+"Permettre des décisions plus intelligentes grâce aux rapports en temps réel"
 
-#: .\website\templates\website\about.html:201
+#: .\website\templates\website\about.html:204
 msgid "Pharmacist using Pharmadex"
 msgstr "Pharmacien utilisant Pharmadex"
 
-#: .\website\templates\website\about.html:214
+#: .\website\templates\website\about.html:217
 msgid "What We Value"
 msgstr "Nos valeurs"
 
-#: .\website\templates\website\about.html:218
-msgid ""
-"          The principles behind how we build, support, and grow Pharmadex.
-"
-"          "
+#: .\website\templates\website\about.html:221
+msgid "The principles behind how we build, support, and grow Pharmadex."
 msgstr ""
-"          Les principes qui guident la construction, le support et la croissance de Pharmadex.
-"
-"          "
+"Les principes qui guident la construction, le support et la croissance de "
+"Pharmadex"
 
-#: .\website\templates\website\about.html:237
+#: .\website\templates\website\about.html:240
 msgid "Simplicity"
 msgstr "Simplicité"
 
-#: .\website\templates\website\about.html:241
+#: .\website\templates\website\about.html:244
 msgid "We design tools that simplify complex pharmacy workflows."
-msgstr "Nous concevons des outils qui simplifient les flux de travail pharmaceutiques complexes."
+msgstr ""
+"Nous concevons des outils qui simplifient les flux de travail "
+"pharmaceutiques complexes."
 
-#: .\website\templates\website\about.html:256
+#: .\website\templates\website\about.html:259
 msgid "Reliability"
 msgstr "Fiabilité"
 
-#: .\website\templates\website\about.html:260
+#: .\website\templates\website\about.html:263
 msgid "Stable infrastructure and dependable performance you can trust daily."
-msgstr "Infrastructure stable et performances fiables auxquelles vous pouvez faire confiance au quotidien."
+msgstr ""
+"Infrastructure stable et performances fiables auxquelles vous pouvez faire "
+"confiance au quotidien."
 
-#: .\website\templates\website\about.html:275
+#: .\website\templates\website\about.html:278
 msgid "Partnership"
 msgstr "Partenariat"
 
-#: .\website\templates\website\about.html:279
+#: .\website\templates\website\about.html:282
 msgid ""
 "We work closely with pharmacies to build software that solves real "
 "operational problems."
 msgstr ""
-"Nous travaillons en étroite collaboration avec les pharmacies pour créer "
-"des logiciels qui résolvent de véritables problèmes opérationnels."
+"Nous travaillons en étroite collaboration avec les pharmacies pour créer des "
+"logiciels qui résolvent de véritables problèmes opérationnels."
 
-#: .\website\templates\website\about.html:292
+#: .\website\templates\website\about.html:295
 msgid "Meet the Team Behind Pharmadex"
 msgstr "Rencontrez l'équipe derrière Pharmadex"
 
-#: .\website\templates\website\about.html:296
+#: .\website\templates\website\about.html:299
 msgid ""
-"          A team focused on building reliable systems for modern pharmacy "
-"operations.
-"
-"          "
+"A team focused on building reliable systems for modern pharmacy operations."
 msgstr ""
-"          Une équipe concentrée sur la construction de systèmes fiables pour "
-"les opérations pharmaceutiques modernes.
-"
-"          "
+"Une équipe concentrée sur la construction de systèmes fiables pour les "
+"opérations pharmaceutiques modernes"
 
-#: .\website\templates\website\about.html:317
+#: .\website\templates\website\about.html:320
 msgid "Ohin H. Joel"
 msgstr "Ohin H. Joel"
 
-#: .\website\templates\website\about.html:321
+#: .\website\templates\website\about.html:324
 msgid "Product & Partnerships"
 msgstr "Produit & Partenariats"
 
-#: .\website\templates\website\about.html:327
+#: .\website\templates\website\about.html:330
 msgid ""
 "Focused on aligning Pharmadex with real pharmacy workflows and operational "
 "needs."
 msgstr ""
-"Concentré sur l'alignement de Pharmadex avec les flux de travail réels "
-"des pharmacies et leurs besoins opérationnels."
+"Concentré sur l'alignement de Pharmadex avec les flux de travail réels des "
+"pharmacies et leurs besoins opérationnels."
 
-#: .\website\templates\website\about.html:344
+#: .\website\templates\website\about.html:347
 msgid "Anyim Joseph"
 msgstr "Anyim Joseph"
 
-#: .\website\templates\website\about.html:348
+#: .\website\templates\website\about.html:351
 msgid "Founder & CEO"
 msgstr "Fondateur & PDG"
 
-#: .\website\templates\website\about.html:354
+#: .\website\templates\website\about.html:357
 msgid ""
 "Leads product strategy and platform architecture across the Pharmadex "
 "ecosystem."
@@ -8616,15 +8276,15 @@ msgstr ""
 "Dirige la stratégie produit et l'architecture de la plateforme dans "
 "l'écosystème Pharmadex."
 
-#: .\website\templates\website\about.html:371
+#: .\website\templates\website\about.html:374
 msgid "CHUKWU Florence O."
 msgstr "CHUKWU Florence O."
 
-#: .\website\templates\website\about.html:375
+#: .\website\templates\website\about.html:378
 msgid "Customer Success"
 msgstr "Succès client"
 
-#: .\website\templates\website\about.html:381
+#: .\website\templates\website\about.html:384
 msgid ""
 "Works closely with pharmacies to improve onboarding, adoption, and long-term "
 "success."
@@ -8632,33 +8292,28 @@ msgstr ""
 "Travaille en étroite collaboration avec les pharmacies pour améliorer "
 "l'intégration, l'adoption et le succès à long terme."
 
-#: .\website\templates\website\about.html:400
-#: .\website\templates\website\pricing.html:97
+#: .\website\templates\website\about.html:403
+#: .\website\templates\website\pricing.html:95
 msgid "Ready to Modernize Your Pharmacy?"
 msgstr "Prêt à moderniser votre pharmacie ?"
 
-#: .\website\templates\website\about.html:404
+#: .\website\templates\website\about.html:407
 msgid ""
-"            Join pharmacies already using Pharmadex to simplify operations,
-"
-"            improve visibility, and scale confidently.
-"
-"            "
+"Join pharmacies already using Pharmadex to simplify operations, improve "
+"visibility, and scale confidently."
 msgstr ""
-"            Rejoignez les pharmacies qui utilisent déjà Pharmadex pour simplifier "
-"les opérations, améliorer la visibilité et se développer en toute confiance.
-"
-"            "
+"  Rejoignez les pharmacies qui utilisent déjà Pharmadex pour simplifier les "
+"opérations, améliorer la visibilité et se développer en toute confiance"
 
-#: .\website\templates\website\about.html:415
-#: .\website\templates\website\index.html:341
-#: .\website\templates\website\pricing.html:112
+#: .\website\templates\website\about.html:418
+#: .\website\templates\website\index.html:344
+#: .\website\templates\website\pricing.html:110
 msgid "Get Started for Free"
 msgstr "Commencer gratuitement"
 
-#: .\website\templates\website\about.html:422
+#: .\website\templates\website\about.html:425
 #: .\website\templates\website\contact.html:50
-#: .\website\templates\website\index.html:67
+#: .\website\templates\website\index.html:65
 msgid "Book a Demo"
 msgstr "Réserver une démo"
 
@@ -8704,7 +8359,9 @@ msgstr "Besoin d'aide ?"
 
 #: .\website\templates\website\client\help_center.html:50
 msgid "Our support team is available to assist you with any questions."
-msgstr "Notre équipe de support est disponible pour vous aider avec toutes vos questions."
+msgstr ""
+"Notre équipe de support est disponible pour vous aider avec toutes vos "
+"questions."
 
 #: .\website\templates\website\client\help_center.html:52
 msgid "Contact Support"
@@ -8720,7 +8377,8 @@ msgstr "Satisfaction"
 
 #: .\website\templates\website\client\testimonials.html:59
 msgid "No testimonials yet. Be the first to share your experience!"
-msgstr "Pas encore de témoignages. Soyez le premier à partager votre expérience !"
+msgstr ""
+"Pas encore de témoignages. Soyez le premier à partager votre expérience !"
 
 #: .\website\templates\website\client\testimonials.html:70
 msgid "Ready to experience the difference?"
@@ -8797,17 +8455,10 @@ msgid "Pro"
 msgstr "Pro"
 
 #: .\website\templates\website\components\_price_list.html:145
-msgid ""
-"        Built for growing pharmacies that need better visibility and
-"
-"        control.
-"
-"        "
+msgid "Built for growing pharmacies that need better visibility and control."
 msgstr ""
-"        Conçu pour les pharmacies en croissance qui ont besoin d'une meilleure "
-"        visibilité et d'un meilleur contrôle.
-"
-"        "
+"        Conçu pour les pharmacies en croissance qui ont besoin d'une "
+"meilleure         visibilité et d'un meilleur contrôle        "
 
 #: .\website\templates\website\components\_price_list.html:177
 msgid "Best value for operational teams"
@@ -8839,7 +8490,7 @@ msgstr "Support WhatsApp prioritaire"
 
 #: .\website\templates\website\components\_price_list.html:218
 #: .\website\templates\website\contact.html:397
-#: .\website\templates\website\index.html:60
+#: .\website\templates\website\index.html:58
 #: .\website\templates\website\shared\navbar.html:126
 #: .\website\templates\website\shared\navbar.html:261
 msgid "Start Free Trial"
@@ -8900,56 +8551,21 @@ msgid "Pharmacy ERP & POS Platform"
 msgstr "Plateforme ERP & PDV pour pharmacies"
 
 #: .\website\templates\website\contact.html:28
-msgid ""
-" Talk to the team behind
-"
-"            <span class=\"relative text-secondary\">
-"
-"              Pharmadex
-"
-"              <span
-"
-"                class=\"absolute left-0 -bottom-1 w-full h-3 bg-"
-"orange-400/20 rounded-full\"
-"
-"              ></span>
-"
-"            </span>
-"
-"            . "
-msgstr ""
-" Parlez à l'équipe derrière
-"
-"            <span class=\"relative text-secondary\">
-"
-"              Pharmadex
-"
-"              <span
-"
-"                class=\"absolute left-0 -bottom-1 w-full h-3 bg-"
-"orange-400/20 rounded-full\"
-"
-"              ></span>
-"
-"            </span>
-"
-"            . "
+msgid "Talk to the team behind"
+msgstr "Parlez à l'équipe derrière"
+
+#: .\website\templates\website\contact.html:30
+msgid "Pharmadex"
+msgstr "sur Pharmadex"
 
 #: .\website\templates\website\contact.html:39
 msgid ""
-" Whether you're launching a new pharmacy, replacing
-"
-"            outdated software, or scaling operations across multiple "
-"locations,
-"
-"            our team is ready to help. "
+"Whether you're launching a new pharmacy, replacing outdated software, or "
+"scaling operations across multiple locations, our team is ready to help."
 msgstr ""
-" Que vous lanciez une nouvelle pharmacie, remplaciez
-"
-"            un logiciel obsolète ou développiez vos opérations sur plusieurs "
-"sites,
-"
-"            notre équipe est prête à vous aider. "
+" Que vous lanciez une nouvelle pharmacie, remplacie  un logiciel obsolète ou "
+"développiez vos opérations sur plusieurs sites  notre équipe est prête à "
+"vous aider. "
 
 #: .\website\templates\website\contact.html:63
 msgid "Average response time"
@@ -8964,18 +8580,10 @@ msgid "Speak With Our Team"
 msgstr "Parlez à notre équipe"
 
 #: .\website\templates\website\contact.html:100
-msgid ""
-"                Get pricing, onboarding guidance, or a live
-"
-"                walkthrough.
-"
-"                "
+msgid "Get pricing, onboarding guidance, or a live walkthrough."
 msgstr ""
-"                Obtenez des tarifs, un guide d'intégration ou une
-"
-"                démonstration en direct.
-"
-"                "
+"      Obtenez des tarifs, un guide d'intégration ou un      démonstration en "
+"direct      "
 
 #: .\website\templates\website\contact.html:153
 msgid "WhatsApp"
@@ -8983,7 +8591,8 @@ msgstr "WhatsApp"
 
 #: .\website\templates\website\contact.html:157
 msgid "Fastest way to reach us for demos & support."
-msgstr "Le moyen le plus rapide de nous contacter pour les démos et le support."
+msgstr ""
+"Le moyen le plus rapide de nous contacter pour les démos et le support."
 
 #: .\website\templates\website\contact.html:177
 msgid "CONTACT SALES"
@@ -8995,17 +8604,12 @@ msgstr "Parlez-nous de votre pharmacie."
 
 #: .\website\templates\website\contact.html:185
 msgid ""
-" We\u2019ll help you choose the right setup, estimate
-"
-"            onboarding costs, and answer any questions about pricing,
-"
-"            implementation, or integrations. "
+"We’ll help you choose the right setup, estimate onboarding costs, and answer "
+"any questions about pricing, implementation, or integrations."
 msgstr ""
-" Nous vous aiderons à choisir la bonne configuration, à estimer
-"
-"            les coûts d'intégration et à répondre à toutes vos questions sur les tarifs,
-"
-"            la mise en œuvre ou les intégrations. "
+" Nous vous aiderons à choisir la bonne configuration, à estime  les coûts "
+"d'intégration et à répondre à toutes vos questions sur les tarifs  la mise "
+"en œuvre ou les intégrations. "
 
 #: .\website\templates\website\contact.html:194
 msgid "Multi-branch pharmacy support"
@@ -9065,17 +8669,12 @@ msgstr "Construit en Afrique. Conçu pour les pharmacies modernes."
 
 #: .\website\templates\website\contact.html:307
 msgid ""
-" Pharmadex is focused on helping pharmacies digitize
-"
-"            operations with reliable, scalable, and locally adaptable ERP
-"
-"            technology. "
+"Pharmadex is focused on helping pharmacies digitize operations with "
+"reliable, scalable, and locally adaptable ERP technology."
 msgstr ""
-" Pharmadex se concentre sur l'aide aux pharmacies pour digitaliser
-"
-"            leurs opérations grâce à une technologie ERP fiable, évolutive
-"
-"            et adaptable localement. "
+" Pharmadex se concentre sur l'aide aux pharmacies pour digitalise  leurs "
+"opérations grâce à une technologie ERP fiable, évolutiv  et adaptable "
+"localement. "
 
 #: .\website\templates\website\contact.html:317
 msgid "Office Address"
@@ -9086,8 +8685,8 @@ msgid "Working Hours"
 msgstr "Heures de travail"
 
 #: .\website\templates\website\contact.html:333
-msgid "Mon \u2013 Fri \u2022 9am \u2013 6pm"
-msgstr "Lun \u2013 Ven \u2022 9h \u2013 18h"
+msgid "Mon – Fri • 9am – 6pm"
+msgstr "Du lundi au vendredi • 9h00 – 18h00"
 
 #: .\website\templates\website\contact.html:356
 msgid "Office location map"
@@ -9102,222 +8701,153 @@ msgid "Modernize your pharmacy operations."
 msgstr "Modernisez vos opérations pharmaceutiques."
 
 #: .\website\templates\website\contact.html:386
+#, fuzzy
+#| msgid ""
+#| "Join pharmacies already using Pharmadex to simplify inventory, sales, "
+#| "reporting, and day-to-day operations."
 msgid ""
-" Join pharmacies already using Pharmadex to simplify
-"
-"            inventory, sales, reporting, and day-to-day operations.
-"
-"            <!--  -->
-"
-"            "
+"Join pharmacies already using Pharmadex to simplify inventory, sales, "
+"reporting, and day-to-day operations. <!--  -->"
 msgstr ""
-" Rejoignez les pharmacies qui utilisent déjà Pharmadex pour simplifier
-"
-"            l'inventaire, les ventes, les rapports et les opérations quotidiennes.
-"
-"            <!--  -->
-"
-"            "
+" Rejoignez les pharmacies qui utilisent déjà Pharmadex pour simplifie  "
+"l'inventaire, les ventes, les rapports et les opérations quotidiennes  <!--  "
+"--"
 
 #: .\website\templates\website\index.html:24
 msgid "Modern Pharmacy ERP Platform"
 msgstr "Plateforme ERP pharmaceutique moderne"
 
 #: .\website\templates\website\index.html:32
-msgid ""
-"            Built for
-"
-"            <span class=\"text-secondary relative inline-block\">
-"
-"              Pharmacies
-"
-"              <span
-"
-"                class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
-"orange-300/40 rounded-full\"
-"
-"              ></span>
-"
-"            </span>.
-"
-"            <br />
-"
-"            Designed for Scale.
-"
-"            "
-msgstr ""
-"            Conçu pour les
-"
-"            <span class=\"text-secondary relative inline-block\">
-"
-"              pharmacies
-"
-"              <span
-"
-"                class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
-"orange-300/40 rounded-full\"
-"
-"              ></span>
-"
-"            </span>.
-"
-"            <br />
-"
-"            Pensé pour l'échelle.
-"
-"            "
+msgid "Built for"
+msgstr "Construit pour les"
 
-#: .\website\templates\website\index.html:46
-msgid ""
-"            Pharmadex helps pharmacies manage inventory, POS, "
-"prescriptions,
-"
-"            procurement, accounting, reporting, and compliance \u2014 all from "
-"one
-"
-"            powerful cloud platform.
-"
-"            "
-msgstr ""
-"            Pharmadex aide les pharmacies à gérer l'inventaire, le PDV, "
-"les ordonnances,
-"
-"            les achats, la comptabilité, les rapports et la conformité \u2014 tout depuis
-"
-"            une puissante plateforme cloud.
-"
-"            "
+#: .\website\templates\website\index.html:40
+msgid "Designed for Scale."
+msgstr "Conçu pour une utilisation à grande échelle."
 
-#: .\website\templates\website\index.html:80
+#: .\website\templates\website\index.html:44
+msgid ""
+"Pharmadex helps pharmacies manage inventory, POS, prescriptions, "
+"procurement, accounting, reporting, and compliance — all from one powerful "
+"cloud platform."
+msgstr ""
+"  Pharmadex aide les pharmacies à gérer l'inventaire, le PDV, les "
+"ordonnances  les achats, la comptabilité, les rapports et la conformité - "
+"tout depui  une puissante plateforme cloud"
+
+#: .\website\templates\website\index.html:78
 msgid "Role-Based Access"
 msgstr "Accès basé sur les rôles"
 
-#: .\website\templates\website\index.html:114
+#: .\website\templates\website\index.html:88
+msgid "Full Data Isolation"
+msgstr "Isolation complete des données"
+
+#: .\website\templates\website\index.html:117
 msgid "Pharmadex dashboard"
 msgstr "Tableau de bord Pharmadex"
 
-#: .\website\templates\website\index.html:144
+#: .\website\templates\website\index.html:147
 msgid "Reliable system uptime"
 msgstr "Disponibilité système fiable"
 
-#: .\website\templates\website\index.html:167
+#: .\website\templates\website\index.html:170
 msgid "WHY PHARMADEX"
 msgstr "POURQUOI PHARMADEX"
 
-#: .\website\templates\website\index.html:171
+#: .\website\templates\website\index.html:174
 msgid "Built for Real Pharmacy Operations."
 msgstr "Conçu pour les opérations pharmaceutiques réelles."
 
-#: .\website\templates\website\index.html:175
+#: .\website\templates\website\index.html:178
 msgid ""
-"          Replace spreadsheets, disconnected software, and manual processes "
-"with
-"
-"          a centralized ERP built specifically for pharmacies.
-"
-"          "
+"Replace spreadsheets, disconnected software, and manual processes with a "
+"centralized ERP built specifically for pharmacies."
 msgstr ""
-"          Remplacez les feuilles de calcul, les logiciels déconnectés et les processus "
-"manuels
-"
-"          par un ERP centralisé conçu spécifiquement pour les pharmacies.
-"
-"          "
+"Remplacez les feuilles de calcul, les logiciels déconnectés et les processus "
+"manuelpar un ERP centralisé conçu spécifiquement pour les pharmacies"
 
-#: .\website\templates\website\index.html:186
+#: .\website\templates\website\index.html:189
 msgid "Track inventory in real time across branches"
 msgstr "Suivre l'inventaire en temps réel sur tous les sites"
 
-#: .\website\templates\website\index.html:193
+#: .\website\templates\website\index.html:196
 msgid "Reduce stock losses and expiry risks"
 msgstr "Réduire les pertes de stock et les risques d'expiration"
 
-#: .\website\templates\website\index.html:200
+#: .\website\templates\website\index.html:203
 msgid "Manage POS, procurement, and prescriptions in one place"
 msgstr "Gérer le PDV, les achats et les ordonnances en un seul endroit"
 
-#: .\website\templates\website\index.html:207
+#: .\website\templates\website\index.html:210
 msgid "Generate reports instantly for smarter decisions"
-msgstr "Générer des rapports instantanément pour des décisions plus intelligentes"
+msgstr ""
+"Générer des rapports instantanément pour des décisions plus intelligentes"
 
-#: .\website\templates\website\index.html:236
+#: .\website\templates\website\index.html:239
 msgid "ALL-IN-ONE ERP"
 msgstr "ERP TOUT-EN-UN"
 
-#: .\website\templates\website\index.html:240
+#: .\website\templates\website\index.html:243
 msgid "Everything Your Pharmacy Needs."
 msgstr "Tout ce dont votre pharmacie a besoin."
 
-#: .\website\templates\website\index.html:244
+#: .\website\templates\website\index.html:247
 msgid ""
-"          Manage daily operations, improve visibility, and scale "
-"confidently
-"
-"          with tools designed specifically for modern pharmacies.
-"
-"          "
+"Manage daily operations, improve visibility, and scale confidently with "
+"tools designed specifically for modern pharmacies."
 msgstr ""
-"          Gérez les opérations quotidiennes, améliorez la visibilité et développez-vous
-"
-"          en toute confiance avec des outils conçus spécifiquement pour les pharmacies modernes.
-"
-"          "
+"Gérez les opérations quotidiennes, améliorez la visibilité et développez-"
+"vouen toute confiance avec des outils conçus spécifiquement pour les "
+"pharmacies modernes"
 
-#: .\website\templates\website\index.html:264 .\website\views.py:276
+#: .\website\templates\website\index.html:267 .\website\views.py:276
 msgid "Inventory Management"
 msgstr "Gestion des stocks"
 
-#: .\website\templates\website\index.html:268
+#: .\website\templates\website\index.html:271
 msgid ""
 "Track stock levels, batch numbers, expiries, and product movement in real "
 "time."
 msgstr ""
-"Suivre les niveaux de stock, les numéros de lot, les dates d'expiration et les mouvements "
-"de produits en temps réel."
+"Suivre les niveaux de stock, les numéros de lot, les dates d'expiration et "
+"les mouvements de produits en temps réel."
 
-#: .\website\templates\website\index.html:283 .\website\views.py:282
+#: .\website\templates\website\index.html:286 .\website\views.py:282
 msgid "Sales & POS"
 msgstr "Ventes & PDV"
 
-#: .\website\templates\website\index.html:287
+#: .\website\templates\website\index.html:290
 msgid ""
 "Process sales faster with integrated POS, receipts, and multi-payment "
 "support."
 msgstr ""
-"Traiter les ventes plus rapidement avec un PDV intégré, des reçus et la prise en charge "
-"de plusieurs modes de paiement."
+"Traiter les ventes plus rapidement avec un PDV intégré, des reçus et la "
+"prise en charge de plusieurs modes de paiement."
 
-#: .\website\templates\website\index.html:302
+#: .\website\templates\website\index.html:305
 msgid "Analytics & Reports"
 msgstr "Analyses & rapports"
 
-#: .\website\templates\website\index.html:306
+#: .\website\templates\website\index.html:309
 msgid ""
 "Gain visibility into revenue, inventory trends, procurement, and "
 "profitability."
 msgstr ""
-"Obtenir de la visibilité sur les revenus, les tendances d'inventaire, les achats et "
-"la rentabilité."
+"Obtenir de la visibilité sur les revenus, les tendances d'inventaire, les "
+"achats et la rentabilité."
 
-#: .\website\templates\website\index.html:326
+#: .\website\templates\website\index.html:329
 msgid "Ready to Simplify Pharmacy Operations?"
 msgstr "Prêt à simplifier les opérations pharmaceutiques ?"
 
-#: .\website\templates\website\index.html:330
+#: .\website\templates\website\index.html:333
 msgid ""
-"            Join forward-thinking pharmacies already using Pharmadex to "
-"reduce
-"
-"            errors, improve efficiency, and grow faster.
-"
-"            "
+"Join forward-thinking pharmacies already using Pharmadex to reduce errors, "
+"improve efficiency, and grow faster."
 msgstr ""
-"            Rejoignez les pharmacies visionnaires qui utilisent déjà Pharmadex pour "
-"réduire
-"
-"            les erreurs, améliorer l'efficacité et se développer plus rapidement.
-"
-"            "
+"  Rejoignez les pharmacies visionnaires qui utilisent déjà Pharmadex pour "
+"réduir  les erreurs, améliorer l'efficacité et se développer plus rapidement"
 
 #: .\website\templates\website\legal\cookies_policy.html:10
 msgid "Cookies Policy"
@@ -9328,9 +8858,8 @@ msgid ""
 "This policy explains how we use cookies and similar technologies on our "
 "website."
 msgstr ""
-"Cette politique explique comment nous utilisons les cookies et les technologies similaires "
-"sur notre site web."
-
+"Cette politique explique comment nous utilisons les cookies et les "
+"technologies similaires sur notre site web."
 
 #: .\website\templates\website\legal\cookies_policy.html:13
 #: .\website\templates\website\legal\privacy_policy.html:13
@@ -9350,10 +8879,11 @@ msgid ""
 "more efficiently and provide information to the website owners. Cookies can "
 "be 'persistent' or 'session' cookies."
 msgstr ""
-"Les cookies sont de petits fichiers texte placés sur votre ordinateur ou appareil "
-"mobile lorsque vous visitez un site web. Ils sont largement utilisés pour faire "
-"fonctionner les sites web plus efficacement et fournir des informations aux "
-"propriétaires du site. Les cookies peuvent être \u2018persistants\u2019 ou de \u2018session\u2019."
+"Les cookies sont de petits fichiers texte placés sur votre ordinateur ou "
+"appareil mobile lorsque vous visitez un site web. Ils sont largement "
+"utilisés pour faire fonctionner les sites web plus efficacement et fournir "
+"des informations aux propriétaires du site. Les cookies peuvent être "
+"\\u2018persistants’ ou de \\u2018session’."
 
 #: .\website\templates\website\legal\cookies_policy.html:26
 msgid "2. How We Use Cookies"
@@ -9368,8 +8898,8 @@ msgid ""
 "<strong>Essential cookies:</strong> Necessary for the website to function "
 "properly. These cannot be disabled."
 msgstr ""
-"<strong>Cookies essentiels :</strong> Nécessaires au bon fonctionnement du site web. "
-"Ceux-ci ne peuvent pas être désactivés."
+"<strong>Cookies essentiels :</strong> Nécessaires au bon fonctionnement du "
+"site web. Ceux-ci ne peuvent pas être désactivés."
 
 #: .\website\templates\website\legal\cookies_policy.html:30
 msgid ""
@@ -9377,33 +8907,33 @@ msgid ""
 "interact with our website by collecting and reporting information "
 "anonymously."
 msgstr ""
-"<strong>Cookies de performance :</strong> Nous aident à comprendre comment les visiteurs "
-"interagissent avec notre site web en collectant et rapportant des informations "
-"de manière anonyme."
+"<strong>Cookies de performance :</strong> Nous aident à comprendre comment "
+"les visiteurs interagissent avec notre site web en collectant et rapportant "
+"des informations de manière anonyme."
 
 #: .\website\templates\website\legal\cookies_policy.html:31
 msgid ""
 "<strong>Functionality cookies:</strong> Enable the website to provide "
 "enhanced functionality and personalization."
 msgstr ""
-"<strong>Cookies de fonctionnalité :</strong> Permettent au site web de fournir "
-"des fonctionnalités améliorées et une personnalisation."
+"<strong>Cookies de fonctionnalité :</strong> Permettent au site web de "
+"fournir des fonctionnalités améliorées et une personnalisation."
 
 #: .\website\templates\website\legal\cookies_policy.html:32
 msgid ""
 "<strong>Targeting cookies:</strong> Used to deliver advertisements more "
 "relevant to you and your interests."
 msgstr ""
-"<strong>Cookies de ciblage :</strong> Utilisés pour diffuser des publicités plus "
-"pertinentes pour vous et vos intérêts."
+"<strong>Cookies de ciblage :</strong> Utilisés pour diffuser des publicités "
+"plus pertinentes pour vous et vos intérêts."
 
 #: .\website\templates\website\legal\cookies_policy.html:33
 msgid ""
 "<strong>Analytics cookies:</strong> Help us analyze traffic and improve our "
 "services."
 msgstr ""
-"<strong>Cookies d\u2019analyse :</strong> Nous aident à analyser le trafic et à améliorer "
-"nos services."
+"<strong>Cookies d’analyse :</strong> Nous aident à analyser le trafic et à "
+"améliorer nos services."
 
 #: .\website\templates\website\legal\cookies_policy.html:36
 msgid "3. Types of Cookies We Use"
@@ -9428,7 +8958,7 @@ msgstr "Essentiel"
 
 #: .\website\templates\website\legal\cookies_policy.html:52
 msgid "Maintains your session state"
-msgstr "Maintient l\u2019état de votre session"
+msgstr "Maintient l’état de votre session"
 
 #: .\website\templates\website\legal\cookies_policy.html:53
 msgid "Session"
@@ -9475,10 +9005,10 @@ msgid ""
 "services. These include cookies from Google Analytics, social media "
 "platforms, and payment processors."
 msgstr ""
-"En plus de nos propres cookies, nous pouvons également utiliser divers cookies tiers "
-"pour rapporter des statistiques d\u2019utilisation, diffuser des publicités et améliorer "
-"nos services. Ceux-ci incluent des cookies de Google Analytics, de plateformes "
-"de médias sociaux et de processeurs de paiement."
+"En plus de nos propres cookies, nous pouvons également utiliser divers "
+"cookies tiers pour rapporter des statistiques d’utilisation, diffuser des "
+"publicités et améliorer nos services. Ceux-ci incluent des cookies de Google "
+"Analytics, de plateformes de médias sociaux et de processeurs de paiement."
 
 #: .\website\templates\website\legal\cookies_policy.html:86
 msgid "5. Managing Cookies"
@@ -9489,8 +9019,8 @@ msgid ""
 "Most web browsers allow you to control cookies through their settings "
 "preferences. You can:"
 msgstr ""
-"La plupart des navigateurs web vous permettent de contrôler les cookies via leurs "
-"paramètres de préférences. Vous pouvez :"
+"La plupart des navigateurs web vous permettent de contrôler les cookies via "
+"leurs paramètres de préférences. Vous pouvez :"
 
 #: .\website\templates\website\legal\cookies_policy.html:89
 msgid "Delete cookies from your device;"
@@ -9502,19 +9032,23 @@ msgstr "Bloquer les cookies en activant le paramètre dans votre navigateur ;"
 
 #: .\website\templates\website\legal\cookies_policy.html:91
 msgid "Set your browser to notify you when you receive a cookie;"
-msgstr "Configurer votre navigateur pour vous notifier lorsque vous recevez un cookie ;"
+msgstr ""
+"Configurer votre navigateur pour vous notifier lorsque vous recevez un "
+"cookie ;"
 
 #: .\website\templates\website\legal\cookies_policy.html:92
 msgid "Use our cookie consent banner to manage your preferences."
-msgstr "Utiliser notre bannière de consentement aux cookies pour gérer vos préférences."
+msgstr ""
+"Utiliser notre bannière de consentement aux cookies pour gérer vos "
+"préférences."
 
 #: .\website\templates\website\legal\cookies_policy.html:94
 msgid ""
 "Please note that disabling certain cookies may affect the functionality of "
 "this website and your user experience."
 msgstr ""
-"Veuillez noter que la désactivation de certains cookies peut affecter le fonctionnement "
-"de ce site web et votre expérience utilisateur."
+"Veuillez noter que la désactivation de certains cookies peut affecter le "
+"fonctionnement de ce site web et votre expérience utilisateur."
 
 #: .\website\templates\website\legal\cookies_policy.html:96
 msgid "6. Cookie Consent"
@@ -9527,10 +9061,11 @@ msgid ""
 "your preferences at any time by clicking the 'Cookie Settings' link in the "
 "footer."
 msgstr ""
-"Lors de votre première visite sur notre site web, vous verrez une bannière de cookies "
-"demandant votre consentement pour placer des cookies non essentiels sur votre appareil. "
-"Vous pouvez modifier vos préférences à tout moment en cliquant sur le lien \u2018Paramètres des cookies\u2019 "
-"dans le pied de page."
+"Lors de votre première visite sur notre site web, vous verrez une bannière "
+"de cookies demandant votre consentement pour placer des cookies non "
+"essentiels sur votre appareil. Vous pouvez modifier vos préférences à tout "
+"moment en cliquant sur le lien \\u2018Paramètres des cookies’ dans le pied "
+"de page."
 
 #: .\website\templates\website\legal\cookies_policy.html:99
 #: .\website\templates\website\legal\privacy_policy.html:61
@@ -9543,9 +9078,9 @@ msgid ""
 "technology, legislation, or our data practices. We encourage you to review "
 "this policy periodically."
 msgstr ""
-"Nous pouvons mettre à jour cette politique de cookies de temps à autre pour refléter "
-"les changements technologiques, législatifs ou nos pratiques de données. Nous vous "
-"encourageons à consulter cette politique périodiquement."
+"Nous pouvons mettre à jour cette politique de cookies de temps à autre pour "
+"refléter les changements technologiques, législatifs ou nos pratiques de "
+"données. Nous vous encourageons à consulter cette politique périodiquement."
 
 #: .\website\templates\website\legal\cookies_policy.html:102
 #: .\website\templates\website\legal\privacy_policy.html:64
@@ -9554,7 +9089,9 @@ msgstr "8. Nous contacter"
 
 #: .\website\templates\website\legal\cookies_policy.html:103
 msgid "If you have any questions about our use of cookies, please contact us."
-msgstr "Si vous avez des questions sur notre utilisation des cookies, veuillez nous contacter."
+msgstr ""
+"Si vous avez des questions sur notre utilisation des cookies, veuillez nous "
+"contacter."
 
 #: .\website\templates\website\legal\privacy_policy.html:10
 #: .\website\templates\website\shared\footer.html:138
@@ -9567,8 +9104,8 @@ msgid ""
 "Your privacy is important to us. This policy explains how we collect, use, "
 "and protect your information."
 msgstr ""
-"Votre confidentialité est importante pour nous. Cette politique explique comment nous "
-"collectons, utilisons et protégeons vos informations."
+"Votre confidentialité est importante pour nous. Cette politique explique "
+"comment nous collectons, utilisons et protégeons vos informations."
 
 #: .\website\templates\website\legal\privacy_policy.html:23
 msgid "1. Information We Collect"
@@ -9579,40 +9116,40 @@ msgid ""
 "We collect several types of information from and about users of our website, "
 "including:"
 msgstr ""
-"Nous collectons plusieurs types d\u2019informations auprès des utilisateurs de notre site web, "
-"notamment :"
+"Nous collectons plusieurs types d’informations auprès des utilisateurs de "
+"notre site web, notamment :"
 
 #: .\website\templates\website\legal\privacy_policy.html:26
 msgid ""
 "Personal identifiers such as name, email address, phone number, and postal "
 "address;"
 msgstr ""
-"Identifiants personnels tels que nom, adresse email, numéro de téléphone et adresse "
-"postale ;"
+"Identifiants personnels tels que nom, adresse email, numéro de téléphone et "
+"adresse postale ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:27
 msgid ""
 "Professional information such as pharmacy license numbers and business "
 "details;"
 msgstr ""
-"Informations professionnelles telles que numéros de licence de pharmacie et détails "
-"commerciaux ;"
+"Informations professionnelles telles que numéros de licence de pharmacie et "
+"détails commerciaux ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:28
 msgid ""
 "Usage data including IP address, browser type, pages visited, and time spent "
 "on pages;"
 msgstr ""
-"Données d\u2019utilisation incluant adresse IP, type de navigateur, pages visitées et temps "
-"passé sur les pages ;"
+"Données d’utilisation incluant adresse IP, type de navigateur, pages "
+"visitées et temps passé sur les pages ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:29
 msgid ""
 "Device information including hardware model, operating system, and unique "
 "device identifiers."
 msgstr ""
-"Informations sur l\u2019appareil incluant le modèle matériel, le système d\u2019exploitation et "
-"les identifiants uniques de l\u2019appareil."
+"Informations sur l’appareil incluant le modèle matériel, le système "
+"d’exploitation et les identifiants uniques de l’appareil."
 
 #: .\website\templates\website\legal\privacy_policy.html:32
 msgid "2. How We Use Your Information"
@@ -9632,7 +9169,9 @@ msgstr "Traiter les transactions et envoyer les informations associées ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:37
 msgid "Send administrative information, updates, and security alerts;"
-msgstr "Envoyer des informations administratives, des mises à jour et des alertes de sécurité ;"
+msgstr ""
+"Envoyer des informations administratives, des mises à jour et des alertes de "
+"sécurité ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:38
 msgid "Respond to your comments, questions, and requests;"
@@ -9642,11 +9181,12 @@ msgstr "Répondre à vos commentaires, questions et demandes ;"
 msgid ""
 "Personalize your experience and deliver content relevant to your interests."
 msgstr ""
-"Personnaliser votre expérience et diffuser du contenu pertinent pour vos intérêts."
+"Personnaliser votre expérience et diffuser du contenu pertinent pour vos "
+"intérêts."
 
 #: .\website\templates\website\legal\privacy_policy.html:42
 msgid "3. Information Sharing"
-msgstr "3. Partage d\u2019informations"
+msgstr "3. Partage d’informations"
 
 #: .\website\templates\website\legal\privacy_policy.html:43
 msgid ""
@@ -9656,11 +9196,12 @@ msgid ""
 "website, conducting our business, or servicing you, so long as those parties "
 "agree to keep this information confidential."
 msgstr ""
-"Nous ne vendons, n\u2019échangeons ni ne transférons vos informations personnellement "
-"identifiables à des tiers, sauf comme décrit dans cette politique. Nous pouvons partager "
-"des informations avec des tiers de confiance qui nous assistent dans l\u2019exploitation de "
-"notre site web, la conduite de nos activités ou le service à la clientèle, pour autant que "
-"ces parties acceptent de garder ces informations confidentielles."
+"Nous ne vendons, n’échangeons ni ne transférons vos informations "
+"personnellement identifiables à des tiers, sauf comme décrit dans cette "
+"politique. Nous pouvons partager des informations avec des tiers de "
+"confiance qui nous assistent dans l’exploitation de notre site web, la "
+"conduite de nos activités ou le service à la clientèle, pour autant que ces "
+"parties acceptent de garder ces informations confidentielles."
 
 #: .\website\templates\website\legal\privacy_policy.html:45
 msgid "4. Data Security"
@@ -9672,9 +9213,10 @@ msgid ""
 "personal information. All sensitive information is transmitted via Secure "
 "Socket Layer (SSL) technology and encrypted into our database."
 msgstr ""
-"Nous mettons en œuvre diverses mesures de sécurité pour maintenir la sécurité de vos "
-"informations personnelles. Toutes les informations sensibles sont transmises via la technologie "
-"Secure Socket Layer (SSL) et chiffrées dans notre base de données."
+"Nous mettons en œuvre diverses mesures de sécurité pour maintenir la "
+"sécurité de vos informations personnelles. Toutes les informations sensibles "
+"sont transmises via la technologie Secure Socket Layer (SSL) et chiffrées "
+"dans notre base de données."
 
 #: .\website\templates\website\legal\privacy_policy.html:48
 msgid "5. Your Rights"
@@ -9685,12 +9227,12 @@ msgid ""
 "Depending on your location, you may have the following rights regarding your "
 "personal data:"
 msgstr ""
-"Selon votre localisation, vous pouvez disposer des droits suivants concernant vos "
-"données personnelles :"
+"Selon votre localisation, vous pouvez disposer des droits suivants "
+"concernant vos données personnelles :"
 
 #: .\website\templates\website\legal\privacy_policy.html:51
 msgid "The right to access and receive a copy of your data;"
-msgstr "Le droit d\u2019accéder à vos données et d\u2019en recevoir une copie ;"
+msgstr "Le droit d’accéder à vos données et d’en recevoir une copie ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:52
 msgid "The right to rectify or update inaccurate information;"
@@ -9702,7 +9244,7 @@ msgstr "Le droit de demander la suppression de vos données personnelles ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:54
 msgid "The right to restrict or object to processing;"
-msgstr "Le droit de restreindre ou de s\u2019opposer au traitement ;"
+msgstr "Le droit de restreindre ou de s’opposer au traitement ;"
 
 #: .\website\templates\website\legal\privacy_policy.html:55
 msgid "The right to data portability."
@@ -9718,9 +9260,10 @@ msgid ""
 "website and hold certain information. You can instruct your browser to "
 "refuse all cookies or to indicate when a cookie is being sent."
 msgstr ""
-"Nous utilisons des cookies et des technologies de suivi similaires pour suivre l\u2019activité "
-"sur notre site web et conserver certaines informations. Vous pouvez configurer votre navigateur "
-"pour refuser tous les cookies ou pour indiquer quand un cookie est envoyé."
+"Nous utilisons des cookies et des technologies de suivi similaires pour "
+"suivre l’activité sur notre site web et conserver certaines informations. "
+"Vous pouvez configurer votre navigateur pour refuser tous les cookies ou "
+"pour indiquer quand un cookie est envoyé."
 
 #: .\website\templates\website\legal\privacy_policy.html:62
 msgid ""
@@ -9728,17 +9271,18 @@ msgid ""
 "any changes by posting the new Privacy Policy on this page and updating the "
 "'Last updated' date."
 msgstr ""
-"Nous pouvons mettre à jour notre politique de confidentialité de temps à autre. Nous vous "
-"informerons de tout changement en publiant la nouvelle politique de confidentialité sur cette "
-"page et en mettant à jour la date de \u2018Dernière mise à jour\u2019."
+"Nous pouvons mettre à jour notre politique de confidentialité de temps à "
+"autre. Nous vous informerons de tout changement en publiant la nouvelle "
+"politique de confidentialité sur cette page et en mettant à jour la date de "
+"\\u2018Dernière mise à jour’."
 
 #: .\website\templates\website\legal\privacy_policy.html:65
 msgid ""
 "If you have any questions about this Privacy Policy, please contact our Data "
 "Protection Officer."
 msgstr ""
-"Si vous avez des questions sur cette politique de confidentialité, veuillez contacter notre "
-"Délégué à la protection des données."
+"Si vous avez des questions sur cette politique de confidentialité, veuillez "
+"contacter notre Délégué à la protection des données."
 
 #: .\website\templates\website\legal\security_policy.html:10
 #: .\website\templates\website\shared\footer.html:145
@@ -9751,7 +9295,8 @@ msgid ""
 "We are committed to protecting your data with industry-leading security "
 "practices."
 msgstr ""
-"Nous nous engageons à protéger vos données avec des pratiques de sécurité de pointe."
+"Nous nous engageons à protéger vos données avec des pratiques de sécurité de "
+"pointe."
 
 #: .\website\templates\website\legal\security_policy.html:23
 msgid "1. Our Security Commitment"
@@ -9763,9 +9308,9 @@ msgid ""
 "the measures we implement to protect your information and maintain the "
 "integrity of our systems."
 msgstr ""
-"Nous prenons la sécurité de vos données au sérieux. Cette politique de sécurité décrit "
-"les mesures que nous mettons en œuvre pour protéger vos informations et maintenir "
-"l\u2019intégrité de nos systèmes."
+"Nous prenons la sécurité de vos données au sérieux. Cette politique de "
+"sécurité décrit les mesures que nous mettons en œuvre pour protéger vos "
+"informations et maintenir l’intégrité de nos systèmes."
 
 #: .\website\templates\website\legal\security_policy.html:26
 msgid "2. Data Encryption"
@@ -9773,7 +9318,9 @@ msgstr "2. Chiffrement des données"
 
 #: .\website\templates\website\legal\security_policy.html:27
 msgid "We employ strong encryption standards to protect your data:"
-msgstr "Nous employons des standards de chiffrement robustes pour protéger vos données :"
+msgstr ""
+"Nous employons des standards de chiffrement robustes pour protéger vos "
+"données :"
 
 #: .\website\templates\website\legal\security_policy.html:29
 msgid "All data in transit is protected using TLS 1.3 encryption;"
@@ -9785,27 +9332,31 @@ msgstr "Les données sensibles au repos sont chiffrées par AES-256 ;"
 
 #: .\website\templates\website\legal\security_policy.html:31
 msgid "Encryption keys are managed through a secure key management system;"
-msgstr "Les clés de chiffrement sont gérées via un système de gestion de clés sécurisé ;"
+msgstr ""
+"Les clés de chiffrement sont gérées via un système de gestion de clés "
+"sécurisé ;"
 
 #: .\website\templates\website\legal\security_policy.html:32
 msgid "End-to-end encryption is available for sensitive communications."
-msgstr "Le chiffrement de bout en bout est disponible pour les communications sensibles."
+msgstr ""
+"Le chiffrement de bout en bout est disponible pour les communications "
+"sensibles."
 
 #: .\website\templates\website\legal\security_policy.html:35
 msgid "3. Access Controls"
-msgstr "3. Contrôles d\u2019accès"
+msgstr "3. Contrôles d’accès"
 
 #: .\website\templates\website\legal\security_policy.html:36
 msgid ""
 "We implement strict access controls to ensure only authorized personnel can "
 "access your data:"
 msgstr ""
-"Nous mettons en œuvre des contrôles d\u2019accès stricts pour garantir que seul le personnel "
-"autorisé peut accéder à vos données :"
+"Nous mettons en œuvre des contrôles d’accès stricts pour garantir que seul "
+"le personnel autorisé peut accéder à vos données :"
 
 #: .\website\templates\website\legal\security_policy.html:38
 msgid "Role-based access control (RBAC) for all systems;"
-msgstr "Contrôle d\u2019accès basé sur les rôles (RBAC) pour tous les systèmes ;"
+msgstr "Contrôle d’accès basé sur les rôles (RBAC) pour tous les systèmes ;"
 
 #: .\website\templates\website\legal\security_policy.html:39
 msgid ""
@@ -9817,19 +9368,22 @@ msgstr ""
 msgid ""
 "Principle of least privilege — users only have access to what they need;"
 msgstr ""
-"Principe du moindre privilège — les utilisateurs n\u2019ont accès qu\u2019à ce dont ils ont besoin ;"
+"Principe du moindre privilège — les utilisateurs n’ont accès qu’à ce dont "
+"ils ont besoin ;"
 
 #: .\website\templates\website\legal\security_policy.html:41
 msgid "Regular access reviews and audits;"
-msgstr "Révisions et audits d\u2019accès réguliers ;"
+msgstr "Révisions et audits d’accès réguliers ;"
 
 #: .\website\templates\website\legal\security_policy.html:42
 msgid "Immediate revocation of access upon termination or role change."
-msgstr "Révocation immédiate de l\u2019accès en cas de résiliation ou de changement de rôle."
+msgstr ""
+"Révocation immédiate de l’accès en cas de résiliation ou de changement de "
+"rôle."
 
 #: .\website\templates\website\legal\security_policy.html:45
 msgid "4. Infrastructure Security"
-msgstr "4. Sécurité de l\u2019infrastructure"
+msgstr "4. Sécurité de l’infrastructure"
 
 #: .\website\templates\website\legal\security_policy.html:46
 msgid "Our infrastructure is designed with security at its core:"
@@ -9837,7 +9391,9 @@ msgstr "Notre infrastructure est conçue avec la sécurité au cœur :"
 
 #: .\website\templates\website\legal\security_policy.html:48
 msgid "Cloud infrastructure hosted in SOC 2 Type II certified data centers;"
-msgstr "Infrastructure cloud hébergée dans des centres de données certifiés SOC 2 Type II ;"
+msgstr ""
+"Infrastructure cloud hébergée dans des centres de données certifiés SOC 2 "
+"Type II ;"
 
 #: .\website\templates\website\legal\security_policy.html:49
 msgid "Network segmentation and firewall protection;"
@@ -9845,7 +9401,7 @@ msgstr "Segmentation réseau et protection par pare-feu ;"
 
 #: .\website\templates\website\legal\security_policy.html:50
 msgid "DDoS protection and intrusion detection systems;"
-msgstr "Protection DDoS et systèmes de détection d\u2019intrusion ;"
+msgstr "Protection DDoS et systèmes de détection d’intrusion ;"
 
 #: .\website\templates\website\legal\security_policy.html:51
 msgid "Regular security patching and vulnerability management;"
@@ -9853,7 +9409,7 @@ msgstr "Correctifs de sécurité réguliers et gestion des vulnérabilités ;"
 
 #: .\website\templates\website\legal\security_policy.html:52
 msgid "Automated backup and disaster recovery procedures."
-msgstr "Sauvegardes automatisées et procédures de récupération d\u2019urgence."
+msgstr "Sauvegardes automatisées et procédures de récupération d’urgence."
 
 #: .\website\templates\website\legal\security_policy.html:55
 msgid "5. Monitoring and Incident Response"
@@ -9877,11 +9433,12 @@ msgstr "Détection et réponse automatisées aux menaces ;"
 
 #: .\website\templates\website\legal\security_policy.html:60
 msgid "Defined incident response plan with clear escalation paths;"
-msgstr "Plan de réponse aux incidents défini avec des voies d\u2019escalade claires ;"
+msgstr ""
+"Plan de réponse aux incidents défini avec des voies d’escalade claires ;"
 
 #: .\website\templates\website\legal\security_policy.html:61
 msgid "Regular security incident drills and tabletop exercises;"
-msgstr "Exercices réguliers de simulation d\u2019incidents de sécurité ;"
+msgstr "Exercices réguliers de simulation d’incidents de sécurité ;"
 
 #: .\website\templates\website\legal\security_policy.html:62
 msgid "Mandatory incident reporting and documentation."
@@ -9897,9 +9454,10 @@ msgid ""
 "relevant standards including GDPR, HIPAA (where applicable), and industry-"
 "specific regulations. Third-party security audits are conducted annually."
 msgstr ""
-"Nous passons des évaluations de sécurité régulières et maintenons la conformité avec "
-"les normes pertinentes incluant le RGPD, HIPAA (le cas échéant) et les réglementations "
-"spécifiques à l\u2019industrie. Des audits de sécurité tiers sont réalisés annuellement."
+"Nous passons des évaluations de sécurité régulières et maintenons la "
+"conformité avec les normes pertinentes incluant le RGPD, HIPAA (le cas "
+"échéant) et les réglementations spécifiques à l’industrie. Des audits de "
+"sécurité tiers sont réalisés annuellement."
 
 #: .\website\templates\website\legal\security_policy.html:68
 msgid "7. Employee Security"
@@ -9911,11 +9469,14 @@ msgstr "Nos employés font partie intégrante de notre posture de sécurité :"
 
 #: .\website\templates\website\legal\security_policy.html:71
 msgid "Background checks for all employees with data access;"
-msgstr "Vérifications d\u2019antécédents pour tous les employés ayant accès aux données ;"
+msgstr ""
+"Vérifications d’antécédents pour tous les employés ayant accès aux données ;"
 
 #: .\website\templates\website\legal\security_policy.html:72
 msgid "Mandatory security awareness training upon hire and annually;"
-msgstr "Formation obligatoire à la sensibilisation à la sécurité à l\u2019embauche et annuellement ;"
+msgstr ""
+"Formation obligatoire à la sensibilisation à la sécurité à l’embauche et "
+"annuellement ;"
 
 #: .\website\templates\website\legal\security_policy.html:73
 msgid "Strict confidentiality agreements;"
@@ -9923,7 +9484,9 @@ msgstr "Accords de confidentialité stricts ;"
 
 #: .\website\templates\website\legal\security_policy.html:74
 msgid "Phishing simulation exercises and security best practice training."
-msgstr "Exercices de simulation de phishing et formation aux meilleures pratiques de sécurité."
+msgstr ""
+"Exercices de simulation de phishing et formation aux meilleures pratiques de "
+"sécurité."
 
 #: .\website\templates\website\legal\security_policy.html:77
 msgid "8. Reporting Security Issues"
@@ -9936,18 +9499,19 @@ msgid ""
 "responsible disclosure policy and appreciate your assistance in keeping our "
 "platform secure."
 msgstr ""
-"Si vous découvrez une vulnérabilité de sécurité ou avez des préoccupations concernant "
-"nos pratiques de sécurité, veuillez contacter immédiatement notre équipe de sécurité. "
-"Nous avons une politique de divulgation responsable et apprécions votre aide pour maintenir "
-"notre plateforme sécurisée."
+"Si vous découvrez une vulnérabilité de sécurité ou avez des préoccupations "
+"concernant nos pratiques de sécurité, veuillez contacter immédiatement notre "
+"équipe de sécurité. Nous avons une politique de divulgation responsable et "
+"apprécions votre aide pour maintenir notre plateforme sécurisée."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:10
 msgid "Terms and Conditions"
-msgstr "Conditions générales d\u2019utilisation"
+msgstr "Conditions générales d’utilisation"
 
 #: .\website\templates\website\legal\terms_and_conditions.html:11
 msgid "Please read these terms carefully before using our services."
-msgstr "Veuillez lire attentivement ces conditions avant d\u2019utiliser nos services."
+msgstr ""
+"Veuillez lire attentivement ces conditions avant d’utiliser nos services."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:23
 msgid "1. Acceptance of Terms"
@@ -9959,13 +9523,13 @@ msgid ""
 "terms and provision of this agreement. If you do not agree to abide by the "
 "above, please do not use this service."
 msgstr ""
-"En accédant et en utilisant ce site web, vous acceptez et consentez à être lié par les "
-"termes et dispositions de cet accord. Si vous n\u2019acceptez pas de respecter ce qui précède, "
-"veuillez ne pas utiliser ce service."
+"En accédant et en utilisant ce site web, vous acceptez et consentez à être "
+"lié par les termes et dispositions de cet accord. Si vous n’acceptez pas de "
+"respecter ce qui précède, veuillez ne pas utiliser ce service."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:26
 msgid "2. Use License"
-msgstr "2. Licence d\u2019utilisation"
+msgstr "2. Licence d’utilisation"
 
 #: .\website\templates\website\legal\terms_and_conditions.html:27
 msgid ""
@@ -9973,9 +9537,10 @@ msgid ""
 "our website for personal, non-commercial transitory viewing only. This is "
 "the grant of a license, not a transfer of title."
 msgstr ""
-"L\u2019autorisation est accordée de télécharger temporairement une copie des matériaux sur "
-"notre site web uniquement pour un visionnage personnel, non commercial et transitoire. "
-"Il s\u2019agit de l\u2019octroi d\u2019une licence, et non d\u2019un transfert de titre."
+"L’autorisation est accordée de télécharger temporairement une copie des "
+"matériaux sur notre site web uniquement pour un visionnage personnel, non "
+"commercial et transitoire. Il s’agit de l’octroi d’une licence, et non d’un "
+"transfert de titre."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:29
 msgid "Modify or copy the materials;"
@@ -9990,20 +9555,22 @@ msgid ""
 "Attempt to decompile or reverse engineer any software contained on the "
 "website;"
 msgstr ""
-"Tenter de décompiler ou de faire de l\u2019ingénierie inverse sur tout logiciel contenu sur le "
-"site web ;"
+"Tenter de décompiler ou de faire de l’ingénierie inverse sur tout logiciel "
+"contenu sur le site web ;"
 
 #: .\website\templates\website\legal\terms_and_conditions.html:32
 msgid "Remove any copyright or other proprietary notations from the materials;"
-msgstr "Supprimer toute mention de droit d\u2019auteur ou autre mention de propriété des matériaux ;"
+msgstr ""
+"Supprimer toute mention de droit d’auteur ou autre mention de propriété des "
+"matériaux ;"
 
 #: .\website\templates\website\legal\terms_and_conditions.html:33
 msgid ""
 "Transfer the materials to another person or 'mirror' the materials on any "
 "other server."
 msgstr ""
-"Transférer les matériaux à une autre personne ou \u2018faire miroir\u2019 des matériaux sur tout "
-"autre serveur."
+"Transférer les matériaux à une autre personne ou \\u2018faire miroir’ des "
+"matériaux sur tout autre serveur."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:36
 msgid "3. Disclaimer"
@@ -10017,11 +9584,12 @@ msgid ""
 "of merchantability, fitness for a particular purpose, or non-infringement of "
 "intellectual property or other violation of rights."
 msgstr ""
-"Les matériaux sur notre site web sont fournis \u2018en l\u2019état\u2019. Nous ne fournissons aucune "
-"garantie, expresse ou implicite, et déclinons par la présente toutes les autres garanties, "
-"y compris, sans limitation, les garanties ou conditions implicites de qualité marchande, "
-"d\u2019adéquation à un usage particulier, ou de non-violation de propriété intellectuelle ou "
-"d\u2019autres violations de droits."
+"Les matériaux sur notre site web sont fournis \\u2018en l’état’. Nous ne "
+"fournissons aucune garantie, expresse ou implicite, et déclinons par la "
+"présente toutes les autres garanties, y compris, sans limitation, les "
+"garanties ou conditions implicites de qualité marchande, d’adéquation à un "
+"usage particulier, ou de non-violation de propriété intellectuelle ou "
+"d’autres violations de droits."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:39
 msgid "4. Limitations"
@@ -10034,10 +9602,10 @@ msgid ""
 "interruption) arising out of the use or inability to use the materials on "
 "our website."
 msgstr ""
-"En aucun cas nous ou nos fournisseurs ne pourrons être tenus responsables de dommages "
-"(y compris, sans limitation, des dommages pour perte de données ou de profits, ou dus à "
-"une interruption d\u2019activité) résultant de l\u2019utilisation ou de l\u2019impossibilité d\u2019utiliser les "
-"matériaux sur notre site web."
+"En aucun cas nous ou nos fournisseurs ne pourrons être tenus responsables de "
+"dommages (y compris, sans limitation, des dommages pour perte de données ou "
+"de profits, ou dus à une interruption d’activité) résultant de l’utilisation "
+"ou de l’impossibilité d’utiliser les matériaux sur notre site web."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:42
 msgid "5. Revisions and Errata"
@@ -10050,10 +9618,11 @@ msgid ""
 "materials on our website are accurate, complete, or current. We may make "
 "changes to the materials contained on our website at any time without notice."
 msgstr ""
-"Les matériaux apparaissant sur notre site web peuvent inclure des erreurs techniques, "
-"typographiques ou photographiques. Nous ne garantissons pas que les matériaux sur notre "
-"site web soient exacts, complets ou à jour. Nous pouvons apporter des modifications aux "
-"matériaux contenus sur notre site web à tout moment sans préavis."
+"Les matériaux apparaissant sur notre site web peuvent inclure des erreurs "
+"techniques, typographiques ou photographiques. Nous ne garantissons pas que "
+"les matériaux sur notre site web soient exacts, complets ou à jour. Nous "
+"pouvons apporter des modifications aux matériaux contenus sur notre site web "
+"à tout moment sans préavis."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:45
 msgid "6. Governing Law"
@@ -10066,7 +9635,8 @@ msgid ""
 "provisions."
 msgstr ""
 "Toute réclamation relative à notre site web sera régie par les lois de la "
-"juridiction dans laquelle nous opérons, sans égard à ses dispositions de conflit de lois."
+"juridiction dans laquelle nous opérons, sans égard à ses dispositions de "
+"conflit de lois."
 
 #: .\website\templates\website\legal\terms_and_conditions.html:48
 msgid "7. Contact Information"
@@ -10077,237 +9647,193 @@ msgid ""
 "If you have any questions about these Terms and Conditions, please contact "
 "us."
 msgstr ""
-"Si vous avez des questions sur ces conditions générales d\u2019utilisation, veuillez nous "
-"contacter."
-
+"Si vous avez des questions sur ces conditions générales d’utilisation, "
+"veuillez nous contacter."
 
 #: .\website\templates\website\pricing.html:22
 msgid "Simple SaaS Pricing"
 msgstr "Tarification SaaS simple"
 
 #: .\website\templates\website\pricing.html:29
-msgid ""
-"        Pricing That
-"
-"        <span class=\"relative text-secondary inline-block\">
-"
-"          Scales
-"
-"          <span
-"
-"            class=\"absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 "
-"rounded-full\"
-"
-"          ></span>
-"
-"        </span>
-"
-"        With Your Pharmacy.
-"
-"        "
-msgstr ""
-"        Une tarification qui
-"
-"        <span class=\"relative text-secondary inline-block\">
-"
-"          évolue
-"
-"          <span
-"
-"            class=\"absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 "
-"rounded-full\"
-"
-"          ></span>
-"
-"        </span>
-"
-"        avec votre pharmacie.
-"
-"        "
+msgid "Pricing That"
+msgstr "Tarification"
 
-#: .\website\templates\website\pricing.html:43
-msgid ""
-"        Choose a plan that fits your pharmacy today and upgrade as your
-"
-"        operations grow. No hidden fees. No long-term contracts.
-"
-"        "
-msgstr ""
-"        Choisissez un plan adapté à votre pharmacie aujourd\u2019hui et passez à la version "
-"        supérieure au fur et à mesure que vos opérations se développent. Sans frais cachés. "
-"        Sans contrats à long terme.
-"
-"        "
+#: .\website\templates\website\pricing.html:31
+msgid "Scales"
+msgstr "Ventes"
 
-#: .\website\templates\website\pricing.html:55
+#: .\website\templates\website\pricing.html:36
+msgid "With Your Pharmacy."
+msgstr "Modifier la pharmacie"
+
+#: .\website\templates\website\pricing.html:41
+msgid ""
+"Choose a plan that fits your pharmacy today and upgrade as your operations "
+"grow. No hidden fees. No long-term contracts."
+msgstr ""
+"        Choisissez un plan adapté à votre pharmacie aujourd’hui et passez à "
+"la version         supérieure au fur et à mesure que vos opérations se "
+"développent. Sans frais cachés.         Sans contrats à long terme        "
+
+#: .\website\templates\website\pricing.html:53
 msgid "Free onboarding support"
-msgstr "Support d\u2019intégration gratuit"
+msgstr "Support d’intégration gratuit"
 
-#: .\website\templates\website\pricing.html:60
+#: .\website\templates\website\pricing.html:58
 msgid "Cancel anytime"
 msgstr "Annulation à tout moment"
 
-#: .\website\templates\website\pricing.html:65
+#: .\website\templates\website\pricing.html:63
 msgid "Cloud hosting included"
 msgstr "Hébergement cloud inclus"
 
-#: .\website\templates\website\pricing.html:79
-msgid "Transparent pricing \u2022 Cancel anytime \u2022 Secure cloud infrastructure"
-msgstr "Tarification transparente \u2022 Annulation à tout moment \u2022 Infrastructure cloud sécurisée"
-
-#: .\website\templates\website\pricing.html:101
-msgid ""
-"            Join pharmacies already using Pharmadex to simplify operations,
-"
-"            improve visibility, and grow faster.
-"
-"            "
+#: .\website\templates\website\pricing.html:77
+msgid "Transparent pricing • Cancel anytime • Secure cloud infrastructure"
 msgstr ""
-"            Rejoignez les pharmacies qui utilisent déjà Pharmadex pour simplifier "
-"            les opérations, améliorer la visibilité et se développer plus rapidement.
-"
-"            "
+"Tarification transparente \\u2022 Annulation à tout moment \\u2022 "
+"Infrastructure cloud sécurisée"
 
-#: .\website\templates\website\pricing.html:136
+#: .\website\templates\website\pricing.html:99
+msgid ""
+"Join pharmacies already using Pharmadex to simplify operations, improve "
+"visibility, and grow faster."
+msgstr ""
+"  Rejoignez les pharmacies qui utilisent déjà Pharmadex pour simplifier   "
+"les opérations, améliorer la visibilité et se développer plus rapidement."
+
+#: .\website\templates\website\pricing.html:134
 msgid "IMPLEMENTATION & ONBOARDING"
 msgstr "MISE EN ŒUVRE & INTÉGRATION"
 
-#: .\website\templates\website\pricing.html:140
+#: .\website\templates\website\pricing.html:138
 msgid "We Help You Get Operational Faster."
 msgstr "Nous vous aidons à devenir opérationnel plus rapidement."
 
-#: .\website\templates\website\pricing.html:144
+#: .\website\templates\website\pricing.html:142
 msgid ""
-"          Beyond software access, Pharmadex offers onboarding and "
-"implementation
-"
-"          services to help pharmacies launch smoothly, train teams, and "
-"migrate
-"
-"          existing operational data.
-"
-"          "
+"Beyond software access, Pharmadex offers onboarding and implementation "
+"services to help pharmacies launch smoothly, train teams, and migrate "
+"existing operational data."
 msgstr ""
-"          Au-delà de l\u2019accès au logiciel, Pharmadex offre des services d\u2019intégration et "
-"          de mise en œuvre pour aider les pharmacies à se lancer en douceur, former les "
-"          équipes et migrer les données opérationnelles existantes.
-"
-"          "
+"Au-delà de l’accès au logiciel, Pharmadex offre des services d’intégration "
+"et de mise en œuvre pour aider les pharmacies à se lancer en douceur, former "
+"les équipes et migrer les données opérationnelles existantes"
 
-#: .\website\templates\website\pricing.html:166
+#: .\website\templates\website\pricing.html:164
 msgid "Initial Setup"
 msgstr "Configuration initiale"
 
-#: .\website\templates\website\pricing.html:170
+#: .\website\templates\website\pricing.html:168
 msgid "System configuration and deployment tailored to your pharmacy workflow."
-msgstr "Configuration et déploiement du système adaptés au flux de travail de votre pharmacie."
+msgstr ""
+"Configuration et déploiement du système adaptés au flux de travail de votre "
+"pharmacie."
 
-#: .\website\templates\website\pricing.html:189
+#: .\website\templates\website\pricing.html:187
 msgid "Data Migration"
 msgstr "Migration des données"
 
-#: .\website\templates\website\pricing.html:193
+#: .\website\templates\website\pricing.html:191
 msgid ""
 "Import inventory, customers, suppliers, and historical operational records."
 msgstr ""
-"Importer l\u2019inventaire, les clients, les fournisseurs et les dossiers opérationnels historiques."
+"Importer l’inventaire, les clients, les fournisseurs et les dossiers "
+"opérationnels historiques."
 
-#: .\website\templates\website\pricing.html:197
-#: .\website\templates\website\pricing.html:220
-#: .\website\templates\website\pricing.html:243
-#: .\website\templates\website\pricing.html:266
+#: .\website\templates\website\pricing.html:195
+#: .\website\templates\website\pricing.html:218
+#: .\website\templates\website\pricing.html:241
+#: .\website\templates\website\pricing.html:264
 msgid "Custom"
 msgstr "Sur mesure"
 
-#: .\website\templates\website\pricing.html:212
+#: .\website\templates\website\pricing.html:210
 msgid "Staff Training"
 msgstr "Formation du personnel"
 
-#: .\website\templates\website\pricing.html:216
+#: .\website\templates\website\pricing.html:214
 msgid ""
 "Hands-on onboarding sessions for cashiers, pharmacists, managers, and admins."
 msgstr ""
-"Sessions d\u2019intégration pratiques pour les caissiers, pharmaciens, gestionnaires et administrateurs."
+"Sessions d’intégration pratiques pour les caissiers, pharmaciens, "
+"gestionnaires et administrateurs."
 
-#: .\website\templates\website\pricing.html:235
+#: .\website\templates\website\pricing.html:233
 msgid "Custom Reports"
 msgstr "Rapports personnalisés"
 
-#: .\website\templates\website\pricing.html:239
+#: .\website\templates\website\pricing.html:237
 msgid "Tailored operational and financial reporting for your business needs."
-msgstr "Rapports opérationnels et financiers sur mesure pour les besoins de votre entreprise."
+msgstr ""
+"Rapports opérationnels et financiers sur mesure pour les besoins de votre "
+"entreprise."
 
-#: .\website\templates\website\pricing.html:258
+#: .\website\templates\website\pricing.html:256
 msgid "POS & Hardware Setup"
 msgstr "Configuration PDV & matériel"
 
-#: .\website\templates\website\pricing.html:262
+#: .\website\templates\website\pricing.html:260
 msgid ""
 "Support for barcode scanners, receipt printers, POS terminals, and "
 "peripherals."
 msgstr ""
-"Support pour les lecteurs de codes-barres, imprimantes de reçus, terminaux PDV et "
-"périphériques."
+"Support pour les lecteurs de codes-barres, imprimantes de reçus, terminaux "
+"PDV et périphériques."
 
-#: .\website\templates\website\pricing.html:294
+#: .\website\templates\website\pricing.html:292
 msgid "SAVE WITH ANNUAL BILLING"
 msgstr "ÉCONOMISEZ AVEC LA FACTURATION ANNUELLE"
 
-#: .\website\templates\website\pricing.html:298
+#: .\website\templates\website\pricing.html:296
 msgid "Reduce Costs With Annual Plans."
 msgstr "Réduisez les coûts avec les plans annuels."
 
-#: .\website\templates\website\pricing.html:302
+#: .\website\templates\website\pricing.html:300
 msgid ""
-"              Annual billing helps pharmacies lower subscription costs "
-"while
-"
-"              ensuring uninterrupted access to the Pharmadex platform.
-"
-"              "
+"Annual billing helps pharmacies lower subscription costs while ensuring "
+"uninterrupted access to the Pharmadex platform."
 msgstr ""
-"              La facturation annuelle aide les pharmacies à réduire les coûts d\u2019abonnement "
-"              tout en garantissant un accès ininterrompu à la plateforme Pharmadex.
-"
-"              "
+"    La facturation annuelle aide les pharmacies à réduire les coûts "
+"d’abonnement     tout en garantissant un accès ininterrompu à la plateforme "
+"Pharmadex    "
 
-#: .\website\templates\website\pricing.html:314
+#: .\website\templates\website\pricing.html:312
 msgid "Lower long-term subscription costs"
-msgstr "Réduire les coûts d\u2019abonnement à long terme"
+msgstr "Réduire les coûts d’abonnement à long terme"
 
-#: .\website\templates\website\pricing.html:321
+#: .\website\templates\website\pricing.html:319
 msgid "Better operational budgeting and stability"
 msgstr "Meilleure budgétisation et stabilité opérationnelles"
 
-#: .\website\templates\website\pricing.html:328
+#: .\website\templates\website\pricing.html:326
 msgid "Priority onboarding and account support"
 msgstr "Intégration prioritaire et support de compte"
 
-#: .\website\templates\website\pricing.html:342
+#: .\website\templates\website\pricing.html:340
 msgid "Example Annual Savings"
-msgstr "Exemple d\u2019économies annuelles"
+msgstr "Exemple d’économies annuelles"
 
-#: .\website\templates\website\pricing.html:348
+#: .\website\templates\website\pricing.html:346
 msgid "Pro Plan (Monthly)"
 msgstr "Plan Pro (Mensuel)"
 
-#: .\website\templates\website\pricing.html:352
+#: .\website\templates\website\pricing.html:350
 msgid "Billed every month"
 msgstr "Facturé chaque mois"
 
-#: .\website\templates\website\pricing.html:364
+#: .\website\templates\website\pricing.html:362
 msgid "Pro Plan (Annual)"
 msgstr "Plan Pro (Annuel)"
 
-#: .\website\templates\website\pricing.html:368
+#: .\website\templates\website\pricing.html:366
 msgid "Save with yearly billing"
 msgstr "Économisez avec la facturation annuelle"
 
-#: .\website\templates\website\pricing.html:378
+#: .\website\templates\website\pricing.html:376
 msgid "2 months free"
 msgstr "2 mois gratuits"
 
-#: .\website\templates\website\pricing.html:389
+#: .\website\templates\website\pricing.html:387
 msgid "Talk to Sales About Annual Plans"
 msgstr "Parler aux ventes des plans annuels"
 
@@ -10360,7 +9886,7 @@ msgstr "Liens rapides"
 
 #: .\website\templates\website\shared\footer.html:60
 msgid "Sign Up"
-msgstr "S\u2019inscrire"
+msgstr "S’inscrire"
 
 #: .\website\templates\website\shared\footer.html:68
 msgid "Features"
@@ -10384,7 +9910,7 @@ msgstr "Support"
 #: .\website\templates\website\shared\footer.html:96
 #: .\website\templates\website\shared\footer_alt.html:46 .\website\views.py:265
 msgid "Help Center"
-msgstr "Centre d\u2019aide"
+msgstr "Centre d’aide"
 
 #: .\website\templates\website\shared\footer.html:103
 #: .\website\templates\website\shared\footer_alt.html:51
@@ -10394,7 +9920,7 @@ msgstr "FAQ"
 #: .\website\templates\website\shared\footer.html:110
 #: .\website\templates\website\shared\footer_alt.html:56 .\website\views.py:402
 msgid "Feedback"
-msgstr "Retour d\u2019expérience"
+msgstr "Retour d’expérience"
 
 #: .\website\templates\website\shared\footer.html:125
 #: .\website\templates\website\shared\footer_alt.html:69
@@ -10417,7 +9943,7 @@ msgstr "Tous droits réservés"
 
 #: .\website\templates\website\shared\footer.html:168
 msgid "Terms of Use"
-msgstr "Conditions d\u2019utilisation"
+msgstr "Conditions d’utilisation"
 
 #: .\website\templates\website\shared\footer.html:179
 #: .\website\templates\website\shared\footer_alt.html:163
@@ -10430,15 +9956,11 @@ msgstr "Anglais (EN)"
 
 #: .\website\templates\website\shared\footer_alt.html:22
 msgid ""
-"            Modern pharmacy management platform built for scale. Inventory, "
-"POS, prescriptions, and compliance \u2014 all in one place.
-"
-"            "
+"Modern pharmacy management platform built for scale. Inventory, POS, "
+"prescriptions, and compliance — all in one place."
 msgstr ""
-"            Plateforme moderne de gestion pharmaceutique conçue pour l\u2019échelle. Inventaire, "
-"            PDV, ordonnances et conformité \u2014 tout en un seul endroit.
-"
-"            "
+"  Plateforme moderne de gestion pharmaceutique conçue pour l’échelle. "
+"Inventaire,   PDV, ordonnances et conformité - tout en un seul endroit"
 
 #: .\website\templates\website\shared\footer_alt.html:28
 msgid "Twitter"
@@ -10458,7 +9980,9 @@ msgstr "Restez informé"
 
 #: .\website\templates\website\shared\footer_alt.html:98
 msgid "Get the latest updates on pharmacy management and compliance."
-msgstr "Recevez les dernières mises à jour sur la gestion pharmaceutique et la conformité."
+msgstr ""
+"Recevez les dernières mises à jour sur la gestion pharmaceutique et la "
+"conformité."
 
 #: .\website\templates\website\shared\footer_alt.html:106
 msgid "Enter your email"
@@ -10466,18 +9990,17 @@ msgstr "Entrez votre email"
 
 #: .\website\templates\website\shared\footer_alt.html:111
 msgid "Subscribe"
-msgstr "S\u2019abonner"
+msgstr "S’abonner"
 
 #: .\website\templates\website\shared\footer_alt.html:124
 #, python-format
 msgid ""
-"               \u00a9 %(year)s Pharmadex. All rights reserved.
-"
+"\n"
+"               © %(year)s Pharmadex. All rights reserved.\n"
 "               "
 msgstr ""
-"               \u00a9 %(year)s Pharmadex. Tous droits réservés.
-"
-"               "
+"\n"
+"     © %(year)s Pharmadex. Tous droits réservés     "
 
 #: .\website\templates\website\shared\footer_alt.html:135
 msgid "Language:"
@@ -10530,19 +10053,19 @@ msgstr "ERP pour pharmacies"
 
 #: .\website\templates\website\shared\navbar.html:233
 msgid "Need help?"
-msgstr "Besoin d\u2019aide ?"
+msgstr "Besoin d’aide ?"
 
 #: .\website\templates\website\shared\navbar.html:238
 msgid "Get onboarding guidance and setup support."
-msgstr "Obtenez un guide d\u2019intégration et un support de configuration."
+msgstr "Obtenez un guide d’intégration et un support de configuration."
 
 #: .\website\templates\website\shared\navbar.html:245
 msgid "Contact Team"
-msgstr "Contacter l\u2019équipe"
+msgstr "Contacter l’équipe"
 
 #: .\website\views.py:39
 msgid "Home Page"
-msgstr "Page d\u2019accueil"
+msgstr "Page d’accueil"
 
 #: .\website\views.py:49
 msgid "pricing Page"
@@ -10570,7 +10093,7 @@ msgstr "Premiers pas"
 
 #: .\website\views.py:271
 msgid "Setup guides and onboarding resources"
-msgstr "Guides de configuration et ressources d\u2019intégration"
+msgstr "Guides de configuration et ressources d’intégration"
 
 #: .\website\views.py:277
 msgid "Stock tracking, batches, and audits"
@@ -10602,7 +10125,7 @@ msgstr "Général"
 
 #: .\website\views.py:316
 msgid "What is Pharmadex?"
-msgstr "Qu\u2019est-ce que Pharmadex ?"
+msgstr "Qu’est-ce que Pharmadex ?"
 
 #: .\website\views.py:317
 msgid ""
@@ -10611,8 +10134,8 @@ msgid ""
 "and compliance from one cloud-based solution."
 msgstr ""
 "Pharmadex est une plateforme ERP complète de gestion pharmaceutique qui aide "
-"les pharmacies à gérer l\u2019inventaire, les ventes, les ordonnances, les achats, "
-"la comptabilité et la conformité depuis une solution cloud unique."
+"les pharmacies à gérer l’inventaire, les ventes, les ordonnances, les "
+"achats, la comptabilité et la conformité depuis une solution cloud unique."
 
 #: .\website\views.py:320
 msgid "Is Pharmadex suitable for small pharmacies?"
@@ -10623,8 +10146,8 @@ msgid ""
 "Yes! Pharmadex scales from single-location pharmacies to multi-branch "
 "chains. Our pricing and features adapt to your needs."
 msgstr ""
-"Oui ! Pharmadex s\u2019adapte des pharmacies à un seul site aux chaînes multi-sites. "
-"Nos tarifs et fonctionnalités s\u2019adaptent à vos besoins."
+"Oui ! Pharmadex s’adapte des pharmacies à un seul site aux chaînes multi-"
+"sites. Nos tarifs et fonctionnalités s’adaptent à vos besoins."
 
 #: .\website\views.py:324
 msgid "Can I access Pharmadex on mobile devices?"
@@ -10635,8 +10158,8 @@ msgid ""
 "Absolutely. Pharmadex is fully responsive and works on tablets, smartphones, "
 "and desktop computers."
 msgstr ""
-"Absolument. Pharmadex est entièrement responsive et fonctionne sur tablettes, "
-"smartphones et ordinateurs de bureau."
+"Absolument. Pharmadex est entièrement responsive et fonctionne sur "
+"tablettes, smartphones et ordinateurs de bureau."
 
 #: .\website\views.py:330
 msgid "Pricing & Billing"
@@ -10651,8 +10174,9 @@ msgid ""
 "We offer flexible pricing tiers based on pharmacy size and features needed. "
 "Contact our sales team for a customized quote."
 msgstr ""
-"Nous proposons des niveaux de tarification flexibles basés sur la taille de la pharmacie "
-"et les fonctionnalités nécessaires. Contactez notre équipe commerciale pour un devis personnalisé."
+"Nous proposons des niveaux de tarification flexibles basés sur la taille de "
+"la pharmacie et les fonctionnalités nécessaires. Contactez notre équipe "
+"commerciale pour un devis personnalisé."
 
 #: .\website\views.py:337
 msgid "Is there a free trial?"
@@ -10663,8 +10187,8 @@ msgid ""
 "Yes, we offer a 14-day free trial with full access to all features. No "
 "credit card required."
 msgstr ""
-"Oui, nous proposons un essai gratuit de 14 jours avec un accès complet à toutes les "
-"fonctionnalités. Aucune carte de crédit requise."
+"Oui, nous proposons un essai gratuit de 14 jours avec un accès complet à "
+"toutes les fonctionnalités. Aucune carte de crédit requise."
 
 #: .\website\views.py:343
 msgid "Security & Compliance"
@@ -10679,8 +10203,8 @@ msgid ""
 "Yes. We use bank-grade encryption, regular backups, and comply with HIPAA "
 "and GDPR standards."
 msgstr ""
-"Oui. Nous utilisons un chiffrement de niveau bancaire, des sauvegardes régulières "
-"et nous sommes conformes aux normes HIPAA et RGPD."
+"Oui. Nous utilisons un chiffrement de niveau bancaire, des sauvegardes "
+"régulières et nous sommes conformes aux normes HIPAA et RGPD."
 
 #: .\website\views.py:350
 msgid "Where is my data stored?"
@@ -10691,8 +10215,8 @@ msgid ""
 "Data is stored in secure cloud servers with redundancy across multiple "
 "geographic locations."
 msgstr ""
-"Les données sont stockées sur des serveurs cloud sécurisés avec une redondance "
-"sur plusieurs emplacements géographiques."
+"Les données sont stockées sur des serveurs cloud sécurisés avec une "
+"redondance sur plusieurs emplacements géographiques."
 
 #: .\website\views.py:356
 msgid "Technical"
@@ -10706,8 +10230,8 @@ msgstr "Dois-je installer quelque chose ?"
 msgid ""
 "No. Pharmadex is entirely cloud-based. Just open your browser and log in."
 msgstr ""
-"Non. Pharmadex est entièrement basé sur le cloud. Ouvrez simplement votre navigateur "
-"et connectez-vous."
+"Non. Pharmadex est entièrement basé sur le cloud. Ouvrez simplement votre "
+"navigateur et connectez-vous."
 
 #: .\website\views.py:363
 msgid "Can I import my existing data?"
@@ -10718,8 +10242,8 @@ msgid ""
 "Yes, we provide CSV import tools and can assist with data migration from "
 "most pharmacy software."
 msgstr ""
-"Oui, nous fournissons des outils d\u2019import CSV et pouvons assister à la migration "
-"de données depuis la plupart des logiciels pharmaceutiques."
+"Oui, nous fournissons des outils d’import CSV et pouvons assister à la "
+"migration de données depuis la plupart des logiciels pharmaceutiques."
 
 #: .\website\views.py:371
 msgid "Frequently Asked Questions"
@@ -10731,7 +10255,7 @@ msgstr "Merci pour votre retour ! Nous apprécions votre contribution."
 
 #: .\website\views.py:399
 msgid "Something went wrong. Please try again later."
-msgstr "Une erreur s\u2019est produite. Veuillez réessayer plus tard."
+msgstr "Une erreur s’est produite. Veuillez réessayer plus tard."
 
 #: .\website\views.py:404
 msgid "Feature Suggestion"
@@ -10755,7 +10279,7 @@ msgstr "Ce que disent nos clients"
 
 #: .\website\views.py:421
 msgid "Trusted by pharmacies across Africa and beyond"
-msgstr "Fait confiance par des pharmacies à travers l\u2019Afrique et au-delà"
+msgstr "Fait confiance par des pharmacies à travers l’Afrique et au-delà"
 
 #: .\website\views.py:439
 msgid "The rules governing your use of our platform."
@@ -10779,8 +10303,82 @@ msgstr "Bon retour ! Votre abonnement a été réactivé."
 
 #: .\website\views.py:502
 msgid "Something went wrong. Please try again."
-msgstr "Une erreur s\u2019est produite. Veuillez réessayer."
+msgstr "Une erreur s’est produite. Veuillez réessayer."
 
+#~ msgid ""
+#~ "Process sales for customers. Update stock and generate\n"
+#~ "        receipts."
+#~ msgstr ""
+#~ "Traiter les ventes pour les clients. Mettre à jour le stock et générer\n"
+#~ "        les reçus."
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "            Helping Pharmacies\n"
+#~ "            <span class=\"relative text-secondary inline-block\">\n"
+#~ "              Operate Smarter\n"
+#~ "              <span\n"
+#~ "                class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
+#~ "orange-300/40 rounded-full\"\n"
+#~ "              ></span>\n"
+#~ "            </span>\n"
+#~ "            Every Day.\n"
+#~ "            "
+#~ msgstr ""
+#~ "  Aider les pharmacie  <span class=\"relative text-secondary inline-"
+#~ "block\"    à opérer plus intelligemmen    <spa      class=\"absolute "
+#~ "left-0 -bottom-2 w-full h-3 bg-orange-300/40 rounded-full\\    ></span  </"
+#~ "span  chaque jour"
+
+#, fuzzy
+#~ msgid ""
+#~ " Talk to the team behind\n"
+#~ "            <span class=\"relative text-secondary\">\n"
+#~ "              Pharmadex\n"
+#~ "              <span\n"
+#~ "                class=\"absolute left-0 -bottom-1 w-full h-3 bg-"
+#~ "orange-400/20 rounded-full\"\n"
+#~ "              ></span>\n"
+#~ "            </span>\n"
+#~ "            . "
+#~ msgstr ""
+#~ " Parlez à l'équipe derrièr  <span class=\"relative text-secondary\"    "
+#~ "Pharmade    <spa      class=\"absolute left-0 -bottom-1 w-full h-3 bg-"
+#~ "orange-400/20 rounded-full\\    ></span  </span  . "
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "        Pricing That\n"
+#~ "        <span class=\"relative text-secondary inline-block\">\n"
+#~ "          Scales\n"
+#~ "          <span\n"
+#~ "            class=\"absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 "
+#~ "rounded-full\"\n"
+#~ "          ></span>\n"
+#~ "        </span>\n"
+#~ "        With Your Pharmacy.\n"
+#~ "        "
+#~ msgstr ""
+#~ "        Une tarification qu        <span class=\"relative text-secondary "
+#~ "inline-block\"évolu<spa  class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
+#~ "orange-300/40 rounded-full\\></span        </span        avec votre "
+#~ "pharmacie        "
+
+#~ msgid "Mon \\u2013 Fri \\u2022 9am \\u2013 6pm"
+#~ msgstr "Lun \\u2013 Ven \\u2022 9h \\u2013 18h"
+
+#~ msgid ""
+#~ "  Built fo  <span class=\"text-secondary relative inline-block\"    "
+#~ "Pharmacie    <spa      class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
+#~ "orange-300/40 rounded-full\\    ></span  </span>  <br /  Designed for "
+#~ "Scale"
+#~ msgstr ""
+#~ "  Conçu pour le  <span class=\"text-secondary relative inline-block\"    "
+#~ "pharmacie    <spa      class=\"absolute left-0 -bottom-2 w-full h-3 bg-"
+#~ "orange-300/40 rounded-full\\    ></span  </span>  <br /  Pensé pour "
+#~ "l'échelle"
 
 #~ msgid "Warehouses"
 #~ msgstr "Entrepôts"
@@ -10869,8 +10467,8 @@ msgstr "Une erreur s\u2019est produite. Veuillez réessayer."
 #~ msgid "Phone:"
 #~ msgstr "Téléphone :"
 
-#~ msgid "Choose a customer\u2026"
-#~ msgstr "Choisir un client\u2026"
+#~ msgid "Choose a customer\\u2026"
+#~ msgstr "Choisir un client\\u2026"
 
 #~ msgid "No client selected"
 #~ msgstr "Aucun client sélectionné"

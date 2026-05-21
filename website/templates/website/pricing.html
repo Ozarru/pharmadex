@@ -26,21 +26,19 @@
       <h1
         class="text-5xl md:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05] max-w-5xl"
       >
-        {% blocktrans %}
-        Pricing That
+        {% trans "Pricing That" %}
         <span class="relative text-secondary inline-block">
-          Scales
+          {% trans "Scales" %}
           <span
             class="absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 rounded-full"
           ></span>
         </span>
-        With Your Pharmacy.
-        {% endblocktrans %}
+        {% trans "With Your Pharmacy." %}
       </h1>
 
       <!-- sub -->
       <p class="text-lg md:text-xl text-gray-600 max-w-3xl leading-relaxed">
-        {% blocktrans %}
+        {% blocktrans trimmed %}
         Choose a plan that fits your pharmacy today and upgrade as your
         operations grow. No hidden fees. No long-term contracts.
         {% endblocktrans %}
@@ -98,7 +96,7 @@
           </h2>
 
           <p class="text-xl text-white/80 mb-10">
-            {% blocktrans %}
+            {% blocktrans trimmed %}
             Join pharmacies already using Pharmadex to simplify operations,
             improve visibility, and grow faster.
             {% endblocktrans %}
@@ -141,7 +139,7 @@
         </h2>
 
         <p class="text-lg text-gray-600 leading-relaxed">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           Beyond software access, Pharmadex offers onboarding and implementation
           services to help pharmacies launch smoothly, train teams, and migrate
           existing operational data.
@@ -299,7 +297,7 @@
             </h2>
 
             <p class="text-lg text-white/80 leading-relaxed">
-              {% blocktrans %}
+              {% blocktrans trimmed %}
               Annual billing helps pharmacies lower subscription costs while
               ensuring uninterrupted access to the Pharmadex platform.
               {% endblocktrans %}

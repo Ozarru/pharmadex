@@ -126,7 +126,7 @@
             {{ incoming_stats.total }}
           </span>
           <span class="text-xs text-label">
-            {% blocktrans %}Money In · {{ incoming_stats.count }} transactions{% endblocktrans %}
+            {% blocktrans trimmed %}Money In · {{ incoming_stats.count }} transactions{% endblocktrans %}
           </span>
         </div>
 
@@ -180,7 +180,7 @@
             {{ outgoing_stats.total }}
           </span>
           <span class="text-xs text-label">
-            {% blocktrans %}Money Out · {{ outgoing_stats.count }} transactions{% endblocktrans %}
+            {% blocktrans trimmed %}Money Out · {{ outgoing_stats.count }} transactions{% endblocktrans %}
           </span>
         </div>
 
@@ -194,13 +194,13 @@
           
           {% if bill_stats.count %}
             <span class="px-4 py-2 bg-lighter rounded-md border">
-              {% blocktrans %}Bills ({{ bill_stats.count }}){% endblocktrans %}
+              {% blocktrans trimmed %}Bills ({{ bill_stats.count }}){% endblocktrans %}
             </span>
           {% endif %}
 
           {% if invoice_stats.count %}
             <span class="px-4 py-2 bg-lighter rounded-md border">
-              {% blocktrans %}Invoices ({{ invoice_stats.count }}){% endblocktrans %}
+              {% blocktrans trimmed %}Invoices ({{ invoice_stats.count }}){% endblocktrans %}
             </span>
           {% endif %}
 

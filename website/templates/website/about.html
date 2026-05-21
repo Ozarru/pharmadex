@@ -27,20 +27,18 @@
           <h1
             class="text-5xl md:text-6xl font-black tracking-tight leading-[1.05]"
           >
-            {% blocktrans %}
-            Helping Pharmacies
+           {% trans " Helping Pharmacies" %}
             <span class="relative text-secondary inline-block">
-              Operate Smarter
+              {% trans "Operate Smarter" %}
               <span
                 class="absolute left-0 -bottom-2 w-full h-3 bg-orange-300/40 rounded-full"
               ></span>
             </span>
-            Every Day.
-            {% endblocktrans %}
+            {% trans "Every Day." %}
           </h1>
 
           <p class="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed">
-            {% blocktrans %}
+            {% blocktrans trimmed %}
             Pharmadex is a modern pharmacy ERP built to simplify operations,
             improve inventory visibility, streamline sales, and help pharmacy
             teams work more efficiently.
@@ -74,12 +72,17 @@
 
           <div class="flex items-center gap-2">
             <i class="fas fa-check-circle text-primary"></i>
-            {% trans "Multi-Branch Ready" %}
+            {% trans "Ideal for Multiple-Branches" %}
           </div>
 
           <div class="flex items-center gap-2">
             <i class="fas fa-check-circle text-primary"></i>
             {% trans "Real-Time Reporting" %}
+          </div>
+
+          <div class="flex items-center gap-2">
+            <i class="fas fa-check-circle text-primary"></i>
+            {% trans "Multi-Scoped Security" %}
           </div>
         </div>
       </div>
@@ -152,14 +155,14 @@
         </h2>
 
         <p class="text-lg text-gray-600 leading-relaxed">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           Many pharmacies still rely on spreadsheets, disconnected systems,
           and manual workflows that slow operations down and increase risk.
           {% endblocktrans %}
         </p>
 
         <p class="text-lg text-gray-600 leading-relaxed">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           Pharmadex was built to centralize inventory, sales, procurement,
           reporting, and operational oversight into one reliable platform.
           {% endblocktrans %}
@@ -215,7 +218,7 @@
         </h2>
 
         <p class="text-lg text-gray-600">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           The principles behind how we build, support, and grow Pharmadex.
           {% endblocktrans %}
         </p>
@@ -293,7 +296,7 @@
         </h2>
 
         <p class="text-lg text-gray-600">
-          {% blocktrans %}
+          {% blocktrans trimmed %}
           A team focused on building reliable systems for modern pharmacy operations.
           {% endblocktrans %}
         </p>
@@ -401,7 +404,7 @@
           </h2>
 
           <p class="text-xl text-white/80 mb-10">
-            {% blocktrans %}
+            {% blocktrans trimmed %}
             Join pharmacies already using Pharmadex to simplify operations,
             improve visibility, and scale confidently.
             {% endblocktrans %}

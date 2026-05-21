@@ -25,18 +25,18 @@
           <h1
             class="text-5xl md:text-6xl font-black leading-tight text-gray-900"
           >
-            {% blocktrans %} Talk to the team behind
+            {% trans "Talk to the team behind" %}
             <span class="relative text-secondary">
-              Pharmadex
+              {% trans "Pharmadex" %}
               <span
                 class="absolute left-0 -bottom-1 w-full h-3 bg-orange-400/20 rounded-full"
               ></span>
             </span>
-            . {% endblocktrans %}
+            .
           </h1>
 
           <p class="mt-8 text-xl text-gray-600 leading-relaxed max-w-2xl">
-            {% blocktrans %} Whether you're launching a new pharmacy, replacing
+            {% blocktrans trimmed %} Whether you're launching a new pharmacy, replacing
             outdated software, or scaling operations across multiple locations,
             our team is ready to help. {% endblocktrans %}
           </p>
@@ -97,7 +97,7 @@
               </h3>
 
               <p class="text-gray-500">
-                {% blocktrans %}
+                {% blocktrans trimmed %}
                 Get pricing, onboarding guidance, or a live
                 walkthrough.
                 {% endblocktrans %}
@@ -182,7 +182,7 @@
           </h2>
 
           <p class="text-lg text-gray-600 leading-relaxed mb-10">
-            {% blocktrans %} We’ll help you choose the right setup, estimate
+            {% blocktrans trimmed %} We’ll help you choose the right setup, estimate
             onboarding costs, and answer any questions about pricing,
             implementation, or integrations. {% endblocktrans %}
           </p>
@@ -304,7 +304,7 @@
           </h2>
 
           <p class="text-lg text-gray-600 leading-relaxed mb-10">
-            {% blocktrans %} Pharmadex is focused on helping pharmacies digitize
+            {% blocktrans trimmed %} Pharmadex is focused on helping pharmacies digitize
             operations with reliable, scalable, and locally adaptable ERP
             technology. {% endblocktrans %}
           </p>
@@ -383,7 +383,7 @@
           </h2>
 
           <p class="text-xl text-white/80 max-w-3xl mx-auto mb-10">
-            {% blocktrans %} Join pharmacies already using Pharmadex to simplify
+            {% blocktrans trimmed %} Join pharmacies already using Pharmadex to simplify
             inventory, sales, reporting, and day-to-day operations.
             <!--  -->
             {% endblocktrans %}
