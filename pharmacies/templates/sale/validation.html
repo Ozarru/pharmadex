@@ -150,18 +150,36 @@
         </form>
         {% endif %}
         <div class="flex gap-2">
-          <button
-            class="btn btn-outlined w-full"
-            onclick="holdSale('{{ sale.id }}')"
-          >
+        {% if sale.status in "pending" %}
+        <form
+          class="w-full"
+          method="post"
+          action="{% url 'base:toggle-status' sale.model_name sale.id %}"
+        >
+          {% csrf_token %}
+
+          <input type="hidden" name="status" value="backordered" />
+
+          <button type="submit" class="btn btn-outlined w-full">
+            <i class="fa-solid fa-history"></i>
             {% trans "Hold" %}
           </button>
-          <button
-            class="btn btn-outlined-danger w-full"
-            onclick="rejectSale('{{ sale.id }}')"
-          >
-            {% trans "Reject" %}
+        </form>
+        {% endif %}
+        <form
+          class="w-full"
+          method="post"
+          action="{% url 'base:toggle-status' sale.model_name sale.id %}"
+        >
+          {% csrf_token %}
+
+          <input type="hidden" name="status" value="cancelled" />
+
+          <button type="submit" class="btn btn-outlined-danger w-full">
+            <i class="fa-solid fa-ban"></i>
+            {% trans "Cancel" %}
           </button>
+        </form>
         </div>
       </div>
     </div>
@@ -228,30 +246,6 @@
         "X-CSRFToken": "{{ csrf_token }}",
       },
       body: JSON.stringify({ action: "approve" }),
-    }).then(() => (location.href = "/sales/"));
-  }
-
-  function rejectSale(id) {
-    if (!confirm("{% trans 'Reject this sale?' %}")) return;
-
-    fetch(`/sales/validation/${id}/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "{{ csrf_token }}",
-      },
-      body: JSON.stringify({ action: "reject" }),
-    }).then(() => (location.href = "/sales/"));
-  }
-
-  function holdSale(id) {
-    fetch(`/sales/validation/${id}/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "{{ csrf_token }}",
-      },
-      body: JSON.stringify({ action: "hold" }),
     }).then(() => (location.href = "/sales/"));
   }
 </script>

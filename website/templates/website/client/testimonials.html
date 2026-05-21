@@ -44,7 +44,7 @@
             {% if testimonial.avatar %}
             <img src="{{ testimonial.avatar.url }}" alt="{{ testimonial.name }}" class="w-12 h-12 rounded-full object-cover" />
             {% else %}
-            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
               <span class="text-primary font-bold text-lg">{{ testimonial.name|first }}</span>
             </div>
             {% endif %}

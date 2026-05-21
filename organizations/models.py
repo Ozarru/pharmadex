@@ -146,7 +146,7 @@ class Insurer(OrganizationModel, ActivatableModel):
         verbose_name=_("Address")
     )
 
-    model_icon = 'fa-solid fa-shield-halved'
+    model_icon = 'fa-solid fa-people-roof'
 
     class Meta:
         verbose_name = _("Insurer")

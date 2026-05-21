@@ -19,21 +19,37 @@
         </span>
       </div>
     </div>
-    {% if sale.status in "pending, backordered" %}
-    <form
-      method="post"
-      action="{% url 'base:toggle-status' sale.model_name sale.id %}"
-    >
+    <div class="flex flex-col lg:flex-row gap-2">
+  {% if sale.status in "pending,backordered" %}
+    <form method="post" action="{% url 'base:toggle-status' sale.model_name sale.id %}">
       {% csrf_token %}
-
       <input type="hidden" name="status" value="completed" />
-
       <button type="submit" class="btn btn-secondary rounded-full h-fit">
-        <i class="fa-solid fa-check-double"></i>
-        {% trans "Validate Sale" %}
+        <i class="fa-solid fa-check-double mr-2"></i>{% trans "Validate Sale" %}
       </button>
     </form>
-    {% endif %}
+  {% endif %}
+
+  {% if sale.status not in "backordered,cancelled" %}
+    <form method="post" action="{% url 'base:toggle-status' sale.model_name sale.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="status" value="backordered" />
+      <button type="submit" class="btn btn-outlined rounded-full h-fit">
+        <i class="fa-solid fa-history mr-2"></i>{% trans "Backorder" %}
+      </button>
+    </form>
+  {% endif %}
+
+  {% if sale.status != "cancelled" %}
+    <form method="post" action="{% url 'base:toggle-status' sale.model_name sale.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="status" value="cancelled" />
+      <button type="submit" class="btn btn-outlined-danger rounded-full h-fit">
+        <i class="fa-solid fa-ban mr-2"></i>{% trans "Cancel Sale" %}
+      </button>
+    </form>
+  {% endif %}
+</div>
   </div>
 
   <!-- =============================== -->

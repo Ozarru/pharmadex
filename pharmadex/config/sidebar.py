@@ -110,26 +110,12 @@ def get_sidebar_links(user, current_organization=None):
         # ------------------------------
         # PRODUCT & BATCH INVENTORY
         # ------------------------------
-        # add_link(
-        #     _("Product Catalog"),
-        #     "pharmacies:product-list",
-        #     "fa-solid fa-prescription-bottle-medical",
-        #     "products_page"
-        # )
-
         add_link(
             _("Stock Overview"),
             "pharmacies:product-stock-list",
             "fa-solid fa-boxes-stacked",
             "product_stocks_page"
         )
-
-        # add_link(
-        #     _("Batch Management"),
-        #     "pharmacies:product-batch-list",
-        #     "fa-solid fa-cart-flatbed",
-        #     "product_batches_page"
-        # )
 
         # ------------------------------
         # INVENTORY OPERATIONS
@@ -140,11 +126,18 @@ def get_sidebar_links(user, current_organization=None):
             "fa-solid fa-up-down",
             "inventory_page"
         )
+        
+        if current_pharma:
+            add_link(
+                _("Stock Procurement"),
+                "pharmacies:procurement-dashboard",
+                "fa-solid fa-dolly",
+                "procurement_page"
+            )
 
         # ------------------------------
         # CLINIC LINKS
         # ------------------------------
-        
         # if current_pharma and current_pharma.clinic_enabled:
         #     add_link(
         #         _("Clinic Dashboard"),
@@ -158,10 +151,17 @@ def get_sidebar_links(user, current_organization=None):
     # ==========================================================
     if user.is_superuser or user.is_platform_admin() or current_role_type == "platform_admin":
 
+        add_link(
+            _("Fiannce Dashboard"),
+            "finances:finances-dashboard",
+            "fa-solid fa-coins",
+            "finances_page"
+        )
+
         # add_link(
-        #     _("Staff Management"),
-        #     "hr:staff-list",
-        #     "fa-solid fa-user-tie",
+        #     _("Human Resources"),
+        #     "hr:hr-dahboard",
+        #     "fa-solid fa-users-rays",
         #     "staff_page"
         # )
 

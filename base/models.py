@@ -149,7 +149,7 @@ class ActivatableModel(BaseModel):
     - is_active: explicit activation state, independent from soft deletion
     """
     is_active = models.BooleanField(
-        default=False, editable=False, verbose_name=_("Is Active"))
+        default=False, verbose_name=_("Is Active"))
 
     class Meta:
         abstract = True

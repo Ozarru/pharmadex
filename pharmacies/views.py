@@ -76,6 +76,25 @@ def inventory_dashboard(request):
 
 
 @login_required(login_url='accounts:login')
+def inventory_dashboard(request):
+    header_paragraph = _("""
+    Welcome to the inventory dashboard. Monitor stock levels, track product availability,
+    and stay informed about batch quantities and expiries in real time. Use this space to
+    manage products efficiently, reduce stock issues, and support smooth day-to-day
+    pharmacy operations.
+    """)
+
+    context = {
+        "active_page": "inventory_page",
+        "model_icon": "fa-solid fa-store",
+        "header_paragraph": header_paragraph,
+        "title": _("Inventory Dashboard"),
+        "subtitle": _("Stock overview and control"),
+    }
+    return render(request, 'inventory/dashboard.html', context)
+
+
+@login_required(login_url='accounts:login')
 def pharmacy_reports(request):
     header_paragraph = _("""
     Welcome to the Pharmacy Analytics Center.
@@ -1488,11 +1507,7 @@ class SaleListView(BaseListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["object_crud_link"] = None
-        context["model_update_url"] = None
-
-        if not self.request.user.is_platform_admin():
-            context["active_page"] = "sales_page"
-
+        context["object_crud_via_htmx"] = False
         return context
 
 
@@ -1516,6 +1531,84 @@ class SaleDetailView(BaseDetailView):
         context["object_crud_link"] = None
 
         return context
+
+
+class SaleUpsertView(BaseParentChildFormView):
+    model = Sale
+    form_class = SaleEditForm
+    formset_class = SaleItemFormSet
+    template_name = "generic/parent_child_form.html"
+
+    title_create = "Create Sale"
+    subtitle_create = "Create a new sale and add products."
+    title_update = "Edit Sale"
+    subtitle_update = "Modify the details of an existing sale."
+
+    active_page = "sale_page"
+    header_paragraph = (
+        "Use this form to create a sale and add products. "
+        "At least one product is required."
+    )
+
+    success_url_name = "pharmacies:sale-detail"
+
+    can_add_item = True
+
+    # ---------------------------
+    # Pass pharmacy to formset
+    # ---------------------------
+    def get_formset_kwargs(self, request, parent_obj, data=None):
+        return {
+            "pharmacy": self.get_pharmacy(request),
+        }
+
+    # ---------------------------
+    # Set parent fields
+    # ---------------------------
+    def set_parent_fields(self, request, parent_obj, is_create: bool):
+        parent_obj.pharmacy = getattr(
+            request, "current_pharmacy", None) or request.user.profile.current_pharmacy
+        parent_obj.vendor = request.user
+        if is_create:
+            parent_obj.status = "pending"
+        return parent_obj
+
+    # ---------------------------
+    # Set child fields
+    # ---------------------------
+    def set_child_fields(self, request, child_obj, parent_obj, is_create: bool):
+        child_obj.sale = parent_obj
+        return child_obj
+
+    # ---------------------------
+    # Validate minimum 1 item
+    # ---------------------------
+    def formset_valid(self, formset):
+        # Count non-deleted forms
+        non_deleted = [
+            form for form in formset.forms
+            if form.cleaned_data and not form.cleaned_data.get("DELETE", False)
+        ]
+        if len(non_deleted) < 1:
+            formset._non_form_errors.append(
+                _("At least one product is required in every sale.")
+            )
+            return self.form_invalid(self.get_form(form_class=self.form_class), formset)
+        return super().formset_valid(formset)
+
+    # ---------------------------
+    # Recalculate totals after save
+    # ---------------------------
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # Recalculate sale total
+        total = sum(
+            item.total_price or 0
+            for item in self.object.items.all()
+        )
+        self.object.total_amount = total
+        self.object.save(update_fields=["total_amount"])
+        return response
 
 
 @login_required(login_url='accounts:login')
@@ -1586,7 +1679,7 @@ def point_of_sale(request):
     if request.user.is_platform_admin():
         context["active_page"] = "pos_page"
 
-    return render(request, 'pharmacy/point_of_sale.html', context)
+    return render(request, 'sale/point_of_sale.html', context)
 
 
 @login_required
@@ -1603,7 +1696,7 @@ def sale_checkout(request):
         is_backordered = to_bool(data.get("is_backordered"))
         is_insured = to_bool(data.get("is_insured"))
         insurance_policy_id = data.get("insurance_policy_id")
-        
+
         print('is_backordered : ', is_backordered)
 
         if not items:
@@ -1613,8 +1706,10 @@ def sale_checkout(request):
         # CONTEXT RESOLUTION
         # -------------------------
         profile = getattr(request.user, "profile", None)
-        organization = getattr(request, "current_organization", None) or getattr(profile, "current_organization", None)
-        pharmacy = getattr(request, "current_pharmacy", None) or getattr(profile, "current_pharmacy", None)
+        organization = getattr(request, "current_organization", None) or getattr(
+            profile, "current_organization", None)
+        pharmacy = getattr(request, "current_pharmacy", None) or getattr(
+            profile, "current_pharmacy", None)
 
         if not organization:
             return JsonResponse({"success": False, "message": "No organization selected."}, status=400)
@@ -1637,7 +1732,8 @@ def sale_checkout(request):
                 organization=organization,
                 first_name=(new_customer.get("first_name") or "").strip(),
                 last_name=(new_customer.get("last_name") or "").strip(),
-                phone_number=(new_customer.get("phone_number") or "").strip() or None,
+                phone_number=(new_customer.get("phone_number")
+                              or "").strip() or None,
             )
 
         # 3. Insurance-based customer (legacy fallback)
@@ -1674,7 +1770,8 @@ def sale_checkout(request):
         total = 0
 
         for item in items:
-            product_stock = get_object_or_404(ProductStock, pk=item["product_stock_id"])
+            product_stock = get_object_or_404(
+                ProductStock, pk=item["product_stock_id"])
             quantity = int(item["quantity"])
 
             if quantity <= 0:
@@ -1703,7 +1800,8 @@ def sale_checkout(request):
         # -------------------------
         insurance_policy = None
         if is_insured and insurance_policy_id:
-            insurance_policy = get_object_or_404(InsurancePolicy, pk=insurance_policy_id)
+            insurance_policy = get_object_or_404(
+                InsurancePolicy, pk=insurance_policy_id)
 
         # -------------------------
         # SALE CREATION
@@ -1724,8 +1822,10 @@ def sale_checkout(request):
                 else ("pending" if requires_validation else "completed"),
 
                 insurance_policy=insurance_policy,
-                insurance_coverage_percent=getattr(insurance_policy, "coverage_percent", None),
-                insurance_max_coverage_amount=getattr(insurance_policy, "max_coverage_amount", None),
+                insurance_coverage_percent=getattr(
+                    insurance_policy, "coverage_percent", None),
+                insurance_max_coverage_amount=getattr(
+                    insurance_policy, "max_coverage_amount", None),
                 insurance_applied=bool(insurance_policy),
             )
 
@@ -1748,7 +1848,7 @@ def sale_checkout(request):
     except Exception as e:
         return JsonResponse({"success": False, "message": str(e)}, status=400)
 
-from django.db.models import Q
+
 @login_required
 def cashier_validation(request):
 
@@ -1765,7 +1865,7 @@ def cashier_validation(request):
     sales = Sale.objects.filter(
         Q(organization=organization),
         Q(pharmacy=pharmacy),
-        Q(status="pending")|Q(status="backordered"),
+        Q(status="pending") | Q(status="backordered"),
     ).order_by("-created_at")
 
     return render(request, "pharmacy/cashier_validation.html", {
@@ -1801,14 +1901,14 @@ def sale_validation_view(request, pk):
     # GET → RENDER TEMPLATE
     # ----------------------------
     if request.method == "GET":
-        context={
+        context = {
             "active_page": "cashier_validation_page",
             "title": "Sale validation",
             "subtitle": "Approve pending and backordered sales here",
             "sale": sale
-            
+
         }
-        return render(request, "pharmacy/sale_validation.html", context)
+        return render(request, "sale/validation.html", context)
 
     # ----------------------------
     # POST → VALIDATE SALE
@@ -1995,65 +2095,332 @@ def sale_analytics(request):
     return render(request, "sale/analytics.html", context)
 
 
+@login_required(login_url='accounts:login')
+def procurement_dashboard(request):
+
+    pharmacy = request.current_pharmacy
+
+    header_paragraph = _("""
+    Welcome to the procurement dashboard. Manage purchase orders, track supplier invoices,
+    and monitor deliveries from order to receipt. Use this space to oversee your pharmacy's
+    procurement pipeline, control costs, and ensure timely stock replenishment.
+    """)
+
+    # Live counts
+    purchase_orders_count = PurchaseOrder.objects.filter(pharmacy=pharmacy).count()
+    pending_orders_count = PurchaseOrder.objects.filter(
+        pharmacy=pharmacy,
+        status__in=["draft", "sent", "partially_received"]
+    ).count()
+    deliveries_count = PurchaseDelivery.objects.filter(pharmacy=pharmacy).count()
+    pending_deliveries_count = PurchaseDelivery.objects.filter(
+        pharmacy=pharmacy,
+        status="draft"
+    ).count()
+    invoices_count = SupplierInvoice.objects.filter(pharmacy=pharmacy).count()
+    unpaid_invoices_count = SupplierInvoice.objects.filter(
+        pharmacy=pharmacy,
+        # Add your payment tracking field here if you have one
+    ).count()
+
+    context = {
+        "active_page": "procurement_page",
+        "model_icon": "fa-solid fa-dolly",
+        "header_paragraph": header_paragraph,
+        "title": _("Procurement Dashboard"),
+        "subtitle": _("Purchase overview and supplier management"),
+        # Stats
+        "purchase_orders_count": purchase_orders_count,
+        "pending_orders_count": pending_orders_count,
+        "deliveries_count": deliveries_count,
+        "pending_deliveries_count": pending_deliveries_count,
+        "invoices_count": invoices_count,
+        "unpaid_invoices_count": unpaid_invoices_count,
+    }
+    return render(request, 'procurement/dashboard.html', context)
+
+
 # -------------------------------
-# Purchase views
+# Purchase Order views
 # -------------------------------
-class PurchaseListView(BaseListView):
-    # model = Purchase
+class PurchaseOrderListView(BaseListView):
+    model = PurchaseOrder
     template_name = 'generic/index.html'
     partial_parent_directory = 'generic'
     context_object_name = 'objects'
-    active_page = 'purchase_page'
-    title = _("Purchases")
-    subtitle = _("Purchase history")
-    header_paragraph = _("View recorded purchase transactions.")
+    active_page = 'purchase_order_page'
+    title = _("Purchase Orders")
+    subtitle = _("Supplier orders")
+    header_paragraph = _("View and manage purchase orders sent to suppliers.")
 
     def get_queryset(self):
         qs = super().get_queryset()
-        pharmacy = self.request.GET.get("pharmacy")
+        status = self.request.GET.get("status")
+        supplier = self.request.GET.get("supplier")
 
-        if pharmacy:
-            qs = qs.filter(pharmacy__name__icontains=pharmacy)
+        if status:
+            qs = qs.filter(status=status)
+        if supplier:
+            qs = qs.filter(supplier_id=supplier)
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["object_crud_link"] = None
-        context["model_update_url"] = None
-
-        if not self.request.user.is_platform_admin():
-            context["active_page"] = "stats_page"
-
+        context["object_crud_via_htmx"] = False
+        context["status_choices"] = PurchaseOrder.STATUS_CHOICES
         return context
 
 
-class PurchaseDetailView(BaseDetailView):
-    # model = Purchase
-    template_name = "purchases/detail.html"
-    context_object_name = 'purchase'
+class PurchaseOrderDetailView(BaseDetailView):
+    model = PurchaseOrder
+    template_name = "purchases/purchase_order/detail.html"
+    context_object_name = 'purchase_order'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "active_page": "purchase_page",
-            "title": _("Purchase Details"),
-            "subtitle": _("View purchase information"),
-            "header_paragraph": _("This page displays purchase transaction details."),
+            "active_page": "purchase_order_page",
+            "title": _("Purchase Order Details"),
+            "subtitle": _("View order information"),
+            "header_paragraph": _("This page displays purchase order details, items, and delivery status."),
         })
-
-        if not self.request.user.is_platform_admin():
-            context["active_page"] = "stats_page"
-
         return context
 
 
-@login_required(login_url="accounts:login")
-def purchase_analytics(request):
-    total_purchases = Purchase.objects.count()
+class PurchaseOrderUpsertView(BaseParentChildFormView):
+    model = PurchaseOrder
+    form_class = PurchaseOrderForm
+    formset_class = PurchaseOrderItemFormSet
+    template_name = "generic/parent_child_form.html"
 
-    total_cost = Purchase.objects.aggregate(
+    title_create = "Create Purchase Order"
+    subtitle_create = "Create a new purchase order for supplier products."
+    title_update = "Edit Purchase Order"
+    subtitle_update = "Modify the details of an existing purchase order."
+
+    active_page = "procurement_page"
+    header_paragraph = (
+        "Use this form to create a purchase order and add items "
+        "to be ordered from the supplier."
+    )
+
+    success_url_name = "pharmacies:purchase-order-detail"
+
+    can_add_item = True
+
+    # ---------------------------
+    # Pass pharmacy and supplier to formset
+    # ---------------------------
+    def get_formset_kwargs(self, request, parent_obj, data=None):
+        return {
+            "pharmacy": self.get_pharmacy(request),
+        }
+
+    # ---------------------------
+    # Set parent fields
+    # ---------------------------
+    def set_parent_fields(self, request, parent_obj, is_create: bool):
+        parent_obj.pharmacy = getattr(
+            request, "current_pharmacy", None) or request.user.profile.current_pharmacy
+        if is_create:
+            parent_obj.status = "draft"
+        return parent_obj
+
+    # ---------------------------
+    # Set child fields
+    # ---------------------------
+    def set_child_fields(self, request, child_obj, parent_obj, is_create: bool):
+        child_obj.purchase_order = parent_obj
+        return child_obj
+
+
+# -------------------------------
+# Purchase Delivery views
+# -------------------------------
+class PurchaseDeliveryListView(BaseListView):
+    model = PurchaseDelivery
+    template_name = 'generic/index.html'
+    partial_parent_directory = 'generic'
+    context_object_name = 'objects'
+    active_page = 'purchase_delivery_page'
+    title = _("Purchase Deliveries")
+    subtitle = _("Goods received")
+    header_paragraph = _("View and manage goods received from suppliers.")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        status = self.request.GET.get("status")
+        purchase_order = self.request.GET.get("purchase_order")
+
+        if status:
+            qs = qs.filter(status=status)
+        if purchase_order:
+            qs = qs.filter(purchase_order_id=purchase_order)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_crud_via_htmx"] = False
+        context["status_choices"] = PurchaseDelivery.STATUS_CHOICES
+        return context
+
+
+class PurchaseDeliveryDetailView(BaseDetailView):
+    model = PurchaseDelivery
+    template_name = "purchases/purchase_delivery/detail.html"
+    context_object_name = 'purchase_delivery'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "active_page": "purchase_delivery_page",
+            "title": _("Delivery Details"),
+            "subtitle": _("View received goods"),
+            "header_paragraph": _("This page displays delivery details, batch numbers, expiry dates, and received quantities."),
+        })
+        return context
+
+
+class PurchaseDeliveryUpsertView(BaseParentChildFormView):
+    model = PurchaseDelivery
+    form_class = PurchaseDeliveryForm
+    formset_class = PurchaseDeliveryItemFormSet
+    template_name = "generic/parent_child_form.html"
+
+    title_create = "Record Delivery"
+    subtitle_create = "Record goods received from a supplier against a purchase order."
+    title_update = "Edit Delivery"
+    subtitle_update = "Modify delivery details and received items."
+
+    active_page = "procurement_page"
+    header_paragraph = (
+        "Use this form to record received goods. "
+        "Link items to the original purchase order and enter batch numbers and expiry dates."
+    )
+
+    success_url_name = "pharmacies:purchase-delivery-detail"
+
+    can_add_item = True
+
+    # ---------------------------
+    # Pass purchase order to formset for item filtering
+    # ---------------------------
+    def get_formset_kwargs(self, request, parent_obj, data=None):
+        return {
+            "purchase_order": parent_obj.purchase_order if parent_obj else None,
+        }
+
+    # ---------------------------
+    # Set parent fields
+    # ---------------------------
+    def set_parent_fields(self, request, parent_obj, is_create: bool):
+        parent_obj.pharmacy = getattr(
+            request, "current_pharmacy", None) or request.user.profile.current_pharmacy
+        if is_create:
+            parent_obj.status = "draft"
+        return parent_obj
+
+    # ---------------------------
+    # Set child fields
+    # ---------------------------
+    def set_child_fields(self, request, child_obj, parent_obj, is_create: bool):
+        child_obj.delivery = parent_obj
+        return child_obj
+
+
+# -------------------------------
+# Supplier Invoice views
+# -------------------------------
+class SupplierInvoiceListView(BaseListView):
+    model = SupplierInvoice
+    template_name = 'generic/index.html'
+    partial_parent_directory = 'generic'
+    context_object_name = 'objects'
+    active_page = 'supplier_invoice_page'
+    title = _("Supplier Invoices")
+    subtitle = _("Invoice tracking")
+    header_paragraph = _(
+        "View and track supplier invoices linked to purchase orders.")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        supplier = self.request.GET.get("supplier")
+        purchase_order = self.request.GET.get("purchase_order")
+        status = self.request.GET.get("status")  # paid/unpaid if you add field
+
+        if supplier:
+            qs = qs.filter(supplier_id=supplier)
+        if purchase_order:
+            qs = qs.filter(purchase_order_id=purchase_order)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object_crud_via_htmx"] = False
+        return context
+
+
+class SupplierInvoiceDetailView(BaseDetailView):
+    model = SupplierInvoice
+    template_name = "purchases/supplier_invoice/detail.html"
+    context_object_name = 'supplier_invoice'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "active_page": "supplier_invoice_page",
+            "title": _("Invoice Details"),
+            "subtitle": _("View supplier invoice"),
+            "header_paragraph": _("This page displays invoice details, linked purchase order, and payment status."),
+        })
+        return context
+
+
+class SupplierInvoiceCreateView(BaseModelView, CreateView):
+    model = SupplierInvoice
+    fields = [
+        "pharmacy",
+        "supplier",
+        "purchase_order",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "total_amount",
+        "invoice_file",
+        "notes",
+    ]
+    success_url = reverse_lazy("pharmacies:supplier-invoice-list")
+    title = _("Add Supplier Invoice")
+    subtitle = _("Create a new supplier invoice")
+    header_paragraph = _("Create a new invoice linked to a purchase order.")
+
+
+class SupplierInvoiceUpdateView(BaseModelView, UpdateView):
+    model = SupplierInvoice
+    fields = [
+        "pharmacy",
+        "supplier",
+        "purchase_order",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "total_amount",
+        "invoice_file",
+        "notes",
+    ]
+    success_url = reverse_lazy("pharmacies:supplier-invoice-list")
+    title = _("Edit Supplier Invoice")
+    subtitle = _("Edit invoice details")
+    header_paragraph = _("Update the supplier invoice information.")
+
+
+@login_required(login_url="accounts:login")
+def procurement_analytics(request):
+    total_orders = PurchaseOrder.objects.count()
+    total_order_cost = PurchaseOrder.objects.aggregate(
         total=models.Sum("total_amount")
     )["total"] or 0
+    total_deliveries = PurchaseDelivery.objects.count()
 
     context = {
         "active_page": "inventory_page",
@@ -2062,8 +2429,9 @@ def purchase_analytics(request):
         "header_paragraph": _(
             "Review purchase activity, inventory costs, and supplier transactions."
         ),
-        "total_purchases": total_purchases,
-        "total_cost": total_cost,
+        "total_orders": total_orders,
+        "total_order_cost": total_order_cost,
+        "total_deliveries": total_deliveries,
     }
 
     if request.user.is_platform_admin():

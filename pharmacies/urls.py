@@ -66,12 +66,30 @@ urlpatterns = [
     path('sale/list/', SaleListView.as_view(), name='sale-list'),
     path("sale/checkout/", sale_checkout, name="sale-checkout"),
     path('sale/<uuid:pk>/detail/', SaleDetailView.as_view(), name='sale-detail'),
+    path('sale/<uuid:pk>/update/', SaleUpsertView.as_view(), name='sale-update'),
     path("sale/analytics/", sale_analytics, name="sale-analytics"),
     
     # Purchase URLs
-    path('purchase/list/', PurchaseListView.as_view(), name='purchase-list'),
-    path('purchase/<uuid:pk>/detail/', PurchaseDetailView.as_view(), name='purchase-detail'),
-    path("purchase/analytics/", purchase_analytics, name="purchase-analytics"),
+    path("procurement/dashboard/", procurement_dashboard, name="procurement-dashboard"),
+    path("procurement/analytics/", procurement_analytics, name="procurement-analytics"),
+
+    # Purchase Orders
+    path("purchase-orders/", PurchaseOrderListView.as_view(), name="purchase-order-list"),
+    path("purchase-orders/<int:pk>/", PurchaseOrderDetailView.as_view(), name="purchase-order-detail"),
+    path("purchase-orders/create/", PurchaseOrderUpsertView.as_view(), name="purchase-order-create"),
+    path("purchase-orders/<int:pk>/edit/", PurchaseOrderUpsertView.as_view(), name="purchase-order-update"),
+
+    # Purchase Deliveries
+    path("purchase-deliveries/", PurchaseDeliveryListView.as_view(), name="purchase-delivery-list"),
+    path("purchase-deliveries/<int:pk>/", PurchaseDeliveryDetailView.as_view(), name="purchase-delivery-detail"),
+    path("purchase-deliveries/create/", PurchaseDeliveryUpsertView.as_view(), name="purchase-delivery-create"),
+    path("purchase-deliveries/<int:pk>/edit/", PurchaseDeliveryUpsertView.as_view(), name="purchase-delivery-update"),
+
+    # Supplier Invoices
+    path("supplier-invoices/", SupplierInvoiceListView.as_view(), name="supplier-invoice-list"),
+    path("supplier-invoices/<int:pk>/", SupplierInvoiceDetailView.as_view(), name="supplier-invoice-detail"),
+    path("supplier-invoices/create/", SupplierInvoiceCreateView.as_view(), name="supplier-invoice-create"),
+    path("supplier-invoices/<int:pk>/edit/", SupplierInvoiceUpdateView.as_view(), name="supplier-invoice-update"),
 
     # Inventory URLs ------------------------------------------
     path("inventory-performance/", inventory_performance, name="inventory-performance"),
@@ -94,5 +112,4 @@ urlpatterns = [
     path("inventory-audit/create/", InventoryAuditUpsertView.as_view(), name="inventory-audit-create"),
     path("inventory-audit/<uuid:pk>/update/", InventoryAuditUpsertView.as_view(), name="inventory-audit-update"),
     path("inventory-audit/analytics/", inventory_audit_analytics, name="inventory-audit-analytics"),
-
 ]

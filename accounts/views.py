@@ -729,7 +729,7 @@ class UserInvitationListView(BaseListView):
 
 class UserInvitationCreateView(BaseModelView, CreateView):
     model = UserInvitation
-    fields = ['receiver_email', 'user_type']
+    fields = ['receiver_email', 'user_type', 'pharmacies']
     success_url = reverse_lazy('accounts:user-invitation-list')
     title = _("Create a new user invitation")
     subtitle = _("Fill out the form to invite a new user to the organization")

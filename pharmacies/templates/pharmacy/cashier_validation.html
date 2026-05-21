@@ -39,16 +39,11 @@
       {% for sale in sales %}
       <a
         href="{% url 'pharmacies:sale-validation' sale.id %}"
-        class="p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
+        class="relative p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
       >
-        <div class="flex justify-between items-center">
           <p class="font-semibold">
             {% trans "Sale " %} #{{ sale.id|truncatechars:"10" }}
           </p>
-          <span>
-            {% include "badges/_status_badge.html" with value=sale.status %}
-          </span>
-        </div>
 
         <p class="text-sm text-body mt-2">
           {{ sale.customer.full_name|default:"Walk-in Customer" }}
@@ -59,6 +54,11 @@
         </p>
 
         <p class="text-sm font-bold mt-2">{{ sale.total_amount }}</p>
+      
+      
+          <span class="absolute bottom-4 right-4">
+            {% include "badges/_status_badge.html" with value=sale.status %}
+          </span>
       </a>
       {% endfor %}
     </div>

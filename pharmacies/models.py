@@ -458,7 +458,7 @@ class Product(ActivatableModel, OrganizationModel):
         verbose_name=_("Active")
     )
 
-    model_icon = "fa-solid fa-prescription-bottle-medical"
+    model_icon = "fa-solid fa-box"
 
     class Meta:
         ordering = ('name',)
@@ -1521,7 +1521,7 @@ class PurchaseOrder(PharmacyModel, ArchivableModel):
         verbose_name=_("Expected Total")
     )
 
-    model_icon = "fa-solid fa-cart-shopping"
+    model_icon = "fa-solid fa-dolly"
 
     class Meta:
         verbose_name = _("Purchase Order")

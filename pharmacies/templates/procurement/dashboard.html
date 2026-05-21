@@ -1,0 +1,236 @@
+{% extends 'main.html' %} {% load static i18n permission_tags %}
+<!--  -->
+{% block content %}
+<div class="h-full flex flex-col gap-4">
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="flex items-center gap-4 w-full max-w-7xl">
+      <span class="header-icon">
+        <i class="{{ model_icon }}"></i>
+      </span>
+      <p class="text-sm w-full max-w-7xl text-body">{{ header_paragraph }}</p>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Purchase Orders -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div class="flex items-center justify-between mb-4">
+        <div
+          class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center"
+        >
+          <i class="fa-solid fa-dolly text-blue-500"></i>
+        </div>
+        <span class="text-2xl font-black text-heading"
+          >{{ purchase_orders_count }}</span
+        >
+      </div>
+      <p class="text-sm text-gray-500">{% trans "Total Purchase Orders" %}</p>
+      <p class="text-xs text-orange-500 mt-1">
+        {{ pending_orders_count }} {% trans "pending" %}
+      </p>
+    </div>
+
+    <!-- Deliveries -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div class="flex items-center justify-between mb-4">
+        <div
+          class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center"
+        >
+          <i class="fa-solid fa-truck-fast text-green-500"></i>
+        </div>
+        <span class="text-2xl font-black text-heading"
+          >{{ deliveries_count }}</span
+        >
+      </div>
+      <p class="text-sm text-gray-500">{% trans "Total Deliveries" %}</p>
+      <p class="text-xs text-orange-500 mt-1">
+        {{ pending_deliveries_count }} {% trans "pending receipt" %}
+      </p>
+    </div>
+
+    <!-- Invoices -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div class="flex items-center justify-between mb-4">
+        <div
+          class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center"
+        >
+          <i class="fa-solid fa-file-invoice-dollar text-purple-500"></i>
+        </div>
+        <span class="text-2xl font-black text-heading"
+          >{{ invoices_count }}</span
+        >
+      </div>
+      <p class="text-sm text-gray-500">{% trans "Supplier Invoices" %}</p>
+      <p class="text-xs text-gray-400 mt-1">
+        {% trans "Track payments & due dates" %}
+      </p>
+    </div>
+
+    <!-- Quick Action -->
+    <a
+      href="{% url 'pharmacies:purchase-order-create' %}"
+      class="bg-primary rounded-2xl p-6 shadow-sm hover:shadow-md transition flex flex-col justify-center items-center text-center group"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-3 group-hover:bg-white/30 transition"
+      >
+        <i class="fa-solid fa-plus text-white text-xl"></i>
+      </div>
+      <p class="text-white font-semibold">{% trans "New Purchase Order" %}</p>
+      <p class="text-white/70 text-xs mt-1">
+        {% trans "Create an order now" %}
+      </p>
+    </a>
+  </div>
+
+  <!-- Dashboard Sections -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Purchase Orders -->
+    <a href="{% url 'pharmacies:purchase-order-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-dolly text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Purchase Orders" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Create and manage purchase orders sent to suppliers.
+        Track order status from draft to received.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Purchase Deliveries -->
+    <a
+      href="{% url 'pharmacies:purchase-delivery-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-truck-fast text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Purchase Deliveries" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Record incoming deliveries with batch numbers and expiry
+        dates. Update stock automatically on receipt.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Supplier Invoices -->
+    <a
+      href="{% url 'pharmacies:supplier-invoice-list' %}"
+      class="cardbox group"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-file-invoice-dollar text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Supplier Invoices" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Record and track supplier invoices linked to purchase
+        orders. Manage payments and due dates.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Procurement Lifecycles -->
+    <a href="{% url 'pharmacies:product-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-arrows-spin text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Procurement Lifecycles" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Track the full lifecycle from order to delivery. Monitor
+        pending, received, and cancelled procurements.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Procurement Analytics -->
+    <a href="{% url 'pharmacies:product-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-chart-pie text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Procurement Analytics" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Analyze procurement trends, supplier performance, and
+        cost patterns across your pharmacy network.{% endblocktrans %}
+      </p>
+    </a>
+
+    <!-- Procurement Reports -->
+    <a href="{% url 'pharmacies:product-list' %}" class="cardbox group">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-file-lines text-xl"></i>
+          </div>
+          <span
+            class="text-lg font-semibold text-heading group-hover-text-primary"
+          >
+            {% trans "Procurement Reports" %}
+          </span>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover-text-primary"
+        ></i>
+      </div>
+      <p class="text-sm text-body leading-snug">
+        {% blocktrans %}Generate detailed reports on orders, deliveries,
+        invoices, and supplier activity for audits and planning.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+  </div>
+</div>
+{% endblock %}

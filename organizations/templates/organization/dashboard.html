@@ -26,7 +26,9 @@
 
       <div class="flex flex-col gap-3">
         <a
-          href="{% url 'organizations:organization-update' organization.id %}" class="btn btn-outlined">
+          href="{% url 'organizations:organization-update' organization.id %}"
+          class="btn btn-outlined"
+        >
           <i class="fa-solid fa-pen mr-2"></i>
           {% trans "Edit Organization" %}
         </a>
@@ -39,136 +41,128 @@
     </div>
   </section>
 
-  <!-- KPI CARDS -->
-  <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-    <!-- Pharmacies  -->
+  <!-- KPI ROW (REVENUE METRICS - ERP STYLE) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Pharmacies -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-primary/20"
     >
-      <div>
-        <p class="text-xs uppercase tracking-wide">{% trans "Pharmacies " %}</p>
-
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ pharmacies_count }}
-        </h2>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Pharmacies" %}
+        </p>
+        <div
+          class="w-10 h-10 rounded-xl bg-accent flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-staff-snake text-primary"></i>
+        </div>
       </div>
-
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
-      >
-        <i class="fa-solid fa-staff-snake"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ pharmacies_count|default:"0" }}
+      </p>
     </div>
 
     <!-- Customers -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-blue-200"
     >
-      <div>
-        <p class="text-xs uppercase tracking-wide">{% trans "Customers" %}</p>
-
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ customers_count }}
-        </h2>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Customers" %}
+        </p>
+        <div
+          class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-users text-blue-600"></i>
+        </div>
       </div>
-
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
-      >
-        <i class="fa-solid fa-users"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ customers_count|default:"0" }}
+      </p>
     </div>
 
     <!-- Staff -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-amber-200"
     >
-      <div>
-        <p class="text-xs uppercase tracking-wide">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
           {% trans "Staff Members" %}
         </p>
-
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ staff_count|default:"0" }}
-        </h2>
+        <div
+          class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-user-tie text-amber-600"></i>
+        </div>
       </div>
-
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
-      >
-        <i class="fa-solid fa-user-tie"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ staff_count|default:"0" }}
+      </p>
     </div>
 
     <!-- Products -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-purple-200"
     >
-      <div>
-        <p class="text-xs uppercase tracking-wide">{% trans "Products" %}</p>
-
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ products_count|default:"0" }}
-        </h2>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
+          {% trans "Products" %}
+        </p>
+        <div
+          class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-box text-purple-600"></i>
+        </div>
       </div>
-
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
-      >
-        <i class="fa-solid fa-capsules"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ products_count|default:"0" }}
+      </p>
     </div>
 
-    <!-- Sales -->
+    <!-- Sales (30 Days) -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-green-200"
     >
-      <div>
-        <p class="text-xs uppercase tracking-wide">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
           {% trans "Sales (30 Days)" %}
         </p>
-
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ sales_total|default:"0.00" }}
-        </h2>
-
-        <p class="text-xs text-label mt-1">
-          {% trans "Total revenue generated" %}
-        </p>
+        <div
+          class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-chart-line text-green-600"></i>
+        </div>
       </div>
-
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
-      >
-        <i class="fa-solid fa-chart-line"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ sales_total|default:"0.00" }}
+      </p>
+      <p class="text-xs text-label mt-1">
+        {% trans "Total revenue generated" %}
+      </p>
     </div>
 
-    <!-- Purchases -->
+    <!-- Purchases (30 Days) -->
     <div
-      class="p-5 bg-accent border rounded-2xl shadow-md flex items-center justify-between"
+      class="group bg-lightest rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6 border border-transparent hover:border-orange-200"
     >
-      <div>
-        <p class="text-xs uppercase tracking-wide">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-medium uppercase tracking-wide text-label">
           {% trans "Purchases (30 Days)" %}
         </p>
-
-        <h2 class="text-3xl font-bold text-heading mt-2">
-          {{ purchases_total|default:"0.00" }}
-        </h2>
-
-        <p class="text-xs text-label mt-1">
-          {% trans "Total stock procurement cost" %}
-        </p>
+        <div
+          class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center group-hover:scale-110 transition"
+        >
+          <i class="fa-solid fa-dolly text-orange-600"></i>
+        </div>
       </div>
-
-      <div
-        class="w-12 h-12 rounded-full bg-white/50 text-primary flex items-center justify-center"
-      >
-        <i class="fa-solid fa-truck-ramp-box"></i>
-      </div>
+      <p class="text-2xl font-bold text-heading">
+        {{ purchases_total|default:"0.00" }}
+      </p>
+      <p class="text-xs text-label mt-1">
+        {% trans "Total stock procurement cost" %}
+      </p>
     </div>
-  </section>
+  </div>
 
   <!-- MAIN GRID -->
   <section class="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -189,7 +183,7 @@
           >
             <div class="flex items-center gap-3">
               <div
-                class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+                class="w-10 h-10 rounded-lg bg-accent text-primary flex items-center justify-center"
               >
                 <i class="fa-solid fa-plus"></i>
               </div>
@@ -213,7 +207,7 @@
           >
             <div class="flex items-center gap-3">
               <div
-                class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+                class="w-10 h-10 rounded-lg bg-accent text-primary flex items-center justify-center"
               >
                 <i class="fa-solid fa-user-plus"></i>
               </div>
@@ -230,10 +224,13 @@
             </div>
           </button>
 
-          <a href="#" class="btn btn-outlined rounded-xl p-4">
+          <a
+            href="{% url 'organizations:organization-dashboard' %}"
+            class="btn btn-outlined rounded-xl p-4"
+          >
             <div class="flex items-center gap-3">
               <div
-                class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"
+                class="w-10 h-10 rounded-lg bg-accent text-primary flex items-center justify-center"
               >
                 <i class="fa-solid fa-chart-line"></i>
               </div>
@@ -244,6 +241,63 @@
                 <p class="text-xs text-label">
                   {% trans "View organization metrics" %}
                 </p>
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="{% url 'organizations:customer-list' %}"
+            class="btn btn-outlined rounded-xl p-4"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-accent text-primary flex items-center justify-center"
+              >
+                <i class="fa-solid fa-users"></i>
+              </div>
+
+              <div class="text-start">
+                <p class="font-medium text-heading">{% trans "Customers" %}</p>
+
+                <p class="text-xs text-label">{% trans "View customers" %}</p>
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="{% url 'organizations:supplier-list' %}"
+            class="btn btn-outlined rounded-xl p-4"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-accent text-primary flex items-center justify-center"
+              >
+                <i class="fa-solid fa-truck"></i>
+              </div>
+
+              <div class="text-start">
+                <p class="font-medium text-heading">{% trans "Suppliers" %}</p>
+
+                <p class="text-xs text-label">{% trans "View suppliers" %}</p>
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="{% url 'organizations:insurer-list' %}"
+            class="btn btn-outlined rounded-xl p-4"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-accent text-primary flex items-center justify-center"
+              >
+                <i class="fa-solid fa-people-roof"></i>
+              </div>
+
+              <div class="text-start">
+                <p class="font-medium text-heading">{% trans "Insurers" %}</p>
+
+                <p class="text-xs text-label">{% trans "View insurers" %}</p>
               </div>
             </div>
           </a>
@@ -315,7 +369,7 @@
               {% trans "Organization Status" %}
             </span>
 
-            {% include "badges/_activity_badge.html" with value=organization.is_active %}
+            {% include "badges/_activity_badge.html" with value=org_is_active %}
           </div>
 
           <div class="flex items-center justify-between">
@@ -323,7 +377,9 @@
               {% trans "Active Pharmacies " %}
             </span>
 
-            <span class="px-4 py-1 bg-green-100 text-green-600 rounded-lg font-semibold text-heading">
+            <span
+              class="px-4 py-1 bg-green-100 text-green-600 rounded-lg font-semibold text-heading"
+            >
               <i class="fa-solid fa-staff-snake mr-2"></i>
               {{ active_pharmacies_count }}
             </span>
@@ -334,7 +390,9 @@
               {% trans "Inactive Pharmacies " %}
             </span>
 
-            <span class="px-4 py-1 bg-gray-100 text-gray-600 rounded-lg font-semibold text-heading">
+            <span
+              class="px-4 py-1 bg-gray-100 text-gray-600 rounded-lg font-semibold text-heading"
+            >
               <i class="fa-solid fa-staff-snake mr-2"></i>
               {{ inactive_pharmacies_count }}
             </span>
@@ -345,7 +403,9 @@
               {% trans "Suspended Pharmacies " %}
             </span>
 
-            <span class="px-4 py-1 bg-red-100 text-red-600 rounded-lg font-semibold text-heading">
+            <span
+              class="px-4 py-1 bg-red-100 text-red-600 rounded-lg font-semibold text-heading"
+            >
               <i class="fa-solid fa-staff-snake mr-2"></i>
               {{ suspended_pharmacies_count }}
             </span>

@@ -15,6 +15,71 @@
   <!-- Financial Management Sections -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
+
+
+    <a href="{% url 'finances:bank-account-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-university text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Bank Accounts" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Manage accounts, balances, and bank transactions.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+    
+    <a href="{% url 'finances:cash-account-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-cash-register text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Cash Accounts" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Track daily cash flow and petty cash activities.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+    
+    <a href="{% url 'finances:cash-account-list' %}" class="cardbox group">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="cardbox-icon">
+            <i class="fa-solid fa-cash-register text-xl"></i>
+          </div>
+          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
+            {% trans "Financial Accounts" %}
+          </h2>
+        </div>
+        <i
+          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
+        ></i>
+      </div>
+      <p class="text-body text-sm leading-snug mt-2">
+        {% blocktrans %}Track daily cash flow and petty cash activities.
+        <!--  -->
+        {% endblocktrans %}
+      </p>
+    </a>
+
     <a href="{% url 'finances:invoice-list' %}" class="cardbox group">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -55,6 +120,7 @@
       </p>
     </a>
 
+    
     <a href="{% url 'finances:financial-operation-list' %}"
       class="cardbox group"
     >
@@ -74,48 +140,6 @@
       <p class="text-body text-sm leading-snug mt-2">
         {% blocktrans %}Monitor all financial transactions including income and
         expenses.{% endblocktrans %}
-      </p>
-    </a>
-
-    <a href="{% url 'finances:bank-account-list' %}" class="cardbox group">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-university text-xl"></i>
-          </div>
-          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
-            {% trans "Bank Accounts" %}
-          </h2>
-        </div>
-        <i
-          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
-        ></i>
-      </div>
-      <p class="text-body text-sm leading-snug mt-2">
-        {% blocktrans %}Manage accounts, balances, and bank transactions.
-        <!--  -->
-        {% endblocktrans %}
-      </p>
-    </a>
-
-    <a href="{% url 'finances:cash-account-list' %}" class="cardbox group">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="cardbox-icon">
-            <i class="fa-solid fa-cash-register text-xl"></i>
-          </div>
-          <h2 class="text-lg font-semibold text-heading group-hover-text-primary">
-            {% trans "Cash Desk" %}
-          </h2>
-        </div>
-        <i
-          class="fa-solid fa-chevron-right text-label group-hover:text-primary"
-        ></i>
-      </div>
-      <p class="text-body text-sm leading-snug mt-2">
-        {% blocktrans %}Track daily cash flow and petty cash activities.
-        <!--  -->
-        {% endblocktrans %}
       </p>
     </a>
 

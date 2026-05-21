@@ -1,16 +1,16 @@
 {% extends 'main.html' %} {% load static i18n permission_tags %}
 <!--  -->
 {% block content %}
-<div class="container mx-auto">
-  <div class="bg-lightest border rounded-xl max-w-6xl mx-auto shadow-md">
+<div class="h-full flex flex-col gap-4">
+  <div class="bg-lightest border rounded-xl w-full max-w-7xl mx-auto shadow-md">
 
     <!-- header -->
     <header class="header-bar rounded-b-none">
-      <div class="flex items-center gap-4 w-full max-w-7xl">
+      <div class="flex items-center gap-4">
         <span class="header-icon">
           <i class="{{ model_icon }}"></i>
         </span>
-        <p class="text-sm w-full max-w-7xl text-body">
+        <p class="text-sm text-body">
           {{ header_paragraph|default:"" }}
         </p>
       </div>
@@ -19,7 +19,7 @@
     <hr />
 
     <!-- Main Form -->
-    <form method="post">
+    <form method="post" class="w-full">
       {% csrf_token %}
 
       <div class="relative p-4 md:p-6 flex flex-col gap-4" id="form-fields">
@@ -50,7 +50,7 @@
             {{ formset_title|default:_("Items") }}
         </h3>
 
-        <div class="bg-light p-4 rounded-xl shadow-md">
+        <div class="bg-light p-5 rounded-xl shadow-md">
             {{ formset.management_form|default:"" }}
 
             <!-- Formset Container -->
@@ -111,20 +111,18 @@
         <!-- Action Buttons -->
         <div class="flex justify-between items-center mt-4">
             {% if can_add_item %}
-            <button type="button" id="add-item" class="btn btn-secondary">
+            <button type="button" id="add-item" class="btn btn-secondary py-3">
             <i class="fa fa-plus mr-1"></i> {{ add_item_label|default:_("Add item") }}
             </button>
             {% else %}
             <span></span>
             {% endif %}
 
-
-
           <div class="p-4 pt-0 flex justify-between gap-2 items-end text-sm">
-            <button type="button" onclick="history.back()" class="btn btn-danger">
+            <button type="button" onclick="history.back()" class="btn btn-danger py-3">
               {% trans "Cancel" %}
             </button>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary py-3">
               {% trans "Save" %}
             </button>
           </div>
