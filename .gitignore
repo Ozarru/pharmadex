@@ -11,6 +11,6 @@
 media/cards/card_files/
 *.pdf
 venv/
-__pycache__
+*__pycache__
 .env
 api_tests.http

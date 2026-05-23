@@ -1137,7 +1137,7 @@ class Payment(PharmacyModel, ArchivableModel):
 # -------------------------------
 # Cash Closing
 # -------------------------------
-class CashClosing(ArchivableModel, PharmacyModel):
+class CashClosing(PharmacyModel, ArchivableModel):
     """
     End-of-day cash count for a pharmacy, broken down by notes and coins.
     """

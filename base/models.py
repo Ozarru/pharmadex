@@ -272,6 +272,7 @@ class OptimizedImageMixin(models.Model):
         abstract = True
 
 
+# ─── Tenant ──────────────────────────────────────────────────────────────────
 class OrganizationModel(BaseModel):
     
     organization = models.ForeignKey(
@@ -288,6 +289,7 @@ class OrganizationModel(BaseModel):
         abstract = True
 
 
+# ─── Scope ──────────────────────────────────────────────────────────────────
 class PharmacyModel(OrganizationModel):
     
     pharmacy = models.ForeignKey(
@@ -313,6 +315,7 @@ class PharmacyModel(OrganizationModel):
                 )
 
 
+# ─── Scope ──────────────────────────────────────────────────────────────────
 class SinglePharmacyModel(OrganizationModel):
 
     pharmacy = models.OneToOneField(

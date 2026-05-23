@@ -1117,7 +1117,7 @@ msgstr "Non attribué"
 
 #: .\base\templates\badges\_status_badge.html:37 .\pharmacies\models.py:1235
 msgid "Backordered"
-msgstr "Rupture de stock"
+msgstr "Stock enticipé"
 
 #: .\base\templates\badges\_status_badge.html:41 .\clinics\models.py:121
 #: .\clinics\models.py:454 .\pharmacies\models.py:1074
@@ -1707,7 +1707,7 @@ msgstr "Page"
 #: .\base\templates\parameters\index.html:25
 #: .\base\templates\parameters\system.html:31 .\pharmadex\config\sidebar.py:195
 msgid "System Settings"
-msgstr "Paramètres système"
+msgstr "Paramètres du système"
 
 #: .\base\templates\parameters\index.html:31
 #: .\base\templates\parameters\system.html:40
@@ -2031,8 +2031,8 @@ msgid "Rosetta Access"
 msgstr "Accès Rosetta"
 
 #: .\base\templates\sidebar.html:160
-msgid "Super Admin Access"
-msgstr "Accès super administrateur"
+msgid "Superadmin Access"
+msgstr "Accès Superadmin"
 
 #: .\base\templates\titlebar.html:181
 msgid "Profile"
@@ -5715,7 +5715,7 @@ msgstr ""
 #: .\pharmacies\templates\inventory\dashboard.html:153
 #: .\pharmadex\config\sidebar.py:132
 msgid "Stock Procurement"
-msgstr "Approvisionnement en stocks"
+msgstr "Approvisionnements"
 
 #: .\pharmacies\templates\inventory\dashboard.html:163
 msgid ""
@@ -5861,7 +5861,7 @@ msgstr "Aucun élément dans ce mouvement."
 #: .\pharmacies\templates\pharmacy\detail.html:272
 #: .\pharmadex\config\sidebar.py:114
 msgid "Stock Overview"
-msgstr "Vue d'ensemble du stock"
+msgstr "Aperçu du stock"
 
 #: .\pharmacies\templates\inventory\stock_reconciliation.html:24
 msgid "Batch Inventory"
@@ -6669,7 +6669,7 @@ msgstr ""
 #: .\pharmacies\views.py:72 .\pharmacies\views.py:91
 #: .\pharmadex\config\sidebar.py:124
 msgid "Inventory Dashboard"
-msgstr "Tableau de bord de l'inventaire"
+msgstr "Gestion de l'inventaire"
 
 #: .\pharmacies\views.py:73 .\pharmacies\views.py:92
 msgid "Stock overview and control"
@@ -7603,7 +7603,7 @@ msgstr "Validation du caissier"
 
 #: .\pharmadex\config\sidebar.py:155
 msgid "Finance Dashboard"
-msgstr "Tableau de bord des Finances "
+msgstr "Gestion des Finances"
 
 #: .\pharmadex\config\sidebar.py:169
 msgid "Users Management"
@@ -8407,7 +8407,7 @@ msgstr "DÉMARRAGE"
 
 #: .\website\templates\website\components\_price_list.html:48
 msgid "Basic"
-msgstr "Basic"
+msgstr "Basique"
 
 #: .\website\templates\website\components\_price_list.html:52
 msgid "Perfect for small pharmacies starting digital operations."
@@ -8452,7 +8452,7 @@ msgstr "CROISSANCE"
 
 #: .\website\templates\website\components\_price_list.html:142
 msgid "Pro"
-msgstr "Pro"
+msgstr "Professionnel"
 
 #: .\website\templates\website\components\_price_list.html:145
 msgid "Built for growing pharmacies that need better visibility and control."

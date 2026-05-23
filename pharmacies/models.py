@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from base.models import ActivatableModel, BaseModel, OrganizationModel, ArchivableModel, PharmacyModel
+from base.models import ActivatableModel, BaseModel, OrganizationModel, PharmacyModel, ArchivableModel
 from finances.models import OperationAccount
 from pharmadex.tenant import TenantManager
 
